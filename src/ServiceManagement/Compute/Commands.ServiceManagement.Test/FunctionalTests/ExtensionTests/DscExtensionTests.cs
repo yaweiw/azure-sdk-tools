@@ -31,8 +31,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     [TestClass]
     public class DscExtensionTests: ServiceManagementTest
     {
-        private const string DscExtensionPublisher = "Microsoft.DSCExtension.Test"; // TODO: Need to update Publisher and Name with production values
-        private const string DscExtensionName = "DSC5.5";
+        private const string DscExtensionPublisher = "Microsoft.DSCExtension.Test";
+        private const string DscExtensionName = "Powershell DSC";
 
         private const string DefaultContainerName = "windows-powershell-dsc";
 

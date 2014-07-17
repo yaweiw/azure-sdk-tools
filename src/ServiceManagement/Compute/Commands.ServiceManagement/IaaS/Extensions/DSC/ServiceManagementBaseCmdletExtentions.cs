@@ -14,6 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions.DSC
 {
+    using System;
+    using System.Globalization;
+    using System.Management.Automation;
     using Storage.Auth;
     using Utilities.Common;
 
@@ -22,6 +25,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions.DSC
         public static StorageCredentials GetStorageCredentials(this ServiceManagementBaseCmdlet cmdlet)
         {
             var storageAccountName = cmdlet.CurrentSubscription.CurrentStorageAccountName;
+
+            if (storageAccountName == null)
+            {
+                return null;
+            }
 
             var storageAccount = cmdlet.StorageClient.StorageAccounts.Get(storageAccountName);
 
@@ -40,6 +48,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions.DSC
             var storageAccountKey = string.IsNullOrEmpty(keys.PrimaryKey) ? keys.SecondaryKey : keys.PrimaryKey;
 
             return new StorageCredentials(storageAccountName, storageAccountKey);
+        }
+
+        public static void ThrowInvalidArgumentError(this ServiceManagementBaseCmdlet cmdlet, string format, params object[] args)
+        {
+            cmdlet.ThrowTerminatingError(
+                new ErrorRecord(
+                    new ArgumentException(string.Format(CultureInfo.CurrentUICulture, format, args)),
+                    string.Empty,
+                    ErrorCategory.InvalidArgument,
+                    null));
         }
     }
 }

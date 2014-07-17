@@ -151,6 +151,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Apply configuration &apos;{0}&apos;.
+        /// </summary>
+        public static string AzureVMDscApplyConfigurationAction {
+            get {
+                return ResourceManager.GetString("AzureVMDscApplyConfigurationAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot find configuration data file: {0}.
         /// </summary>
         public static string AzureVMDscCannotFindConfigurationDataFile {
@@ -178,11 +187,38 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Parsing configuration script: {0}.
+        /// </summary>
+        public static string AzureVMDscParsingConfiguration {
+            get {
+                return ResourceManager.GetString("AzureVMDscParsingConfiguration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Storage Blob &apos;{0}&apos; already exists. Use the -Force parameter to overwrite it..
+        /// </summary>
+        public static string AzureVMDscStorageBlobAlreadyExists {
+            get {
+                return ResourceManager.GetString("AzureVMDscStorageBlobAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The storage context must include an storage account..
         /// </summary>
         public static string AzureVMDscStorageContextMustIncludeAccountName {
             get {
                 return ResourceManager.GetString("AzureVMDscStorageContextMustIncludeAccountName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload &apos;{0}&apos;.
+        /// </summary>
+        public static string AzureVMDscUploadToBlobStorageAction {
+            get {
+                return ResourceManager.GetString("AzureVMDscUploadToBlobStorageAction", resourceCulture);
             }
         }
         

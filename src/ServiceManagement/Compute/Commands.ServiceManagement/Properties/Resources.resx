@@ -665,4 +665,16 @@ The file needs to be a PowerShell script (.ps1) or a MOF interface (.mof).</valu
   <data name="AzureVMDscStorageContextMustIncludeAccountName" xml:space="preserve">
     <value>The storage context must include an storage account.</value>
   </data>
+  <data name="AzureVMDscApplyConfigurationAction" xml:space="preserve">
+    <value>Apply configuration '{0}'</value>
+  </data>
+  <data name="AzureVMDscParsingConfiguration" xml:space="preserve">
+    <value>Parsing configuration script: {0}</value>
+  </data>
+  <data name="AzureVMDscStorageBlobAlreadyExists" xml:space="preserve">
+    <value>Storage Blob '{0}' already exists. Use the -Force parameter to overwrite it.</value>
+  </data>
+  <data name="AzureVMDscUploadToBlobStorageAction" xml:space="preserve">
+    <value>Upload '{0}'</value>
+  </data>
 </root>

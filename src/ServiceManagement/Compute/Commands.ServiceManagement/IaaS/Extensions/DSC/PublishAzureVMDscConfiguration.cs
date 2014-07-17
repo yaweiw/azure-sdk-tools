@@ -34,12 +34,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     /// later can be applied to Azure Virtual Machines using the 
     /// Set-AzureVMDscExtension cmdlet.
     /// </summary>
-    [Cmdlet("Publish", "AzureVMDscConfiguration",
-        SupportsShouldProcess = true)]
+    [Cmdlet("Publish", "AzureVMDscConfiguration", SupportsShouldProcess = true)]
     public class PublishAzureVMDscConfigurationCommand : ServiceManagementBaseCmdlet
     {
-        protected const string DefaultContainerName = "windows-powershell-dsc";
-
         /// <summary>
         /// Path to a file containing one or more configurations; the file can be a 
         /// PowerShell script (*.ps1) or MOF interface (*.mof).
@@ -82,9 +79,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         private StorageCredentials _storageCredentials;
 
         private const string Ps1FileExtension = ".ps1";
-        //private const string MofFileExtension = ".mof";
-        private static readonly HashSet<String> AllowedFileExtensions =
-            new HashSet<String>(StringComparer.OrdinalIgnoreCase) { Ps1FileExtension, };
+        private const string Psm1FileExtension = ".psm1";
+        private static readonly HashSet<String> AllowedFileExtensions = new HashSet<String>(StringComparer.OrdinalIgnoreCase) { Ps1FileExtension, Psm1FileExtension };
 
         protected override void ProcessRecord()
         {
@@ -107,30 +103,23 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 			// Check that ConfigurationPath points to a valid file
 			if (!File.Exists(this.ConfigurationPath))
             {
-                throw new ArgumentException(String.Format(CultureInfo.CurrentCulture,
-                    Resources.PublishVMDscExtensionConfigFileNotFound, this.ConfigurationPath));
+                this.ThrowInvalidArgumentError(Resources.PublishVMDscExtensionConfigFileNotFound, this.ConfigurationPath);
             }
             if (!AllowedFileExtensions.Contains(GetConfigurationFileExtension()))
             {
-                throw new ArgumentException(String.Format(CultureInfo.CurrentCulture,
-                    Resources.PublishVMDscExtensionConfigFileInvalidExtension, this.ConfigurationPath));
+                this.ThrowInvalidArgumentError(Resources.PublishVMDscExtensionConfigFileInvalidExtension, this.ConfigurationPath);
             }
 
             // Ensure we have an storage account
             this._storageCredentials = this.StorageContext != null ? this.StorageContext.StorageAccount.Credentials : this.GetStorageCredentials();
             if (string.IsNullOrEmpty(this._storageCredentials.AccountName))
             {
-                ThrowTerminatingError(
-				new ErrorRecord(
-					new ArgumentException(string.Format(CultureInfo.CurrentUICulture, Resources.AzureVMDscStorageContextMustIncludeAccountName)),
-					string.Empty,
-					ErrorCategory.InvalidArgument,
-					null));
+                this.ThrowInvalidArgumentError(Resources.AzureVMDscStorageContextMustIncludeAccountName);
             }
 
 			if (this.ContainerName == null)
 			{
-                this.ContainerName = DefaultContainerName;
+                this.ContainerName = VirtualMachineDscExtensionCmdletBase.DefaultContainerName;
 			}
         }
 
@@ -144,26 +133,26 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         /// </summary>
         protected void PublishConfiguration()
         {
-            string extenstion = GetConfigurationFileExtension();
-            List<string> requiredModules;
-            if (String.Equals(extenstion, Ps1FileExtension, StringComparison.OrdinalIgnoreCase))
+            string extension = GetConfigurationFileExtension();
+
+            WriteVerbose(String.Format(CultureInfo.CurrentUICulture, Resources.AzureVMDscParsingConfiguration, this.ConfigurationPath));
+            ConfigurationParseResult parseResult = ConfigurationNameHelper.ExtractConfigurationNames(this.ConfigurationPath);
+            if (parseResult.Errors.Any())
             {
-                WriteVerbose(String.Format(CultureInfo.CurrentCulture, "Parsing configuration script: {0}", this.ConfigurationPath));
-                ConfigurationParseResult parseResult = ConfigurationNameHelper.ExtractConfigurationNames(this.ConfigurationPath);
-                if (parseResult.Errors.Any())
-                {
-                    throw new ParseException(String.Format(CultureInfo.CurrentCulture,
-                        Resources.PublishVMDscExtensionStorageParserErrors,
-                        this.ConfigurationPath,
-                        String.Join("\n", parseResult.Errors.Select(error => error.ToString()))));
-                }
-                requiredModules = parseResult.RequiredModules;
+                ThrowTerminatingError(
+                    new ErrorRecord(
+                        new ParseException(
+                            String.Format(
+                                CultureInfo.CurrentUICulture,
+                                Resources.PublishVMDscExtensionStorageParserErrors,
+                                this.ConfigurationPath,
+                                String.Join("\n", parseResult.Errors.Select(error => error.ToString())))),
+					    string.Empty,
+					    ErrorCategory.ParserError,
+					    null));
             }
-            else
-            {
-                // TODO: Need parse for MOF files, use empty array for now
-                requiredModules = new List<string>();
-            }
+
+            var requiredModules = parseResult.RequiredModules;
 
             // Copy configuration
             CloudBlobContainer cloudBlobContainer = GetStorageContainier();
@@ -183,7 +172,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             Directory.CreateDirectory(tempZipFolder);
 
             // CopyConfiguration
-            // TODO: Consider computing a checksum and publish only if there is anything new
             string configurationName = Path.GetFileName(this.ConfigurationPath);
             File.Copy(this.ConfigurationPath, Path.Combine(tempZipFolder, configurationName));
 
@@ -228,8 +216,27 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                 powershell.AddScript(script);
                 powershell.Invoke();
             }
+
 			CloudBlockBlob modulesBlob = cloudBlobContainer.GetBlockBlobReference(packageName);
-            modulesBlob.UploadFromFile(tempModuleArchive, FileMode.Open);
+
+            var shouldProcess = this.ShouldProcess(
+                modulesBlob.Uri.AbsoluteUri,
+                string.Format(CultureInfo.CurrentUICulture, Resources.AzureVMDscUploadToBlobStorageAction, tempModuleArchive));
+
+            if (shouldProcess)
+            {
+                if (!this.Force && modulesBlob.Exists())
+                {
+                    this.ThrowTerminatingError(
+                        new ErrorRecord(
+                            new UnauthorizedAccessException(string.Format(CultureInfo.CurrentUICulture, Resources.AzureVMDscStorageBlobAlreadyExists, modulesBlob)),
+                            string.Empty,
+                            ErrorCategory.PermissionDenied,
+                            null));
+                }
+
+                modulesBlob.UploadFromFile(tempModuleArchive, FileMode.Open);
+            }
         }
 
         private CloudBlobContainer GetStorageContainier()

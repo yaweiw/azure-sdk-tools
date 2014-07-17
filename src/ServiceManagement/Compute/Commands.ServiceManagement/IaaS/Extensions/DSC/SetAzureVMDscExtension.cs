@@ -31,9 +31,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     using Microsoft.WindowsAzure.Storage.Blob;
     using Microsoft.WindowsAzure.Commands.Common.Storage;
 
-
-    [Cmdlet(VerbsCommon.Set, VirtualMachineDscExtensionCmdletNoun),
-    OutputType(typeof(IPersistentVM))]
+    [Cmdlet(VerbsCommon.Set, VirtualMachineDscExtensionCmdletNoun, SupportsShouldProcess = true)]
+    [OutputType(typeof(IPersistentVM))]
     public class SetAzureVMDscExtensionCommand : VirtualMachineDscExtensionCmdletBase
     {
         /// <summary>
@@ -150,9 +149,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         internal void ExecuteCommand()
         {
             ValidateParameters();
+            
             CreateConfiguration();
-            RemovePredicateExtensions();
-            AddResourceExtension();
+
+            var shouldProcess = this.ShouldProcess("VM", string.Format(CultureInfo.CurrentUICulture, Resources.AzureVMDscApplyConfigurationAction, this.ConfigurationName));
+
+            if (shouldProcess)
+            {
+                RemovePredicateExtensions();
+                AddResourceExtension();
+            }
+
             WriteObject(VM);
         }
 
@@ -170,23 +177,23 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
                 if (!File.Exists(this.ConfigurationDataPath))
                 {
-                    ThrowArgumentError(Resources.AzureVMDscCannotFindConfigurationDataFile, this.ConfigurationDataPath);
+                    this.ThrowInvalidArgumentError(Resources.AzureVMDscCannotFindConfigurationDataFile, this.ConfigurationDataPath);
                 }
                 if (string.Compare(Path.GetExtension(this.ConfigurationDataPath), ".psd1", StringComparison.InvariantCultureIgnoreCase) != 0)
                 {
-                    ThrowArgumentError(Resources.AzureVMDscInvalidConfigurationDataFile);
+                    this.ThrowInvalidArgumentError(Resources.AzureVMDscInvalidConfigurationDataFile);
                 }
             }
             if (string.Compare(Path.GetFileName(this.ConfigurationFileName), this.ConfigurationFileName, StringComparison.InvariantCultureIgnoreCase) != 0)
             {
-                ThrowArgumentError(Resources.AzureVMDscConfigurationDataFileShouldNotIncludePath);
+                this.ThrowInvalidArgumentError(Resources.AzureVMDscConfigurationDataFileShouldNotIncludePath);
             }
 
             this._storageCredentials = this.StorageContext != null ? this.StorageContext.StorageAccount.Credentials : this.GetStorageCredentials();
             
             if (string.IsNullOrEmpty(this._storageCredentials.AccountName))
             {
-                ThrowArgumentError(Resources.AzureVMDscStorageContextMustIncludeAccountName);
+                this.ThrowInvalidArgumentError(Resources.AzureVMDscStorageContextMustIncludeAccountName);
             }
 
             //
@@ -248,17 +255,34 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
             if (this.ConfigurationDataPath != null)
             {
-                var guid = Guid.NewGuid(); // there may be multiple VMs using the same configuration
+                var shouldProcess = this.ShouldProcess(
+                    configurationBlobReference.Uri.AbsoluteUri,
+                    string.Format(CultureInfo.CurrentUICulture, Resources.AzureVMDscUploadToBlobStorageAction, this.ConfigurationDataPath));
 
-                var configurationDataBlobName = string.Format(CultureInfo.InvariantCulture, "{0}-{1}.psd1", this.ConfigurationName, guid);
+                if (shouldProcess)
+                {
+                    var guid = Guid.NewGuid(); // there may be multiple VMs using the same configuration
 
-                var configurationDataBlobReference = containerReference.GetBlockBlobReference(configurationDataBlobName);
+                    var configurationDataBlobName = string.Format(CultureInfo.InvariantCulture, "{0}-{1}.psd1", this.ConfigurationName, guid);
 
-                configurationDataBlobReference.UploadFromFile(this.ConfigurationDataPath, FileMode.Open);
+                    var configurationDataBlobReference = containerReference.GetBlockBlobReference(configurationDataBlobName);
 
-                var configurationDataBlobSasToken = configurationDataBlobReference.GetSharedAccessSignature(blobAccessPolicy);
+                    if (!this.Force && configurationBlobReference.Exists())
+                    {
+                        this.ThrowTerminatingError(
+                            new ErrorRecord(
+                                new UnauthorizedAccessException(string.Format(CultureInfo.CurrentUICulture, Resources.AzureVMDscStorageBlobAlreadyExists, configurationDataBlobName)),
+                                string.Empty,
+                                ErrorCategory.PermissionDenied,
+                                null));
+                    }
 
-                configurationDataBlobUri = configurationDataBlobReference.StorageUri.PrimaryUri.AbsoluteUri + configurationDataBlobSasToken;
+                    configurationDataBlobReference.UploadFromFile(this.ConfigurationDataPath, FileMode.Open);
+
+                    var configurationDataBlobSasToken = configurationDataBlobReference.GetSharedAccessSignature(blobAccessPolicy);
+
+                    configurationDataBlobUri = configurationDataBlobReference.StorageUri.PrimaryUri.AbsoluteUri + configurationDataBlobSasToken;
+                }
             }
 
             //
