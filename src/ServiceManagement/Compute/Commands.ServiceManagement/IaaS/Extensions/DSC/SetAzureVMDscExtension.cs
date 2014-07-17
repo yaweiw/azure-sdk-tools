@@ -267,7 +267,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
                     var configurationDataBlobReference = containerReference.GetBlockBlobReference(configurationDataBlobName);
 
-                    if (!this.Force && configurationBlobReference.Exists())
+                    if (!this.Force && configurationDataBlobReference.Exists())
                     {
                         this.ThrowTerminatingError(
                             new ErrorRecord(
