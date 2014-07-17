@@ -303,7 +303,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             catch (EndpointNotFoundException)
             {
                 // Create webspace with VirtualPlan failed, try with subscription id
-                // This supports Windows Azure Pack
+                // This supports Microsoft Azure Pack
                 webspace.Plan = CurrentSubscription.SubscriptionId;
                 result = CreateSite(webspace, website);
             }
@@ -429,7 +429,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             return ex.Response.StatusCode == HttpStatusCode.BadRequest;
         }
 
-        // Calling Windows Azure Pack, will fail due to plan string
+        // Calling Microsoft Azure Pack, will fail due to plan string
         private bool BadPlan(CloudException ex)
         {
             // TODO: Verify this is the right error code/detection logic

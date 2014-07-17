@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 
-  <?define productName="Windows Azure PowerShell - July 2014" ?>
+  <?define productName="Microsoft Azure PowerShell - July 2014" ?>
   <?define sourceDir="$(var.SolutionDir)..\src\Package\$(var.Configuration)" ?>
   <?define caSourceDir="$(var.SolutionDir)setup\bin\$(var.Configuration)" ?>
 
   <?define version="0.8.5" ?>
-  <?define versionedStartMenuFolder="Windows Azure" ?>
+  <?define versionedStartMenuFolder="Microsoft Azure" ?>
 
   <Product Id="*"
            Name="$(var.productName)"
@@ -20,7 +20,7 @@
     <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
 
     <MajorUpgrade AllowSameVersionUpgrades="yes"
-                  DowngradeErrorMessage="A later version of Windows Azure PowerShell is already installed. Setup will now exit." />
+                  DowngradeErrorMessage="A later version of Microsoft Azure PowerShell is already installed. Setup will now exit." />
 
     <Icon Id="icon.ico" SourceFile="media\WAIcon.ico"/>
     <Property Id="ARPPRODUCTICON" Value="icon.ico" />
@@ -45,7 +45,7 @@
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="ProgramFilesFolder">
         <Directory Id="MicrosoftSdkFolder" Name="Microsoft SDKs">
-          <Directory Id="AzureSdkFolder" Name="Windows Azure">
+          <Directory Id="AzureSdkFolder" Name="Azure">
             <Directory Id="PowerShellFolder" Name="PowerShell"/>
           </Directory>
         </Directory>
@@ -74,8 +74,8 @@
     <DirectoryRef Id="AzureSdkMenu">
       <Component Id="AzureSdkShortcut" Guid="CF4CA3B5-3547-4DAA-9589-175BB82F5DDC">
         <Shortcut Id="AzureSdkStartMenuShortcut"
-                  Name="Windows Azure PowerShell"
-                  Description="Windows PowerShell cmdlets"
+                  Name="Microsoft Azure PowerShell"
+                  Description="Microsoft PowerShell cmdlets"
                   Target="[POWERSHELLPATH]\powershell.exe"
                   Arguments="-NoExit -ExecutionPolicy Bypass -File &quot;[PowerShellFolder]ServiceManagement\Azure\Services\ShortcutStartup.ps1&quot;"/>
         <RemoveFolder Id="AzureSdkMenu" On="uninstall"/>
@@ -83,7 +83,7 @@
       </Component>
     </DirectoryRef>
 
-    <Feature Id="azurecmd" Title="Windows Azure PowerShell" Level="1" Description="Windows PowerShell commandlets">
+    <Feature Id="azurecmd" Title="Microsoft Azure PowerShell" Level="1" Description="Windows PowerShell commandlets">
       <ComponentGroupRef Id="azurecmdfiles" />
       <ComponentRef Id="PSModulePath.System" />
       <ComponentRef Id="AzureSdkShortcut" />
@@ -92,7 +92,7 @@
     <Binary Id="CustomActions" SourceFile="$(var.caSourceDir)\Microsoft.WindowsAzure.Setup.CA.dll"/>
     <CustomAction Id="UpdatePSShortcut" BinaryKey="CustomActions" DllEntry="UpdatePSShortcut" Execute ="deferred" Impersonate="no"/>
     <CustomAction Id="SetCustomActionDataValue" Return="check" Property="UpdatePSShortcut"
-                     Value="ShortcutPath=[AzureSdkMenu]Windows Azure PowerShell.lnk;DefaultShortcutPath=[ProgramMenuFolder]System Tools\Windows PowerShell.lnk" />
+                     Value="ShortcutPath=[AzureSdkMenu]Microsoft Azure PowerShell.lnk;DefaultShortcutPath=[ProgramMenuFolder]System Tools\Windows PowerShell.lnk" />
 
     <InstallExecuteSequence>
       <Custom Action="SetCustomActionDataValue" After="CreateShortcuts">NOT Installed</Custom>

@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
     using DatabaseCopyModel = Microsoft.WindowsAzure.Commands.SqlDatabase.Model.DatabaseCopy;
 
     /// <summary>
-    /// Retrieves a list of all ongoing Windows Azure SQL Database copy operations in the given
+    /// Retrieves a list of all ongoing Microsoft Azure SQL Database copy operations in the given
     /// server context.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureSqlDatabaseCopy", ConfirmImpact = ConfirmImpact.None,

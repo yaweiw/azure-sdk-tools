@@ -666,7 +666,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         }
 
         /// <summary>
-        /// Publishes a service project on Windows Azure.
+        /// Publishes a service project on Microsoft Azure.
         /// </summary>
         /// <param name="name">The cloud service name</param>
         /// <param name="slot">The deployment slot</param>

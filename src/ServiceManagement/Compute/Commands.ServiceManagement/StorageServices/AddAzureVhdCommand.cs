@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
     using Utilities.Common;
 
     /// <summary>
-    /// Uploads a vhd as fixed disk format vhd to a blob in Windows Azure Storage
+    /// Uploads a vhd as fixed disk format vhd to a blob in Microsoft Azure Storage
     /// </summary>
     [Cmdlet(VerbsCommon.Add, "AzureVhd"), OutputType(typeof(VhdUploadContext))]
     public class AddAzureVhdCommand : ServiceManagementBaseCmdlet

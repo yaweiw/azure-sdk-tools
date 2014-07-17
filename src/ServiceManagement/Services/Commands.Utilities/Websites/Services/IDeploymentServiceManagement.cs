@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
     using System.ServiceModel.Web;
 
     /// <summary>
-    /// Provides the Windows Azure Service Management Api for Windows Azure Websites Deployment. 
+    /// Provides the Microsoft Azure Service Management Api for Microsoft Azure Websites Deployment. 
     /// </summary>
     [ServiceContract]
     public interface IDeploymentServiceManagement
