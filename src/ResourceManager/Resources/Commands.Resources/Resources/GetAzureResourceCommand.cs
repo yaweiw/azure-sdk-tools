@@ -63,7 +63,7 @@ namespace Microsoft.Azure.Commands.Resources
                 ResourceType = ResourceType,
                 ParentResource = ParentResource,
                 ApiVersion = ApiVersion,
-                Tags = new[] { Tag }.ToList()
+                Tag = new[] { Tag }
             };
 
             List<PSResource> resourceList = ResourcesClient.FilterPSResources(parameters);

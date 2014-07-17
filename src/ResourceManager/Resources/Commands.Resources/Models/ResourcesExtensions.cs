@@ -216,7 +216,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
             return resourcesTable.ToString();
         }
 
-        public static string ConstructTagsTable(List<Hashtable> tags)
+        public static string ConstructTagsTable(Hashtable[] tags)
         {
             if (tags == null)
             {
@@ -230,7 +230,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
                 };
             StringBuilder resourcesTable = new StringBuilder();
 
-            if (tags.Count > 0)
+            if (tags.Length > 0)
             {
                 int maxNameLength = Math.Max("Name".Length, tags.Where(ht => ht.ContainsKey("Name")).DefaultIfEmpty(emptyHashtable).Max(ht => ht["Name"].ToString().Length));
                 int maxValueLength = Math.Max("Value".Length, tags.Where(ht => ht.ContainsKey("Value")).DefaultIfEmpty(emptyHashtable).Max(ht => ht["Value"].ToString().Length));

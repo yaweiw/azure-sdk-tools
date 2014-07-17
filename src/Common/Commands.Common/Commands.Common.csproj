@@ -145,6 +145,7 @@
     <Compile Include="Authentication\RegistryBackedDictionary.cs" />
     <Compile Include="Common\AzureException.cs" />
     <Compile Include="Common\AzureModule.cs" />
+    <Compile Include="Common\AzureSession.cs" />
     <Compile Include="Common\ChannelHelper.cs" />
     <Compile Include="Common\ClientCreatedArgs.cs" />
     <Compile Include="Common\CloudBaseCmdlet.cs" />
@@ -153,6 +154,8 @@
     <Compile Include="Common\CmdletWithSubscriptionBase.cs" />
     <Compile Include="Common\ConfigurationConstants.cs" />
     <Compile Include="Common\ErrorHelper.cs" />
+    <Compile Include="Common\IManagementClientHelper.cs" />
+    <Compile Include="Common\ManagementClientHelper.cs" />
     <Compile Include="Common\ManagementOperationContext.cs" />
     <Compile Include="Common\Parameters.cs" />
     <Compile Include="Common\ServiceManagementClientExtensions.cs" />

@@ -14,6 +14,7 @@
 
 using Microsoft.Azure.Commands.Resources.Models;
 using Microsoft.Azure.Management.Resources.Models;
+using Microsoft.WindowsAzure.Commands.ScenarioTest;
 using Moq;
 using System.Collections.Generic;
 using System.Management.Automation;
@@ -45,6 +46,7 @@ namespace Microsoft.Azure.Commands.Resources.Test
         }
 
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void GetsResourcesGroupDeployments()
         {
             List<PSResourceGroupDeployment> result = new List<PSResourceGroupDeployment>();
@@ -77,6 +79,7 @@ namespace Microsoft.Azure.Commands.Resources.Test
         }
 
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void GetSepcificResourcesGroupDeployment()
         {
             FilterResourceGroupDeploymentOptions options = new FilterResourceGroupDeploymentOptions()
