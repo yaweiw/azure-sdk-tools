@@ -66,24 +66,27 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         public string ConfigurationDataPath { get; set; }
 
         /// <summary>
-        /// The name of the configuration file that was previously uploaded by 
+        /// The name of the configuration archive that was previously uploaded by 
         /// Publish-AzureVMDSCConfiguration. This parameter must specify only the name 
         /// of the file, without any path.
+        /// A null value or empty string indicate that the VM extension should install DSC,
+        /// but not start any configuration
         /// </summary>
         [Parameter(
             Mandatory = true,
             Position = 1,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The name of the configuration file that was previously uploaded by Publish-AzureVMDSCConfiguration")]
-        [ValidateNotNullOrEmpty]
-        public string ConfigurationFileName { get; set; }
+        [AllowEmptyString]
+        [AllowNull]
+        public string ConfigurationArchive { get; set; }
 
         /// <summary>
         /// Name of the configuration that will be invoked by the DSC Extension. The value of this parameter should be the name of one of the configurations 
-        /// contained within the file specified by ConfigurationFileName.
+        /// contained within the file specified by ConfigurationArchive.
         /// 
-        /// If omitted, this parameter will default to the name of the file given by the ConfigurationFileName parameter, excluding any extension, for example if 
-        /// ConfigurationFileName is "SalesWebSite.ps1", the default value for ConfigurationName will be "SalesWebSite".
+        /// If omitted, this parameter will default to the name of the file given by the ConfigurationArchive parameter, excluding any extension, for example if 
+        /// ConfigurationArchive is "SalesWebSite.ps1", the default value for ConfigurationName will be "SalesWebSite".
         /// </summary>
         [Parameter(
             ValueFromPipelineByPropertyName = true,
@@ -170,43 +173,61 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             //
             // Validate parameters
             //
-            if (this.ConfigurationDataPath != null)
+            if (string.IsNullOrEmpty(this.ConfigurationArchive))
             {
-                ProviderInfo provider;
-                this.ConfigurationDataPath = this.GetResolvedProviderPathFromPSPath(this.ConfigurationDataPath, out provider).FirstOrDefault();
-
-                if (!File.Exists(this.ConfigurationDataPath))
+                if (this.ConfigurationName != null || this.ConfigurationArgument != null || this.ConfigurationDataPath != null)
                 {
-                    this.ThrowInvalidArgumentError(Resources.AzureVMDscCannotFindConfigurationDataFile, this.ConfigurationDataPath);
+                    this.ThrowInvalidArgumentError(Resources.AzureVMDscNullArchiveNoConfiguragionParameters);
                 }
-                if (string.Compare(Path.GetExtension(this.ConfigurationDataPath), ".psd1", StringComparison.InvariantCultureIgnoreCase) != 0)
+                if (this.StorageContext != null || this.ContainerName != null || this.StorageEndpointSuffix != null)
                 {
-                    this.ThrowInvalidArgumentError(Resources.AzureVMDscInvalidConfigurationDataFile);
+                    this.ThrowInvalidArgumentError(Resources.AzureVMDscNullArchiveNoStorageParameters);
                 }
             }
-            if (string.Compare(Path.GetFileName(this.ConfigurationFileName), this.ConfigurationFileName, StringComparison.InvariantCultureIgnoreCase) != 0)
+            else 
             {
-                this.ThrowInvalidArgumentError(Resources.AzureVMDscConfigurationDataFileShouldNotIncludePath);
-            }
+                if (string.Compare(Path.GetFileName(this.ConfigurationArchive), this.ConfigurationArchive, StringComparison.InvariantCultureIgnoreCase) != 0)
+                {
+                    this.ThrowInvalidArgumentError(Resources.AzureVMDscConfigurationDataFileShouldNotIncludePath);
+                }
 
-            this._storageCredentials = this.StorageContext != null ? this.StorageContext.StorageAccount.Credentials : this.GetStorageCredentials();
-            
-            if (string.IsNullOrEmpty(this._storageCredentials.AccountName))
-            {
-                this.ThrowInvalidArgumentError(Resources.AzureVMDscStorageContextMustIncludeAccountName);
-            }
+                if (this.ConfigurationDataPath != null)
+                {
+                    this.ConfigurationDataPath = this.GetUnresolvedProviderPathFromPSPath(this.ConfigurationDataPath);
 
-            //
-            // Set defaults for parameters that were not provided by the caller
-            //
-            if (this.ConfigurationName == null)
-            {
-                this.ConfigurationName = Path.GetFileNameWithoutExtension(this.ConfigurationFileName);
-            }
+                    if (!File.Exists(this.ConfigurationDataPath))
+                    {
+                        this.ThrowInvalidArgumentError(Resources.AzureVMDscCannotFindConfigurationDataFile, this.ConfigurationDataPath);
+                    }
+                    if (string.Compare(Path.GetExtension(this.ConfigurationDataPath), ".psd1", StringComparison.InvariantCultureIgnoreCase) != 0)
+                    {
+                        this.ThrowInvalidArgumentError(Resources.AzureVMDscInvalidConfigurationDataFile);
+                    }
+                }
 
-            if (this.ContainerName == null)
-            {
-                this.ContainerName = DefaultContainerName;
+                if (this.StorageContext == null)
+                {
+                    this._storageCredentials = this.GetStorageCredentials();
+                }
+                else
+                {
+                    this._storageCredentials = this.StorageContext.StorageAccount.Credentials;
+                }
+
+                if (string.IsNullOrEmpty(this._storageCredentials.AccountName))
+                {
+                    this.ThrowInvalidArgumentError(Resources.AzureVMDscStorageContextMustIncludeAccountName);
+                }
+
+                if (this.ConfigurationName == null)
+                {
+                    this.ConfigurationName = Path.GetFileNameWithoutExtension(this.ConfigurationArchive);
+                }
+
+                if (this.ContainerName == null)
+                {
+                    this.ContainerName = DefaultContainerName;
+                }
             }
 
             if (this.Version == null)
@@ -222,88 +243,88 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
         private void CreateConfiguration()
         {
-            //
-            // Get a reference to the container in blob storage
-            //
-            var storageAccount = string.IsNullOrEmpty(this.StorageEndpointSuffix)
-                               ? new CloudStorageAccount(this._storageCredentials, true)
-                               : new CloudStorageAccount(this._storageCredentials, this.StorageEndpointSuffix, true);
-
-            var blobClient = storageAccount.CreateCloudBlobClient();
-
-            var containerReference = blobClient.GetContainerReference(this.ContainerName);
+            var publicSettings = new DscPublicSettings();
             
-            //
-            // Get a reference to the configuration blob and create a SAS token to access it
-            //
-            var blobAccessPolicy = new SharedAccessBlobPolicy()
+            var privateSettings = new DscPrivateSettings();
+
+            if (!string.IsNullOrEmpty(this.ConfigurationArchive))
             {
-                SharedAccessExpiryTime = DateTime.UtcNow.AddHours(1),
-                Permissions = SharedAccessBlobPermissions.Read
-            };
+                //
+                // Get a reference to the container in blob storage
+                //
+                var storageAccount = string.IsNullOrEmpty(this.StorageEndpointSuffix)
+                                   ? new CloudStorageAccount(this._storageCredentials, true)
+                                   : new CloudStorageAccount(this._storageCredentials, this.StorageEndpointSuffix, true);
 
-            var configurationBlobName = this.ConfigurationFileName + ".zip";
+                var blobClient = storageAccount.CreateCloudBlobClient();
 
-            var configurationBlobReference = containerReference.GetBlockBlobReference(configurationBlobName);
-
-            var configurationBlobSasToken = configurationBlobReference.GetSharedAccessSignature(blobAccessPolicy);
-
-            //
-            // Upload the configuration data to blob storage and get a SAS token
-            //
-            string configurationDataBlobUri = null;
-
-            if (this.ConfigurationDataPath != null)
-            {
-                var shouldProcess = this.ShouldProcess(
-                    configurationBlobReference.Uri.AbsoluteUri,
-                    string.Format(CultureInfo.CurrentUICulture, Resources.AzureVMDscUploadToBlobStorageAction, this.ConfigurationDataPath));
-
-                if (shouldProcess)
+                var containerReference = blobClient.GetContainerReference(this.ContainerName);
+            
+                //
+                // Get a reference to the configuration blob and create a SAS token to access it
+                //
+                var blobAccessPolicy = new SharedAccessBlobPolicy()
                 {
-                    var guid = Guid.NewGuid(); // there may be multiple VMs using the same configuration
+                    SharedAccessExpiryTime = DateTime.UtcNow.AddHours(1),
+                    Permissions = SharedAccessBlobPermissions.Read
+                };
 
-                    var configurationDataBlobName = string.Format(CultureInfo.InvariantCulture, "{0}-{1}.psd1", this.ConfigurationName, guid);
+                var configurationBlobName = this.ConfigurationArchive;
 
-                    var configurationDataBlobReference = containerReference.GetBlockBlobReference(configurationDataBlobName);
+                var configurationBlobReference = containerReference.GetBlockBlobReference(configurationBlobName);
 
-                    if (!this.Force && configurationDataBlobReference.Exists())
+                var configurationBlobSasToken = configurationBlobReference.GetSharedAccessSignature(blobAccessPolicy);
+
+                //
+                // Upload the configuration data to blob storage and get a SAS token
+                //
+                string configurationDataBlobUri = null;
+
+                if (this.ConfigurationDataPath != null)
+                {
+                    var shouldProcess = this.ShouldProcess(
+                        configurationBlobReference.Uri.AbsoluteUri,
+                        string.Format(CultureInfo.CurrentUICulture, Resources.AzureVMDscUploadToBlobStorageAction, this.ConfigurationDataPath));
+
+                    if (shouldProcess)
                     {
-                        this.ThrowTerminatingError(
-                            new ErrorRecord(
-                                new UnauthorizedAccessException(string.Format(CultureInfo.CurrentUICulture, Resources.AzureVMDscStorageBlobAlreadyExists, configurationDataBlobName)),
-                                string.Empty,
-                                ErrorCategory.PermissionDenied,
-                                null));
+                        var guid = Guid.NewGuid(); // there may be multiple VMs using the same configuration
+
+                        var configurationDataBlobName = string.Format(CultureInfo.InvariantCulture, "{0}-{1}.psd1", this.ConfigurationName, guid);
+
+                        var configurationDataBlobReference = containerReference.GetBlockBlobReference(configurationDataBlobName);
+
+                        if (!this.Force && configurationDataBlobReference.Exists())
+                        {
+                            this.ThrowTerminatingError(
+                                new ErrorRecord(
+                                    new UnauthorizedAccessException(string.Format(CultureInfo.CurrentUICulture, Resources.AzureVMDscStorageBlobAlreadyExists, configurationDataBlobName)),
+                                    string.Empty,
+                                    ErrorCategory.PermissionDenied,
+                                    null));
+                        }
+
+                        configurationDataBlobReference.UploadFromFile(this.ConfigurationDataPath, FileMode.Open);
+
+                        var configurationDataBlobSasToken = configurationDataBlobReference.GetSharedAccessSignature(blobAccessPolicy);
+
+                        configurationDataBlobUri = configurationDataBlobReference.StorageUri.PrimaryUri.AbsoluteUri + configurationDataBlobSasToken;
                     }
-
-                    configurationDataBlobReference.UploadFromFile(this.ConfigurationDataPath, FileMode.Open);
-
-                    var configurationDataBlobSasToken = configurationDataBlobReference.GetSharedAccessSignature(blobAccessPolicy);
-
-                    configurationDataBlobUri = configurationDataBlobReference.StorageUri.PrimaryUri.AbsoluteUri + configurationDataBlobSasToken;
                 }
+
+                publicSettings.SasToken              = configurationBlobSasToken;
+                publicSettings.ModulesUrl            = configurationBlobReference.StorageUri.PrimaryUri.AbsoluteUri;
+                publicSettings.ConfigurationFunction = string.Format(CultureInfo.InvariantCulture, "{0}\\{1}", Path.GetFileNameWithoutExtension(this.ConfigurationArchive), this.ConfigurationName);
+                publicSettings.Properties            = this.ConfigurationArgument;
+
+                privateSettings.DataBlobUri = configurationDataBlobUri;
             }
 
             //
             // Define the public and private property bags that will be passed to the extension.
             //
-            this.PublicConfiguration = JsonUtilities.TryFormatJson(
-                JsonConvert.SerializeObject(
-                   new DscPublicSettings()
-                   {
-                       SasToken              = configurationBlobSasToken,
-                       ModulesUrl            = configurationBlobReference.StorageUri.PrimaryUri.AbsoluteUri,
-                       ConfigurationFunction = string.Format(CultureInfo.InvariantCulture, "{0}\\{1}", this.ConfigurationFileName, this.ConfigurationName),
-                       Properties            = this.ConfigurationArgument,
-                   }));
-
-            this.PrivateConfiguration = JsonUtilities.TryFormatJson(
-                JsonConvert.SerializeObject(
-                   new DscPrivateSettings()
-                   {
-                       DataBlobUri = configurationDataBlobUri
-                   }));
+            this.PublicConfiguration = JsonUtilities.TryFormatJson(JsonConvert.SerializeObject(publicSettings));
+            this.PrivateConfiguration = JsonUtilities.TryFormatJson(JsonConvert.SerializeObject(privateSettings));
         }
     }
 }

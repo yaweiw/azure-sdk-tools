@@ -34,9 +34,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     /// later can be applied to Azure Virtual Machines using the 
     /// Set-AzureVMDscExtension cmdlet.
     /// </summary>
-    [Cmdlet("Publish", "AzureVMDscConfiguration", SupportsShouldProcess = true)]
+    [Cmdlet("Publish", "AzureVMDscConfiguration", SupportsShouldProcess = true, DefaultParameterSetName = UploadArchiveParameterSetName)]
     public class PublishAzureVMDscConfigurationCommand : ServiceManagementBaseCmdlet
     {
+        private const string CreateArchiveParameterSetName = "CreateArchive";
+        private const string UploadArchiveParameterSetName = "UploadArchive";
+
         /// <summary>
         /// Path to a file containing one or more configurations; the file can be a 
         /// PowerShell script (*.ps1) or MOF interface (*.mof).
@@ -51,7 +54,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         /// <summary>
         /// Name of the Azure Storage Container the configuration is uploaded to.
         /// </summary>
-        [Parameter(ValueFromPipelineByPropertyName = true,
+        [Parameter(
+            ValueFromPipelineByPropertyName = true,
+            ParameterSetName = UploadArchiveParameterSetName,
             HelpMessage = "Name of the Azure Storage Container the configuration is uploaded to")]
         public string ContainerName { get; set; }
 
@@ -66,12 +71,24 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         /// The Azure Storage Context that provides the security settings used to upload 
         /// the configuration script to the container specified by ContainerName. This 
         /// context should provide write access to the container.
-        ///  If not given, $ENV:azure_storage_connection_string is used instead.
         /// </summary>
-        [Parameter(ValueFromPipelineByPropertyName = true,
+        [Parameter(
+            ValueFromPipelineByPropertyName = true,
+            ParameterSetName = UploadArchiveParameterSetName,
             HelpMessage = "The Azure Storage Context that provides the security settings used to upload " +
                           "the configuration script to the container specified by ContainerName")]
         public AzureStorageContext StorageContext { get; set; }
+
+        /// <summary>
+        /// Path to a local ZIP file to write the configuration archive to.
+        /// When using this parameter, Publish-AzureVMDscConfiguration creates a
+        /// local ZIP archive instead of uploading it to blob storage..
+        /// </summary>
+        [Parameter(
+            ValueFromPipelineByPropertyName = true,
+            ParameterSetName = CreateArchiveParameterSetName,
+            HelpMessage = "Path to a local ZIP file to write the configuration archive to.")]
+        public string ConfigurationArchivePath { get; set; }
 
         /// <summary>
         /// Credentials used to access Azure Storage
@@ -80,7 +97,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
         private const string Ps1FileExtension = ".ps1";
         private const string Psm1FileExtension = ".psm1";
-        private static readonly HashSet<String> AllowedFileExtensions = new HashSet<String>(StringComparer.OrdinalIgnoreCase) { Ps1FileExtension, Psm1FileExtension };
+        private const string ZipFileExtension = ".zip";
+        private static readonly HashSet<String> UploadArchiveAllowedFileExtensions = new HashSet<String>(StringComparer.OrdinalIgnoreCase) { Ps1FileExtension, Psm1FileExtension, ZipFileExtension };
+        private static readonly HashSet<String> CreateArchiveAllowedFileExtensions = new HashSet<String>(StringComparer.OrdinalIgnoreCase) { Ps1FileExtension, Psm1FileExtension};
 
         protected override void ProcessRecord()
         {
@@ -96,36 +115,42 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
         protected void ValidateParameters()
         {
-			// Resolve PowerShell path to a system path.
-			ProviderInfo provider;
-			this.ConfigurationPath = this.GetResolvedProviderPathFromPSPath(this.ConfigurationPath, out provider).FirstOrDefault();
+            var configurationFileExtension = Path.GetExtension(this.ConfigurationPath);
 
-			// Check that ConfigurationPath points to a valid file
-			if (!File.Exists(this.ConfigurationPath))
+            if (this.ParameterSetName == UploadArchiveParameterSetName)
+            { 
+                this.ConfigurationPath = this.GetUnresolvedProviderPathFromPSPath(this.ConfigurationPath);
+
+                // Check that ConfigurationPath points to a valid file
+                if (!File.Exists(this.ConfigurationPath))
+                {
+                    this.ThrowInvalidArgumentError(Resources.PublishVMDscExtensionConfigFileNotFound, this.ConfigurationPath);
+                }
+                if (!UploadArchiveAllowedFileExtensions.Contains(Path.GetExtension(configurationFileExtension)))
+                {
+                    this.ThrowInvalidArgumentError(Resources.PublishVMDscExtensionUploadArchiveConfigFileInvalidExtension, this.ConfigurationPath);
+                }
+
+                // Ensure we have an storage account
+                this._storageCredentials = this.StorageContext != null ? this.StorageContext.StorageAccount.Credentials : this.GetStorageCredentials();
+                if (string.IsNullOrEmpty(this._storageCredentials.AccountName))
+                {
+                    this.ThrowInvalidArgumentError(Resources.AzureVMDscStorageContextMustIncludeAccountName);
+                }
+
+                if (this.ContainerName == null)
+                {
+                    this.ContainerName = VirtualMachineDscExtensionCmdletBase.DefaultContainerName;
+                }
+            } else if (this.ParameterSetName == CreateArchiveParameterSetName)
             {
-                this.ThrowInvalidArgumentError(Resources.PublishVMDscExtensionConfigFileNotFound, this.ConfigurationPath);
-            }
-            if (!AllowedFileExtensions.Contains(GetConfigurationFileExtension()))
-            {
-                this.ThrowInvalidArgumentError(Resources.PublishVMDscExtensionConfigFileInvalidExtension, this.ConfigurationPath);
-            }
+                if (!CreateArchiveAllowedFileExtensions.Contains(Path.GetExtension(configurationFileExtension)))
+                {
+                    this.ThrowInvalidArgumentError(Resources.PublishVMDscExtensionCreateArchiveConfigFileInvalidExtension, this.ConfigurationPath);
+                }
 
-            // Ensure we have an storage account
-            this._storageCredentials = this.StorageContext != null ? this.StorageContext.StorageAccount.Credentials : this.GetStorageCredentials();
-            if (string.IsNullOrEmpty(this._storageCredentials.AccountName))
-            {
-                this.ThrowInvalidArgumentError(Resources.AzureVMDscStorageContextMustIncludeAccountName);
+                this.ConfigurationArchivePath = this.GetUnresolvedProviderPathFromPSPath(this.ConfigurationArchivePath);
             }
-
-			if (this.ContainerName == null)
-			{
-                this.ContainerName = VirtualMachineDscExtensionCmdletBase.DefaultContainerName;
-			}
-        }
-
-        private string GetConfigurationFileExtension()
-        {
-            return Path.GetExtension(this.ConfigurationPath);
         }
 
         /// <summary>
@@ -133,9 +158,35 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         /// </summary>
         protected void PublishConfiguration()
         {
-            string extension = GetConfigurationFileExtension();
+            var archivePath = string.Compare(Path.GetExtension(this.ConfigurationPath), ZipFileExtension, StringComparison.OrdinalIgnoreCase) == 0 ? 
+                this.ConfigurationPath
+                :
+                CreateConfigurationArchive();
+
+            if (this.ParameterSetName == UploadArchiveParameterSetName)
+            {
+                UploadConfigurationArchive(archivePath);
+            }
+        }
+
+        private static readonly Regex AlphaNumericRegexp = new Regex(@"^[a-zA-Z0-9\s,]*$");
+        private static Boolean IsAlphaNumeric(string str)
+        {
+            return AlphaNumericRegexp.IsMatch(str);
+        }
+
+        private string CreateConfigurationArchive()
+        {
+            if (this.ParameterSetName == CreateArchiveParameterSetName)
+            {
+                if (!this.ShouldProcess(this.ConfigurationArchivePath, Resources.AzureVMDscCreateArchiveAction))
+                {
+                    return null;
+                }
+            }
 
             WriteVerbose(String.Format(CultureInfo.CurrentUICulture, Resources.AzureVMDscParsingConfiguration, this.ConfigurationPath));
+
             ConfigurationParseResult parseResult = ConfigurationNameHelper.ExtractConfigurationNames(this.ConfigurationPath);
             if (parseResult.Errors.Any())
             {
@@ -147,26 +198,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                                 Resources.PublishVMDscExtensionStorageParserErrors,
                                 this.ConfigurationPath,
                                 String.Join("\n", parseResult.Errors.Select(error => error.ToString())))),
-					    string.Empty,
-					    ErrorCategory.ParserError,
-					    null));
+                        string.Empty,
+                        ErrorCategory.ParserError,
+                        null));
             }
 
             var requiredModules = parseResult.RequiredModules;
 
-            // Copy configuration
-            CloudBlobContainer cloudBlobContainer = GetStorageContainier();
-            CopyConfigurationAndRequiredModules(cloudBlobContainer, requiredModules);
-        }
-
-        private static readonly Regex AlphaNumericRegexp = new Regex(@"^[a-zA-Z0-9\s,]*$");
-        private static Boolean IsAlphaNumeric(string str)
-        {
-            return AlphaNumericRegexp.IsMatch(str);
-        }
-
-        private void CopyConfigurationAndRequiredModules(CloudBlobContainer cloudBlobContainer, List<string> requiredModules)
-        {
             // Create a temporary directory for uploaded zip file
             string tempZipFolder = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
             Directory.CreateDirectory(tempZipFolder);
@@ -195,13 +233,36 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                     powershell.Invoke();
                 }
             }
+
+            //
 			// Zip the directory
-			string packageName = configurationName + ".zip";
-			string tempModuleArchive = Path.Combine(Path.GetTempPath(), packageName);
-            if (File.Exists(tempModuleArchive))
+            //
+            string archive;
+
+            if (this.ParameterSetName == CreateArchiveParameterSetName)
             {
-                File.Delete(tempModuleArchive);
+                archive = this.ConfigurationArchivePath;
+
+                if (!this.Force && System.IO.File.Exists(archive))
+                {
+                    this.ThrowTerminatingError(
+                        new ErrorRecord(
+                            new UnauthorizedAccessException(string.Format(CultureInfo.CurrentUICulture, Resources.AzureVMDscArchiveAlreadyExists, archive)),
+                            string.Empty,
+                            ErrorCategory.PermissionDenied,
+                            null));
+                }
             }
+            else
+            {
+                archive = Path.Combine(Path.GetTempPath(), configurationName + ZipFileExtension);
+
+                if (File.Exists(archive))
+                {
+                    File.Delete(archive);
+                }
+            }
+
             // azure-sdk-tools uses .net framework 4.0
             // System.IO.Compression.ZipFile was added in .net 4.5
             // Since support for DSC require powershell 4.0+, which require .net 4.5+
@@ -211,17 +272,26 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             {
 				var script = 
 					@"Add-Type -AssemblyName System.IO.Compression.FileSystem > $null;" +
-                    @"[void] [System.IO.Compression.ZipFile]::CreateFromDirectory('" + tempZipFolder + "', '" + tempModuleArchive + "');";
+                    @"[void] [System.IO.Compression.ZipFile]::CreateFromDirectory('" + tempZipFolder + "', '" + archive + "');";
 
                 powershell.AddScript(script);
                 powershell.Invoke();
             }
 
-			CloudBlockBlob modulesBlob = cloudBlobContainer.GetBlockBlobReference(packageName);
+            return archive;
+        }
+
+        private void UploadConfigurationArchive(string archivePath)
+        {
+            CloudBlobContainer cloudBlobContainer = GetStorageContainier();
+
+            var blobName = Path.GetFileName(archivePath);
+
+            CloudBlockBlob modulesBlob = cloudBlobContainer.GetBlockBlobReference(blobName);
 
             var shouldProcess = this.ShouldProcess(
                 modulesBlob.Uri.AbsoluteUri,
-                string.Format(CultureInfo.CurrentUICulture, Resources.AzureVMDscUploadToBlobStorageAction, tempModuleArchive));
+                string.Format(CultureInfo.CurrentUICulture, Resources.AzureVMDscUploadToBlobStorageAction, archivePath));
 
             if (shouldProcess)
             {
@@ -235,7 +305,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                             null));
                 }
 
-                modulesBlob.UploadFromFile(tempModuleArchive, FileMode.Open);
+                modulesBlob.UploadFromFile(archivePath, FileMode.Open);
             }
         }
 
