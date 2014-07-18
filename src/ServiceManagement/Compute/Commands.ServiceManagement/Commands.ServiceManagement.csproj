@@ -185,7 +185,7 @@
     <Compile Include="IaaS\Extensions\DSC\SetAzureVMDscExtension.cs" />
     <Compile Include="IaaS\Extensions\DSC\VirtualMachineDscExtensionContext.cs" />
     <Compile Include="IaaS\Extensions\DSC\VirtualMachineDscExtensionCmdletBase.cs" />
-    <Compile Include="IaaS\Extensions\DSC\ConfigurationNameHelper.cs" />
+    <Compile Include="IaaS\Extensions\DSC\ConfigurationParsingHelper.cs" />
     <Compile Include="IaaS\Extensions\DSC\ConfigurationParseResult.cs" />
     <Compile Include="IaaS\Extensions\DSC\ServiceManagementBaseCmdletExtentions.cs" />
     <Compile Include="IaaS\Extensions\DSC\PublishAzureVMDscConfiguration.cs" />

@@ -169,12 +169,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             }
         }
 
-        private static readonly Regex AlphaNumericRegexp = new Regex(@"^[a-zA-Z0-9\s,]*$");
-        private static Boolean IsAlphaNumeric(string str)
-        {
-            return AlphaNumericRegexp.IsMatch(str);
-        }
-
         private string CreateConfigurationArchive()
         {
             if (this.ParameterSetName == CreateArchiveParameterSetName)
@@ -186,8 +180,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             }
 
             WriteVerbose(String.Format(CultureInfo.CurrentUICulture, Resources.AzureVMDscParsingConfiguration, this.ConfigurationPath));
-
-            ConfigurationParseResult parseResult = ConfigurationNameHelper.ExtractConfigurationNames(this.ConfigurationPath);
+            ConfigurationParseResult parseResult = ConfigurationParsingHelper.ExtractConfigurationNames(this.ConfigurationPath);
             if (parseResult.Errors.Any())
             {
                 ThrowTerminatingError(
@@ -216,20 +209,22 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             // CopyRequiredModules
             foreach (var module in requiredModules)
             {
-                // Check that module name is alpha-numeric to prevent script-injection.
-                // Drop it, in case if it's not.
-                if (!IsAlphaNumeric(module))
+                using (PowerShell powershell = PowerShell.Create())
                 {
-                    WriteWarning(String.Format(CultureInfo.InvariantCulture, "Module name '{0}' contains illegal characters", module));
-                    continue;    
-                }
-                using (var powershell = System.Management.Automation.PowerShell.Create())
-                {
+                    // Wrapping script in a function to prevent script injection via $module variable.
                     powershell.AddScript(
-                        @"$mi = Get-Module -List -Name " + module + ";" +
-                        @"$moduleFolder = Split-Path -Parent $mi.Path;" +
-                        @"Copy-Item -Recurse -Path $moduleFolder -Destination " + tempZipFolder + ";"
+                        @"function Copy-Module([string]$module, [string]$tempZipFolder) 
+                        {
+                            $mi = Get-Module -List -Name $module + ;
+                            $moduleFolder = Split-Path -Parent $mi.Path;
+                            Copy-Item -Recurse -Path $moduleFolder -Destination $tempZipFolder + ;
+                        }"
                         );
+                    powershell.Invoke();
+                    powershell.Commands.Clear();
+                    powershell.AddCommand("Copy-Module")
+                        .AddParameter("module", module)
+                        .AddParameter("tempZipFolder", tempZipFolder);
                     powershell.Invoke();
                 }
             }
