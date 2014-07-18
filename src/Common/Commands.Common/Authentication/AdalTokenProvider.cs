@@ -74,19 +74,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
             return token.AuthResult.ExpiresOn - DateTimeOffset.Now < thresholdExpiration;
         }
 
-        private string GetRefreshToken(AdalAccessToken token)
-        {
-#if DEBUG
-            if (Environment.GetEnvironmentVariable("FORCE_EXPIRED_REFRESH_TOKEN") != null)
-            {
-                // We can't force an expired refresh token, so provide a garbage one instead
-                const string fakeToken = "This is not a valid refresh token";
-                return Convert.ToBase64String(Encoding.ASCII.GetBytes(fakeToken));
-            }
-#endif
-            return token.AuthResult.RefreshToken;
-        }
-
         private void Renew(AdalAccessToken token)
         {
             if (IsExpired(token))
@@ -187,9 +174,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
                 }
 
                 result = context.AcquireToken(config.ResourceClientUri, config.ClientId,
-                    config.ClientRedirectUri, promptBehavior,
-                    new UserIdentifier("", UserIdentifierType.OptionalDisplayableId),
-                    AdalConfiguration.EnableEbdMagicCookie);
+                    config.ClientRedirectUri, promptBehavior);
             }
             else
             {
@@ -200,7 +185,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
                 }
                 result = context.AcquireToken(config.ResourceClientUri, config.ClientId,
                     config.ClientRedirectUri, promptBehavior,
-                    new UserIdentifier(userId, UserIdentifierType.UniqueId),
+                    new UserIdentifier(userId, UserIdentifierType.OptionalDisplayableId),
                     AdalConfiguration.EnableEbdMagicCookie);
             }
             return result;
@@ -238,7 +223,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
             }
 
             public string AccessToken { get { return AuthResult.AccessToken; } }
-            public string UserId { get { return AuthResult.UserInfo.UniqueId; } }
+            public string UserId { get { return AuthResult.UserInfo.DisplayableId; } }
 
             public LoginType LoginType
             {
