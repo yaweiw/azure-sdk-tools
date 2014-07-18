@@ -114,7 +114,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
                 }
                 catch (AdalException adalEx)
                 {
-                    if (adalEx.ErrorCode == AdalError.UserMismatch)
+                    if (adalEx.ErrorCode == AdalError.UserInteractionRequired)
                     {
                         try
                         {
@@ -156,7 +156,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
             return result;
         }
 
-        private AuthenticationResult AquireToken(AdalConfiguration config, bool tryRefresh, string userId)
+        private AuthenticationResult AquireToken(AdalConfiguration config, bool noPrompt, string userId)
         {
             AuthenticationResult result;
             var context = CreateContext(config);
@@ -164,9 +164,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
             if (string.IsNullOrEmpty(userId))
             {
                 var promptBehavior = PromptBehavior.Always;
-                if (tryRefresh)
+                if (noPrompt)
                 {
-                    promptBehavior = PromptBehavior.RefreshSession;
+                    promptBehavior = PromptBehavior.Never;
                 }
                 else
                 {
@@ -179,9 +179,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
             else
             {
                 var promptBehavior = PromptBehavior.Auto;
-                if (tryRefresh)
+                if (noPrompt)
                 {
-                    promptBehavior = PromptBehavior.RefreshSession;
+                    promptBehavior = PromptBehavior.Never;
                 }
                 result = context.AcquireToken(config.ResourceClientUri, config.ClientId,
                     config.ClientRedirectUri, promptBehavior,
