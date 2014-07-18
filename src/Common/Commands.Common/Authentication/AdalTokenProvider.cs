@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.Security;
+
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
 {
     using Commands.Common.Properties;
@@ -46,6 +48,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
         {
             var config = new AdalConfiguration(subscription);
             return new AdalAccessToken(AcquireToken(config, false, userId), this, config);
+        }
+
+        public IAccessToken GetNewToken(WindowsAzureEnvironment environment, string userId, SecureString password)
+        {
+            var config = new AdalConfiguration(environment);
+            return new AdalAccessToken(AcquireToken(config, false, userId, password), this, config);
         }
 
         public IAccessToken GetCachedToken(WindowsAzureSubscription subscription, string userId)
@@ -101,7 +109,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
 
         // We have to run this in a separate thread to guarantee that it's STA. This method
         // handles the threading details.
-        private AuthenticationResult AcquireToken(AdalConfiguration config, bool tryRefresh, string userId = null)
+        private AuthenticationResult AcquireToken(AdalConfiguration config, bool tryRefresh, string userId = null, SecureString password = null)
         {
             AuthenticationResult result = null;
             Exception ex = null;
@@ -110,7 +118,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
             {
                 try
                 {
-                    result = AquireToken(config, tryRefresh, userId);
+                    result = AquireToken(config, tryRefresh, userId, password);
                 }
                 catch (AdalException adalEx)
                 {
@@ -118,7 +126,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
                     {
                         try
                         {
-                            result = AquireToken(config, false, userId);
+                            result = AquireToken(config, false, userId, password);
                         }
                         catch (Exception threadEx)
                         {
@@ -156,7 +164,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
             return result;
         }
 
-        private AuthenticationResult AquireToken(AdalConfiguration config, bool noPrompt, string userId)
+        private AuthenticationResult AquireToken(AdalConfiguration config, bool noPrompt, string userId, SecureString password)
         {
             AuthenticationResult result;
             var context = CreateContext(config);
@@ -183,10 +191,19 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
                 {
                     promptBehavior = PromptBehavior.Never;
                 }
-                result = context.AcquireToken(config.ResourceClientUri, config.ClientId,
-                    config.ClientRedirectUri, promptBehavior,
-                    new UserIdentifier(userId, UserIdentifierType.OptionalDisplayableId),
-                    AdalConfiguration.EnableEbdMagicCookie);
+
+                if (password == null)
+                {
+                    result = context.AcquireToken(config.ResourceClientUri, config.ClientId,
+                        config.ClientRedirectUri, promptBehavior,
+                        new UserIdentifier(userId, UserIdentifierType.OptionalDisplayableId),
+                        AdalConfiguration.EnableEbdMagicCookie);
+                }
+                else
+                {
+                    UserCredential credential = new UserCredential(userId, password);
+                    result = context.AcquireToken(config.ResourceClientUri, config.ClientId, credential);
+                }
             }
             return result;
         }
