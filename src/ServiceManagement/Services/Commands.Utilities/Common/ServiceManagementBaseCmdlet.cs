@@ -33,6 +33,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System.ServiceModel.Dispatcher;
     using System.Threading;
     using WindowsAzure;
+    using Storage.Auth;
 
     public abstract class ServiceManagementBaseCmdlet : CloudBaseCmdlet<IServiceManagement>
     {

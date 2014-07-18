@@ -13,6 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 using Microsoft.Azure.Commands.Resources.Models;
+using Microsoft.WindowsAzure.Commands.ScenarioTest;
 using Moq;
 using System.Management.Automation;
 using Xunit;
@@ -41,6 +42,7 @@ namespace Microsoft.Azure.Commands.Resources.Test
         }
 
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void RemovesResourceGroup()
         {
             commandRuntimeMock.Setup(f => f.ShouldProcess(It.IsAny<string>(), It.IsAny<string>())).Returns(true);

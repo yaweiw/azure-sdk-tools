@@ -177,6 +177,17 @@
     <Compile Include="IaaS\DiskRepository\SetAzureVMImageOSDiskConfig.cs" />
     <Compile Include="IaaS\DiskRepository\SetAzureVMImageDataDiskConfig.cs" />
     <Compile Include="IaaS\DiskRepository\NewAzureVMImageDiskConfigSet.cs" />
+    <Compile Include="IaaS\Extensions\DSC\DscPrivateSettings.cs" />
+    <Compile Include="IaaS\Extensions\DSC\DscPublicSettings.cs" />
+    <Compile Include="IaaS\Extensions\DSC\RemoveAzureVMDscExtension.cs" />
+    <Compile Include="IaaS\Extensions\DSC\GetAzureVMDscExtension.cs" />
+    <Compile Include="IaaS\Extensions\DSC\SetAzureVMDscExtension.cs" />
+    <Compile Include="IaaS\Extensions\DSC\VirtualMachineDscExtensionContext.cs" />
+    <Compile Include="IaaS\Extensions\DSC\VirtualMachineDscExtensionCmdletBase.cs" />
+    <Compile Include="IaaS\Extensions\DSC\ConfigurationNameHelper.cs" />
+    <Compile Include="IaaS\Extensions\DSC\ConfigurationParseResult.cs" />
+    <Compile Include="IaaS\Extensions\DSC\ServiceManagementBaseCmdletExtentions.cs" />
+    <Compile Include="IaaS\Extensions\DSC\PublishAzureVMDscConfiguration.cs" />
     <Compile Include="IaaS\Extensions\MicrosoftAntimalware\GetAzureVMMicrosoftAntimalwareExtension.cs" />
     <Compile Include="IaaS\Extensions\MicrosoftAntimalware\RemoveAzureVMMicrosoftAntimalwareExtension.cs" />
     <Compile Include="IaaS\Extensions\MicrosoftAntimalware\SetAzureVMMicrosoftAntimalwareExtension.cs" />
@@ -245,6 +256,11 @@
     <Compile Include="Model\VirtualNetworkStaticIPAvailabilityContext.cs" />
     <Compile Include="Model\VirtualNetworkStaticIPContext.cs" />
     <Compile Include="Model\VMImageContext.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="RoleSizes\GetAzureRoleSize.cs" />
     <Compile Include="ServiceManagementProfile.cs" />
     <Compile Include="AffinityGroups\SetAzureAffinityGroup.cs" />
@@ -421,11 +437,6 @@
     <Compile Include="Model\VirtualNetworkGatewayContext.cs" />
     <Compile Include="Model\VirtualNetworkSiteContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="StorageServices\AddAzureVhdCommand.cs" />
     <Compile Include="StorageServices\CloudPageBlobObjectFactory.cs" />
     <Compile Include="StorageServices\GetAzureStorageAccount.cs" />
@@ -465,9 +476,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
