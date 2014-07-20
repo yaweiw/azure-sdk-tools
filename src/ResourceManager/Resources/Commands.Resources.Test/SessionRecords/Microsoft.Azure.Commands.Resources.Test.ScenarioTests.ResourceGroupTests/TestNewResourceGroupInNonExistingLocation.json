@@ -1,0 +1,88 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/resourcegroups/onesdk2191?api-version=2014-04-01-preview",
+      "RequestMethod": "HEAD",
+      "RequestBody": "",
+      "RequestHeaders": {
+        "User-Agent": [
+          "Microsoft.Azure.Management.Resources.ResourceManagementClient/2.0.0.0"
+        ]
+      },
+      "ResponseBody": "",
+      "ResponseHeaders": {
+        "Pragma": [
+          "no-cache"
+        ],
+        "x-ms-ratelimit-remaining-subscription-reads": [
+          "31996"
+        ],
+        "x-ms-request-id": [
+          "e427440e-b12b-4807-b93c-186dd5faa54a"
+        ],
+        "x-ms-correlation-request-id": [
+          "e427440e-b12b-4807-b93c-186dd5faa54a"
+        ],
+        "x-ms-routing-request-id": [
+          "WESTUS:20140711T184237Z:e427440e-b12b-4807-b93c-186dd5faa54a"
+        ],
+        "Strict-Transport-Security": [
+          "max-age=31536000; includeSubDomains"
+        ],
+        "Cache-Control": [
+          "no-cache"
+        ],
+        "Date": [
+          "Fri, 11 Jul 2014 18:42:37 GMT"
+        ]
+      },
+      "StatusCode": 404
+    },
+    {
+      "RequestUri": "/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/resourcegroups/onesdk2191?api-version=2014-04-01-preview",
+      "RequestMethod": "PUT",
+      "RequestBody": "{\r\n  \"location\": \"non-existing\",\r\n  \"tags\": {}\r\n}",
+      "RequestHeaders": {
+        "User-Agent": [
+          "Microsoft.Azure.Management.Resources.ResourceManagementClient/2.0.0.0"
+        ]
+      },
+      "ResponseBody": "{\r\n  \"error\": {\r\n    \"code\": \"InvalidResourceLocation\",\r\n    \"message\": \"The provided location 'non-existing' is not supported. List of available regions is 'centralus, eastasia, southeastasia, eastus, westus, northcentralus, southcentralus, northeurope, westeurope'\"\r\n  }\r\n}",
+      "ResponseHeaders": {
+        "Pragma": [
+          "no-cache"
+        ],
+        "x-ms-ratelimit-remaining-subscription-writes": [
+          "1197"
+        ],
+        "x-ms-request-id": [
+          "13b4abba-98ba-4fe0-a728-de33b1e8982d"
+        ],
+        "x-ms-correlation-request-id": [
+          "13b4abba-98ba-4fe0-a728-de33b1e8982d"
+        ],
+        "x-ms-routing-request-id": [
+          "WESTUS:20140711T184237Z:13b4abba-98ba-4fe0-a728-de33b1e8982d"
+        ],
+        "Strict-Transport-Security": [
+          "max-age=31536000; includeSubDomains"
+        ],
+        "Cache-Control": [
+          "no-cache"
+        ],
+        "Date": [
+          "Fri, 11 Jul 2014 18:42:37 GMT"
+        ]
+      },
+      "StatusCode": 400
+    }
+  ],
+  "Names": {
+    "Test-NewResourceGroupInNonExistingLocation": [
+      "onesdk2191"
+    ]
+  },
+  "Variables": {
+    "SubscriptionId": "db1ab6f0-4769-4b27-930e-01e2ef9c123c"
+  }
+}

@@ -14,60 +14,54 @@
 
 namespace Microsoft.WindowsAzure.Commands.Websites.WebJobs
 {
-    using Microsoft.WindowsAzure.WebSitesExtensions.Models;
     using System;
+    using Microsoft.WindowsAzure.WebSitesExtensions.Models;
 
-    /// <summary>
-    /// The purpose of the wrapping is to surface a Web Job's "Name" property as "JobName",
-    /// and "Type" as "JobType". This is needed for PowerShell pipeline.
-    /// </summary>
-    public class PSWebJob
+    public interface IPSWebJob
     {
-        private WebJob _webJob;
+        string JobName { get; set; }
 
-        public PSWebJob(WebJob webJob)
-        {
-            _webJob = webJob;
-        }
+        WebJobType JobType { get; set; }
 
-        public PSWebJob()
-        {
-            _webJob = new WebJob();
-        }
+        string ExtraInfoUrl { get; set; }
 
-        public WebJobType JobType
+        string RunCommand { get; set; }
+
+        Uri Url { get; set; }
+
+        bool UsingSdk { get; set; }
+    }
+
+    public class PSWebJob<TWebJob> : IPSWebJob where TWebJob : WebJobBase
+    {
+        protected TWebJob WebJob { get; private set; }
+
+        protected PSWebJob(TWebJob webJob)
         {
-            get
-            {
-                return _webJob.Type;
-            }
-            set
-            {
-                _webJob.Type = value;
-            }
+            WebJob = webJob;
         }
 
         public string JobName
         {
             get
             {
-                return _webJob.Name;
+                return WebJob.Name;
             }
             set
             {
-                _webJob.Name = value;
+                WebJob.Name = value;
             }
         }
 
-        public string DetailedStatus
+        public WebJobType JobType
         {
             get
             {
-                return _webJob.DetailedStatus;
+                return WebJob.Type;
             }
             set
             {
-                _webJob.DetailedStatus = value;
+                WebJob.Type = value;
             }
         }
 
@@ -75,84 +69,42 @@ namespace Microsoft.WindowsAzure.Commands.Websites.WebJobs
         {
             get
             {
-                return _webJob.ExtraInfoUrl;
+                return WebJob.ExtraInfoUrl;
             }
             set
             {
-                _webJob.ExtraInfoUrl = value;
+                WebJob.ExtraInfoUrl = value;
             }
         }
 
-        public string HistoryUrl
+        public string RunCommand
         {
             get
             {
-                return _webJob.HistoryUrl;
+                return WebJob.RunCommand;
             }
             set
             {
-                _webJob.HistoryUrl = value;
+                WebJob.RunCommand = value;
             }
         }
 
-        public WebJobRun LatestRun
+        public Uri Url
         {
             get
             {
-                return _webJob.LatestRun;
+                return WebJob.Url;
             }
             set
             {
-                _webJob.LatestRun = value;
+                WebJob.Url = value;
             }
         }
 
-        public string LogUrl
+        public bool UsingSdk
         {
-            get
-            {
-                return _webJob.LogUrl;
-            }
-            set
-            {
-                _webJob.LogUrl = value;
-            }
-        }
-
-        public string RunCommand 
-        { 
-            get
-            {
-                return _webJob.RunCommand;
-            }
-            set
-            {
-                _webJob.RunCommand = value;
-            }
-        }
-
-        public string Status 
-        { 
-            get
-            {
-                return _webJob.Status;
-            }
-            set
-            {
-                _webJob.Status = value;
-            }
-        }
-
-        public Uri Url 
-        {
-            get
-            {
-                return _webJob.Url;
-            }
-            set
-            {
-                _webJob.Url = value;
-            }
+            get { return WebJob.UsingSdk; }
+            set { WebJob.UsingSdk = value; }
         }
     }
 }

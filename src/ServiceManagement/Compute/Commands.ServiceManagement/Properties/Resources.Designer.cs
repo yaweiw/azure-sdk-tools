@@ -9,6 +9,8 @@
 //------------------------------------------------------------------------------
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
+    using System;
+    
     
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
@@ -145,6 +147,42 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         public static string AzureVMCompletedOperation {
             get {
                 return ResourceManager.GetString("AzureVMCompletedOperation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot find configuration data file: {0}.
+        /// </summary>
+        public static string AzureVMDscCannotFindConfigurationDataFile {
+            get {
+                return ResourceManager.GetString("AzureVMDscCannotFindConfigurationDataFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The -ConfigurationFileName parameter must no include a path.
+        /// </summary>
+        public static string AzureVMDscConfigurationDataFileShouldNotIncludePath {
+            get {
+                return ResourceManager.GetString("AzureVMDscConfigurationDataFileShouldNotIncludePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The configuration data must be a .psd1 file.
+        /// </summary>
+        public static string AzureVMDscInvalidConfigurationDataFile {
+            get {
+                return ResourceManager.GetString("AzureVMDscInvalidConfigurationDataFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The storage context must include an storage account..
+        /// </summary>
+        public static string AzureVMDscStorageContextMustIncludeAccountName {
+            get {
+                return ResourceManager.GetString("AzureVMDscStorageContextMustIncludeAccountName", resourceCulture);
             }
         }
         
@@ -1054,6 +1092,35 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         public static string PSSyncOutputEventsUploading {
             get {
                 return ResourceManager.GetString("PSSyncOutputEventsUploading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid configuration file: {0}.
+        ///The file needs to be a PowerShell script (.ps1) or a MOF interface (.mof)..
+        /// </summary>
+        public static string PublishVMDscExtensionConfigFileInvalidExtension {
+            get {
+                return ResourceManager.GetString("PublishVMDscExtensionConfigFileInvalidExtension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot find configuration file: {0}..
+        /// </summary>
+        public static string PublishVMDscExtensionConfigFileNotFound {
+            get {
+                return ResourceManager.GetString("PublishVMDscExtensionConfigFileNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Configuration script &apos;{0}&apos; contained parse errors:
+        ///{1}.
+        /// </summary>
+        public static string PublishVMDscExtensionStorageParserErrors {
+            get {
+                return ResourceManager.GetString("PublishVMDscExtensionStorageParserErrors", resourceCulture);
             }
         }
         

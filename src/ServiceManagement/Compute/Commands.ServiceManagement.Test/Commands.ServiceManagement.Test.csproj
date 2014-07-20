@@ -173,6 +173,7 @@
     <Compile Include="FunctionalTests\ExtensionTests\AzureVMAccessExtensionTests.cs" />
     <Compile Include="FunctionalTests\ExtensionTests\AzureVMBGInfoExtensionTests.cs" />
     <Compile Include="FunctionalTests\ExtensionTests\CustomScriptExtensionTests.cs" />
+    <Compile Include="FunctionalTests\ExtensionTests\DscExtensionTests.cs" />
     <Compile Include="FunctionalTests\FunctionalTestCommonVhd.cs" />
     <Compile Include="FunctionalTests\FunctionalTestCommonVM.cs" />
     <Compile Include="FunctionalTests\GenericIaaSExtensionTests.cs" />
@@ -188,9 +189,12 @@
     <Compile Include="FunctionalTests\IaasCmdletInfo\Extesnions\CustomScript\RemoveAzureVMCustomScriptExtensionCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\Extesnions\CustomScript\SetAzureVMCustomScriptExtensionCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\Extesnions\CustomScript\SetAzureVMCustomScriptExtensionCmdletParmaterSetType.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\Extesnions\Dsc\GetAzureVMDscExtensionCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\Extesnions\Dsc\RemoveAzureVMDscExtensionCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\Extesnions\VMAccess\GetAzureVMAccessExtensionCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\Extesnions\VMAccess\RemoveAzureVMAccessExtensionCmdleteInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\Extesnions\VMAccess\SetAzureVMAccessExtensionCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\Extesnions\Dsc\SetAzureVMDscExtensionCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\Generic\GetAzureVMAvailableExtensionCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\Generic\GetAzureVMExtensionCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\Generic\GetAzureVMExtensionConfigTemplateCmdletInfo.cs" />
@@ -363,6 +367,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
+    <Compile Include="UnitTests\Cmdlets\IaaS\Extensions\VirtualMachineDscExtensionTests.cs" />
     <Compile Include="UnitTests\Cmdlets\IaaS\Extensions\VirtualMachineExtensionImageFactoryTests.cs" />
     <Compile Include="FunctionalTests\VMTemplateTests.cs" />
   </ItemGroup>
@@ -376,7 +381,11 @@
     <None Include="packages.config" />
     <None Include="Resources\affinityGroupData.csv" />
     <None Include="Resources\certificateData.csv" />
+    <None Include="Resources\DSC\Configurations\CorporateClientConfiguration.ps1" />
+    <None Include="Resources\DSC\Configurations\DomainControllerConfiguration.ps1" />
+    <None Include="Resources\DSC\Configurations\SHMulptiConfigurations.ps1" />
     <None Include="Resources\download_VHD.csv" />
+    <None Include="Resources\DSC\DscExtensionTestConfigurationData.psd1" />
     <None Include="Resources\HelloNoDiag.cscfg" />
     <None Include="Resources\HelloNoDiag.cspkg" />
     <None Include="Resources\nodiagpackage.csv" />
@@ -398,6 +407,7 @@
     <None Include="Resources\SampleAppV3.cscfg" />
     <None Include="Resources\StaticCAvnetconfig.netcfg" />
     <None Include="Resources\storageAccountTestData.csv" />
+    <None Include="Resources\DSC\DscExtensionTestConfiguration.ps1" />
     <None Include="Resources\test1.ps1" />
     <None Include="Resources\test2.ps1" />
     <None Include="Resources\thread_VHD.csv" />
@@ -430,6 +440,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\Commands.Common.Storage\Commands.Common.Storage.csproj">
+      <Project>{65c3a86a-716d-4e7d-ab67-1db00b3bf72d}</Project>
+      <Name>Commands.Common.Storage</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Commands.ServiceManagement.PlatformImageRepository\Commands.ServiceManagement.PlatformImageRepository.csproj">
       <Project>{6478fa8b-3801-4863-8591-87f0855d5c82}</Project>
       <Name>Commands.ServiceManagement.PlatformImageRepository</Name>
