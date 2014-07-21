@@ -22,6 +22,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using Utilities = Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntities;
+    using Models = Management.WebSites.Models;
 
     public interface IWebsitesClient
     {
@@ -212,8 +214,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="slot">Slot name</param>
         /// <param name="starTime">Start date of the requested period</param>
         /// <param name="endTime">End date of the requested period</param>
+        /// <param name="timeGrain">Time grains for the metrics.</param>
         /// <returns>The list of site metrics for the specified period.</returns>
-        IList<MetricResponse> GetHistoricalUsageMetrics(string siteName, string slot, IList<string> metricNames, DateTime? starTime, DateTime? endTime);
+        IList<MetricResponse> GetHistoricalUsageMetrics(string siteName, string slot, IList<string> metricNames, DateTime? starTime, DateTime? endTime, string timeGrain);
         
         /// <summary>
         /// Enables site diagnostic.
@@ -545,6 +548,38 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         bool CheckWebsiteNameAvailability(string name);
 
         WebsiteInstance[] ListWebsiteInstances(string webSpace, string fullName);
+
+        /// <summary>
+        /// Return web hosting plans in the subscription
+        /// </summary>
+        /// <returns>web hosting plans</returns>
+        List<Utilities.WebHostingPlan> ListWebHostingPlans();
+
+        /// <summary>
+        /// Return web hosting plans in the subscription
+        /// </summary>
+        /// <returns>web hosting plans</returns>
+        List<Utilities.WebHostingPlan> ListWebHostingPlans(string webspaceName);
+
+        /// <summary>
+        /// Get web hosting plan by name
+        /// </summary>
+        /// <param name="webSpaceName">web space name where plan belongs</param>
+        /// <param name="planName">web hosting plan name</param>
+        /// <returns>web hosting plan object</returns>
+        Utilities.WebHostingPlan GetWebHostingPlan(string webSpaceName, string planName);
+
+        /// <summary>
+        /// Get a list of historic metrics for the web hostin plan.
+        /// </summary>
+        /// <param name="webSpaceName">web space name where plan belongs</param>
+        /// <param name="planName">The web hosting plan name</param>
+        /// <param name="metricNames">List of metrics names to retrieve. See metric definitions for supported names</param>
+        /// <param name="starTime">Start date of the requested period</param>
+        /// <param name="endTime">End date of the requested period</param>
+        /// <param name="timeGrain">Time grains for the metrics.</param>
+        /// <returns>The list of site metrics for the specified period.</returns>
+        IList<MetricResponse> GetPlanHistoricalUsageMetrics(string webSpaceName, string planName, IList<string> metricNames, DateTime? starTime, DateTime? endTime, string timeGrain);
     }
 
     public enum WebsiteState

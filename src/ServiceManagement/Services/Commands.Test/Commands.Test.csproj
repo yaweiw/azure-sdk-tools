@@ -121,7 +121,7 @@
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.WebSites, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.WebSites.3.0.2-prerelease\lib\net40\Microsoft.WindowsAzure.Management.WebSites.dll</HintPath>
+      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.WebSites.3.0.3-prerelease\lib\net40\Microsoft.WindowsAzure.Management.WebSites.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.ServiceManagement.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
