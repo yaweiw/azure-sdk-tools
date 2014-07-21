@@ -15,6 +15,7 @@
 using Microsoft.Azure.Commands.Resources.Models;
 using Microsoft.Azure.Gallery;
 using System.Collections.Generic;
+using Microsoft.WindowsAzure.Commands.ScenarioTest;
 using Xunit;
 
 namespace Microsoft.Azure.Commands.Resources.Test.Models
@@ -22,6 +23,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
     public class ExtensionsTests
     {
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void ToPSGalleryItemCreatesANewItem()
         {
             var item = new GalleryItem()
@@ -48,6 +50,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
         }
 
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void ToPSGalleryItemCreatesANewItemWithNullDeploymentTemplates()
         {
             var item = new GalleryItem()

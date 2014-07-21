@@ -13,6 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 using Microsoft.Azure.Commands.Resources.Models;
+using Microsoft.WindowsAzure.Commands.ScenarioTest;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -42,6 +43,7 @@ namespace Microsoft.Azure.Commands.Resources.Test
         }
 
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void GetAzureResourceGroupLogOutputsProperties()
         {
             List<PSDeploymentEventData> result = new List<PSDeploymentEventData>();

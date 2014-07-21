@@ -15,6 +15,7 @@
 using Microsoft.Azure.Commands.Resources.Models;
 using Microsoft.Azure.Gallery;
 using Microsoft.Azure.Gallery.Models;
+using Microsoft.WindowsAzure.Commands.ScenarioTest;
 using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
 using Microsoft.WindowsAzure.Common.OData;
 using Moq;
@@ -51,6 +52,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
         }
 
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void ConstructsDynamicParameter()
         {
             string[] parameters = { "Name", "Location", "Mode" };
@@ -94,6 +96,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
         }
 
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void ResolvesDuplicatedDynamicParameterName()
         {
             string[] parameters = { "Name", "Location", "Mode" };
@@ -136,6 +139,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
         }
 
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void ResolvesDuplicatedDynamicParameterNameSubstring()
         {
             string[] parameters = { "Username", "Location", "Mode" };
@@ -178,6 +182,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
         }
 
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void ResolvesDuplicatedDynamicParameterNameCaseInsensitive()
         {
             string[] parameters = { "Name", "Location", "Mode" };
@@ -220,6 +225,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
         }
 
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void ConstructsDynamicParameterNoValidation()
         {
             string[] parameters = { "Name", "Location", "Mode" };
@@ -247,6 +253,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
         }
 
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void ConstructsDynamicParameterWithNullAllowedValues()
         {
             string[] parameters = { "Name", "Location", "Mode" };
@@ -298,6 +305,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
         }
 
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void GetTemplateParametersFromFileMergesObjects()
         {
             Hashtable hashtable = new Hashtable();
@@ -326,6 +334,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
         }
 
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void GetTemplateParametersFromFileWithSchema2MergesObjects()
         {
             Hashtable hashtable = new Hashtable();
@@ -354,6 +363,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
         }
 
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void HandlesInvalidTemplateFiles()
         {
             Hashtable hashtable = new Hashtable();
@@ -369,6 +379,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
         }
 
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void FiltersGalleryTemplates()
         {
             string filterString = FilterString.Generate<ItemListFilter>(f => f.Publisher == "Microsoft");
@@ -405,6 +416,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
         }
 
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void FiltersGalleryTemplatesUsingComplexQuery()
         {
             string filterString = "Publisher eq 'Microsoft' and CategoryIds/any(c: c eq 'awesome')";
@@ -441,6 +453,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
         }
 
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void DownloadsGalleryTemplateFile()
         {
             string galleryTemplateFileName = "myFile";
@@ -480,6 +493,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
         }
 
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void DownloadsGalleryTemplateFileFromDirectoryName()
         {
             string galleryTemplateFileName = "myFile";
@@ -519,6 +533,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
         }
 
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void DownloadsGalleryTemplateFileFromFileName()
         {
             string galleryTemplateFileName = "myFile.adeek";
@@ -558,6 +573,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
         }
 
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void ParseTemplateParameterFileContents_DeserializeWithCorrectType()
         {
             Dictionary<string, TemplateFileParameterV1> result =

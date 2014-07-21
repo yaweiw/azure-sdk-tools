@@ -14,6 +14,7 @@
 
 using Microsoft.Azure.Commands.Resources.Models;
 using System;
+using Microsoft.WindowsAzure.Commands.ScenarioTest;
 using Xunit;
 
 namespace Microsoft.Azure.Commands.Resources.Test.Models
@@ -21,6 +22,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
     public class ResourceIdentifierTests
     {
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void IdentifierIsConstructedFromProvidedValues()
         {
             ResourceIdentifier id = new ResourceIdentifier();
@@ -34,6 +36,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
         }
 
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void IdentifierIsConstructedWithoutParent()
         {
             ResourceIdentifier id = new ResourceIdentifier();
@@ -46,6 +49,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
         }
 
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void IdentifierIsConstructedWithMissingParameters()
         {
             ResourceIdentifier id = new ResourceIdentifier();
@@ -54,6 +58,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
         }
 
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void IdentifierIsParsedFromShortId()
         {
             ResourceIdentifier id = new ResourceIdentifier("/subscriptions/abc123/resourceGroups/group1/providers/Microsoft.Test/db/r45678db");
@@ -65,6 +70,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
         }
 
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void IdentifierIsParsedFromLongId()
         {
             ResourceIdentifier id = new ResourceIdentifier("/subscriptions/abc123/resourceGroups/group1/providers/Microsoft.Test/servers/r12345sql/db/r45678db");
@@ -76,6 +82,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
         }
 
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void IdentifierIsParsedFromVeryLongId()
         {
             ResourceIdentifier id = new ResourceIdentifier("/subscriptions/abc123/resourceGroups/group1/providers/Microsoft.Test/servers/r12345sql/subserver/r5555/db/r45678db");
@@ -87,12 +94,14 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
         }
 
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void IdentifierThrowsExceptionFromInvalidId()
         {
             Assert.Throws<ArgumentException>(()=> new ResourceIdentifier("/subscriptions/abc123/resourceGroups/group1"));
         }
 
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void IdentifierParsedIsSkippedWithEmptyId()
         {
             ResourceIdentifier id = new ResourceIdentifier(null);
