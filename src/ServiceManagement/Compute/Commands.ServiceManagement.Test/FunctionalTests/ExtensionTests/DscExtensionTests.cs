@@ -261,15 +261,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 Utilities.LogAssert(() => Assert.AreEqual(vmName, context.RoleName), "Verifiying RoleName");
 
                 var expectedContainer = (expected.ContainerName ?? DefaultContainerName) + "/";
-                var expectedConfigurationFileName = expected.ConfigurationArchive + ".zip";
                 Utilities.LogAssert(() => Assert.IsNotNull(context.ModulesUrl), "Verifiying ModulesUrl is not null");
                 var modulesUrl = new Uri(context.ModulesUrl);
                 Utilities.LogAssert(() => Assert.AreEqual(3, modulesUrl.Segments.Length), "Verifiying ModulesUrl is well formed");
                 Utilities.LogAssert(() => Assert.AreEqual(expectedContainer, modulesUrl.Segments[1]), "Verifiying the container in ModulesUrl");
-                Utilities.LogAssert(() => Assert.AreEqual(expectedConfigurationFileName, modulesUrl.Segments[2]),    "Verifiying the configuration in ModulesUrl");
+                Utilities.LogAssert(() => Assert.AreEqual(expected.ConfigurationArchive, modulesUrl.Segments[2]), "Verifiying the configuration in ModulesUrl");
 
                 var expectedConfigurationName = expected.ConfigurationName ?? Path.GetFileNameWithoutExtension(expected.ConfigurationArchive);
-                var expectedConfigurationFunction = expected.ConfigurationArchive + "\\" + expectedConfigurationName;
+                var expectedConfigurationFunction = Path.GetFileNameWithoutExtension(expected.ConfigurationArchive) + "\\" + expectedConfigurationName;
                 Utilities.LogAssert(() => Assert.AreEqual(expectedConfigurationFunction, context.ConfigurationFunction), "Verifiying the configuration in ModulesUrl");
 
                 if (expected.ConfigurationArgument == null)
