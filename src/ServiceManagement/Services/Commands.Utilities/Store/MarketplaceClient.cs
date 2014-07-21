@@ -39,7 +39,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Store
         }
 
         /// <summary>
-        /// Gets available Windows Azure offers from the Marketplace.
+        /// Gets available Microsoft Azure offers from the Marketplace.
         /// </summary>
         /// <param name="countryCode">The country two character code. Uses 'US' by default </param>
         /// <returns>The list of offers</returns>

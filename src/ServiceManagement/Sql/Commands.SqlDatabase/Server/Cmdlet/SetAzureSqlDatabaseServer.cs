@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
     using System.Management.Automation;
 
     /// <summary>
-    /// Update settings for an existing Windows Azure SQL Database server in the selected subscription.
+    /// Update settings for an existing Microsoft Azure SQL Database server in the selected subscription.
     /// </summary>
     [Cmdlet(VerbsCommon.Set, "AzureSqlDatabaseServer", SupportsShouldProcess = true,
         ConfirmImpact = ConfirmImpact.Medium)]

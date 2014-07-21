@@ -152,7 +152,7 @@ packages/
 # (and the packages folder if the line above has been uncommented)
 !packages/build/
 
-# Windows Azure Build Output
+# Microsoft Azure Build Output
 csx/
 *.build.csdef
 

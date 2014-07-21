@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
     using System.Security.Permissions;
     using Utilities.Common;
     /// <summary>
-    /// Sets a Windows Azure environment.
+    /// Sets a Microsoft Azure environment.
     /// </summary>
     [Cmdlet(VerbsCommon.Set, "AzureEnvironment"), OutputType(typeof(WindowsAzureEnvironment))]
     public class SetAzureEnvironmentCommand : CmdletBase

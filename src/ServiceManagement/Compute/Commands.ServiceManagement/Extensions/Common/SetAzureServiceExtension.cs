@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     using Utilities.Common;
 
     /// <summary>
-    /// Set Windows Azure Service Extension.
+    /// Set Microsoft Azure Service Extension.
     /// </summary>
     [Cmdlet(VerbsCommon.Set, "AzureServiceExtension", DefaultParameterSetName = "SetExtension"), OutputType(typeof(ManagementOperationContext))]
     public class SetAzureServiceExtensionCommand : BaseAzureServiceExtensionCmdlet
