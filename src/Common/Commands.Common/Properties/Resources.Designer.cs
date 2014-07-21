@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Common.Properties
-{
-
-
+namespace Microsoft.WindowsAzure.Commands.Common.Properties {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -160,7 +160,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Role has been created at {0}\{1}. For easy access to Windows Azure services from your application code, install the Windows Azure client library for Node.js by running ‘npm install azure’..
+        ///   Looks up a localized string similar to Role has been created at {0}\{1}. For easy access to Microsoft Azure services from your application code, install the Microsoft Azure client library for Node.js by running ‘npm install azure’..
         /// </summary>
         public static string AddRoleMessageCreateNode {
             get {
@@ -169,7 +169,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Role has been created at {0}\{1}. For easy access to Windows Azure services from your application code, install the Windows Azure client library for PHP by running &quot;pear WindowsAzure/WindowsAzure&quot;..
+        ///   Looks up a localized string similar to Role has been created at {0}\{1}. For easy access to Microsoft Azure services from your application code, install the Microsoft Azure client library for PHP by running &quot;pear WindowsAzure/WindowsAzure&quot;..
         /// </summary>
         public static string AddRoleMessageCreatePHP {
             get {
@@ -178,7 +178,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Role has been created at {0}\{1}. For easy access to Windows Azure services from your application code, install the Windows Azure client library for Python by running &quot;pip windowsazure&quot;..
+        ///   Looks up a localized string similar to Role has been created at {0}\{1}. For easy access to Microsoft Azure services from your application code, install the Microsoft Azure client library for Python by running &quot;pip windowsazure&quot;..
         /// </summary>
         public static string AddRoleMessageCreatePython {
             get {
@@ -214,7 +214,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Windows Azure Powershell\.
+        ///   Looks up a localized string similar to Azure Powershell\.
         /// </summary>
         public static string AzureDirectory {
             get {
@@ -223,7 +223,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Windows Azure Powershell.
+        ///   Looks up a localized string similar to Azure Powershell.
         /// </summary>
         public static string AzureDirectoryName {
             get {
@@ -250,7 +250,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Windows Azure Emulator\emulator.
+        ///   Looks up a localized string similar to Azure Emulator\emulator.
         /// </summary>
         public static string AzureEmulatorPathPortion {
             get {
@@ -296,7 +296,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Windows Azure SDK\{0}\.
+        ///   Looks up a localized string similar to Azure SDK\{0}\.
         /// </summary>
         public static string AzureSdkDirectory {
             get {
@@ -305,7 +305,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Windows Azure SDK Deployment Cmdlets.
+        ///   Looks up a localized string similar to Azure SDK Deployment Cmdlets.
         /// </summary>
         public static string AzureSdkDirectoryName {
             get {
@@ -341,7 +341,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Azure Authoring Tools are not installed and are required.
+        ///   Looks up a localized string similar to Azure Authoring Tools are not installed and are required. Installation of Azure SDK for .NET is recommended with Microsoft Web Platform Installer (PI) available at http://www.microsoft.com/web/downloads/platform.aspx..
         /// </summary>
         public static string AzureToolsNotInstalledMessage {
             get {
@@ -422,7 +422,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties
         ///    &lt;dataCacheClient name=&quot;DefaultShimConfig&quot; useLegacyProtocol=&quot;false&quot;&gt;
         ///      &lt;autoDiscover isEnabled=&quot;true&quot; identifier=&quot;$RoleName$&quot; /&gt;
         ///    &lt;/dataCacheClient&gt;
-        ///  &lt;/dataCacheCl [rest of string was truncated]&quot;;.
+        ///  &lt;/da [rest of string was truncated]&quot;;.
         /// </summary>
         public static string CacheAutoDiscoveryConfig {
             get {
@@ -566,7 +566,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Can&apos;t find valid Windows Azure role in current directory {0}.
+        ///   Looks up a localized string similar to Can&apos;t find valid Microsoft Azure role in current directory {0}.
         /// </summary>
         public static string CannotFindRole {
             get {
@@ -818,7 +818,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New-PasswordEncryptionCertificate -FriendlyName &quot;Windows Azure Certificate&quot;.
+        ///   Looks up a localized string similar to New-PasswordEncryptionCertificate -FriendlyName &quot;Microsoft Azure Certificate&quot;.
         /// </summary>
         public static string CsEncryptCreateCertificateArg {
             get {
@@ -1179,7 +1179,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Windows Azure Certificate.
+        ///   Looks up a localized string similar to Microsoft Azure Certificate.
         /// </summary>
         public static string EnableRemoteDesktop_FriendlyCertificateName {
             get {
@@ -1269,7 +1269,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your Windows Azure credential in the Windows PowerShell session has expired. Please use Add-AzureAccount to login again..
+        ///   Looks up a localized string similar to Your Microsoft Azure credential in the Windows PowerShell session has expired. Please use Add-AzureAccount to login again..
         /// </summary>
         public static string ExpiredRefreshToken {
             get {
@@ -1296,7 +1296,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This add-on requires you to purchase the first instance through the Windows Azure Portal. Subsequent purchases can be performed through PowerShell..
+        ///   Looks up a localized string similar to This add-on requires you to purchase the first instance through the Microsoft Azure Portal. Subsequent purchases can be performed through PowerShell..
         /// </summary>
         public static string FirstPurchaseMessage {
             get {
@@ -1323,7 +1323,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Getting all available Windows Azure Add-Ons, this may take few minutes....
+        ///   Looks up a localized string similar to Getting all available Microsoft Azure Add-Ons, this may take few minutes....
         /// </summary>
         public static string GetAllAddOnsWaitMessage {
             get {
@@ -1584,7 +1584,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You must create your git publishing credentials using the Windows Azure portal.
+        ///   Looks up a localized string similar to You must create your git publishing credentials using the Microsoft Azure portal.
         ///Please follow these steps in the portal:
         ///1. On the left side open &quot;Web Sites&quot;
         ///2. Click on any website
@@ -2261,7 +2261,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Microsoft SDKs\Windows Azure\Nodejs\Nov2011.
+        ///   Looks up a localized string similar to Microsoft SDKs\Azure\Nodejs\Nov2011.
         /// </summary>
         public static string NodeModulesPath {
             get {
@@ -2554,7 +2554,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You must create your first web site using the Windows Azure portal.
+        ///   Looks up a localized string similar to You must create your first web site using the Microsoft Azure portal.
         ///Please follow these steps in the portal:
         ///1. At the bottom of the page, click on New &gt; Web Site &gt; Quick Create
         ///2. Type {0} in the URL field
@@ -2713,7 +2713,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Publishing {0} to Windows Azure. This may take several minutes....
+        ///   Looks up a localized string similar to Publishing {0} to Microsoft Azure. This may take several minutes....
         /// </summary>
         public static string PublishServiceStartMessage {
             get {
@@ -2884,7 +2884,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to If you delete this add-on, your data may be deleted and the operation may not be undone.  You may have to purchase it again from the Windows Azure Store to use it. The price of the add-on  may not be refunded. Are you sure you want to delete this add-on? Enter “Yes” to confirm..
+        ///   Looks up a localized string similar to If you delete this add-on, your data may be deleted and the operation may not be undone.  You may have to purchase it again from the Microsoft Azure Store to use it. The price of the add-on  may not be refunded. Are you sure you want to delete this add-on? Enter “Yes” to confirm..
         /// </summary>
         public static string RemoveAddOnMessage {
             get {
@@ -3010,7 +3010,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The current subscription is being removed. Use Select-Subscription &lt;subscriptionName&gt; to select a new current subscription..
+        ///   Looks up a localized string similar to The current subscription is being removed. Use Select-AzureSubscription &lt;subscriptionName&gt; to select a new current subscription..
         /// </summary>
         public static string RemoveCurrentSubscription {
             get {
@@ -3019,7 +3019,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The default subscription is being removed. Use Select-Subscription &lt;subscriptionName&gt; to select a new default subscription..
+        ///   Looks up a localized string similar to The default subscription is being removed. Use Select-AzureSubscription -Default &lt;subscriptionName&gt; to select a new default subscription..
         /// </summary>
         public static string RemoveDefaultSubscription {
             get {

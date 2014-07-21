@@ -72,7 +72,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Store
                     ProviderId = new Guid("f8ede0df-591f-4722-b646-e5eb86f0ae52") },
                 new Offer() { ProviderIdentifier = "NotExistingCompany", OfferIdentifier = "Not Existing Name",
                     ProviderId = new Guid("723138c2-0676-4bf6-80d4-0af31479dac4")},
-                new Offer() { ProviderIdentifier = "OneSDKCompany", OfferIdentifier = "Windows Azure PowerShell",
+                new Offer() { ProviderIdentifier = "OneSDKCompany", OfferIdentifier = "Microsoft Azure PowerShell",
                     ProviderId = new Guid("1441f7f7-33a1-4dcf-aeea-8ed8bc1b2e3d") }
             };
             List<WindowsAzureOffer> expectedWindowsAzureOffers = new List<WindowsAzureOffer>();

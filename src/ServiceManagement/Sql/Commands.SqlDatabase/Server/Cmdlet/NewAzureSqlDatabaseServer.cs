@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
     using System.Management.Automation;
 
     /// <summary>
-    /// Creates a new Windows Azure SQL Database server in the selected subscription.
+    /// Creates a new Microsoft Azure SQL Database server in the selected subscription.
     /// </summary>
     [Cmdlet(VerbsCommon.New, "AzureSqlDatabaseServer", SupportsShouldProcess = true,
         ConfirmImpact = ConfirmImpact.Low)]

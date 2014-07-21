@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
     using Utilities.Common;
 
     /// <summary>
-    /// Gets the available Windows Azure environments.
+    /// Gets the available Microsoft Azure environments.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureEnvironment"), OutputType(typeof(List<WindowsAzureEnvironment>), typeof(WindowsAzureEnvironment))]
     public class GetAzureEnvironmentCommand : CmdletBase

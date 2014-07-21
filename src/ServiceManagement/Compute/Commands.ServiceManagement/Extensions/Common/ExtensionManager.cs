@@ -28,7 +28,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         public const int ExtensionIdLiveCycleCount = 2;
         private const string ExtensionIdTemplate = "{0}-{1}-{2}-Ext-{3}";
         private const string DefaultAllRolesNameStr = "Default";
-        private const string ExtensionCertificateSubject = "DC=Windows Azure Service Management for Extensions";
+        private const string ExtensionCertificateSubject = "DC=Microsoft Azure Service Management for Extensions";
         private const string ThumbprintAlgorithmStr = "sha1";
         private const string ExtensionDefaultVersion = "1.*";
 
