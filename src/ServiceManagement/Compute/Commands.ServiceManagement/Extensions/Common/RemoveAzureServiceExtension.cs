@@ -21,19 +21,19 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     /// <summary>
     /// Remove Windows Azure Service Extension.
     /// </summary>
-    [Cmdlet(VerbsCommon.Remove, "AzureServiceExtension", DefaultParameterSetName = "RemoveByRoles"), OutputType(typeof(ManagementOperationContext))]
+    [Cmdlet(VerbsCommon.Remove, "AzureServiceExtension", DefaultParameterSetName = RemoveByRolesParameterSet), OutputType(typeof(ManagementOperationContext))]
     public class RemoveAzureServiceExtensionCommand : BaseAzureServiceExtensionCmdlet
     {
-        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, ParameterSetName = "RemoveByRoles", HelpMessage = "Cloud Service Name")]
-        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, ParameterSetName = "RemoveAll", HelpMessage = "Cloud Service Name")]
+        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, ParameterSetName = RemoveByRolesParameterSet, HelpMessage = ExtensionParameterPropertyHelper.ServiceNameHelpMessage)]
+        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, ParameterSetName = RemoveAllRolesParameterSet, HelpMessage = ExtensionParameterPropertyHelper.ServiceNameHelpMessage)]
         public override string ServiceName
         {
             get;
             set;
         }
 
-        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, ParameterSetName = "RemoveByRoles", HelpMessage = "Deployment Slot: Production (default) or Staging.")]
-        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, ParameterSetName = "RemoveAll", HelpMessage = "Deployment Slot: Production (default) or Staging.")]
+        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, ParameterSetName = RemoveByRolesParameterSet, HelpMessage = ExtensionParameterPropertyHelper.SlotHelpMessage)]
+        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, ParameterSetName = RemoveAllRolesParameterSet, HelpMessage = ExtensionParameterPropertyHelper.SlotHelpMessage)]
         [ValidateSet(DeploymentSlotType.Production, DeploymentSlotType.Staging, IgnoreCase = true)]
         public override string Slot
         {
@@ -41,15 +41,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 2, ValueFromPipelineByPropertyName = true, ParameterSetName = "RemoveByRoles", HelpMessage = "Default All Roles, or specify ones for Named Roles.")]
+        [Parameter(Position = 2, ValueFromPipelineByPropertyName = true, ParameterSetName = RemoveByRolesParameterSet, HelpMessage = ExtensionParameterPropertyHelper.RoleHelpMessage)]
         public override string[] Role
         {
             get;
             set;
         }
 
-        [Parameter(Position = 3, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = "RemoveByRoles", HelpMessage = "Extension Name")]
-        [Parameter(Position = 2, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = "RemoveAll", HelpMessage = "Extension Name")]
+        [Parameter(Position = 3, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = RemoveByRolesParameterSet, HelpMessage = ExtensionParameterPropertyHelper.ExtensionNameHelpMessage)]
+        [Parameter(Position = 2, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = RemoveAllRolesParameterSet, HelpMessage = ExtensionParameterPropertyHelper.ExtensionNameHelpMessage)]
         [ValidateNotNullOrEmptyAttribute]
         public override string ExtensionName
         {
@@ -57,8 +57,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 4, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = "RemoveByRoles", HelpMessage = "Extension Provider Namespace")]
-        [Parameter(Position = 3, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = "RemoveAll", HelpMessage = "Extension Provider Namespace")]
+        [Parameter(Position = 4, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = RemoveByRolesParameterSet, HelpMessage = ExtensionParameterPropertyHelper.ProviderNamespaceHelpMessage)]
+        [Parameter(Position = 3, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = RemoveAllRolesParameterSet, HelpMessage = ExtensionParameterPropertyHelper.ProviderNamespaceHelpMessage)]
         [ValidateNotNullOrEmptyAttribute]
         public override string ProviderNamespace
         {
@@ -66,7 +66,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 4, Mandatory = true, ParameterSetName = "RemoveAll", HelpMessage = "If specified uninstall all Diagnostics configurations from the cloud service.")]
+        [Parameter(Position = 4, Mandatory = true, ParameterSetName = RemoveAllRolesParameterSet, HelpMessage = ExtensionParameterPropertyHelper.UninstallConfigurationHelpMessage)]
         public override SwitchParameter UninstallConfiguration
         {
             get;

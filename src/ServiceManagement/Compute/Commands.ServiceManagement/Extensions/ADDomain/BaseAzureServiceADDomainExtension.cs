@@ -180,7 +180,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
                 JoinOption = config.Options,
                 User = config.User,
                 UnjoinDomainUser = config.UnjoinDomainUser,
-                Restart = config.Restart
+                Restart = config.Restart,
+                Version = ext.Version
             };
         }
     }

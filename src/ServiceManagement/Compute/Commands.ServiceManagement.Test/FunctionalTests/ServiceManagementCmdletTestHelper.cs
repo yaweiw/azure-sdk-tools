@@ -1043,35 +1043,47 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         #region AzureServiceRemoteDesktopExtension
 
         // New-AzureServiceRemoteDesktopExtensionConfig
-        public ExtensionConfigurationInput NewAzureServiceRemoteDesktopExtensionConfig(PSCredential cred, DateTime? exp = null, string[] roles = null)
+        public ExtensionConfigurationInput NewAzureServiceRemoteDesktopExtensionConfig
+            (PSCredential cred, DateTime? exp = null, string[] roles = null, string version  = null)
         {
-            return RunPSCmdletAndReturnFirst<ExtensionConfigurationInput>(new NewAzureServiceRemoteDesktopExtensionConfigCmdletInfo(cred, exp, roles));
+            return RunPSCmdletAndReturnFirst<ExtensionConfigurationInput>
+                (new NewAzureServiceRemoteDesktopExtensionConfigCmdletInfo(cred, exp, roles, version));
         }
 
-        public ExtensionConfigurationInput NewAzureServiceRemoteDesktopExtensionConfig(PSCredential cred, X509Certificate2 cert, string alg = null, DateTime? exp = null, string[] roles = null)
+        public ExtensionConfigurationInput NewAzureServiceRemoteDesktopExtensionConfig
+            (PSCredential cred, X509Certificate2 cert, string alg = null, DateTime? exp = null, string[] roles = null, string version = null)
         {
-            return RunPSCmdletAndReturnFirst<ExtensionConfigurationInput>(new NewAzureServiceRemoteDesktopExtensionConfigCmdletInfo(cred, cert, alg, exp, roles));
+            return RunPSCmdletAndReturnFirst<ExtensionConfigurationInput>
+                (new NewAzureServiceRemoteDesktopExtensionConfigCmdletInfo(cred, cert, alg, exp, roles, version));
         }
 
-        public ExtensionConfigurationInput NewAzureServiceRemoteDesktopExtensionConfig(PSCredential cred, string thumbprint, string algorithm = null, DateTime? exp = null, string[] roles = null)
+        public ExtensionConfigurationInput NewAzureServiceRemoteDesktopExtensionConfig
+            (PSCredential cred, string thumbprint, string algorithm = null, DateTime? exp = null, string[] roles = null, string version = null)
         {
-            return RunPSCmdletAndReturnFirst<ExtensionConfigurationInput>(new NewAzureServiceRemoteDesktopExtensionConfigCmdletInfo(cred, thumbprint, algorithm, exp, roles));
+            return RunPSCmdletAndReturnFirst<ExtensionConfigurationInput>
+                (new NewAzureServiceRemoteDesktopExtensionConfigCmdletInfo(cred, thumbprint, algorithm, exp, roles, version));
         }
 
         // Set-AzureServiceRemoteDesktopExtension
-        public ManagementOperationContext SetAzureServiceRemoteDesktopExtension(string serviceName, PSCredential cred, DateTime? exp = null, string[] roles = null, string slot = null)
+        public ManagementOperationContext SetAzureServiceRemoteDesktopExtension
+            (string serviceName, PSCredential cred, DateTime? exp = null, string[] roles = null, string slot = null, string version = null)
         {
-            return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new SetAzureServiceRemoteDesktopExtensionCmdletInfo(serviceName, cred, exp, roles, slot));
+            return RunPSCmdletAndReturnFirst<ManagementOperationContext>
+                (new SetAzureServiceRemoteDesktopExtensionCmdletInfo(serviceName, cred, exp, roles, slot, version));
         }
 
-        public ManagementOperationContext SetAzureServiceRemoteDesktopExtension(string serviceName, PSCredential credential, X509Certificate2 cert, DateTime? expiration = null, string[] roles = null, string slot = null)
+        public ManagementOperationContext SetAzureServiceRemoteDesktopExtension
+            (string serviceName, PSCredential credential, X509Certificate2 cert, DateTime? expiration = null, string[] roles = null, string slot = null, string version = null)
         {
-            return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new SetAzureServiceRemoteDesktopExtensionCmdletInfo(serviceName, credential, cert, expiration, roles, slot));
+            return RunPSCmdletAndReturnFirst<ManagementOperationContext>
+                (new SetAzureServiceRemoteDesktopExtensionCmdletInfo(serviceName, credential, cert, expiration, roles, slot, version));
         }
 
-        public ManagementOperationContext SetAzureServiceRemoteDesktopExtension(string serviceName, PSCredential credential, string thumbprint, string algorithm = null, DateTime? expiration = null, string[] roles = null, string slot = null)
+        public ManagementOperationContext SetAzureServiceRemoteDesktopExtension
+            (string serviceName, PSCredential credential, string thumbprint, string algorithm = null, DateTime? expiration = null, string[] roles = null, string slot = null, string version = null)
         {
-            return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new SetAzureServiceRemoteDesktopExtensionCmdletInfo(serviceName, credential, thumbprint, algorithm, expiration, roles, slot));
+            return RunPSCmdletAndReturnFirst<ManagementOperationContext>
+                (new SetAzureServiceRemoteDesktopExtensionCmdletInfo(serviceName, credential, thumbprint, algorithm, expiration, roles, slot, version));
         }
 
         // Get-AzureServiceRemoteDesktopExtension
@@ -1094,57 +1106,57 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
         // New-AzureServiceExtensionConfig
         public ExtensionConfigurationInput NewAzureServiceExtensionConfig(string extensionName, string providerNamespace,
-            string publicConfig, string privateConfig, string[] roles = null)
+            string publicConfig, string privateConfig, string[] roles = null, string version = null)
         {
             return
                 RunPSCmdletAndReturnFirst<ExtensionConfigurationInput>(
                     new NewAzureServiceExtensionConfigCmdletInfo(roles, extensionName, providerNamespace,
-                        publicConfig, privateConfig));
+                        publicConfig, privateConfig, version));
         }
 
         public ExtensionConfigurationInput NewAzureServiceExtensionConfig(string extensionName, string providerNamespace,
-            string publicConfig, string privateConfig, X509Certificate2 cert, string alg = null, string[] roles = null)
+            string publicConfig, string privateConfig, X509Certificate2 cert, string alg = null, string[] roles = null, string version = null)
         {
             return
                 RunPSCmdletAndReturnFirst<ExtensionConfigurationInput>(new NewAzureServiceExtensionConfigCmdletInfo(
-                    cert, alg, roles, extensionName, providerNamespace, publicConfig, privateConfig));
+                    cert, alg, roles, extensionName, providerNamespace, publicConfig, privateConfig, version));
         }
 
         public ExtensionConfigurationInput NewAzureServiceExtensionConfig(string extensionName, string providerNamespace,
-            string publicConfig, string privateConfig, string thumbprint, string algorithm = null, string[] roles = null)
+            string publicConfig, string privateConfig, string thumbprint, string algorithm = null, string[] roles = null, string version = null)
         {
             return
                 RunPSCmdletAndReturnFirst<ExtensionConfigurationInput>(
                     new NewAzureServiceExtensionConfigCmdletInfo(thumbprint, algorithm, roles, extensionName,
-                        providerNamespace, publicConfig, privateConfig));
+                        providerNamespace, publicConfig, privateConfig, version));
         }
 
         // Set-AzureServiceExtension
         public ManagementOperationContext SetAzureServiceExtension(string serviceName, string extensionName,
-            string providerNamespace, string publicConfig, string privateConfig, string[] roles = null, string slot = null)
+            string providerNamespace, string publicConfig, string privateConfig, string[] roles = null, string slot = null, string version = null)
         {
             return
                 RunPSCmdletAndReturnFirst<ManagementOperationContext>(
                     new SetAzureServiceExtensionCmdletInfo(serviceName, roles, slot, extensionName, providerNamespace,
-                        publicConfig, privateConfig));
+                        publicConfig, privateConfig, version));
         }
 
         public ManagementOperationContext SetAzureServiceExtension(string serviceName, string extensionName,
-            string providerNamespace, string publicConfig, string privateConfig, X509Certificate2 cert, string[] roles = null, string slot = null)
+            string providerNamespace, string publicConfig, string privateConfig, X509Certificate2 cert, string[] roles = null, string slot = null, string version = null)
         {
             return
                 RunPSCmdletAndReturnFirst<ManagementOperationContext>(
                     new SetAzureServiceExtensionCmdletInfo(serviceName, cert, roles, slot, extensionName,
-                        providerNamespace, publicConfig, privateConfig));
+                        providerNamespace, publicConfig, privateConfig, version));
         }
 
         public ManagementOperationContext SetAzureServiceExtension(string serviceName, string extensionName,
-            string providerNamespace, string publicConfig, string privateConfig, string thumbprint, string algorithm = null, string[] roles = null, string slot = null)
+            string providerNamespace, string publicConfig, string privateConfig, string thumbprint, string algorithm = null, string[] roles = null, string slot = null, string version = null)
         {
             return
                 RunPSCmdletAndReturnFirst<ManagementOperationContext>(
                     new SetAzureServiceExtensionCmdletInfo(serviceName, thumbprint, algorithm, roles, slot,
-                        extensionName, providerNamespace, publicConfig, privateConfig));
+                        extensionName, providerNamespace, publicConfig, privateConfig, version));
         }
 
         // Get-AzureServiceExtension
@@ -1593,52 +1605,52 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
         #region AzureServiceDomainJoinExtension
 
-        #region NewAzureServiceDiagnosticsExtensionConfig
+        #region NewAzureServiceDomainJoinExtensionConfig
 
         // WorkgroupThumbprintParameterSet
         public ExtensionConfigurationInput NewAzureServiceDomainJoinExtensionConfig(string workGroupName,
             string certificateThumbprint, string[] role, bool restart, string thumbprintAlgorithm,
-            PSCredential credential = null)
+            PSCredential credential = null, string version = null)
         {
             return
                 RunPSCmdletAndReturnFirst<ExtensionConfigurationInput>(
                     new NewAzureServiceDomainJoinExtensionConfigCmdletInfo(workGroupName, certificateThumbprint, role,
-                        thumbprintAlgorithm, restart, credential));
+                        thumbprintAlgorithm, restart, credential, version));
         }
 
         // WorkgroupParameterSet
         public ExtensionConfigurationInput NewAzureServiceDomainJoinExtensionConfig(string workGroupName,
             X509Certificate2 x509Certificate, bool restart = true, string thumbprintAlgorithm = null,
-            string[] role = null, PSCredential credential = null)
+            string[] role = null, PSCredential credential = null, string version = null)
         {
             return
                 RunPSCmdletAndReturnFirst<ExtensionConfigurationInput>(
                     new NewAzureServiceDomainJoinExtensionConfigCmdletInfo(workGroupName, x509Certificate, role,
-                        thumbprintAlgorithm, restart, credential));
+                        thumbprintAlgorithm, restart, credential, version));
         }
 
         // DomainParameterSet
         public ExtensionConfigurationInput NewAzureServiceDomainJoinExtensionConfig(string domainName,
             X509Certificate2 x509Certificate, JoinOptions? options = null, string oUPath = null,
             PSCredential unjoinDomainCredential = null, string[] role = null, string thumbprintAlgorithm = null,
-            bool restart = true, PSCredential credential = null)
+            bool restart = true, PSCredential credential = null, string version = null)
         {
             return
                 RunPSCmdletAndReturnFirst<ExtensionConfigurationInput>(
                     new NewAzureServiceDomainJoinExtensionConfigCmdletInfo(domainName, x509Certificate, options, oUPath,
-                        unjoinDomainCredential, role, thumbprintAlgorithm, restart, credential));
+                        unjoinDomainCredential, role, thumbprintAlgorithm, restart, credential, version));
         }
 
         // DomainJoinOptionThumbprintParameterSet
         public ExtensionConfigurationInput NewAzureServiceDomainJoinExtensionConfig(string domainName,
             string certificateThumbprint, string oUPath = null, PSCredential unjoinDomainCredential = null,
             string[] role = null, string thumbprintAlgorithm = null, uint? joinOption = null, bool restart = true,
-            PSCredential credential = null)
+            PSCredential credential = null, string version = null)
         {
             return
                 RunPSCmdletAndReturnFirst<ExtensionConfigurationInput>(
                     new NewAzureServiceDomainJoinExtensionConfigCmdletInfo(domainName, certificateThumbprint, joinOption,
-                        oUPath, unjoinDomainCredential, role, thumbprintAlgorithm, restart, credential));
+                        oUPath, unjoinDomainCredential, role, thumbprintAlgorithm, restart, credential, version));
         }
 
         #endregion NewAzureServiceDiagnosticsExtensionConfig
@@ -1650,10 +1662,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             (string workGroupName,
                 string serviceName,  string slot = DeploymentSlotType.Production, string[] role = null,
                 X509Certificate2 x509Certificate = null, bool restart = true, string thumbprintAlgorithm = null,
-                 PSCredential credential = null)
+                 PSCredential credential = null, string version = null)
         {
-            return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new SetAzureServiceDomainJoinExtensionCmdletInfo(workGroupName, x509Certificate,
-            role, slot, serviceName,restart, thumbprintAlgorithm, credential));
+            return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new SetAzureServiceDomainJoinExtensionCmdletInfo(
+                workGroupName, x509Certificate, role, slot, serviceName,restart, thumbprintAlgorithm, credential, version));
         }
 
         // WorkgroupThumbprintParameterSet
@@ -1661,12 +1673,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             (string workGroupName,
                 string serviceName,  string slot, string[] role,
                 string certificateThumbprint, string thumbprintAlgorithm = null,
-                bool restart = true, PSCredential credential = null)
+                bool restart = true, PSCredential credential = null, string version = null)
         {
             return
                 RunPSCmdletAndReturnFirst<ManagementOperationContext>(
                     new SetAzureServiceDomainJoinExtensionCmdletInfo(workGroupName, certificateThumbprint, role, slot,
-                        serviceName, thumbprintAlgorithm, restart, credential));
+                        serviceName, thumbprintAlgorithm, restart, credential, version));
         }
 
         // DomainJoinOptionThumprintParameterSet
@@ -1674,13 +1686,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             (string domainName, PSCredential credential, uint joinOption, bool restart,
             string serviceName, string slot, string[] role,
             string certificateThumbprint, string thumbprintAlgorithm = null,
-                PSCredential unjoinDomainCredential = null, string oUPath = null)
+                PSCredential unjoinDomainCredential = null, string oUPath = null, string version = null)
         {
             return
                 RunPSCmdletAndReturnFirst<ManagementOperationContext>(
                     new SetAzureServiceDomainJoinExtensionCmdletInfo(domainName, certificateThumbprint, joinOption,
                         unjoinDomainCredential,
-                        role, slot, serviceName, thumbprintAlgorithm, restart, credential, oUPath));
+                        role, slot, serviceName, thumbprintAlgorithm, restart, credential, oUPath, version));
         }
 
         // DomainThumprintParameterSet
@@ -1688,13 +1700,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             (string domainName, PSCredential credential, JoinOptions? options, bool restart,
             string serviceName, string slot, string[] role,
             string certificateThumbprint, string thumbprintAlgorithm = null,
-                PSCredential unjoinDomainCredential = null, string oUPath = null)
+                PSCredential unjoinDomainCredential = null, string oUPath = null, string version = null)
         {
             return
                 RunPSCmdletAndReturnFirst<ManagementOperationContext>(
                     new SetAzureServiceDomainJoinExtensionCmdletInfo(domainName, certificateThumbprint, options,
                         unjoinDomainCredential,
-                        role, slot, serviceName, thumbprintAlgorithm, restart, credential, oUPath));
+                        role, slot, serviceName, thumbprintAlgorithm, restart, credential, oUPath, version));
         }
 
         // DomainParameterSet
@@ -1702,13 +1714,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             (string domainName, PSCredential credential, JoinOptions? options, bool restart,
                 string serviceName, string slot, string[] role,
                 X509Certificate2 x509Certificate = null, string thumbprintAlgorithm = null,
-                PSCredential unjoinDomainCredential = null, string oUPath = null)
+                PSCredential unjoinDomainCredential = null, string oUPath = null, string version = null)
         {
             return
                 RunPSCmdletAndReturnFirst<ManagementOperationContext>(
                     new SetAzureServiceDomainJoinExtensionCmdletInfo(domainName, x509Certificate, options,
                         unjoinDomainCredential,
-                        role, slot, serviceName, thumbprintAlgorithm, restart, credential, oUPath));
+                        role, slot, serviceName, thumbprintAlgorithm, restart, credential, oUPath, version));
         }
 
         // DomainJoinOptionParameterSet
@@ -1716,13 +1728,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             (string domainName, PSCredential credential, uint joinOption, bool restart,
             string serviceName, string slot, string[] role = null,
             X509Certificate2 x509Certificate = null, string thumbprintAlgorithm = null,
-            PSCredential unjoinDomainCredential = null, string oUPath = null)
+            PSCredential unjoinDomainCredential = null, string oUPath = null, string version = null)
         {
             return
                 RunPSCmdletAndReturnFirst<ManagementOperationContext>(
                     new SetAzureServiceDomainJoinExtensionCmdletInfo(domainName, x509Certificate, joinOption,
                         unjoinDomainCredential,
-                        role, slot, serviceName, thumbprintAlgorithm, restart, credential, oUPath));
+                        role, slot, serviceName, thumbprintAlgorithm, restart, credential, oUPath, version));
         }
 
         #endregion SetAzureServiceDomainJoinExtensionCmdletInfo

@@ -38,6 +38,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
         private string _extensionName;
         private string _providerNamespace;
+        private string _version;
         private const string PublicConfig = "<PublicConfig><UserName>pstestuser</UserName><Expiration>2015-01-30</Expiration></PublicConfig>";
         private const string PrivateConfig = "<PrivateConfig><Password>p@ssw0rd</Password></PrivateConfig>";
 
@@ -106,7 +107,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-
         [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (New-AzureServiceExtensionConfig)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\package.csv", "package#csv", DataAccessMethod.Sequential)]
         public void AzureServiceExtensionConfigScenarioTest()
@@ -125,6 +125,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                     {
                         _extensionName = extension.ExtensionName;
                         _providerNamespace = extension.ProviderNameSpace;
+                        _version = extension.Version;
                         break;
                     }
                 }
@@ -136,7 +137,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                     extensionName: _extensionName,
                     providerNamespace: _providerNamespace,
                     publicConfig: PublicConfig,
-                    privateConfig: PrivateConfig
+                    privateConfig: PrivateConfig,
+                    version: _version
                     );
 
                 vmPowershellCmdlets.NewAzureDeployment(_serviceName, _packagePath.FullName, _configPath.FullName,
@@ -150,25 +152,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
                 Utilities.PrintContext(resultExtensionContext);
 
-                VerifyExtensionContext(resultExtensionContext, "AllRoles", _extensionName, _providerNamespace);
+                VerifyExtensionContext(resultExtensionContext, "AllRoles", _extensionName, _providerNamespace, _version);
 
                 RemoteDesktopExtensionContext resultContext = vmPowershellCmdlets.GetAzureServiceRemoteDesktopExtension(_serviceName)[0];
 
                 Utilities.PrintContext(resultContext);
 
-                Utilities.GetDeploymentAndWaitForReady(_serviceName, DeploymentSlotType.Production, 10, 600);
-
-                vmPowershellCmdlets.GetAzureRemoteDesktopFile("WebRole1_IN_0", _serviceName, rdpPath, false);
-
-                string dns;
-
-                using (var stream = new StreamReader(rdpPath))
-                {
-                    string firstLine = stream.ReadLine();
-                    dns = Utilities.FindSubstring(firstLine, ':', 2);
-                }
-
-                Assert.IsTrue((Utilities.RDPtestPaaS(dns, "WebRole1", 0, username, password, true)), "Cannot RDP to the instance!!");
+                VerifyRDP(_serviceName, rdpPath);
 
                 vmPowershellCmdlets.RemoveAzureServiceExtension(
                     serviceName: _serviceName,
@@ -188,6 +178,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                     }
                     Console.WriteLine("Failed to get RDP file as expected");
                 }
+
+
 
                 vmPowershellCmdlets.RemoveAzureDeployment(_serviceName, DeploymentSlotType.Production, true);
 
@@ -217,6 +209,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                     {
                         _extensionName = extension.ExtensionName;
                         _providerNamespace = extension.ProviderNameSpace;
+                        _version = extension.Version;
                         break;
                     }
                 }
@@ -236,30 +229,21 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                     extensionName: _extensionName,
                     providerNamespace: _providerNamespace,
                     publicConfig: PublicConfig,
-                    privateConfig: PrivateConfig
+                    privateConfig: PrivateConfig,
+                    version: _version
                     );
 
                 ExtensionContext resultExtensionContext = vmPowershellCmdlets.GetAzureServiceExtension(_serviceName)[0];
 
                 Utilities.PrintContext(resultExtensionContext);
 
-                VerifyExtensionContext(resultExtensionContext, "AllRoles", _extensionName, _providerNamespace);
+                VerifyExtensionContext(resultExtensionContext, "AllRoles", _extensionName, _providerNamespace, _version);
 
                 RemoteDesktopExtensionContext resultContext = vmPowershellCmdlets.GetAzureServiceRemoteDesktopExtension(_serviceName)[0];
 
                 Utilities.PrintContext(resultContext);
 
-                vmPowershellCmdlets.GetAzureRemoteDesktopFile("WebRole1_IN_0", _serviceName, rdpPath, false);
-
-                string dns;
-
-                using (var stream = new StreamReader(rdpPath))
-                {
-                    string firstLine = stream.ReadLine();
-                    dns = Utilities.FindSubstring(firstLine, ':', 2);
-                }
-
-                Assert.IsTrue((Utilities.RDPtestPaaS(dns, "WebRole1", 0, username, password, true)), "Cannot RDP to the instance!!");
+                VerifyRDP(_serviceName, rdpPath);
 
                 vmPowershellCmdlets.RemoveAzureServiceExtension(
                     serviceName: _serviceName,
@@ -304,13 +288,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-        private bool VerifyExtensionContext(ExtensionContext resultContext, string role, string extensionName, string providerNamespace)
+        private bool VerifyExtensionContext(ExtensionContext resultContext, string role, string extensionName, string providerNamespace, string version)
         {
             try
             {
                 Assert.AreEqual(role, resultContext.Role.RoleType.ToString());
                 Assert.AreEqual(extensionName, resultContext.Extension);
                 Assert.AreEqual(providerNamespace, resultContext.ProviderNameSpace);
+                Assert.AreEqual(version, resultContext.Version);
                 return true;
             }
             catch

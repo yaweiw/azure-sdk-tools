@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     public class NewAzureServiceExtensionConfigCmdletInfo : CmdletsInfo
     {
         public NewAzureServiceExtensionConfigCmdletInfo(string[] roles, string extensionName, string providerNamespace,
-            string publicConfig, string privateConfig)
+            string publicConfig, string privateConfig, string version)
         {
             this.cmdletName = Utilities.NewAzureServiceExtensionConfigCmdletName;
             if (roles != null)
@@ -31,11 +31,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             this.cmdletParams.Add(new CmdletParam("ProviderNamespace", providerNamespace));
             this.cmdletParams.Add(new CmdletParam("PublicConfiguration", publicConfig));
             this.cmdletParams.Add(new CmdletParam("PrivateConfiguration", privateConfig));
+            this.cmdletParams.Add(new CmdletParam("Version", version));
         }
 
         public NewAzureServiceExtensionConfigCmdletInfo(X509Certificate2 cert, string algorithm, string[] roles,
-            string extensionName, string providerNamespace, string publicConfig, string privateConfig)
-            : this(roles, extensionName, providerNamespace, publicConfig, privateConfig)
+            string extensionName, string providerNamespace, string publicConfig, string privateConfig, string version)
+            : this(roles, extensionName, providerNamespace, publicConfig, privateConfig, version)
         {
             this.cmdletParams.Add(new CmdletParam("X509Certificate", cert));
             if (!string.IsNullOrEmpty(algorithm))
@@ -45,8 +46,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         }
 
         public NewAzureServiceExtensionConfigCmdletInfo(string thumbprint, string algorithm, string[] roles,
-            string extensionName, string providerNamespace, string publicConfig, string privateConfig)
-            : this(roles, extensionName, providerNamespace, publicConfig, privateConfig)
+            string extensionName, string providerNamespace, string publicConfig, string privateConfig, string version)
+            : this(roles, extensionName, providerNamespace, publicConfig, privateConfig, version)
         {
             this.cmdletParams.Add(new CmdletParam("CertificateThumbprint", thumbprint));
             if (!string.IsNullOrEmpty(algorithm))

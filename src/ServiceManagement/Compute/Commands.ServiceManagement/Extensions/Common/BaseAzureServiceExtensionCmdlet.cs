@@ -34,6 +34,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         protected const string ChangeConfigurationModeStr = "Auto";
         protected const string XmlNameSpaceAttributeStr = "xmlns";
 
+        protected const string NewExtensionParameterSetName = "NewExtension";
+        protected const string NewExtensionUsingThumbprintParameterSetName = "NewExtensionUsingThumbprint";
+        protected const string SetExtensionParameterSetName = "SetExtension";
+        protected const string SetExtensionUsingThumbprintParameterSetName = "SetExtensionUsingThumbprint";
         protected const string RemoveByRolesParameterSet = "RemoveByRoles";
         protected const string RemoveAllRolesParameterSet = "RemoveAllRoles";
 

@@ -23,5 +23,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         public const string CertificateThumbprintHelpMessage = "Thumbprint of a certificate used for encryption.";
         public const string ThumbprintAlgorithmHelpMessage = "Algorithm associated with the Thumbprint.";
         public const string UninstallConfigurationHelpMessage = "If specified, uninstall all extension configurations in this type from the cloud service.";
+        public const string PublicConfigurationHelpMessage = "Extension Public Configuration.";
+        public const string PrivateConfigurationHelpMessage = "Extension Private Configuration.";
+        public const string ProviderNamespaceHelpMessage = "Extension Provider Namespace";
+        public const string ExtensionNameHelpMessage = "Extension Name";
+        public const string VersionHelpMessage = "Extension Version";
     }
 }
