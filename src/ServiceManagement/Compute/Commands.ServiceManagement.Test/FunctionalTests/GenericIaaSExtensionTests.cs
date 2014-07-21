@@ -138,9 +138,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                     var vm = CreateIaaSVMObject(vmName);
                     vmPowershellCmdlets.NewAzureVM(serviceName, new[] { vm }, locationName);
 
-                   vm = GetAzureVM(vmName, serviceName);
-                    //Set extension without version
-                    vm = vmPowershellCmdlets.SetAzureVMExtension(vm, vmAccessExtension.ExtensionName, vmAccessExtension.Publisher, null,referenceName, publicConfiguration, privateConfiguration);
+                    vm = GetAzureVM(vmName, serviceName);
+
+                    vm = vmPowershellCmdlets.SetAzureVMExtension(vm,
+                        vmAccessExtension.ExtensionName,
+                        vmAccessExtension.Publisher,
+                        vmAccessExtension.Version,
+                        referenceName,
+                        publicConfiguration,
+                        privateConfiguration);
                     vmPowershellCmdlets.UpdateAzureVM(vmName, serviceName, vm);
 
                     ValidateVMAccessExtension(vmName, serviceName, true);

@@ -64,7 +64,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage.File
         {
             base.EndProcessing();
             this.WriteTaskSummary();
+
             this.transferJobRunner.Dispose();
+            this.transferJobRunner = null;
         }
 
         protected async Task RunTransferJob(FileTransferJob job, ProgressRecord record)
