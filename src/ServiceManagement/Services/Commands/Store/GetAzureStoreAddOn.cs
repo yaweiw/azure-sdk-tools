@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Commands.Store
     using System.Security.Permissions;
 
     /// <summary>
-    /// Gets all available Windows Azure add-ons from Marketplace and gets user purchased add-ons.
+    /// Gets all available Microsoft Azure add-ons from Marketplace and gets user purchased add-ons.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureStoreAddOn"), OutputType(typeof(List<WindowsAzureAddOn>), typeof(List<WindowsAzureOffer>))]
     public class GetAzureStoreAddOnCommand : ServiceManagementBaseCmdlet

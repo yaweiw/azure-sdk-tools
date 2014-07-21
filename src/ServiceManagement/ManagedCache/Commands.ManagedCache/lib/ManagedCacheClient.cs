@@ -954,10 +954,10 @@ namespace Microsoft.Azure.Management.ManagedCache
         }
         
         /// <summary>
-        /// When you create a Windows Azure subscription, it is uniquely
+        /// When you create a Microsoft Azure subscription, it is uniquely
         /// identified by a subscription ID. The subscription ID forms part of
         /// the URI for every call that you make to the Service Management
-        /// API.  The Windows Azure Service ManagementAPI use mutual
+        /// API.  The Microsoft Azure Service ManagementAPI use mutual
         /// authentication of management certificates over SSL to ensure that
         /// a request made to the service is secure.  No anonymous requests
         /// are allowed.
@@ -1025,10 +1025,10 @@ namespace Microsoft.Azure.Management.ManagedCache
         private SubscriptionCloudCredentials _credentials;
         
         /// <summary>
-        /// When you create a Windows Azure subscription, it is uniquely
+        /// When you create a Microsoft Azure subscription, it is uniquely
         /// identified by a subscription ID. The subscription ID forms part of
         /// the URI for every call that you make to the Service Management
-        /// API.  The Windows Azure Service ManagementAPI use mutual
+        /// API.  The Microsoft Azure Service ManagementAPI use mutual
         /// authentication of management certificates over SSL to ensure that
         /// a request made to the service is secure.  No anonymous requests
         /// are allowed.
@@ -1071,10 +1071,10 @@ namespace Microsoft.Azure.Management.ManagedCache
         /// Initializes a new instance of the ManagedCacheClient class.
         /// </summary>
         /// <param name='credentials'>
-        /// Required. When you create a Windows Azure subscription, it is
+        /// Required. When you create a Microsoft Azure subscription, it is
         /// uniquely identified by a subscription ID. The subscription ID
         /// forms part of the URI for every call that you make to the Service
-        /// Management API.  The Windows Azure Service ManagementAPI use
+        /// Management API.  The Microsoft Azure Service ManagementAPI use
         /// mutual authentication of management certificates over SSL to
         /// ensure that a request made to the service is secure.  No anonymous
         /// requests are allowed.
@@ -1104,10 +1104,10 @@ namespace Microsoft.Azure.Management.ManagedCache
         /// Initializes a new instance of the ManagedCacheClient class.
         /// </summary>
         /// <param name='credentials'>
-        /// Required. When you create a Windows Azure subscription, it is
+        /// Required. When you create a Microsoft Azure subscription, it is
         /// uniquely identified by a subscription ID. The subscription ID
         /// forms part of the URI for every call that you make to the Service
-        /// Management API.  The Windows Azure Service ManagementAPI use
+        /// Management API.  The Microsoft Azure Service ManagementAPI use
         /// mutual authentication of management certificates over SSL to
         /// ensure that a request made to the service is secure.  No anonymous
         /// requests are allowed.
@@ -1143,10 +1143,10 @@ namespace Microsoft.Azure.Management.ManagedCache
         /// Initializes a new instance of the ManagedCacheClient class.
         /// </summary>
         /// <param name='credentials'>
-        /// Required. When you create a Windows Azure subscription, it is
+        /// Required. When you create a Microsoft Azure subscription, it is
         /// uniquely identified by a subscription ID. The subscription ID
         /// forms part of the URI for every call that you make to the Service
-        /// Management API.  The Windows Azure Service ManagementAPI use
+        /// Management API.  The Microsoft Azure Service ManagementAPI use
         /// mutual authentication of management certificates over SSL to
         /// ensure that a request made to the service is secure.  No anonymous
         /// requests are allowed.
@@ -1179,10 +1179,10 @@ namespace Microsoft.Azure.Management.ManagedCache
         /// Initializes a new instance of the ManagedCacheClient class.
         /// </summary>
         /// <param name='credentials'>
-        /// Required. When you create a Windows Azure subscription, it is
+        /// Required. When you create a Microsoft Azure subscription, it is
         /// uniquely identified by a subscription ID. The subscription ID
         /// forms part of the URI for every call that you make to the Service
-        /// Management API.  The Windows Azure Service ManagementAPI use
+        /// Management API.  The Microsoft Azure Service ManagementAPI use
         /// mutual authentication of management certificates over SSL to
         /// ensure that a request made to the service is secure.  No anonymous
         /// requests are allowed.

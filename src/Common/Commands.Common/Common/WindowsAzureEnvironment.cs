@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     public class WindowsAzureEnvironment
     {
         /// <summary>
-        /// The Windows Azure environment name.
+        /// The Microsoft Azure environment name.
         /// </summary>
         public string Name { get; set; }
 
@@ -45,7 +45,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public string ResourceManagerEndpoint { get; set; }
 
         /// <summary>
-        /// Url to the Windows Azure management portal.
+        /// Url to the Microsoft Azure management portal.
         /// </summary>
         public string ManagementPortalUrl { get; set; }
 
@@ -254,7 +254,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         }
 
         /// <summary>
-        /// Predefined Windows Azure environments
+        /// Predefined Microsoft Azure environments
         /// </summary>
         public static Dictionary<string, WindowsAzureEnvironment> PublicEnvironments
         {

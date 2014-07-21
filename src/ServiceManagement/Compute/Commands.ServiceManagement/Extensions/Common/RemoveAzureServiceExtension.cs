@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     using Utilities.Common;
 
     /// <summary>
-    /// Remove Windows Azure Service Extension.
+    /// Remove Microsoft Azure Service Extension.
     /// </summary>
     [Cmdlet(VerbsCommon.Remove, "AzureServiceExtension", DefaultParameterSetName = "RemoveByRoles"), OutputType(typeof(ManagementOperationContext))]
     public class RemoveAzureServiceExtensionCommand : BaseAzureServiceExtensionCmdlet
