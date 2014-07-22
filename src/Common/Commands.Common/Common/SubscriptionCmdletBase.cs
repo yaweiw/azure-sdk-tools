@@ -12,10 +12,15 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication;
+
 namespace Microsoft.WindowsAzure.Commands.Utilities.Profile
 {
     using Common;
-    using Microsoft.WindowsAzure.Commands.Common.Properties;
+    using Azure.Subscriptions;
+    using WindowsAzure.Commands.Common.Properties;
     using System;
     using System.IO;
     using System.Management.Automation;
@@ -31,6 +36,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Profile
         public string SubscriptionDataFile { get; set; }
 
         private WindowsAzureProfile loadedProfile;
+
+        private ISubscriptionClient subscriptionClient;
 
         private readonly bool createFileIfNotExists;
 
@@ -73,6 +80,28 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Profile
                 throw new Exception(string.Format(Resources.SubscriptionDataFileNotFound, SubscriptionDataFile));
             }
             return new WindowsAzureProfile(new PowershellProfileStore(path));
+        }
+
+        protected IEnumerable<WindowsAzureSubscription> LoadSubscriptionsFromServer()
+        {
+            var currentSubscription = WindowsAzureProfile.Instance.CurrentSubscription;
+            if (currentSubscription.ActiveDirectoryUserId != null)
+            {
+                if (subscriptionClient == null)
+                {
+                    subscriptionClient = currentSubscription.CreateClient<SubscriptionClient>(false, currentSubscription.CreateTokenCredentials());
+                }
+                return subscriptionClient.Subscriptions.List().Subscriptions.Select(s => new WindowsAzureSubscription
+                {
+                    SubscriptionId = s.SubscriptionId,
+                    SubscriptionName = s.DisplayName
+                });
+            }
+            else
+            {
+                //throw new ApplicationException(Resources.InvalidSubscriptionState);
+                return new WindowsAzureSubscription[0];
+            }
         }
     }
 }

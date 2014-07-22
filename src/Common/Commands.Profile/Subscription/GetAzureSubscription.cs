@@ -66,7 +66,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
 
         public void GetByName()
         {
-            IEnumerable<WindowsAzureSubscription> subscriptions = Profile.Subscriptions;
+            IEnumerable<WindowsAzureSubscription> subscriptions = Profile.Subscriptions.Union(LoadSubscriptionsFromServer());
             if (!string.IsNullOrEmpty(SubscriptionName))
             {
                 subscriptions = subscriptions.Where(s => s.SubscriptionName == SubscriptionName);

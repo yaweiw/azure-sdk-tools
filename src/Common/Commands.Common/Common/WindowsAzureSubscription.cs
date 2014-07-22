@@ -316,5 +316,30 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 }
             }
         }
+
+        public override int GetHashCode()
+        {
+            if (SubscriptionId != null)
+            {
+                return SubscriptionId.GetHashCode();
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public override bool Equals(object obj)
+        {
+            var subscription = obj as WindowsAzureSubscription;
+            if (subscription != null)
+            {
+                if (subscription.SubscriptionId == this.SubscriptionId)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }
