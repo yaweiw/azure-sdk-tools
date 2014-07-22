@@ -164,10 +164,10 @@ Error Code: {0}</value>
     <comment>Tracing IDs</comment>
   </data>
   <data name="GetAzureSqlDatabaseServerFirewallRuleNotFound" xml:space="preserve">
-    <value>The firewall rule "{0}" could not be found in the Windows Azure Sql Database server "{1}".</value>
+    <value>The firewall rule "{0}" could not be found in the Microsoft Azure Sql Database server "{1}".</value>
   </data>
   <data name="GetAzureSqlDatabaseServerNotFound" xml:space="preserve">
-    <value>The Windows Azure Sql Database server "{0}" could not be found in the currently selected subscription.</value>
+    <value>The Microsoft Azure Sql Database server "{0}" could not be found in the currently selected subscription.</value>
   </data>
   <data name="GetAzureSqlRestorableDroppedDatabaseDatabaseNotFound" xml:space="preserve">
     <value>Database '{0}.{1}' with deletion date '{2}' not found.</value>
@@ -192,51 +192,51 @@ Error Code: {0}</value>
     <comment>Parameter validation</comment>
   </data>
   <data name="NewAzureSqlDatabaseDescription" xml:space="preserve">
-    <value>Creating a new Windows Azure Sql Database.</value>
+    <value>Creating a new Microsoft Azure Sql Database.</value>
     <comment>Process workflow</comment>
   </data>
   <data name="NewAzureSqlDatabaseServerDescription" xml:space="preserve">
-    <value>Creating a new Windows Azure Sql Database server.</value>
+    <value>Creating a new Microsoft Azure Sql Database server.</value>
     <comment>Process workflow</comment>
   </data>
   <data name="NewAzureSqlDatabaseServerFirewallRuleDescription" xml:space="preserve">
-    <value>Adding firewall rule "{0}" for Windows Azure Sql Database server "{1}".</value>
+    <value>Adding firewall rule "{0}" for Microsoft Azure Sql Database server "{1}".</value>
     <comment>Process workflow</comment>
   </data>
   <data name="NewAzureSqlDatabaseServerFirewallRuleWarning" xml:space="preserve">
-    <value>Are you sure you want to add the firewall rule "{0}" for Windows Azure Sql Database server "{1}"?</value>
+    <value>Are you sure you want to add the firewall rule "{0}" for Microsoft Azure Sql Database server "{1}"?</value>
     <comment>Process workflow</comment>
   </data>
   <data name="NewAzureSqlDatabaseServerWarning" xml:space="preserve">
-    <value>Are you sure you want to create a new Windows Azure Sql Database server?</value>
+    <value>Are you sure you want to create a new Microsoft Azure Sql Database server?</value>
     <comment>Process workflow</comment>
   </data>
   <data name="NewAzureSqlDatabaseWarning" xml:space="preserve">
-    <value>Are you sure you want to create a new Windows Azure Sql Database?</value>
+    <value>Are you sure you want to create a new Microsoft Azure Sql Database?</value>
     <comment>Process workflow</comment>
   </data>
   <data name="RemoveAzureSqlDatabaseDescription" xml:space="preserve">
-    <value>Removing Windows Azure Sql Database "{0}.{1}".</value>
+    <value>Removing Microsoft Azure Sql Database "{0}.{1}".</value>
     <comment>Process workflow</comment>
   </data>
   <data name="RemoveAzureSqlDatabaseServerDescription" xml:space="preserve">
-    <value>Removing Windows Azure Sql Database server "{0}".</value>
+    <value>Removing Microsoft Azure Sql Database server "{0}".</value>
     <comment>Process workflow</comment>
   </data>
   <data name="RemoveAzureSqlDatabaseServerFirewallRuleDescription" xml:space="preserve">
-    <value>Removing firewall rule "{0}" for Windows Azure Sql Database server "{1}".</value>
+    <value>Removing firewall rule "{0}" for Microsoft Azure Sql Database server "{1}".</value>
     <comment>Process workflow</comment>
   </data>
   <data name="RemoveAzureSqlDatabaseServerFirewallRuleWarning" xml:space="preserve">
-    <value>Are you sure you want to remove the firewall rule "{0}" for Windows Azure Sql Database server "{1}"?</value>
+    <value>Are you sure you want to remove the firewall rule "{0}" for Microsoft Azure Sql Database server "{1}"?</value>
     <comment>Process workflow</comment>
   </data>
   <data name="RemoveAzureSqlDatabaseServerWarning" xml:space="preserve">
-    <value>Are you sure you want to remove the Windows Azure Sql Database server "{0}"?</value>
+    <value>Are you sure you want to remove the Microsoft Azure Sql Database server "{0}"?</value>
     <comment>Process workflow</comment>
   </data>
   <data name="RemoveAzureSqlDatabaseWarning" xml:space="preserve">
-    <value>Are you sure you want to remove the Windows Azure Sql Database "{0}.{1}"?</value>
+    <value>Are you sure you want to remove the Microsoft Azure Sql Database "{0}.{1}"?</value>
     <comment>Process workflow</comment>
   </data>
   <data name="RestorableDroppedSwitchNotSpecified" xml:space="preserve">
@@ -247,31 +247,31 @@ Error Code: {0}</value>
     <value>Service objective '{1}' was not found on server '{0}'.</value>
   </data>
   <data name="SetAzureSqlDatabaseDescription" xml:space="preserve">
-    <value>Updating database "{1}" for Windows Azure Sql Database server "{0}".</value>
+    <value>Updating database "{1}" for Microsoft Azure Sql Database server "{0}".</value>
     <comment>Process workflow</comment>
   </data>
   <data name="SetAzureSqlDatabaseServerAdminPasswordDescription" xml:space="preserve">
-    <value>Resetting administrator password for Windows Azure Sql Database server "{0}".</value>
+    <value>Resetting administrator password for Microsoft Azure Sql Database server "{0}".</value>
     <comment>Process workflow</comment>
   </data>
   <data name="SetAzureSqlDatabaseServerAdminPasswordWarning" xml:space="preserve">
-    <value>Are you sure you want to reset the administrator password for Windows Azure Sql Database server "{0}"?</value>
+    <value>Are you sure you want to reset the administrator password for Microsoft Azure Sql Database server "{0}"?</value>
     <comment>Process workflow</comment>
   </data>
   <data name="SetAzureSqlDatabaseServerFirewallRuleDescription" xml:space="preserve">
-    <value>Updating firewall rule "{0}" for Windows Azure Sql Database server "{1}".</value>
+    <value>Updating firewall rule "{0}" for Microsoft Azure Sql Database server "{1}".</value>
     <comment>Process workflow</comment>
   </data>
   <data name="SetAzureSqlDatabaseServerFirewallRuleWarning" xml:space="preserve">
-    <value>Are you sure you want to update the firewall rule "{0}" for Windows Azure Sql Database server "{1}"?</value>
+    <value>Are you sure you want to update the firewall rule "{0}" for Microsoft Azure Sql Database server "{1}"?</value>
     <comment>Process workflow</comment>
   </data>
   <data name="SetAzureSqlDatabaseServiceObjectiveWarning" xml:space="preserve">
-    <value>Are you sure you want to change the service objective for database "{1}" in Windows Azure Sql Database server "{0}"? A change to the service objective will significantly change the cost of this database.</value>
+    <value>Are you sure you want to change the service objective for database "{1}" in Microsoft Azure Sql Database server "{0}"? A change to the service objective will significantly change the cost of this database.</value>
     <comment>Process workflow</comment>
   </data>
   <data name="SetAzureSqlDatabaseWarning" xml:space="preserve">
-    <value>Are you sure you want to update database "{1}" for Windows Azure Sql Database server "{0}"?</value>
+    <value>Are you sure you want to update database "{1}" for Microsoft Azure Sql Database server "{0}"?</value>
     <comment>Process workflow</comment>
   </data>
   <data name="ShouldProcessCaption" xml:space="preserve">
@@ -282,11 +282,11 @@ Error Code: {0}</value>
     <value>This operation does not support SQL authentication.</value>
   </data>
   <data name="StartAzureSqlDatabaseCopyDescription" xml:space="preserve">
-    <value>Copying Windows Azure Sql Database "{0}.{1}" to "{2}.{3}".</value>
+    <value>Copying Microsoft Azure Sql Database "{0}.{1}" to "{2}.{3}".</value>
     <comment>Process workflow</comment>
   </data>
   <data name="StartAzureSqlDatabaseCopyWarning" xml:space="preserve">
-    <value>Are you sure you want to copy Windows Azure Sql Database "{0}.{1}" to "{2}.{3}"?</value>
+    <value>Are you sure you want to copy Microsoft Azure Sql Database "{0}.{1}" to "{2}.{3}"?</value>
     <comment>Process workflow</comment>
   </data>
   <data name="StopAzureSqlDatabaseCopyDescription" xml:space="preserve">
@@ -306,7 +306,7 @@ Error Code: {0}</value>
     <comment>Generic</comment>
   </data>
   <data name="WarningModelOutOfDate" xml:space="preserve">
-    <value>The client model does not match the server model. While the current set of Cmdlets may continue to work, it is recommended that you update to the latest version of Windows Azure PowerShell to ensure full compatibility.</value>
+    <value>The client model does not match the server model. While the current set of Cmdlets may continue to work, it is recommended that you update to the latest version of Microsoft Azure PowerShell to ensure full compatibility.</value>
   </data>
   <data name="WrongAsyncResultForCreate" xml:space="preserve">
     <value>The asyncResult object was not created by a preceding call of the BeginCreate method from the same control.</value>

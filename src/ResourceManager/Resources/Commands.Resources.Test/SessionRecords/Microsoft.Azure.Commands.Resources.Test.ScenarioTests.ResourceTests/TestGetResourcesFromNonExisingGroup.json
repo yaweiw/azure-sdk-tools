@@ -1,0 +1,50 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/resourcegroups/onesdk7337?api-version=2014-04-01-preview",
+      "RequestMethod": "HEAD",
+      "RequestBody": "",
+      "RequestHeaders": {
+        "User-Agent": [
+          "Microsoft.Azure.Management.Resources.ResourceManagementClient/2.0.0.0"
+        ]
+      },
+      "ResponseBody": "",
+      "ResponseHeaders": {
+        "Pragma": [
+          "no-cache"
+        ],
+        "x-ms-ratelimit-remaining-subscription-reads": [
+          "31943"
+        ],
+        "x-ms-request-id": [
+          "eef43341-7533-4fa7-bfd9-3aab74c77980"
+        ],
+        "x-ms-correlation-request-id": [
+          "eef43341-7533-4fa7-bfd9-3aab74c77980"
+        ],
+        "x-ms-routing-request-id": [
+          "WESTUS:20140711T185229Z:eef43341-7533-4fa7-bfd9-3aab74c77980"
+        ],
+        "Strict-Transport-Security": [
+          "max-age=31536000; includeSubDomains"
+        ],
+        "Cache-Control": [
+          "no-cache"
+        ],
+        "Date": [
+          "Fri, 11 Jul 2014 18:52:29 GMT"
+        ]
+      },
+      "StatusCode": 404
+    }
+  ],
+  "Names": {
+    "Test-GetResourcesFromNonExisingGroup": [
+      "onesdk7337"
+    ]
+  },
+  "Variables": {
+    "SubscriptionId": "db1ab6f0-4769-4b27-930e-01e2ef9c123c"
+  }
+}

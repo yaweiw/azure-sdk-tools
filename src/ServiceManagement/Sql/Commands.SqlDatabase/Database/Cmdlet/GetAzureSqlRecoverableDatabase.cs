@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
     using System.Management.Automation;
 
     /// <summary>
-    /// Retrieves a list of restorable dropped Windows Azure SQL Databases in the given server context.
+    /// Retrieves a list of restorable dropped Microsoft Azure SQL Databases in the given server context.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureSqlRecoverableDatabase", ConfirmImpact = ConfirmImpact.None, DefaultParameterSetName = AllDatabasesOnCurrentServer)]
     public class GetAzureSqlRecoverableDatabase : CmdletBase

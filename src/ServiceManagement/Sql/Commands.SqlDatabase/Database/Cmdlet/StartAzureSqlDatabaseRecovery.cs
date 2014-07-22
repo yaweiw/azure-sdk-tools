@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
     using System.Management.Automation;
 
     /// <summary>
-    /// Issues a new recover request for the specified live or dropped Windows Azure SQL Database.
+    /// Issues a new recover request for the specified live or dropped Microsoft Azure SQL Database.
     /// </summary>
     [Cmdlet(VerbsLifecycle.Start, "AzureSqlDatabaseRecovery", ConfirmImpact = ConfirmImpact.Low)]
     public class StartAzureSqlDatabaseRecovery : CmdletBase

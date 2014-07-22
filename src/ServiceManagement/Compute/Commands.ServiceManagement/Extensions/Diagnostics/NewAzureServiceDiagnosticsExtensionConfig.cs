@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     using System.Xml;
 
     /// <summary>
-    /// New Windows Azure Service Diagnostics Extension.
+    /// New Microsoft Azure Service Diagnostics Extension.
     /// </summary>
     [Cmdlet(VerbsCommon.New, "AzureServiceDiagnosticsExtensionConfig", DefaultParameterSetName = "NewExtension"), OutputType(typeof(ExtensionConfigurationInput))]
     public class NewAzureServiceDiagnosticsExtensionConfigCommand : BaseAzureServiceDiagnosticsExtensionCmdlet

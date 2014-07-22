@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
     using VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
-    /// Base class for Windows Azure PowerShell unit tests.
+    /// Base class for Microsoft Azure PowerShell unit tests.
     /// </summary>
     public abstract class TestBase
     {

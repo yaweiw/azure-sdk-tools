@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
     using System.Management.Automation;
 
     /// <summary>
-    /// Retrieves a list of Windows Azure SQL Database servers in the selected subscription.
+    /// Retrieves a list of Microsoft Azure SQL Database servers in the selected subscription.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureSqlDatabaseServer", ConfirmImpact = ConfirmImpact.None)]
     public class GetAzureSqlDatabaseServer : SqlDatabaseCmdletBase

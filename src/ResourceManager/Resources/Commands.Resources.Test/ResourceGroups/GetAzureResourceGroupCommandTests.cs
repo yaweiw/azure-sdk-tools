@@ -13,6 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 using Microsoft.Azure.Commands.Resources.Models;
+using Microsoft.WindowsAzure.Commands.ScenarioTest;
 using Moq;
 using System.Collections.Generic;
 using System.Management.Automation;
@@ -44,6 +45,7 @@ namespace Microsoft.Azure.Commands.Resources.Test
         }
 
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void GetsResourcesGroups()
         {
             List<PSResourceGroup> result = new List<PSResourceGroup>();

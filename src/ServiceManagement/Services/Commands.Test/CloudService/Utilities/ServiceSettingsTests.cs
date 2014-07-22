@@ -84,7 +84,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         }
 
         /// <summary>
-        /// Verify that ServicSettings will accept unknown Windows Azure RDFE location.
+        /// Verify that ServicSettings will accept unknown Microsoft Azure RDFE location.
         /// </summary>
         [TestMethod]
         public void GetDefaultLocationWithUnknwonLocation()

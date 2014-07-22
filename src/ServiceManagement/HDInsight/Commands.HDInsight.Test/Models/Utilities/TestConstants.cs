@@ -29,12 +29,12 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.HDInsight.Utilities
         public const int RetryCount = 5;
 
         /// <summary>
-        ///     The protocol string to use when using a Windows Azure Blob Storage account.
+        ///     The protocol string to use when using a Microsoft Azure Blob Storage account.
         /// </summary>
         public const string WabsProtocol = "wasb";
 
         /// <summary>
-        ///     The protocol scheme name to use when using a Windows Azure Blob Storage account.
+        ///     The protocol scheme name to use when using a Microsoft Azure Blob Storage account.
         /// </summary>
         public const string WabsProtocolSchemeName = "wasb://";
     }
