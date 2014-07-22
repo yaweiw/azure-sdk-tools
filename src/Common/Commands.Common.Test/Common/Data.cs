@@ -27,7 +27,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
         // To Do:
         // Add invalid service/storage account name data: http://social.msdn.microsoft.com/Forums/en-US/windowsazuredevelopment/thread/75b05a42-cd3b-4ab8-aa26-dc8366ede115
         // Add invalid deployment name data
-        public static string Subscription1 = "Windows Azure Sandbox 9-220";
+        public static string Subscription1 = "Microsoft Azure Sandbox 9-220";
         public static string SampleSubscription1 = "Sample Subscription 1";
 
         public static List<string> ValidServiceNames { get; private set; }
@@ -68,7 +68,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
         static Data()
         {
             AzureAppDir = Path.Combine(Directory.GetCurrentDirectory(), Resources.AzureDirectoryName);
-            AzureSdkAppDir = Path.Combine(Directory.GetCurrentDirectory(), "Windows Azure PowerShell");
+            AzureSdkAppDir = Path.Combine(Directory.GetCurrentDirectory(), "Microsoft Azure PowerShell");
             TestResultDirectory = FileUtilities.GetAssemblyDirectory();
 
             ValidServiceNames = new List<string>();

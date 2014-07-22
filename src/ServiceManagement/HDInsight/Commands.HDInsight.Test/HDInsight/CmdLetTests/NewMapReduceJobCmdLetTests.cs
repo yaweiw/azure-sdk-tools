@@ -41,8 +41,10 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CmdLetTests
             {
                 JobName = "pi estimation jobDetails",
                 ClassName = "pi",
-                JarFile = TestConstants.WabsProtocolSchemeName + "container@hostname/examples.jar"
+                JarFile = TestConstants.WabsProtocolSchemeName + "container@hostname/examples.jar",               
             };
+
+            mapReduceJobDefinition.LibJars.Add("some.jarfile.jar");
 
             using (IRunspace runspace = this.GetPowerShellRunspace())
             {
@@ -52,6 +54,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CmdLetTests
                             .WithParameter(CmdletConstants.JobName, mapReduceJobDefinition.JobName)
                             .WithParameter(CmdletConstants.JarFile, mapReduceJobDefinition.JarFile)
                             .WithParameter(CmdletConstants.ClassName, mapReduceJobDefinition.ClassName)
+                            .WithParameter(CmdletConstants.LibJars, mapReduceJobDefinition.LibJars)
                             .Invoke();
                 Assert.AreEqual(1, results.Results.Count);
                 AzureHDInsightMapReduceJobDefinition mapReduceJobFromPowershell =
@@ -60,6 +63,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CmdLetTests
                 Assert.AreEqual(mapReduceJobDefinition.JobName, mapReduceJobFromPowershell.JobName);
                 Assert.AreEqual(mapReduceJobDefinition.ClassName, mapReduceJobFromPowershell.ClassName);
                 Assert.AreEqual(mapReduceJobDefinition.JarFile, mapReduceJobFromPowershell.JarFile);
+                Assert.AreEqual(mapReduceJobDefinition.LibJars.Count, mapReduceJobFromPowershell.LibJars.Count);
+                Assert.AreEqual(mapReduceJobDefinition.LibJars.First(), mapReduceJobFromPowershell.LibJars.First());
             }
         }
 

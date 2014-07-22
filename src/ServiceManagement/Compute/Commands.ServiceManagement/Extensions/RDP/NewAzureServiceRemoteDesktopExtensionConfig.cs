@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     using System.Security.Cryptography.X509Certificates;
 
     /// <summary>
-    /// New Windows Azure Service Remote Desktop Extension.
+    /// New Microsoft Azure Service Remote Desktop Extension.
     /// </summary>
     [Cmdlet(VerbsCommon.New, "AzureServiceRemoteDesktopExtensionConfig", DefaultParameterSetName = NewExtensionParameterSetName), OutputType(typeof(ExtensionConfigurationInput))]
     public class NewAzureServiceRemoteDesktopExtensionConfigCommand : BaseAzureServiceRemoteDesktopExtensionCmdlet

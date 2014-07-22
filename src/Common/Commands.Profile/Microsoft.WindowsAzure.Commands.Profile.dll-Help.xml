@@ -986,7 +986,7 @@ GalleryEndpoint               : https://gallery.azure.com/
 
 </dev:code>
         <dev:remarks>
-          <maml:para>This command opens your default browser, connects to your Windows Azure account, and then downloads the .publishsettings file for your account.</maml:para>
+          <maml:para>This command opens your default browser, connects to your Microsoft Azure account, and then downloads the .publishsettings file for your account.</maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
@@ -3217,7 +3217,7 @@ PS C:\&gt;Switch-AzureMode -Name AzureServiceManagement
 
 </dev:code>
         <dev:remarks>
-          <maml:para>This command uses the Global parameter of Switch-AzureMode to switch all Windows Azure PowerShell sessions to the Azure Resource Manager module. If you close this session and open an new one, the Azure Resource Manager module is imported by default.</maml:para>
+          <maml:para>This command uses the Global parameter of Switch-AzureMode to switch all Microsoft Azure PowerShell sessions to the Azure Resource Manager module. If you close this session and open an new one, the Azure Resource Manager module is imported by default.</maml:para>
           <maml:para>The Global parameter requires administrator permissions. To run this command, start Windows PowerShell with the "Run as administrator" option.</maml:para>
         </dev:remarks>
         <command:commandLines>

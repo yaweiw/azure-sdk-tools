@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     using Utilities.Common;
 
     /// <summary>
-    /// Remove Windows Azure Service Remote Desktop Extension.
+    /// Remove Microsoft Azure Service Remote Desktop Extension.
     /// </summary>
     [Cmdlet(VerbsCommon.Remove, "AzureServiceRemoteDesktopExtension", DefaultParameterSetName = RemoveByRolesParameterSet), OutputType(typeof(ManagementOperationContext))]
     public class RemoveAzureServiceRemoteDesktopExtensionCommand : BaseAzureServiceRemoteDesktopExtensionCmdlet

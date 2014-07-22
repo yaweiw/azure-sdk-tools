@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Firewall.Cmdlet
     using System.Management.Automation;
 
     /// <summary>
-    /// Update an existing firewall rule for a Windows Azure SQL Database server in the selected subscription.
+    /// Update an existing firewall rule for a Microsoft Azure SQL Database server in the selected subscription.
     /// </summary>
     [Cmdlet(VerbsCommon.Set, "AzureSqlDatabaseServerFirewallRule", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Low)]
     public class SetAzureSqlDatabaseServerFirewallRule : SqlDatabaseCmdletBase

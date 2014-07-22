@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
     {
         public static void Validate()
         {
-            // This instantiation will throw if user is running with incompatible Windows Azure SDK version.
+            // This instantiation will throw if user is running with incompatible Microsoft Azure SDK version.
             GetAzureSdkBinDirectory();
             GetComputeEmulatorDirectory();
         }
