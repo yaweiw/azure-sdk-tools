@@ -142,6 +142,7 @@
     <Compile Include="Common\DirStack.cs" />
     <Compile Include="Common\EmbeddedFileWriter.cs" />
     <Compile Include="Common\GeneralTests.cs" />
+    <Compile Include="Common\IdnUtilitiesTests.cs" />
     <Compile Include="Common\JsonUtilitiesTests.cs" />
     <Compile Include="Common\MockCommandRuntime.cs" />
     <Compile Include="Common\MockProfileStore.cs" />
