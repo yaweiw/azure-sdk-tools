@@ -14,7 +14,7 @@
 
 $ErrorActionPreference = "Stop"
 
-$ProfileNamePrefix = "scenarioTestProfile";
+$ProfileNamePrefix = "onesdk";
 
 #TODO: Make the domain name suffix environment dependent
 $TrafficManagerDomain = ".trafficmanager.net";
@@ -25,9 +25,9 @@ Gets valid profile name.
 #>
 function Get-ProfileName
 {
-	param([string] $postfix)
-
-	return $ProfileNamePrefix + $postfix
+	$name = getAssetName
+	Write-Debug "Using profile with name: $name"
+    return $name
 }
 
 <#
