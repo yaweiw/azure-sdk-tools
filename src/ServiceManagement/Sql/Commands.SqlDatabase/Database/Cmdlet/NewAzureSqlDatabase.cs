@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
     using System.Threading;
 
     /// <summary>
-    /// Creates a new Windows Azure SQL Databases in the given server context.
+    /// Creates a new Microsoft Azure SQL Databases in the given server context.
     /// </summary>
     [Cmdlet(VerbsCommon.New, "AzureSqlDatabase", SupportsShouldProcess = true,
         ConfirmImpact = ConfirmImpact.Low)]

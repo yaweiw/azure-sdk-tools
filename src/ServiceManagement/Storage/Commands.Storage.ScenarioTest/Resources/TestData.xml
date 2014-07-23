@@ -46,7 +46,7 @@
   <ModuleFilePath>
     <!--Custom Module File Path-->
     <!--Our tests run against the current powershell environment and this module file. Please make sure storage powershell could be reached in one of them-->
-    <!--For example, C:\Program Files (x86)\Microsoft SDKs\Windows Azure\PowerShell\Azure\Azure.psd1-->
+    <!--For example, C:\Program Files (x86)\Microsoft SDKs\Azure\PowerShell\Azure\Azure.psd1-->
   </ModuleFilePath>
   <DownloadDir>.\Data\download\</DownloadDir>
   <UploadDir>.\Data\upload\</UploadDir>

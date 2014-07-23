@@ -37,7 +37,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
     }
 
     /// <summary>
-    /// Provides the Windows Azure Service Management Api for Windows Azure Websites. 
+    /// Provides the Microsoft Azure Service Management Api for Microsoft Azure Websites. 
     /// </summary>
     [ServiceContract(Namespace = UriElements.ServiceNamespace)]
     [ServiceKnownType(typeof(SiteWithWebSpace))]

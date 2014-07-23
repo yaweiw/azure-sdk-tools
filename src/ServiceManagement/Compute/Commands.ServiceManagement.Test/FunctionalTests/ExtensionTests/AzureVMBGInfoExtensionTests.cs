@@ -108,11 +108,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 referenceName = extensionName;
                 Console.WriteLine("Deploying a new vm {0}",vmName);
                 var vm = CreateIaaSVMObject(vmName);
+                vm = vmPowershellCmdlets.SetAzureAvailabilitySet("test", vm);
+                vm = vmPowershellCmdlets.RemoveAzureVMExtension(vm, null, null, null, true);
                 vmPowershellCmdlets.NewAzureVM(serviceName, new[] { vm }, locationName);
                 Console.WriteLine("Deployed vm {0}", vmName);
+                GetBGInfo(vmName, serviceName, true);
 
                 Console.WriteLine("Set BGInfo extension and update vm {0}." , vmName);
                 var vmRoleContext = vmPowershellCmdlets.GetAzureVM(vmName, serviceName);
+
                 vm = vmPowershellCmdlets.SetAzureVMBGInfoExtension(vmRoleContext.VM, version, referenceName, false);
                 vmPowershellCmdlets.UpdateAzureVM(vmName, serviceName, vm);
                 Console.WriteLine("BGInfo extension set and updated vm {0}.", vmName);
@@ -246,14 +250,28 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             return vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo);
         }
 
-        private VirtualMachineBGInfoExtensionContext GetBGInfo(string vmName, string serviceName)
+        private VirtualMachineBGInfoExtensionContext GetBGInfo(string vmName, string serviceName, bool shouldNotExist = false)
         {
             Console.WriteLine("Get BGIinfo extension info.");
             var vmRoleContext = vmPowershellCmdlets.GetAzureVM(vmName, serviceName);
-            var extesnion = vmPowershellCmdlets.GetAzureVMBGInfoExtension(vmRoleContext.VM);
-            Utilities.PrintCompleteContext(extesnion);
-            Console.WriteLine("Fetched BGIinfo extension info successfully.");
-            return extesnion;
+            try
+            {
+                var extension = vmPowershellCmdlets.GetAzureVMBGInfoExtension(vmRoleContext.VM);
+                Utilities.PrintCompleteContext(extension);
+                Console.WriteLine("Fetched BGIinfo extension info successfully.");
+                return extension;
+            }
+            catch (NullReferenceException e)
+            {
+                Console.WriteLine("BGInfo Extension is not installed in the VM.");
+                Console.WriteLine(e);
+                if (!shouldNotExist)
+                {
+                    throw;
+                }
+                Console.WriteLine("This is expected.");
+                return null;
+            }
         }
 
         private void VerifyExtension(VirtualMachineBGInfoExtensionContext extension,bool disable=false)

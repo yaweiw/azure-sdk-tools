@@ -1,3 +1,19 @@
+2014.07.16 Version 0.8.5
+* Upgrade .NET dependency to .NET 4.5
+* Azure File Service
+    * Get-AzureStorageFile
+    * Remove-AzureStorageFile
+    * Get-AzureStorageFileContent
+    * Set-AzureStorageFileContent
+* Azure Resource Manager tags in AzureResourceManager mode
+    * New-AzureTag
+    * Get-AzureTag
+    * Remove-AzureTag
+    * Tag parameter in New-AzureResourceGroup, Set-AzureResourceGroup, New-AzureResource and Set-AzureResource
+    * Tag parameter in Get-AzureResourceGroup and Get-AzureResource
+* Compute
+    * ReverseDnsFqdn parameter in New-AzureService, Set-AzureService, New-AzureVM and New-AzureQuickVM
+
 2014.06.30 Version 0.8.4
 * Compute
     * New-AzurePlatformExtensionCertificateConfig

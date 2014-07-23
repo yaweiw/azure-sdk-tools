@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Firewall.Cmdlet
     using System.Management.Automation;
 
     /// <summary>
-    /// Deletes a firewall rule from a Windows Azure SQL Database server in the selected subscription.
+    /// Deletes a firewall rule from a Microsoft Azure SQL Database server in the selected subscription.
     /// </summary>
     [Cmdlet(VerbsCommon.Remove, "AzureSqlDatabaseServerFirewallRule", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Medium)]
     public class RemoveAzureSqlDatabaseServerFirewallRule : SqlDatabaseCmdletBase

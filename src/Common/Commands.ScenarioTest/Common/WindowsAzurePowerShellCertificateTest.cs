@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Testing;
+
 namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
 {
     using System;
@@ -69,7 +71,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
 
         public override Collection<PSObject> RunPowerShellTest(params string[] scripts)
         {
-            HttpMockServer.Initialize(this.GetType(), Utilities.GetCurrentMethodName(2));
+            HttpMockServer.Initialize(this.GetType(), TestUtilities.GetCurrentMethodName(2));
             return base.RunPowerShellTest(scripts);
         }
 

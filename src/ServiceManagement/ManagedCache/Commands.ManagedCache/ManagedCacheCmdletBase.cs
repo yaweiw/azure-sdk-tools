@@ -17,7 +17,7 @@ namespace Microsoft.Azure.Commands.ManagedCache
     using Microsoft.WindowsAzure.Commands.Utilities.Common;
 
     /// <summary>
-    /// The base class for all Windows Azure Managed Cache Management Cmdlets
+    /// The base class for all Microsoft Azure Managed Cache Management Cmdlets
     /// </summary>
     public abstract class ManagedCacheCmdletBase : CmdletWithSubscriptionBase
     {

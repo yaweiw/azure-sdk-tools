@@ -17,9 +17,9 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("Windows Azure Powershell - Resource Manager")]
+[assembly: AssemblyTitle("Microsoft Azure Powershell - Resource Manager")]
 [assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("Windows Azure Powershell")]
+[assembly: AssemblyProduct("Microsoft Azure Powershell")]
 [assembly: AssemblyCopyright("Copyright © Microsoft")]
 
 [assembly: ComVisible(false)]

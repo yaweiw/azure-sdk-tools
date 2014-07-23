@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     using WindowsAzure.ServiceManagement;
 
     /// <summary>
-    /// Set Windows Azure Service AD Domain Extension.
+    /// Set Microsoft Azure Service AD Domain Extension.
     /// </summary>
     [Cmdlet(VerbsCommon.Set, ADDomainExtensionNoun, DefaultParameterSetName = DomainParameterSet), OutputType(typeof(ManagementOperationContext))]
     public class SetAzureServiceADDomainExtensionCommand : BaseAzureServiceADDomainExtensionCmdlet

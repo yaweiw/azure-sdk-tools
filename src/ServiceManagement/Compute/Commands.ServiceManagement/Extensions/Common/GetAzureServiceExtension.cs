@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     using System.Management.Automation;
 
     /// <summary>
-    /// Get Windows Azure Service Extension.
+    /// Get Microsoft Azure Service Extension.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureServiceExtension"), OutputType(typeof(ExtensionContext))]
     public class GetAzureServiceExtensionCommand : BaseAzureServiceExtensionCmdlet
