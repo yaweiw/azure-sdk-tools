@@ -5,7 +5,7 @@ Configuration CorpClientVMConfiguration
     Node $AllNodes.Where{$_.Role -eq "CorpClient"}.NodeName
     {     	
        Import-DscResource -Name MSFT_xComputer
-
+	   
         xComputer NameAndDomain
         {
             Name     = $Node.MachineName
@@ -35,4 +35,4 @@ Configuration CorpClientVMConfiguration
 
 # Generate mof
 $scriptLocation = $PSScriptRoot
-CorpClientVMConfiguration -OutputPath .
+. CorpClientVMConfiguration -OutputPath .

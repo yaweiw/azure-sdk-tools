@@ -215,9 +215,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                     powershell.AddScript(
                         @"function Copy-Module([string]$module, [string]$tempZipFolder) 
                         {
-                            $mi = Get-Module -List -Name $module + ;
+                            $mi = Get-Module -List -Name $module;
                             $moduleFolder = Split-Path -Parent $mi.Path;
-                            Copy-Item -Recurse -Path $moduleFolder -Destination $tempZipFolder + ;
+                            Copy-Item -Recurse -Path $moduleFolder -Destination $tempZipFolder;
                         }"
                         );
                     powershell.Invoke();

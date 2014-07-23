@@ -41,6 +41,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
         private const string DomainControllerConfigurationPath = @"DSC\Configurations\DomainControllerConfiguration.ps1";
         private const string SHMulptiConfigurationsPath = @"DSC\Configurations\SHMulptiConfigurations.ps1";
         private const string VisualStudioPath = @"DSC\Configurations\VisualStudio.ps1";
+        private const string VisualStudio2Path = @"DSC\Configurations\VisualStudio2.ps1";
 
         [TestMethod]
         [TestCategory("Scenario")]
@@ -87,6 +88,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
         public void TestExtractConfigurationNames3()
         {
             ConfigurationParseResult results = ConfigurationParsingHelper.ExtractConfigurationNames(VisualStudioPath);
+            Assert.AreEqual(0, results.Errors.Count());
+            Assert.AreEqual(1, results.RequiredModules.Count);
+            Assert.AreEqual("xPSDesiredStateConfiguration", results.RequiredModules[0]);
+        }
+
+        [TestMethod]
+        [TestCategory("Scenario")]
+        [DeploymentItem(VisualStudio2Path)]
+        public void TestExtractConfigurationNames4()
+        {
+            ConfigurationParseResult results = ConfigurationParsingHelper.ExtractConfigurationNames(VisualStudio2Path);
             Assert.AreEqual(0, results.Errors.Count());
             Assert.AreEqual(1, results.RequiredModules.Count);
             Assert.AreEqual("xPSDesiredStateConfiguration", results.RequiredModules[0]);

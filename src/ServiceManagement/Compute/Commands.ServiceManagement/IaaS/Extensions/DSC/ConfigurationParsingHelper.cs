@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions.DSC
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.IO;
     using System.Linq;
     using System.Management.Automation;
@@ -80,25 +81,25 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions.DSC
             List<string> modules = new List<string>();
             foreach (CommandAst importAst in importAsts)
             {
-                StaticBindingResult bindingResult = StaticParameterBinder.BindCommand(importAst);
-                foreach (KeyValuePair<string, ParameterBindingResult> parameter in bindingResult.BoundParameters)
+                // TODO: refactor code to avoid calling a script, just use StaticBindingResult directly,
+                // once System.Management.Automation.dll version will be updated from 3.0.0.0.
+
+                using (PowerShell powerShell = PowerShell.Create()) 
                 {
-                    if (String.Equals(parameter.Key, "Name", StringComparison.OrdinalIgnoreCase))
-                    {
-                        StringConstantExpressionAst resourceName = parameter.Value.Value as StringConstantExpressionAst;
-                        if (resourceName != null)
+                    powerShell.AddScript(
+                     @"function BindArguments($ast, $out) 
                         {
-                            modules.Add(GetModuleNameForDscResource(resourceName.Value));
-                        }
-                    }
-                    else if (String.Equals(parameter.Key, "ModuleName", StringComparison.OrdinalIgnoreCase))
-                    {
-                        StringConstantExpressionAst moduleName = parameter.Value.Value as StringConstantExpressionAst;
-                        if (moduleName != null)
-                        {
-                            modules.Add(GetModuleNameForDscResource(moduleName.Value));
-                        }
-                    }
+                            $dic = ([System.Management.Automation.Language.StaticParameterBinder]::BindCommand($ast)).BoundParameters 
+                            foreach ($binding in $dic.GetEnumerator()) 
+                            {
+                                if ($binding.Key -like ""[N]*"") { $out.Add( (Get-DscResource $binding.Value.Value.Value).Module.Name ) }
+                                else {if ($binding.Key -like ""[M]*"") { $out.Add( $binding.Value.Value.Value ) }}
+                            }
+                        }");
+                    powerShell.Invoke();
+                    powerShell.Commands.Clear();
+                    powerShell.AddCommand("BindArguments").AddParameter("ast", importAst).AddParameter("out", modules);
+                    powerShell.Invoke();
                 }
             }
             return modules;
