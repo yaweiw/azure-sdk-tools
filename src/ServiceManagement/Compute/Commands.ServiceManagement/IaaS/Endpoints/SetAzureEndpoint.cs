@@ -86,7 +86,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
         }
 
         [Parameter(Mandatory = false, HelpMessage = "Idle Timeout.")]
-        [ValidateNotNullOrEmpty]
         public int IdleTimeoutInMinutes
         {
             get; 
