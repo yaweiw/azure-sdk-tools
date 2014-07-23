@@ -76,8 +76,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
         [Parameter(Position = 11, ValueFromPipelineByPropertyName = true, HelpMessage = "SmallIconUri.")]
         [ValidateNotNullOrEmpty]
         public Uri SmallIconUri { get; set; }
-            
-        [Parameter(Position = 12, ValueFromPipelineByPropertyName = true, HelpMessage = "ShowInGui.")]
+
+        [Parameter(Position = 12, ValueFromPipelineByPropertyName = true, HelpMessage = "DontShowInGui.")]
         public SwitchParameter DontShowInGui { get; set; }
 
         protected override void OnProcessRecord()
