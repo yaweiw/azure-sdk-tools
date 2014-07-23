@@ -12,6 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System;
 using System.Security.Cryptography;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 
@@ -23,18 +24,16 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
     /// </summary>
     public class ProtectedFileTokenCache : TokenCache
     {
-        private static readonly object FileLock = new object();
+        private static readonly object fileLock = new object();
 
-        private static ProtectedFileTokenCache instance;
+        private static readonly Lazy<ProtectedFileTokenCache> instance =
+            new Lazy<ProtectedFileTokenCache>(() => new ProtectedFileTokenCache());
+        
         public static ProtectedFileTokenCache Instance
         {
             get
             {
-                if (instance == null)
-                {
-                    instance = new ProtectedFileTokenCache();
-                }
-                return instance;
+                return instance.Value;
             }
         }
 
@@ -44,7 +43,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
         {
             this.AfterAccess = AfterAccessNotification;
             this.BeforeAccess = BeforeAccessNotification;
-            lock (FileLock)
+            lock (fileLock)
             {
                 var existingData = WindowsAzureProfile.Instance.ProfileStore.LoadTokenCache();
                 if (existingData != null)
@@ -65,7 +64,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
         // Reload the cache from the persistent store in case it changed since the last access.
         void BeforeAccessNotification(TokenCacheNotificationArgs args)
         {
-            lock (FileLock)
+            lock (fileLock)
             {
                 var existingData = WindowsAzureProfile.Instance.ProfileStore.LoadTokenCache();
                 if (existingData != null)
@@ -81,7 +80,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
             // if the access operation resulted in a cache update
             if (this.HasStateChanged)
             {
-                lock (FileLock)
+                lock (fileLock)
                 {
                     // reflect changes in the persistent store
                     WindowsAzureProfile.Instance.ProfileStore.SaveTokenCache(
