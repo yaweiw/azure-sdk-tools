@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     {
 
         public NewAzureVMCmdletInfo(string serviceName, PersistentVM[] vMs, string vnetName, DnsServer[] dnsSettings,
-            string serviceLabel, string serviceDescription, string deploymentLabel, string deploymentName, string location, string affinityGroup, string rsvIPName, bool waitForBoot)
+            string serviceLabel, string serviceDescription, string deploymentLabel, string deploymentName, string location, string affinityGroup, string rsvIPName,InternalLoadBalancerConfig internalLoadBalancerConfig, bool waitForBoot)
         {
             this.cmdletName = Utilities.NewAzureVMCmdletName;
 
@@ -68,6 +68,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             if (waitForBoot)
             {
                 this.cmdletParams.Add(new CmdletParam("WaitForBoot", waitForBoot));
+            }
+            if (internalLoadBalancerConfig != null)
+            {
+                this.cmdletParams.Add(new CmdletParam("InternalLoadBalancerConfig", internalLoadBalancerConfig));
             }
         }
     }

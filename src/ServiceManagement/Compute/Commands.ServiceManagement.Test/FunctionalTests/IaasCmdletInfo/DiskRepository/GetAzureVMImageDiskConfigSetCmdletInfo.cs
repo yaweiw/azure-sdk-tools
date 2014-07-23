@@ -12,20 +12,23 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.PreviewCmdletInfo
+
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.DiskRepository
 {
+
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.PowershellCore;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
 
-
-    public class RemoveAzureReservedIPCmdletInfo : CmdletsInfo
+    class GetAzureVMImageDiskConfigSetCmdletInfo : CmdletsInfo
     {
-        public RemoveAzureReservedIPCmdletInfo(string name, bool force)
+        public GetAzureVMImageDiskConfigSetCmdletInfo(VMImageContext imageContext)
         {
-            this.cmdletName = Utilities.RemoveAzureReservedIPCmdletName;
-
-            this.cmdletParams.Add(new CmdletParam("ReservedIPName", name));
-            if(force)
-            this.cmdletParams.Add(new CmdletParam("Force"));
+            this.cmdletName = Utilities.GetAzureVMImageDiskConfigSetCmdletName;
+            this.cmdletParams.Add(new CmdletParam("ImageContext",imageContext));
         }
     }
 }

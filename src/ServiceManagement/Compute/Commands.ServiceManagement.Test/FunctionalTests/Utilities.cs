@@ -14,14 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 {
-    using Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions;
-    using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
     using Model;
     using Security.Cryptography;
     using Security.Cryptography.X509Certificates;
     using Sync.Download;
     using System;
-    using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
     using System.Reflection;
@@ -33,8 +30,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using System.Threading;
     using System.Xml;
     using VisualStudio.TestTools.UnitTesting;
-    using WindowsAzure.Storage.Auth;
-    using WindowsAzure.Storage.Blob;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
+    using System.Collections.Generic;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions;
+    using Microsoft.WindowsAzure.Storage.Blob;
+    using Microsoft.WindowsAzure.Storage.Auth;
 
     internal class Utilities 
     {
@@ -303,9 +303,26 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         public const string RemoveAzureVMCustomScriptExtensionCmdletName = "Remove-AzureVMCustomScriptExtension";
 
         public const string PaaSDiagnosticsExtensionName = "PaaSDiagnostics";
+
+        // VM Image Disk 
+        public const string GetAzureVMImageDiskConfigSetCmdletName = "Get-AzureVMImageDiskConfigSet";
+        public const string SetAzureVMImageDataDiskConfigCmdletName = "Set-AzureVMImageDataDiskConfig";
+        public const string SetAzureVMImageOSDiskConfigCmdletName = "Set-AzureVMImageOSDiskConfig";
+        public const string NewAzureVMImageDiskConfigSetCmdletName = "New-AzureVMImageDiskConfigSet";
+        
+        //ILB
+        public const string NewAzureInternalLoadBalancerConfigCmdletName = "New-AzureInternalLoadBalancerConfig";
+        public const string AddAzureInternalLoadBalancerCmdletName = "Add-AzureInternalLoadBalancer";
+        public const string GetAzureInternalLoadBalancerCmdletName = "Get-AzureInternalLoadBalancer";
+        public const string SetAzureInternalLoadBalancerCmdletName = "Set-AzureInternalLoadBalancer";
+        public const string RemoveAzureInternalLoadBalancerCmdletName = "Remove-AzureInternalLoadBalancer";
+        public const string SetAzurePublicIPCmdletName = "Set-AzurePublicIP";
+        public const string GetAzurePublicIPCmdletName = "Get-AzurePublicIP";
+        
         #endregion
 
         private static ServiceManagementCmdletTestHelper vmPowershellCmdlets = new ServiceManagementCmdletTestHelper();
+        
 
         public static string GetUniqueShortName(string prefix = "", int length = 6, string suffix = "", bool includeDate = false)
         {
@@ -907,16 +924,30 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
         public static void PrintHeader(string title)
         {
-            int headerLineLength = 100;
-            Console.WriteLine();
-            Console.WriteLine(string.Format("{0}{1}{0}",new String('>',(headerLineLength-title.Length)/2),title));
+            if (title.Length > 100)
+            {
+                Console.WriteLine(string.Format("{0}{1}{0}", "> > >", title));
+            }
+            else
+            {
+                int headerLineLength = 100;
+                Console.WriteLine();
+                Console.WriteLine(string.Format("{0}{1}{0}", new String('>', (headerLineLength - title.Length) / 2), title));
+            }
         }
 
         public static void PrintFooter(string title)
         {
-            int headerLineLength = 100;
-            string completed = ": Completed";
-            Console.WriteLine(string.Format("{0}{1}{0}", new String('<', (headerLineLength - (title.Length + completed.Length)) / 2), title+ completed));
+            if (title.Length > 100)
+            {
+                Console.WriteLine(string.Format("{0}{1}{0}", "< < <", title));
+            }
+            else
+            {
+                int headerLineLength = 100;
+                string completed = ": Completed";
+                Console.WriteLine(string.Format("{0}{1}{0}", new String('<', (headerLineLength - (title.Length + completed.Length)) / 2), title + completed));
+            }
         }
 
         public static void PrintSeperationLineStart(string title,char seperator)
@@ -968,14 +999,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         {
             Console.Write(actionTitle);
             method();
-            Console.WriteLine(": succeeded");
+            Console.WriteLine(": verified");
         }
 
-        public static void LogAction(Action method,string actionTitle)
+        public static void ExecuteAndLog(Action method,string actionTitle)
         {
-            Console.Write(actionTitle);
+            PrintHeader(actionTitle);
             method();
-            Console.WriteLine(actionTitle +": succeeded");
+            PrintFooter(actionTitle);
         }
 
         public static VirtualMachineExtensionImageContext GetAzureVMExtenionInfo(string extensionName)
@@ -984,5 +1015,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             extensionInfo.AddRange(vmPowershellCmdlets.GetAzureVMAvailableExtension());
             return extensionInfo.Find(c => c.ExtensionName.Equals(extensionName));
         }
+
     }
 }
