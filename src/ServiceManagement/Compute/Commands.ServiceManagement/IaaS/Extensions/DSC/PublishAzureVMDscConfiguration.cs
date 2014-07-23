@@ -20,7 +20,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     using System.IO;
     using System.Linq;
     using System.Management.Automation;
-    using System.Text.RegularExpressions;
     using Commands.Common.Storage;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions.DSC;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Properties;
@@ -34,7 +33,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     /// later can be applied to Azure Virtual Machines using the 
     /// Set-AzureVMDscExtension cmdlet.
     /// </summary>
-    [Cmdlet("Publish", "AzureVMDscConfiguration", SupportsShouldProcess = true, DefaultParameterSetName = UploadArchiveParameterSetName)]
+    [Cmdlet(VerbsData.Publish, "AzureVMDscConfiguration", SupportsShouldProcess = true, DefaultParameterSetName = UploadArchiveParameterSetName)]
     public class PublishAzureVMDscConfigurationCommand : ServiceManagementBaseCmdlet
     {
         private const string CreateArchiveParameterSetName = "CreateArchive";
@@ -101,6 +100,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         private static readonly HashSet<String> UploadArchiveAllowedFileExtensions = new HashSet<String>(StringComparer.OrdinalIgnoreCase) { Ps1FileExtension, Psm1FileExtension, ZipFileExtension };
         private static readonly HashSet<String> CreateArchiveAllowedFileExtensions = new HashSet<String>(StringComparer.OrdinalIgnoreCase) { Ps1FileExtension, Psm1FileExtension};
 
+        private const int MinMajorPowerShellVersion = 4;
+
         protected override void ProcessRecord()
         {
             base.ProcessRecord();
@@ -109,8 +110,28 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
         internal void ExecuteCommand()
         {
+            ValidatePsVersion();
             ValidateParameters();
             PublishConfiguration();
+        }
+
+        protected void ValidatePsVersion()
+        {
+            using (PowerShell powershell = PowerShell.Create())
+            {
+                powershell.AddScript("$PSVersionTable.PSVersion.Major");
+                int major = powershell.Invoke<int>().FirstOrDefault();
+                if (major < MinMajorPowerShellVersion)
+                {
+                    this.ThrowTerminatingError(
+                        new ErrorRecord(
+                            new InvalidOperationException(
+                                string.Format(CultureInfo.CurrentUICulture, Resources.PublishVMDscExtensionRequiredPsVersion, MinMajorPowerShellVersion, major)), 
+                                string.Empty,
+                                ErrorCategory.InvalidOperation,
+                                null));
+                }
+            }
         }
 
         protected void ValidateParameters()

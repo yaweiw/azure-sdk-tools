@@ -699,4 +699,8 @@ The file needs to be a PowerShell script (.ps1 or .psm1).</value>
     <value>File '{0}' already exists. Use the -Force parameter to overwrite it.</value>
     <comment>{0} is the path to a file</comment>
   </data>
+  <data name="PublishVMDscExtensionRequiredPsVersion" xml:space="preserve">
+    <value>Your current PowerShell version {1} is less then required by this cmdlet {0}. Consider download and install latest PowerShell version.</value>
+    <comment>{0} = minimal required PS version, {1} = current PS version</comment>
+  </data>
 </root>

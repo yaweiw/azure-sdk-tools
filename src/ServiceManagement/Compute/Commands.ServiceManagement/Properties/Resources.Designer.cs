@@ -1187,6 +1187,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Your current PowerShell version {1} is less then required by this cmdlet {0}. Consider download and install latest PowerShell version..
+        /// </summary>
+        public static string PublishVMDscExtensionRequiredPsVersion {
+            get {
+                return ResourceManager.GetString("PublishVMDscExtensionRequiredPsVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Configuration script &apos;{0}&apos; contained parse errors:
         ///{1}.
         /// </summary>
