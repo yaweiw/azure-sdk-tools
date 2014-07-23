@@ -7,6 +7,7 @@
 
   <?define version="0.8.5" ?>
   <?define versionedStartMenuFolder="Microsoft Azure" ?>
+  <?define staleStartMenuFolder="Windows Azure" ?>
 
   <Product Id="*"
            Name="$(var.productName)"
@@ -52,6 +53,7 @@
       </Directory>
       <Directory Id="ProgramMenuFolder">
         <Directory Id="AzureSdkMenu" Name="$(var.versionedStartMenuFolder)"/>
+        <Directory Id="StaleAzureSdkMenu" Name="$(var.staleStartMenuFolder)"/>
       </Directory>
     </Directory>
 	
@@ -72,13 +74,14 @@
     </DirectoryRef>
 
     <DirectoryRef Id="AzureSdkMenu">
-      <Component Id="AzureSdkShortcut" Guid="CF4CA3B5-3547-4DAA-9589-175BB82F5DDC">
+      <Component Id="AzureSdkShortcut" Guid="A9B58A22-F746-451D-8840-F887D8014C3C">
         <Shortcut Id="AzureSdkStartMenuShortcut"
                   Name="Microsoft Azure PowerShell"
                   Description="Microsoft PowerShell cmdlets"
                   Target="[POWERSHELLPATH]\powershell.exe"
                   Arguments="-NoExit -ExecutionPolicy Bypass -File &quot;[PowerShellFolder]ServiceManagement\Azure\Services\ShortcutStartup.ps1&quot;"/>
         <RemoveFolder Id="AzureSdkMenu" On="uninstall"/>
+        <RemoveFile Id="RemoveStaleFiles" Directory="StaleAzureSdkMenu" Name="Windows Azure PowerShell.lnk" On="both"/>
         <RegistryValue Root="HKCU" Key="SOFTWARE\Microsoft\Microsoft SDKs\WindowsAzure\$(var.version)" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
       </Component>
     </DirectoryRef>

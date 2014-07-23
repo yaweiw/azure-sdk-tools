@@ -50,6 +50,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             if (networkConfiguration.PublicIPs.Any())
             {
                 networkConfiguration.PublicIPs.First().Name = this.PublicIPName;
+                if (this.ParameterSpecified("IdleTimeoutInMinutes"))
+                {
+                    networkConfiguration.PublicIPs.First().IdleTimeoutInMinutes = this.IdleTimeoutInMinutes;
+                }
             }
             else
             {
