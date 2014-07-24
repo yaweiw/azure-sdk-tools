@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Test.Common
     public class MockProfileStore : IProfileStore
     {
         public ProfileData ProfileData { get; set; }
+        public byte[] TokenCache { get; set; }
 
         public MockProfileStore()
         {
@@ -41,14 +42,29 @@ namespace Microsoft.WindowsAzure.Commands.Common.Test.Common
             }
         }
 
+        public void SaveTokenCache(byte[] data)
+        {
+            TokenCache = data;
+        }
+
         public ProfileData Load()
         {
             return ProfileData;
         }
 
+        public byte[] LoadTokenCache()
+        {
+            return TokenCache;
+        }
+
         public void DestroyData()
         {
             ResetData();
+        }
+
+        public void DestroyTokenCache()
+        {
+            TokenCache = null;
         }
 
         private void ResetData()
