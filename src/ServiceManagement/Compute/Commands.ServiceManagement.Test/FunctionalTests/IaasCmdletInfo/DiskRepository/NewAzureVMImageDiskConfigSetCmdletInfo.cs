@@ -12,20 +12,25 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.PreviewCmdletInfo
+//TODO: When transition to SM.NET is completed, rename the namespace to "Microsoft.WindowsAzure.ServiceManagement"
+
+
+
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.DiskRepository
 {
+
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.PowershellCore;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
 
 
-    public class RemoveAzureReservedIPCmdletInfo : CmdletsInfo
+    public class NewAzureVMImageDiskConfigSetCmdletInfo : CmdletsInfo
     {
-        public RemoveAzureReservedIPCmdletInfo(string name, bool force)
+        public NewAzureVMImageDiskConfigSetCmdletInfo()
         {
-            this.cmdletName = Utilities.RemoveAzureReservedIPCmdletName;
-
-            this.cmdletParams.Add(new CmdletParam("ReservedIPName", name));
-            if(force)
-            this.cmdletParams.Add(new CmdletParam("Force"));
+            this.cmdletName = Utilities.NewAzureVMImageDiskConfigSetCmdletName;
         }
     }
 }

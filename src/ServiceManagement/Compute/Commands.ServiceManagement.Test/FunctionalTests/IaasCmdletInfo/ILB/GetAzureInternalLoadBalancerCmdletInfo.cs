@@ -12,20 +12,22 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.PreviewCmdletInfo
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.ILB
 {
+
+
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.PowershellCore;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
 
-
-    public class RemoveAzureReservedIPCmdletInfo : CmdletsInfo
+    public class GetAzureInternalLoadBalancerCmdletInfo: CmdletsInfo
     {
-        public RemoveAzureReservedIPCmdletInfo(string name, bool force)
+        public GetAzureInternalLoadBalancerCmdletInfo(string serviceName)
         {
-            this.cmdletName = Utilities.RemoveAzureReservedIPCmdletName;
-
-            this.cmdletParams.Add(new CmdletParam("ReservedIPName", name));
-            if(force)
-            this.cmdletParams.Add(new CmdletParam("Force"));
+            this.cmdletName = Utilities.GetAzureInternalLoadBalancerCmdletName;
+            this.cmdletParams.Add(new CmdletParam("ServiceName",serviceName));
         }
     }
 }

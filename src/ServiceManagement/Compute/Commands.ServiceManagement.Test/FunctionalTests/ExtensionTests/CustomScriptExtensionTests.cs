@@ -315,7 +315,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         [TestCleanup]
         public void TestCleanUp()
         {
-            Utilities.LogAction(() => CleanupService(serviceName), "Check if service exists and  cleanup");
+            Utilities.ExecuteAndLog(() => CleanupService(serviceName), "Check if service exists and  cleanup");
         }
     }
 }

@@ -111,7 +111,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 CheckAvailabilityofIpAddress(vnet1, ipaddress);
 
                 //Create an IaaS VM
-                vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, vmName1, serviceName, imageName, InstanceSize.Small.ToString(), username, password, VNetName, new string[1] { StaticCASubnet0 }, AffinityGroup);
+                vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, vmName1, serviceName, imageName, new string[1] { StaticCASubnet0 }, InstanceSize.Small, username, password, VNetName, AffinityGroup);
 
                 //Add an IaaS VM with a static CA
                 var vm = CreatIaasVMObject(vmName2, ipaddress, StaticCASubnet0);
@@ -154,7 +154,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 Console.WriteLine("ipaddress {0} is available", ipaddress);
 
                 //Create an IaaS VM
-                vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, vmName1, serviceName, imageName, InstanceSize.Small.ToString(), username, password, VNetName, new string[1] { StaticCASubnet0 }, AffinityGroup);
+                vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, vmName1, serviceName, imageName, new string[1] { StaticCASubnet0 }, InstanceSize.Small, username, password, VNetName, AffinityGroup);
 
                 //Update the IaaS VM with a static CA
                 var vmRoleContext = vmPowershellCmdlets.GetAzureVM(vmName1, serviceName);
@@ -194,7 +194,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             try
             {
                 //Create an IaaS VM
-                vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, vmName1, serviceName, imageName, InstanceSize.Small.ToString(), username, password, VNetName, new string[1] { StaticCASubnet0 }, AffinityGroup);
+                vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, vmName1, serviceName, imageName, new string[1] { StaticCASubnet0 }, InstanceSize.Small, username, password, VNetName, AffinityGroup);
 
                 //Update the IaaS VM with a static CA
                 var vmRoleContext = vmPowershellCmdlets.GetAzureVM(vmName1, serviceName);
@@ -274,7 +274,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 string nonStaticIpAddress = string.Empty;
 
                 //Create an IaaS VM
-                vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, vmName1, serviceName, imageName, InstanceSize.Small.ToString(), username, password, VNetName, new string[1] { StaticCASubnet0 }, AffinityGroup);
+                vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, vmName1, serviceName, imageName, new string[1] { StaticCASubnet0 }, InstanceSize.Small, username, password, VNetName, AffinityGroup);
                 //Get the DIP of the VM (Get-AzureVM)
                 var vmRoleContext = vmPowershellCmdlets.GetAzureVM(vmName1, serviceName);
                 nonStaticIpAddress = vmRoleContext.IpAddress;

@@ -81,7 +81,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             Utilities.PrintHeader("TestCleanup");
             try
             {
-                Utilities.LogAction(() => CleanupService(this.testServiceName), "Removing VM service used by tests");
+                Utilities.ExecuteAndLog(() => CleanupService(this.testServiceName), "Removing VM service used by tests");
             }
             finally
             {
