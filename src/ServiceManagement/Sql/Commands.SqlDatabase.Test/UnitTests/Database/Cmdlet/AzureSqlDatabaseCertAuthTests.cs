@@ -264,7 +264,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 string getOperationDbName = null;
                 if (testSession.ServiceBaseUri == null)
                 {
-                    getOperationDbName = "testdbcertGetOperationDbName_76974d03-d70b-4f9b-88d0-76df0cb68f2c";
+                    getOperationDbName = "testdbcertGetOperationDbName_f1abaa48-a85a-4141-9a40-6acb3ea65771";
                 }
                 else
                 {
@@ -409,7 +409,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 databases = new Database[] { setDatabaseSlo.Single().BaseObject as Database };
                 Assert.AreEqual(1, databases.Length, "Expecting one database");
                 Assert.IsNotNull(databases[0], "Expecting a Database object.");
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbcert4", "Premium", 10, 10737418240L, "SQL_Latin1_General_CP1_CI_AS", "P2", false, DatabaseTestHelper.PremiumP2SloGuid);
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbcert4", "Web", 1, 1073741824L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, DatabaseTestHelper.PremiumP2SloGuid);
 
                 // Validate New-AzureSqlDatabase for Premium Edition Database
                 VerifyCreatePremiumDb(newPremiumP1DatabaseResult, "testdbcertPremiumDBP1", (P1.Single().BaseObject as ServiceObjective).Id.ToString());
@@ -579,7 +579,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                     () =>
                     {
                         return powershell.InvokeBatchScript(
-                            @"Set-AzureSqlDatabase -ServerName $serverName -DatabaseName $db3.Name -Edition Standard -MaxSizeGB 1 -Force");
+                            @"Set-AzureSqlDatabase -ServerName $serverName -DatabaseName $db3.Name -Edition Standard -MaxSizeGB 1 -ServiceObjective $so[4] -Force");
                     });
 
                 Collection<PSObject> getDatabaseResult = MockServerHelper.ExecuteWithMock(
@@ -652,7 +652,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "master", "System", 5, 5368709120L, "SQL_Latin1_General_CP1_CI_AS", "System", true, DatabaseTestHelper.SystemSloGuid);
                 DatabaseTestHelper.ValidateDatabaseProperties(databases[1], "testdbeditions1", "Web", 1, 1073741824L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, DatabaseTestHelper.SharedSloGuid);
                 DatabaseTestHelper.ValidateDatabaseProperties(databases[2], "testdbeditions2", "Standard", 0, 524288000L, "SQL_Latin1_General_CP1_CI_AS", "S2", false, DatabaseTestHelper.StandardS2SloGuid);
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[3], "testdbeditions3", "Standard", 1, 1073741824L, "SQL_Latin1_General_CP1_CI_AS", "S1", false, DatabaseTestHelper.StandardS1SloGuid);
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[3], "testdbeditions3", "Basic", 0, 104857600L, "SQL_Latin1_General_CP1_CI_AS", "Basic", false, DatabaseTestHelper.StandardS1SloGuid);
                 DatabaseTestHelper.ValidateDatabaseProperties(databases[4], "testdbeditions4", "Premium", 10, 10737418240L, "SQL_Latin1_General_CP1_CI_AS", "P1", false, DatabaseTestHelper.PremiumP1SloGuid);
                 DatabaseTestHelper.ValidateDatabaseProperties(databases[5], "testdbeditions5", "Standard", 2, 2147483648L, "SQL_Latin1_General_CP1_CI_AS", "S2", false, DatabaseTestHelper.StandardS2SloGuid);
 
