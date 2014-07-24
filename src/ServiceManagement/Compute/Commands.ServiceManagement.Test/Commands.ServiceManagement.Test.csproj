@@ -385,10 +385,6 @@
     <Compile Include="FunctionalTests\VMTemplateTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\..\packages\AutoMapper.3.1.1\lib\net40\AutoMapper.Net4.dll">
-      <Link>AutoMapper.Net4.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="FunctionalTests\ExtensionTests\MicrosoftAntimalware\AzureVMMicrosoftAntimalwareExtensionFunctionalTests.ps1" />
     <None Include="MSSharedLibKey.snk" />
     <None Include="packages.config" />

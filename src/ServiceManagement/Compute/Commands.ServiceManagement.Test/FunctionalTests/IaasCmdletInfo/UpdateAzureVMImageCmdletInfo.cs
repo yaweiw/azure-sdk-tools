@@ -84,9 +84,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             {
                 cmdletParams.Add(new CmdletParam("SmallIconUri", smallIconUri));
             }
-            if (showInGui)
+            if (!showInGui)
             {
-                cmdletParams.Add(new CmdletParam("ShowInGui"));
+                cmdletParams.Add(new CmdletParam("DontShowInGui"));
             }
         }
     }
