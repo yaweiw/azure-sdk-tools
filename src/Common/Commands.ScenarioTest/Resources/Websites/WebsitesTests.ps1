@@ -138,7 +138,7 @@ function Test-GetAzureWebsiteLogTailPath
     $client.BaseAddress = $uri
     Set-AzureWebsite -RequestTracingEnabled $true -HttpLoggingEnabled $true -DetailedErrorLoggingEnabled $true
     1..10 | % { Retry-DownloadString $client $uri }
-    Start-Sleep -Seconds 30
+    Wait-Seconds 30
 
     #Test
     $retry = $false

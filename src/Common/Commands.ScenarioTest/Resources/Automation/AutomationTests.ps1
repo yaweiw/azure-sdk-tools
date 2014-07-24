@@ -78,7 +78,7 @@ function WaitForJobStatus
 	$endStatus = @('completed','failed')
 	while($timeElapse -lt $numOfSeconds)
 	{
-		Start-Sleep -s $interval
+		Wait-Seconds $interval
 		$timeElapse = $timeElapse + $interval
 		$job = Get-AzureAutomationJob -AutomationAccount $accountName -Id $Id
 		if($job.Status -eq $Status)
@@ -323,7 +323,7 @@ function Test-AutomationStartRunbookOnASchedule
     Assert-True { $runbook.ScheduleNames -Contains $dailyScheName} "The runbook should be associated with $dailyScheName"
    
     #waiting for seven minutes
-    Start-Sleep -s 420 
+    Wait-Seconds 420 
     $job = Get-AzureAutomationJob $accountName -RunbookId $runbook.Id | where {$_.ScheduleName -eq $oneTimeScheName}
     Assert-AreEqual 1 $job.Count
 	WaitForJobStatus -Id $job.Id -Status "Completed"
