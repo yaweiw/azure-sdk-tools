@@ -36,6 +36,8 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.DataObjects
             this.OozieConfiguration = new OozieConfiguration();
             this.HeadNodeVMSize = NodeVMSize.Default;
             this.ClusterType = ClusterType.Hadoop;
+            this.StormConfiguration = new ConfigValuesCollection();
+            this.HBaseConfiguration = new HBaseConfiguration();
         }
 
         /// <summary>
@@ -60,6 +62,16 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.DataObjects
         /// Gets or sets the type of the cluster.
         /// </summary>
         public ClusterType ClusterType { get; set; }
+
+         /// <summary>
+        /// Gets or sets the virtual network id.
+        /// </summary>
+        public string VirtualNetworkId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the subnet name.
+        /// </summary>
+        public string SubnetName { get; set; }
 
         /// <summary>
         ///     Gets a collection of configuration properties to customize the Core Hadoop service.
@@ -105,5 +117,15 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.DataObjects
         ///     Gets or sets the Oozie Metastore.
         /// </summary>
         public AzureHDInsightMetastore OozieMetastore { get; set; }
+
+        /// <summary>
+        ///     Gets a collection of configuration properties to customize the Storm service.
+        /// </summary>
+        public ConfigValuesCollection StormConfiguration { get; private set; }
+
+        /// <summary>
+        ///     Gets a collection of configuration properties to customize the HBase service.
+        /// </summary>
+        public HBaseConfiguration HBaseConfiguration { get; private set; }
     }
 }

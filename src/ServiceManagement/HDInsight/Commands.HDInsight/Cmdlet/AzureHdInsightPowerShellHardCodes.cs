@@ -45,6 +45,8 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
         public const string AliasTaskLogsDirectory = "LogsDir";
         public const string AliasVersion = "Ver";
         public const string AliasClusterType = "ClusterType";
+        public const string AliasVirtualNetworkId = "VirtualNetworkId";
+        public const string AliasSubnetName = "SubnetName";
         public const string AzureHDInsightCluster = "AzureHDInsightCluster";
         public const string AzureHDInsightClusterConfig = "AzureHDInsightClusterConfig";
         public const string AzureHDInsightConfigValues = "AzureHDInsightConfigValues";

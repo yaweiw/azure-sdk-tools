@@ -605,12 +605,14 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         /// <param name="partnerServer">The name for the partner server.</param>
         /// <param name="partnerDatabaseName">The name of the database on the partner server.</param>
         /// <param name="continuousCopy"><c>true</c> to make this a continuous copy.</param>
+        /// <param name="isOfflineSecondary"><c>true</c> to make this an offline secondary copy.</param>
         /// <returns>The new instance of database copy operation.</returns>
         public DatabaseCopyModel StartDatabaseCopy(
             string databaseName,
             string partnerServer,
             string partnerDatabaseName,
-            bool continuousCopy)
+            bool continuousCopy,
+            bool isOfflineSecondary)
         {
             // Create a new request Id for this operation
             this.clientRequestId = SqlDatabaseCmdletBase.GenerateClientTracingId();
@@ -627,6 +629,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                         PartnerServer = partnerServer,
                         PartnerDatabase = partnerDatabaseName,
                         IsContinuous = continuousCopy,
+                        IsOfflineSecondary = isOfflineSecondary,
                     });
 
             return CreateDatabaseCopyFromResponse(response.DatabaseCopy);
@@ -1222,7 +1225,9 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                     IsInterlinkConnected = response.IsInterlinkConnected,
                     StartDate = startDate,
                     ModifyDate = modifyDate,
-                    PercentComplete = response.PercentComplete
+                    PercentComplete = response.PercentComplete,
+                    IsOfflineSecondary = response.IsOfflineSecondary,
+                    IsTerminationAllowed = response.IsTerminationAllowed
                 };
         }
 

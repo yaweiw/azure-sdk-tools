@@ -75,6 +75,10 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
                 this.command.Config.OozieConfiguration.ConfigurationCollection.AddRange(value.OozieConfiguration.ConfigurationCollection);
                 this.command.Config.HeadNodeVMSize = value.HeadNodeVMSize;
                 this.command.Config.ClusterType = value.ClusterType;
+                this.command.Config.VirtualNetworkId = value.VirtualNetworkId;
+                this.command.Config.SubnetName = value.SubnetName;
+                this.command.Config.StormConfiguration.AddRange(value.StormConfiguration);
+                this.command.Config.HBaseConfiguration.ConfigurationCollection.AddRange(value.HBaseConfiguration.ConfigurationCollection);
             }
         }
 
@@ -142,6 +146,28 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
         {
             get { return this.command.Oozie; }
             set { this.command.Oozie = value; }
+        }
+
+        /// <summary>
+        ///     Gets or sets a collection of configuration properties to customize the Storm service.
+        /// </summary>
+        [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "Ease of use in Powershell")]
+        [Parameter(Mandatory = false, HelpMessage = "a collection of configuration properties to customize the Storm service.")]
+        public Hashtable Storm
+        {
+            get { return this.command.Storm; }
+            set { this.command.Storm = value; }
+        }
+
+        /// <summary>
+        ///     Gets or sets a collection of configuration properties to customize the HBase service.
+        /// </summary>
+        [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "Ease of use in Powershell")]
+        [Parameter(Mandatory = false, HelpMessage = "a collection of configuration properties to customize the HBase service.")]
+        public AzureHDInsightHBaseConfiguration HBase
+        {
+            get { return this.command.HBase; }
+            set { this.command.HBase = value; }
         }
 
         /// <inheritdoc />

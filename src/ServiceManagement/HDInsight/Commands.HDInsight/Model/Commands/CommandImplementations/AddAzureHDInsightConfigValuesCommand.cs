@@ -31,6 +31,8 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImp
             this.MapReduce = new AzureHDInsightMapReduceConfiguration();
             this.Hive = new AzureHDInsightHiveConfiguration();
             this.Oozie = new AzureHDInsightOozieConfiguration();
+            this.Storm = new Hashtable();
+            this.HBase = new AzureHDInsightHBaseConfiguration();
         }
 
         public AzureHDInsightConfig Config { get; set; }
@@ -47,6 +49,10 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImp
 
         public AzureHDInsightOozieConfiguration Oozie { get; set; }
 
+        public Hashtable Storm { get; set; }
+
+        public AzureHDInsightHBaseConfiguration HBase { get; set; }
+
         public override Task EndProcessing()
         {
             this.Config.CoreConfiguration.AddRange(this.Core.ToKeyValuePairs());
@@ -57,6 +63,8 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImp
                 this.MapReduce.CapacitySchedulerConfiguration.ToKeyValuePairs());
             this.Config.HiveConfiguration.ConfigurationCollection.AddRange(this.Hive.Configuration.ToKeyValuePairs());
             this.Config.OozieConfiguration.ConfigurationCollection.AddRange(this.Oozie.Configuration.ToKeyValuePairs());
+            this.Config.StormConfiguration.AddRange(this.Storm.ToKeyValuePairs());
+            this.Config.HBaseConfiguration.ConfigurationCollection.AddRange(this.HBase.Configuration.ToKeyValuePairs());
 
             if (this.Hive.AdditionalLibraries != null)
             {
@@ -72,6 +80,11 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImp
             {
                 this.Config.OozieConfiguration.AdditionalActionExecutorLibraries =
                     this.Oozie.AdditionalActionExecutorLibraries.ToWabStorageAccountConfiguration();
+            }
+
+            if (this.HBase.AdditionalLibraries != null)
+            {
+                this.Config.HBaseConfiguration.AdditionalLibraries = this.HBase.AdditionalLibraries.ToWabStorageAccountConfiguration();
             }
 
             this.Output.Add(this.Config);

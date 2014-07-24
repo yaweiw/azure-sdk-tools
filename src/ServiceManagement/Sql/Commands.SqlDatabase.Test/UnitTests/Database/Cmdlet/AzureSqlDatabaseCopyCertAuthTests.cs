@@ -182,18 +182,19 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
         }
 
         /// <summary>
-        /// Test Get/Set/Remove a database using certificate authentication.
+        /// Test Start/Stop/Get a database copy using certificate authentication.
         /// </summary>
         [TestMethod]
         public void AzureSqlContinuousDatabaseCopyCertTests()
         {
             // Create some databases to be used in the tests.
-            var dbNames = new string[] { "testdb0", "testdb1", "testdb2", "testdb3" };
+            var dbNames = new string[] { "testdb0", "testdb1", "testdb2", "testdb3", "testdb4" };
 
             CreateDatabase(HomeServer, dbNames[0], "$db0", "$dbName0");
             CreateDatabase(HomeServer, dbNames[1], "$db1", "$dbName1");
             CreateDatabase(PartnerServer, dbNames[2], "$db2", "$dbName2");
             CreateDatabase(PartnerServer, dbNames[3], "$db3", "$dbName3");
+            CreateDatabase(HomeServer, dbNames[4], "$db4", "$dbName4");
 
             Collection<PSObject> response;
 
@@ -246,11 +247,24 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
 
             VerifyCcResponse(response, PartnerServer, dbNames[3], HomeServer, false);
 
+            // Start a passive continuous copy
+            response = PowerShell.InvokeBatchScript(
+                @"$copy5 = Start-AzureSqlDatabaseCopy" +
+                @" -ServerName $homeServerName" +
+                @" -PartnerServer $partnerServerName" +
+                @" -DatabaseName $dbName4" +
+                @" -ContinuousCopy" +
+                @" -OfflineSecondary",
+                @"$copy5");
+
+            VerifyCcResponse(response, HomeServer, dbNames[4], PartnerServer, false, true);
+
             // Wait for all of the new copies to reach catchup.
             WaitForSeedingCompletion(HomeServer, dbNames[0], PartnerServer);
             WaitForSeedingCompletion(HomeServer, dbNames[1], PartnerServer);
             WaitForSeedingCompletion(PartnerServer, dbNames[2], HomeServer);
             WaitForSeedingCompletion(PartnerServer, dbNames[3], HomeServer);
+            WaitForSeedingCompletion(HomeServer, dbNames[4], PartnerServer);
 
             // Do some Get-AzureSqlDatabaseCopy calls with different parameter sets.
 
@@ -281,7 +295,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 @"Get-AzureSqlDatabaseCopy" +
                 @" -ServerName $homeServerName");
 
-            Assert.AreEqual(4, response.Count);
+            Assert.AreEqual(5, response.Count);
             DatabaseCopy[] allCopies = response.Select(obj => obj.BaseObject as DatabaseCopy).ToArray();
             foreach (var copy in allCopies)
             {
@@ -291,10 +305,11 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
             Array.Sort(allCopies,
                         (dbc1, dbc2) => string.Compare(dbc1.SourceDatabaseName, dbc2.SourceDatabaseName));
 
-            VerifyCopyResponse(allCopies[0], HomeServer, dbNames[0], PartnerServer, dbNames[0], false, true);
-            VerifyCopyResponse(allCopies[1], HomeServer, dbNames[1], PartnerServer, dbNames[1], false,true);
-            VerifyCopyResponse(allCopies[2], PartnerServer, dbNames[2], HomeServer, dbNames[2], true, true);
-            VerifyCopyResponse(allCopies[3], PartnerServer, dbNames[3], HomeServer, dbNames[3], true, true);
+            VerifyCopyResponse(allCopies[0], HomeServer, dbNames[0], PartnerServer, dbNames[0], false, true, false);
+            VerifyCopyResponse(allCopies[1], HomeServer, dbNames[1], PartnerServer, dbNames[1], false, true, false);
+            VerifyCopyResponse(allCopies[2], PartnerServer, dbNames[2], HomeServer, dbNames[2], true, true, false);
+            VerifyCopyResponse(allCopies[3], PartnerServer, dbNames[3], HomeServer, dbNames[3], true, true, false);
+            VerifyCopyResponse(allCopies[4], HomeServer, dbNames[4], PartnerServer, dbNames[4], false, true, true);
 
             response = PowerShell.InvokeBatchScript(
                 @"Get-AzureSqlDatabaseCopy" +
@@ -330,10 +345,17 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 @" -DatabaseName $dbName3" +
                 @" -ForcedTermination");
 
+            PowerShell.InvokeBatchScript(
+                @"Stop-AzureSqlDatabaseCopy" +
+                @" -ServerName $homeServerName" +
+                @" -DatabaseName $dbName4" +
+                @" -ForcedTermination");
+
             WaitForCopyTermination(HomeServer, dbNames[0], PartnerServer);
             WaitForCopyTermination(HomeServer, dbNames[1], PartnerServer);
             WaitForCopyTermination(PartnerServer, dbNames[2], HomeServer);
             WaitForCopyTermination(HomeServer, dbNames[3], PartnerServer);
+            WaitForCopyTermination(HomeServer, dbNames[4], PartnerServer);
 
             // Make sure there are no longer any copies on the server.
             response = PowerShell.InvokeBatchScript(
@@ -400,30 +422,30 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
         }
 
         private void VerifyCcResponse(Collection<PSObject> result, string sourceServer, string sourceDb,
-                                        string destServer, bool isLocalDatabaseReplicationTarget)
+                                        string destServer, bool isLocalDatabaseReplicationTarget, bool? isOfflineSecondary = null)
         {
-            VerifyCopyResponse(result, sourceServer, sourceDb, destServer, sourceDb, isLocalDatabaseReplicationTarget, true);
+            VerifyCopyResponse(result, sourceServer, sourceDb, destServer, sourceDb, isLocalDatabaseReplicationTarget, true, isOfflineSecondary);
         }
 
         private void VerifyDbCopyResponse(Collection<PSObject> result, string sourceServer, string sourceDb, 
                                         string destDb, bool isLocalDatabaseReplicationTarget)
         {
-            VerifyCopyResponse(result, sourceServer, sourceDb, sourceServer, destDb, isLocalDatabaseReplicationTarget, false);
+            VerifyCopyResponse(result, sourceServer, sourceDb, sourceServer, destDb, isLocalDatabaseReplicationTarget, false, false);
         }
 
         private void VerifyCopyResponse(Collection<PSObject> result, string sourceServer, string sourceDb,
                                         string destServer,  string destDb, bool isLocalDatabaseReplicationTarget,
-                                        bool isContinuous)
+                                        bool isContinuous, bool? isOfflineSecondary)
         {
             Assert.AreEqual(1, result.Count, "Expected exactly one result from cmdlet");
             var copy = result.First().BaseObject as DatabaseCopy;
             Assert.IsNotNull(copy, "Expected object of type DatabaseCopy");
-            VerifyCopyResponse(copy, sourceServer, sourceDb, destServer, destDb, isLocalDatabaseReplicationTarget, isContinuous);
+            VerifyCopyResponse(copy, sourceServer, sourceDb, destServer, destDb, isLocalDatabaseReplicationTarget, isContinuous, isOfflineSecondary);
         }
 
         private void VerifyCopyResponse(DatabaseCopy copy, string sourceServer, string sourceDb,
                                         string destServer, string destDb, bool isLocalDatabaseReplicationTarget,
-                                        bool isContinuous)
+                                        bool isContinuous, bool? isOfflineSecondary)
         {
             Assert.AreEqual(sourceServer, copy.SourceServerName);
             Assert.AreEqual(sourceDb, copy.SourceDatabaseName);
@@ -432,6 +454,10 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
             Assert.AreEqual(isContinuous, copy.IsContinuous);
             Assert.AreEqual(isLocalDatabaseReplicationTarget, copy.IsLocalDatabaseReplicationTarget);
             Assert.IsTrue(copy.IsInterlinkConnected);
+            if (isOfflineSecondary.HasValue)
+            {
+                Assert.AreEqual(isOfflineSecondary, copy.IsOfflineSecondary);
+            }
 
             if (IsRunningAgainstOneBox)
             {

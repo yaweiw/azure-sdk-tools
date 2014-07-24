@@ -243,6 +243,8 @@
         <Property Name="IsForcedTerminate" Type="Edm.Boolean" />
         <Property Name="MaximumLag" Type="Edm.Int32" />
         <Property Name="EntityId" Type="Edm.Guid" Nullable="false" />
+        <Property Name="IsOfflineSecondary" Type="Edm.Boolean" Nullable="false" />
+        <Property Name="IsTerminationAllowed" Type="Edm.Boolean" Nullable="false" />
         <NavigationProperty Name="Database" Relationship="Microsoft.SqlServer.Management.Server.Domain.Database_DatabaseCopies_DatabaseCopy_Database" ToRole="Database_DatabaseCopies" FromRole="DatabaseCopy_Database" />
       </EntityType>
       <EntityType Name="DatabaseCopyValidationOperation" OpenType="true">

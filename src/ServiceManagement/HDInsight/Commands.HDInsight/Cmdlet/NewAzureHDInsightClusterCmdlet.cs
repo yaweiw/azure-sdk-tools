@@ -94,6 +94,8 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
                 result.ClusterSizeInNodes = this.command.ClusterSizeInNodes;
                 result.HeadNodeVMSize = this.command.HeadNodeSize;
                 result.ClusterType = this.command.ClusterType;
+                result.VirtualNetworkId = this.command.VirtualNetworkId;
+                result.SubnetName = this.command.SubnetName;
                 result.DefaultStorageAccount.StorageAccountName = this.command.DefaultStorageAccountName;
                 result.DefaultStorageAccount.StorageAccountKey = this.command.DefaultStorageAccountKey;
                 result.DefaultStorageAccount.StorageContainerName = this.command.DefaultStorageContainerName;
@@ -107,6 +109,9 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
                 result.MapReduceConfiguration.ConfigurationCollection.AddRange(this.command.MapReduceConfiguration.ConfigurationCollection);
                 result.MapReduceConfiguration.CapacitySchedulerConfigurationCollection.AddRange(
                     this.command.MapReduceConfiguration.CapacitySchedulerConfigurationCollection);
+                result.StormConfiguration.AddRange(this.command.StormConfiguration);
+                result.HBaseConfiguration.AdditionalLibraries = this.command.HBaseConfiguration.AdditionalLibraries;
+                result.HBaseConfiguration.ConfigurationCollection.AddRange(this.command.HBaseConfiguration.ConfigurationCollection);
                 return result;
             }
 
@@ -118,6 +123,8 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
                 }
                 this.command.ClusterSizeInNodes = value.ClusterSizeInNodes;
                 this.command.ClusterType = value.ClusterType;
+                this.command.VirtualNetworkId = value.VirtualNetworkId;
+                this.command.SubnetName = value.SubnetName;
                 this.command.HeadNodeSize = value.HeadNodeVMSize;
                 this.command.DefaultStorageAccountName = value.DefaultStorageAccount.StorageAccountName;
                 this.command.DefaultStorageAccountKey = value.DefaultStorageAccount.StorageAccountKey;
@@ -136,6 +143,9 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
                 this.command.OozieConfiguration.AdditionalActionExecutorLibraries = value.OozieConfiguration.AdditionalActionExecutorLibraries;
                 this.command.HiveMetastore = value.HiveMetastore;
                 this.command.OozieMetastore = value.OozieMetastore;
+                this.command.StormConfiguration.AddRange(value.StormConfiguration);
+                this.command.HBaseConfiguration.AdditionalLibraries = value.HBaseConfiguration.AdditionalLibraries;
+                this.command.HBaseConfiguration.ConfigurationCollection.AddRange(value.HBaseConfiguration.ConfigurationCollection);
             }
         }
 
@@ -257,6 +267,24 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
         {
             get { return this.command.ClusterType; }
             set { this.command.ClusterType = value; }
+        }
+
+        /// <inheritdoc />
+        [Parameter(Position = 15, Mandatory = false, HelpMessage = "GUID of virtual network to deploy HDInsight cluster.",
+            ParameterSetName = AzureHdInsightPowerShellConstants.ParameterSetClusterByNameWithSpecificSubscriptionCredentials)]
+        public string VirtualNetworkId
+        {
+            get { return this.command.VirtualNetworkId; }
+            set { this.command.VirtualNetworkId = value; }
+        }
+
+        /// <inheritdoc />
+        [Parameter(Position = 16, Mandatory = false, HelpMessage = "Name of subnet to deploy HDInsight cluster.",
+            ParameterSetName = AzureHdInsightPowerShellConstants.ParameterSetClusterByNameWithSpecificSubscriptionCredentials)]
+        public string SubnetName
+        {
+            get { return this.command.SubnetName; }
+            set { this.command.SubnetName = value; }
         }
 
         /// <inheritdoc />
