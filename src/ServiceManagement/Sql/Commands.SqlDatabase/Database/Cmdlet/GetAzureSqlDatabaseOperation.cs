@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
     using System.Management.Automation;
 
     /// <summary>
-    /// Retrieves a list of Windows Azure SQL Database's Operations in the given server context.
+    /// Retrieves a list of Microsoft Azure SQL Database's Operations in the given server context.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureSqlDatabaseOperation", ConfirmImpact = ConfirmImpact.None,
         DefaultParameterSetName = ByConnectionContext)]

@@ -22,7 +22,7 @@
           <maml:name>ServiceName</maml:name>
           <maml:description>
             <maml:para>
-              Specifies the name of the Windows Azure service to which you are adding a certificate.
+              Specifies the name of the Microsoft Azure service to which you are adding a certificate.
             </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -82,7 +82,7 @@
         <maml:name>ServiceName</maml:name>
         <maml:description>
           <maml:para>
-            Specifies the name of the Windows Azure service to which you are adding a certificate.
+            Specifies the name of the Microsoft Azure service to which you are adding a certificate.
           </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -275,7 +275,7 @@
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
           <maml:name>MediaLocation</maml:name>
           <maml:description>
-            <maml:para>Optional. Specifies the Location of the blob in a Windows Azure storage account where the data disk will be stored. If no location is specified, the data disk will be stored in the vhds container within the default storage account for the current subscription. If a vhds container doesn’t exist, the container is created </maml:para>
+            <maml:para>Optional. Specifies the Location of the blob in a Microsoft Azure storage account where the data disk will be stored. If no location is specified, the data disk will be stored in the vhds container within the default storage account for the current subscription. If a vhds container doesn’t exist, the container is created </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
@@ -328,7 +328,7 @@
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
           <maml:name>MediaLocation</maml:name>
           <maml:description>
-            <maml:para>Optional. Specifies the Location of the blob in a Windows Azure storage account where the data disk will be stored. If no location is specified, the data disk will be stored in the vhds container within the default storage account for the current subscription. If a vhds container doesn’t exist, the container is created </maml:para>
+            <maml:para>Optional. Specifies the Location of the blob in a Microsoft Azure storage account where the data disk will be stored. If no location is specified, the data disk will be stored in the vhds container within the default storage account for the current subscription. If a vhds container doesn’t exist, the container is created </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
@@ -511,7 +511,7 @@
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
         <maml:name>MediaLocation</maml:name>
         <maml:description>
-          <maml:para>Optional. Specifies the Location of the blob in a Windows Azure storage account where the data disk will be stored. If no location is specified, the data disk will be stored in the vhds container within the default storage account for the current subscription. If a vhds container doesn’t exist, the container is created </maml:para>
+          <maml:para>Optional. Specifies the Location of the blob in a Microsoft Azure storage account where the data disk will be stored. If no location is specified, the data disk will be stored in the vhds container within the default storage account for the current subscription. If a vhds container doesn’t exist, the container is created </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -584,7 +584,7 @@
         </dev:code>
         <dev:remarks>
           <maml:para>
-            This example gets a virtual machine object for the virtual machine named “MyVM” in the “myservice” cloud service, updates the virtual machine object by attaching an existing data disk from the repository using the disk name, and then updates the Windows Azure virtual machine.
+            This example gets a virtual machine object for the virtual machine named “MyVM” in the “myservice” cloud service, updates the virtual machine object by attaching an existing data disk from the repository using the disk name, and then updates the Microsoft Azure virtual machine.
           </maml:para>
         </dev:remarks>
         <command:commandLines>
@@ -665,7 +665,7 @@
     <command:details>
       <command:name>Add-AzureDisk</command:name>
       <maml:description>
-        <maml:para>Adds a new disk to the Windows Azure disk repository.</maml:para>
+        <maml:para>Adds a new disk to the Microsoft Azure disk repository.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -676,7 +676,7 @@
     </command:details>
     <maml:description>
       <maml:para>
-        The Add-AzureDisk cmdlet adds a new disk to the Windows Azure disk repository in the current subscription. This disk is bootable if the optional –OS parameter is specified. If not specified, the disk is a data disk.
+        The Add-AzureDisk cmdlet adds a new disk to the Microsoft Azure disk repository in the current subscription. This disk is bootable if the optional –OS parameter is specified. If not specified, the disk is a data disk.
       </maml:para>
       <maml:para>The required parameters are DiskName and MediaLocation. </maml:para>
     </maml:description>
@@ -696,7 +696,7 @@
           <maml:name>MediaLocation</maml:name>
           <maml:description>
             <maml:para>
-              Specifies the physical location of the disk in Windows Azure storage. This link refers to a blob page in the current subscription and storage account.
+              Specifies the physical location of the disk in Microsoft Azure storage. This link refers to a blob page in the current subscription and storage account.
             </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -753,7 +753,7 @@
         <maml:name>MediaLocation</maml:name>
         <maml:description>
           <maml:para>
-            Specifies the physical location of the disk in Windows Azure storage. This link refers to a blob page in the current subscription and storage account.
+            Specifies the physical location of the disk in Microsoft Azure storage. This link refers to a blob page in the current subscription and storage account.
           </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -1226,7 +1226,7 @@
                    Add-AzureProvisioningConfig
 		</command:name>
       <maml:description>
-        <maml:para>Adds the provisioning configuration to a Windows Azure virtual machine.</maml:para>
+        <maml:para>Adds the provisioning configuration to a Microsoft Azure virtual machine.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para>
@@ -2569,7 +2569,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
     <command:details>
       <command:name>Export-AzureVM</command:name>
       <maml:description>
-        <maml:para>Exports a Windows Azure virtual machine state to a file.</maml:para>
+        <maml:para>Exports a Microsoft Azure virtual machine state to a file.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -2593,7 +2593,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
           <maml:name>ServiceName</maml:name>
           <maml:description>
             <maml:para>
-              Specifies the name of the Windows Azure service that hosts the virtual machine.
+              Specifies the name of the Microsoft Azure service that hosts the virtual machine.
             </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -2653,7 +2653,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
         <maml:name>ServiceName</maml:name>
         <maml:description>
           <maml:para>
-            Specifies the name of the Windows Azure service that hosts the virtual machine.
+            Specifies the name of the Microsoft Azure service that hosts the virtual machine.
           </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -2737,7 +2737,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
     <command:details>
       <command:name>Get-AzureAffinityGroup</command:name>
       <maml:description>
-        <maml:para>Returns an object that represents a Windows Azure affinity group.</maml:para>
+        <maml:para>Returns an object that represents a Microsoft Azure affinity group.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -2839,7 +2839,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
     <command:details>
       <command:name>Get-AzureCertificate</command:name>
       <maml:description>
-        <maml:para>Gets a certificate object from the specified Windows Azure service.</maml:para>
+        <maml:para>Gets a certificate object from the specified Microsoft Azure service.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -2857,7 +2857,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
           <maml:name>ServiceName</maml:name>
           <maml:description>
             <maml:para>
-              Specifies the name of the Windows Azure service that has the certificate.
+              Specifies the name of the Microsoft Azure service that has the certificate.
             </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -2887,7 +2887,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
         <maml:name>ServiceName</maml:name>
         <maml:description>
           <maml:para>
-            Specifies the name of the Windows Azure service that has the certificate.
+            Specifies the name of the Microsoft Azure service that has the certificate.
           </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -3023,7 +3023,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
     <command:details>
       <command:name>Get-AzureDataDisk</command:name>
       <maml:description>
-        <maml:para>Gets a Windows Azure data disk object.</maml:para>
+        <maml:para>Gets a Microsoft Azure data disk object.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -3033,7 +3033,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>The Get-AzureDataDisk cmdlet gets an object that represents the Windows Azure data disks on the specified virtual machine. To get a specific data disk object, specify the disk's LUN. </maml:para>
+      <maml:para>The Get-AzureDataDisk cmdlet gets an object that represents the Microsoft Azure data disks on the specified virtual machine. To get a specific data disk object, specify the disk's LUN. </maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -3149,7 +3149,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
         </dev:code>
         <dev:remarks>
           <maml:para>
-            This command gets a data disk object, $dDisk, that represents the data disk mounted at LUN 2 on the Database virtual machine running on the Windows Azure service "myservice".
+            This command gets a data disk object, $dDisk, that represents the data disk mounted at LUN 2 on the Database virtual machine running on the Microsoft Azure service "myservice".
           </maml:para>
         </dev:remarks>
         <command:commandLines>
@@ -3170,7 +3170,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
           C:\PS&gt;Get-AzureVM "MyService" –Name "MyVM" | Get-AzureDataDisk –LUN 1
         </dev:code>
         <dev:remarks>
-          <maml:para>This command removes the data disk at LUN 1 on the "MyVM" virtual machine running on the Windows Azure service "MyService". </maml:para>
+          <maml:para>This command removes the data disk at LUN 1 on the "MyVM" virtual machine running on the Microsoft Azure service "MyService". </maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
@@ -3213,7 +3213,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
     </command:details>
     <maml:description>
       <maml:para>
-        The Get-AzureDeployment cmdlet returns an object with the details of the specified Windows Azure deployment. The deployment is specified by using the Windows Azure service name and the slot (Production or Staging) that the deployment object describes.
+        The Get-AzureDeployment cmdlet returns an object with the details of the specified Microsoft Azure deployment. The deployment is specified by using the Microsoft Azure service name and the slot (Production or Staging) that the deployment object describes.
       </maml:para>
     </maml:description>
     <command:syntax>
@@ -3223,7 +3223,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
           <maml:name>ServiceName</maml:name>
           <maml:description>
             <maml:para>
-              Specifies the name of the Windows Azure cloud service.
+              Specifies the name of the Microsoft Azure cloud service.
             </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -3244,7 +3244,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
         <maml:name>ServiceName</maml:name>
         <maml:description>
           <maml:para>
-            Specifies the name of the Windows Azure cloud service.
+            Specifies the name of the Microsoft Azure cloud service.
           </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -3373,7 +3373,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
     <command:details>
       <command:name>Get-AzureDisk</command:name>
       <maml:description>
-        <maml:para>Gets an object with information on disks in the Windows Azure disk repository.</maml:para>
+        <maml:para>Gets an object with information on disks in the Microsoft Azure disk repository.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -3384,7 +3384,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
     </command:details>
     <maml:description>
       <maml:para>
-        The Get-AzureDisk cmdlet retrieves an object with information about the disks stored in the Windows Azure disk repository for the current subscription. It returns a list object with information for all disks in the repository, or with information on a specific disk if its disk name is specified.
+        The Get-AzureDisk cmdlet retrieves an object with information about the disks stored in the Microsoft Azure disk repository for the current subscription. It returns a list object with information for all disks in the repository, or with information on a specific disk if its disk name is specified.
       </maml:para>
     </maml:description>
     <command:syntax>
@@ -3541,7 +3541,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
     <command:details>
       <command:name>Get-AzureDns</command:name>
       <maml:description>
-        <maml:para>Gets an object with the DNS settings for the Windows Azure deployment.</maml:para>
+        <maml:para>Gets an object with the DNS settings for the Microsoft Azure deployment.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -3551,7 +3551,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>The Get-AzureDNS cmdlet gets the DNS settings for a Windows Azure deployment. The returned settings are "name" (a friendly name) and "Address" which is the IP address of the DNS server. </maml:para>
+      <maml:para>The Get-AzureDNS cmdlet gets the DNS settings for a Microsoft Azure deployment. The returned settings are "name" (a friendly name) and "Address" which is the IP address of the DNS server. </maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -3644,7 +3644,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
     <command:details>
       <command:name>Get-AzureEndpoint</command:name>
       <maml:description>
-        <maml:para>Gets an object with information about the endpoints assigned to a Windows Azure virtual machine.</maml:para>
+        <maml:para>Gets an object with information about the endpoints assigned to a Microsoft Azure virtual machine.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -3654,7 +3654,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>The Get-AzureEndpoint cmdlet returns an object with information about the endpoints that are assigned to a Windows Azure virtual machine.</maml:para>
+      <maml:para>The Get-AzureEndpoint cmdlet returns an object with information about the endpoints that are assigned to a Microsoft Azure virtual machine.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -3784,7 +3784,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
     <command:details>
       <command:name>Get-AzureLocation</command:name>
       <maml:description>
-        <maml:para>Gets the available data center locations for the current Windows Azure subscription.</maml:para>
+        <maml:para>Gets the available data center locations for the current Microsoft Azure subscription.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -3794,7 +3794,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>The Get-AzureLocation cmdlet returns a list object with the available Windows Azure data centers and their properties for the current Windows Azure subscription. Before running this cmdlet, you need to set your current subscription with Select-AzureSubscription and Set-AzureSubscription.</maml:para>
+      <maml:para>The Get-AzureLocation cmdlet returns a list object with the available Microsoft Azure data centers and their properties for the current Microsoft Azure subscription. Before running this cmdlet, you need to set your current subscription with Select-AzureSubscription and Set-AzureSubscription.</maml:para>
     </maml:description>
     <command:syntax>
     </command:syntax>
@@ -3877,7 +3877,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
     <command:details>
       <command:name>Get-AzureOSDisk</command:name>
       <maml:description>
-        <maml:para>Gets the operating system disk object for the specified Windows Azure virtual machine.</maml:para>
+        <maml:para>Gets the operating system disk object for the specified Microsoft Azure virtual machine.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -3984,7 +3984,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
     <command:details>
       <command:name>Get-AzureOSVersion</command:name>
       <maml:description>
-        <maml:para>Returns an object with all the available Windows Azure guest operating systems.</maml:para>
+        <maml:para>Returns an object with all the available Microsoft Azure guest operating systems.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -3994,7 +3994,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>The Get-AzureOSVersion cmdlet returns a list object with all the available Windows Azure guest operating systems. </maml:para>
+      <maml:para>The Get-AzureOSVersion cmdlet returns a list object with all the available Microsoft Azure guest operating systems. </maml:para>
     </maml:description>
     <command:syntax>
     </command:syntax>
@@ -4195,7 +4195,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
     <command:details>
       <command:name>Get-AzureRemoteDesktopFile</command:name>
       <maml:description>
-        <maml:para>Gets a remote desktop connection file (.RDP) for the specified Windows Azure virtual machine.</maml:para>
+        <maml:para>Gets a remote desktop connection file (.RDP) for the specified Microsoft Azure virtual machine.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -4213,7 +4213,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
           <maml:name>ServiceName</maml:name>
           <maml:description>
-            <maml:para>Specifies the Windows Azure service name.</maml:para>
+            <maml:para>Specifies the Microsoft Azure service name.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
@@ -4239,7 +4239,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
           <maml:name>ServiceName</maml:name>
           <maml:description>
-            <maml:para>Specifies the Windows Azure service name.</maml:para>
+            <maml:para>Specifies the Microsoft Azure service name.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
@@ -4313,7 +4313,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
         <maml:name>ServiceName</maml:name>
         <maml:description>
-          <maml:para>Specifies the Windows Azure service name.</maml:para>
+          <maml:para>Specifies the Microsoft Azure service name.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -4420,7 +4420,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
     <command:details>
       <command:name>Get-AzureRole</command:name>
       <maml:description>
-        <maml:para>Returns a list of roles in your Windows Azure service.</maml:para>
+        <maml:para>Returns a list of roles in your Microsoft Azure service.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -4430,7 +4430,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>The Get-AzureRole cmdlet returns a list object with details on the roles in your Windows Azure service. If the RoleName parameter is specified, Get-AzureRole returns details on that role only. If the InstanceDetails parameter is specified, additional, instance specific details are returned. </maml:para>
+      <maml:para>The Get-AzureRole cmdlet returns a list object with details on the roles in your Microsoft Azure service. If the RoleName parameter is specified, Get-AzureRole returns details on that role only. If the InstanceDetails parameter is specified, additional, instance specific details are returned. </maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -4438,14 +4438,14 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1" aliases="">
           <maml:name>ServiceName</maml:name>
           <maml:description>
-            <maml:para>Specifies the name of the Windows Azure service.</maml:para>
+            <maml:para>Specifies the name of the Microsoft Azure service.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2" aliases="">
           <maml:name>Slot</maml:name>
           <maml:description>
-            <maml:para>Specifies the Windows Azure deployment environment. Choices are "Production" or "Staging".</maml:para>
+            <maml:para>Specifies the Microsoft Azure deployment environment. Choices are "Production" or "Staging".</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
@@ -4495,7 +4495,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1" aliases="">
         <maml:name>ServiceName</maml:name>
         <maml:description>
-          <maml:para>Specifies the name of the Windows Azure service.</maml:para>
+          <maml:para>Specifies the name of the Microsoft Azure service.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -4508,7 +4508,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2" aliases="">
         <maml:name>Slot</maml:name>
         <maml:description>
-          <maml:para>Specifies the Windows Azure deployment environment. Choices are "Production" or "Staging".</maml:para>
+          <maml:para>Specifies the Microsoft Azure deployment environment. Choices are "Production" or "Staging".</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -4663,7 +4663,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>The Get-AzureService cmdlet returns a list object with all of the Windows Azure cloud services associated with the current subscription. If the ServiceName parameter is specified, Get-AzureService will return information on only the matching service.</maml:para>
+      <maml:para>The Get-AzureService cmdlet returns a list object with all of the Microsoft Azure cloud services associated with the current subscription. If the ServiceName parameter is specified, Get-AzureService will return information on only the matching service.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -4742,7 +4742,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
         </dev:code>
         <dev:remarks>
           <maml:para>
-            This command returns a list object that contains information about all of the Windows Azure services associated with the current subscription.
+            This command returns a list object that contains information about all of the Microsoft Azure services associated with the current subscription.
           </maml:para>
         </dev:remarks>
         <command:commandLines>
@@ -4813,7 +4813,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
     <command:details>
       <command:name>Get-AzureStorageAccount</command:name>
       <maml:description>
-        <maml:para>Gets the storage accounts for the current Windows Azure subscription.</maml:para>
+        <maml:para>Gets the storage accounts for the current Microsoft Azure subscription.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -4974,7 +4974,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
     <command:details>
       <command:name>Get-AzureStorageKey</command:name>
       <maml:description>
-        <maml:para>Returns the primary and secondary storage account keys for a Windows Azure storage account.</maml:para>
+        <maml:para>Returns the primary and secondary storage account keys for a Microsoft Azure storage account.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -4984,7 +4984,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>The Get-AzureStorageKey cmdlet returns an object with the storage account name, the primary account key, and the secondary account key of the specified Windows Azure storage account as properties.</maml:para>
+      <maml:para>The Get-AzureStorageKey cmdlet returns an object with the storage account name, the primary account key, and the secondary account key of the specified Microsoft Azure storage account as properties.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -5123,7 +5123,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
     <command:details>
       <command:name>Get-AzureSubnet</command:name>
       <maml:description>
-        <maml:para>Gets a list of subnets associated with the specified Windows Azure virtual machine. </maml:para>
+        <maml:para>Gets a list of subnets associated with the specified Microsoft Azure virtual machine. </maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -5208,7 +5208,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
           C:\PS&gt;Get-AzureSubnet –VM $myVM
         </dev:code>
         <dev:remarks>
-          <maml:para>This example gets the Windows Azure subnets for the virtual machine "MyVM" running in "MySvc"</maml:para>
+          <maml:para>This example gets the Microsoft Azure subnets for the virtual machine "MyVM" running in "MySvc"</maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
@@ -5228,7 +5228,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
     <command:details>
       <command:name>Get-AzureVM</command:name>
       <maml:description>
-        <maml:para>Retrieves information from one or more Windows Azure virtual machines.</maml:para>
+        <maml:para>Retrieves information from one or more Microsoft Azure virtual machines.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -5239,7 +5239,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
     </command:details>
     <maml:description>
       <maml:para>
-        The Get-AzureVM cmdlet retrieves information about virtual machines running in Windows Azure. It returns an object with information on a specific virtual machine, or if no virtual machine is specified, for all the virtual machines in the specified service of the current subscription.
+        The Get-AzureVM cmdlet retrieves information about virtual machines running in Microsoft Azure. It returns an object with information on a specific virtual machine, or if no virtual machine is specified, for all the virtual machines in the specified service of the current subscription.
       </maml:para>
     </maml:description>
     <command:syntax>
@@ -5635,7 +5635,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
     <command:details>
       <command:name>Get-AzureVNetConfig</command:name>
       <maml:description>
-        <maml:para>Gets the Windows Azure virtual network configuration from the current subscription.</maml:para>
+        <maml:para>Gets the Microsoft Azure virtual network configuration from the current subscription.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -5646,7 +5646,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
     </command:details>
     <maml:description>
       <maml:para>
-        The Get-AzureVNetConfig retrieves the virtual network configuration of the current Windows Azure subscription. If the ExportToFile parameter is specified, a network configuration file is created.
+        The Get-AzureVNetConfig retrieves the virtual network configuration of the current Microsoft Azure subscription. If the ExportToFile parameter is specified, a network configuration file is created.
       </maml:para>
     </maml:description>
     <command:syntax>
@@ -5727,7 +5727,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
         </dev:code>
         <dev:remarks>
           <maml:para>
-            This command gets the virtual network configuration of the current Windows Azure subscription and displays it.
+            This command gets the virtual network configuration of the current Microsoft Azure subscription and displays it.
           </maml:para>
         </dev:remarks>
         <command:commandLines>
@@ -5750,7 +5750,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
         </dev:code>
         <dev:remarks>
           <maml:para>
-            This command retrieves the virtual network configuration of the current Windows Azure subscription and then saves it to a local file.
+            This command retrieves the virtual network configuration of the current Microsoft Azure subscription and then saves it to a local file.
           </maml:para>
         </dev:remarks>
         <command:commandLines>
@@ -5779,7 +5779,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
     <command:details>
       <command:name>Get-AzureVNetConnection</command:name>
       <maml:description>
-        <maml:para>Returns an object with all of the virtual network connections to the specified Windows Azure virtual network.</maml:para>
+        <maml:para>Returns an object with all of the virtual network connections to the specified Microsoft Azure virtual network.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -5789,7 +5789,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>The Get-AzureVNetConnections cmdlet returns an object with all of the current active connections to the specified Windows Azure virtual network. </maml:para>
+      <maml:para>The Get-AzureVNetConnections cmdlet returns an object with all of the current active connections to the specified Microsoft Azure virtual network. </maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -5894,7 +5894,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
     <command:details>
       <command:name>Get-AzureVNetGateway</command:name>
       <maml:description>
-        <maml:para>Retrieves an object with information about a Windows Azure virtual network gateway.</maml:para>
+        <maml:para>Retrieves an object with information about a Microsoft Azure virtual network gateway.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -5904,7 +5904,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>The Get-AzureVNetGateway cmdlet retrieves an object with information about a Windows Azure virtual network gateway from the current Windows Azure subscription. A virtual network gateway is a connection between a local network site with a VPN device and a Windows Azure virtual network. </maml:para>
+      <maml:para>The Get-AzureVNetGateway cmdlet retrieves an object with information about a Microsoft Azure virtual network gateway from the current Microsoft Azure subscription. A virtual network gateway is a connection between a local network site with a VPN device and a Microsoft Azure virtual network. </maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -5980,7 +5980,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
         </dev:code>
         <dev:remarks>
           <maml:para>
-            This command gets a Windows Azure virtual network gateway object from the "MyVNet01" virtual network.
+            This command gets a Microsoft Azure virtual network gateway object from the "MyVNet01" virtual network.
           </maml:para>
         </dev:remarks>
         <command:commandLines>
@@ -6008,7 +6008,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
     </command:details>
     <maml:description>
       <maml:para>
-        The Get-AzureVNetGatewayKey cmdlet returns the shared key used by the VPN device on the specified LocalNetworkSiteName to authenticate to the Windows Azure Virtual Network Gateway for the specified Windows Azure virtual network.
+        The Get-AzureVNetGatewayKey cmdlet returns the shared key used by the VPN device on the specified LocalNetworkSiteName to authenticate to the Microsoft Azure Virtual Network Gateway for the specified Microsoft Azure virtual network.
       </maml:para>
     </maml:description>
     <command:syntax>
@@ -6017,7 +6017,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1" aliases="">
           <maml:name>VNetName</maml:name>
           <maml:description>
-            <maml:para>Specifies the name of the Windows Azure virtual network that the VPN device connects to.</maml:para>
+            <maml:para>Specifies the name of the Microsoft Azure virtual network that the VPN device connects to.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
@@ -6047,7 +6047,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1" aliases="">
         <maml:name>VNetName</maml:name>
         <maml:description>
-          <maml:para>Specifies the name of the Windows Azure virtual network that the VPN device connects to.</maml:para>
+          <maml:para>Specifies the name of the Microsoft Azure virtual network that the VPN device connects to.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -6120,7 +6120,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
     <command:details>
       <command:name>Get-AzureVNetSite</command:name>
       <maml:description>
-        <maml:para>Returns an object describing Windows Azure virtual networks.</maml:para>
+        <maml:para>Returns an object describing Microsoft Azure virtual networks.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -6130,7 +6130,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>The Get-AzureVNetSite cmdlet returns a list object with information about Windows Azure virtual networks for the current subscription.. If you specify a virtual network name, only information for that virtual network is returned.</maml:para>
+      <maml:para>The Get-AzureVNetSite cmdlet returns a list object with information about Microsoft Azure virtual networks for the current subscription.. If you specify a virtual network name, only information for that virtual network is returned.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -6262,7 +6262,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
     <command:details>
       <command:name>Import-AzureVM</command:name>
       <maml:description>
-        <maml:para>Imports a Windows Azure virtual machine state from a file. </maml:para>
+        <maml:para>Imports a Microsoft Azure virtual machine state from a file. </maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -6505,7 +6505,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
     <command:details>
       <command:name>New-AzureAffinityGroup</command:name>
       <maml:description>
-        <maml:para>Creates a new affinity group for the current Windows Azure subscription.</maml:para>
+        <maml:para>Creates a new affinity group for the current Microsoft Azure subscription.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -6515,7 +6515,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>The New-AzureAffinityGroup cmdlet creates a new affinity group in the current subscription. An affinity group places your services and their resources together in a Windows Azure data center. The affinity group members are grouped together for optimal performance. </maml:para>
+      <maml:para>The New-AzureAffinityGroup cmdlet creates a new affinity group in the current subscription. An affinity group places your services and their resources together in a Microsoft Azure data center. The affinity group members are grouped together for optimal performance. </maml:para>
       <maml:para>Affinity groups are defined at the subscription level and are available to any subsequent cloud services or storage accounts that you create. Services can be added to an affinity group only at the time of creation.</maml:para>
     </maml:description>
     <command:syntax>
@@ -6684,7 +6684,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
     <command:details>
       <command:name>New-AzureCertificateSetting</command:name>
       <maml:description>
-        <maml:para>Creates a setting object to insert an existing certificate into new Windows Azure virtual machines.</maml:para>
+        <maml:para>Creates a setting object to insert an existing certificate into new Microsoft Azure virtual machines.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -6694,7 +6694,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>The New-AzureCertificateSetting cmdlet creates a certificate setting object for a certificate that has already been added to Windows Azure. This certificate setting object can be used by New-AzureProvisioningConfig when creating the configuration object for a new virtual machine using New-AzureVM, or when creating a new virtual machine with New-AzureQuickVM. When included as part of a virtual machine creation script, this adds the specified certificate to the new virtual machine. </maml:para>
+      <maml:para>The New-AzureCertificateSetting cmdlet creates a certificate setting object for a certificate that has already been added to Microsoft Azure. This certificate setting object can be used by New-AzureProvisioningConfig when creating the configuration object for a new virtual machine using New-AzureVM, or when creating a new virtual machine with New-AzureQuickVM. When included as part of a virtual machine creation script, this adds the specified certificate to the new virtual machine. </maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -6813,7 +6813,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
           | New-AzureVM -ServiceName "MySvc"
         </dev:code>
         <dev:remarks>
-          <maml:para>This command adds a certificate to the Windows Azure service, and then creates a new Windows virtual machine that uses the certificate.</maml:para>
+          <maml:para>This command adds a certificate to the Microsoft Azure service, and then creates a new Windows virtual machine that uses the certificate.</maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
@@ -6840,7 +6840,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
     </command:details>
     <maml:description>
       <maml:para>
-        The New-AzureDeployment cmdlet creates a new deployment based on package files (.cspkg) and a service configuration files (.cscfg). Use the New-AzureVM cmdlet to create a new deployment based on Windows Azure virtual machines.
+        The New-AzureDeployment cmdlet creates a new deployment based on package files (.cspkg) and a service configuration files (.cscfg). Use the New-AzureVM cmdlet to create a new deployment based on Microsoft Azure virtual machines.
 
         There should not be an existing deployment with the same name nor in the same deployment environment when executing this command. If there is, the command will fail.
       </maml:para>
@@ -6852,7 +6852,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
           <maml:name>ServiceName</maml:name>
           <maml:description>
             <maml:para>
-              Specifies Windows Azure service name for the deployment.
+              Specifies Microsoft Azure service name for the deployment.
             </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -7001,7 +7001,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
         <maml:name>ServiceName</maml:name>
         <maml:description>
           <maml:para>
-            Specifies Windows Azure service name for the deployment.
+            Specifies Microsoft Azure service name for the deployment.
           </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -7158,7 +7158,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
     <command:details>
       <command:name>New-AzureDns</command:name>
       <maml:description>
-        <maml:para>Creates a DNS settings object to be used when creating a Windows Azure deployment. </maml:para>
+        <maml:para>Creates a DNS settings object to be used when creating a Microsoft Azure deployment. </maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -7264,7 +7264,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
         </dev:code>
         <dev:remarks>
           <maml:para>
-            This command creates a new Windows Azure DNS settings object.
+            This command creates a new Microsoft Azure DNS settings object.
           </maml:para>
         </dev:remarks>
         <command:commandLines>
@@ -7287,7 +7287,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
         </dev:code>
         <dev:remarks>
           <maml:para>
-            This command creates a new Windows Azure DNS settings object that is then used during the creation of a virtual machine with the New-AzureVM cmdlet.
+            This command creates a new Microsoft Azure DNS settings object that is then used during the creation of a virtual machine with the New-AzureVM cmdlet.
           </maml:para>
         </dev:remarks>
         <command:commandLines>
@@ -7319,7 +7319,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
       </dev:version>
     </command:details>
     <maml:description>
-      <maml:para>The New-AzureQuickVM sets the configuration for a new virtual machine and creates the virtual machine. It can create a new Windows Azure service, or deploy the new virtual machine into an existing service if neither -Location or -AffinityGroup is specified.</maml:para>
+      <maml:para>The New-AzureQuickVM sets the configuration for a new virtual machine and creates the virtual machine. It can create a new Microsoft Azure service, or deploy the new virtual machine into an existing service if neither -Location or -AffinityGroup is specified.</maml:para>
     </maml:description>
     <!-- Cmdlet syntax section-->
     <command:syntax>
@@ -7348,7 +7348,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>AffinityGroup</maml:name>
           <maml:description>
-            <maml:para>Specifies the Windows Azure affinity group the virtual machine will reside in. Only valid for a new cloud service.</maml:para>
+            <maml:para>Specifies the Microsoft Azure affinity group the virtual machine will reside in. Only valid for a new cloud service.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
@@ -7396,14 +7396,14 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>Location</maml:name>
           <maml:description>
-            <maml:para>Specifies the Windows Azure data center location that will host the virtual machine. When specified, New-AzureQuickVM will create a new Windows Azure service in the specified location. Only valid for a new cloud service.</maml:para>
+            <maml:para>Specifies the Microsoft Azure data center location that will host the virtual machine. When specified, New-AzureQuickVM will create a new Microsoft Azure service in the specified location. Only valid for a new cloud service.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>MediaLocation</maml:name>
           <maml:description>
-            <maml:para>Specifies the Windows Azure storage location to use for the virtual machines disks.</maml:para>
+            <maml:para>Specifies the Microsoft Azure storage location to use for the virtual machines disks.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
@@ -7497,7 +7497,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>AffinityGroup</maml:name>
           <maml:description>
-            <maml:para>Specifies the Windows Azure affinity group the virtual machine will reside in. Only valid for a new cloud service.</maml:para>
+            <maml:para>Specifies the Microsoft Azure affinity group the virtual machine will reside in. Only valid for a new cloud service.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
@@ -7557,14 +7557,14 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>Location</maml:name>
           <maml:description>
-            <maml:para>Specifies the Windows Azure data center location that will host the virtual machine. When specified, New-AzureQuickVM will create a new Windows Azure service in the specified location. Only valid for a new cloud service.</maml:para>
+            <maml:para>Specifies the Microsoft Azure data center location that will host the virtual machine. When specified, New-AzureQuickVM will create a new Microsoft Azure service in the specified location. Only valid for a new cloud service.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>MediaLocation</maml:name>
           <maml:description>
-            <maml:para>Specifies the Windows Azure storage location to use for the virtual machines disks.</maml:para>
+            <maml:para>Specifies the Microsoft Azure storage location to use for the virtual machines disks.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
@@ -7707,7 +7707,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
         <maml:name>Location</maml:name>
         <maml:description>
-          <maml:para>Specifies the Windows Azure data center location that will host the virtual machine. When specified, New-AzureQuickVM will create a new Windows Azure service in the specified location. Only valid for a new cloud service.</maml:para>
+          <maml:para>Specifies the Microsoft Azure data center location that will host the virtual machine. When specified, New-AzureQuickVM will create a new Microsoft Azure service in the specified location. Only valid for a new cloud service.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
@@ -7720,7 +7720,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
         <maml:name>AffinityGroup</maml:name>
         <maml:description>
-          <maml:para>Specifies the Windows Azure affinity group the virtual machine will reside in. Only valid for a new cloud service.</maml:para>
+          <maml:para>Specifies the Microsoft Azure affinity group the virtual machine will reside in. Only valid for a new cloud service.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
@@ -7928,7 +7928,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
         <maml:name>MediaLocation</maml:name>
         <maml:description>
-          <maml:para>Specifies the Windows Azure storage location to use for the virtual machines disks.</maml:para>
+          <maml:para>Specifies the Microsoft Azure storage location to use for the virtual machines disks.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
@@ -8243,7 +8243,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
     <command:details>
       <command:name>New-AzureService</command:name>
       <maml:description>
-        <maml:para>Creates a new Windows Azure service.</maml:para>
+        <maml:para>Creates a new Microsoft Azure service.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -8254,7 +8254,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
     </command:details>
     <maml:description>
       <maml:para>
-        The New-AzureService cmdlet creates a new Windows Azure service in the current subscription.
+        The New-AzureService cmdlet creates a new Microsoft Azure service in the current subscription.
       </maml:para>
     </maml:description>
     <command:syntax>
@@ -8508,7 +8508,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
     <command:details>
       <command:name>New-AzureSSHKey</command:name>
       <maml:description>
-        <maml:para>Creates a SSH Key object to insert an existing certificate into new Linux-based Windows Azure virtual machines.</maml:para>
+        <maml:para>Creates a SSH Key object to insert an existing certificate into new Linux-based Microsoft Azure virtual machines.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -8518,7 +8518,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>The New-AzureSSHKey cmdlet creates an SSH Key object for a certificate that has already been added to Windows Azure. This SSH Key object can then be used by New-AzureProvisioningConfig when creating the configuration object for a new virtual machine using New-AzureVM, or when creating a new virtual machine with New-AzureQuickVM. When included as part of a virtual machine creation script, this adds the specified SSH Public Key or Key Pair to the new virtual machine.</maml:para>
+      <maml:para>The New-AzureSSHKey cmdlet creates an SSH Key object for a certificate that has already been added to Microsoft Azure. This SSH Key object can then be used by New-AzureProvisioningConfig when creating the configuration object for a new virtual machine using New-AzureVM, or when creating a new virtual machine with New-AzureQuickVM. When included as part of a virtual machine creation script, this adds the specified SSH Public Key or Key Pair to the new virtual machine.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -8694,7 +8694,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
           | New-AzureVM -ServiceName "MySvc"
         </dev:code>
         <dev:remarks>
-          <maml:para>This command adds a certificate to the Windows Azure service, and then creates a new Linux virtual machine that uses the certificate. </maml:para>
+          <maml:para>This command adds a certificate to the Microsoft Azure service, and then creates a new Linux virtual machine that uses the certificate. </maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
@@ -8726,7 +8726,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
     <command:details>
       <command:name>New-AzureStorageAccount</command:name>
       <maml:description>
-        <maml:para>Creates a new storage account in a Windows Azure subscription.</maml:para>
+        <maml:para>Creates a new storage account in a Microsoft Azure subscription.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -8737,7 +8737,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
     </command:details>
     <maml:description>
       <maml:para>
-        The New-AzureStorageAccount cmdlet creates an account that provides access to Windows Azure storage services. A storage account is a globally unique resource within the storage system. The account is the parent namespace for the Blob, Queue, and Table services.
+        The New-AzureStorageAccount cmdlet creates an account that provides access to Microsoft Azure storage services. A storage account is a globally unique resource within the storage system. The account is the parent namespace for the Blob, Queue, and Table services.
       </maml:para>
     </maml:description>
     <command:syntax>
@@ -8747,7 +8747,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
           <maml:name>StorageAccountName</maml:name>
           <maml:description>
             <maml:para>
-              Specifies a name for the storage account. The storage account name must be unique to Windows Azure and must be between 3 and 24 characters in length and use lowercase letters and numbers only.
+              Specifies a name for the storage account. The storage account name must be unique to Microsoft Azure and must be between 3 and 24 characters in length and use lowercase letters and numbers only.
             </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -8782,7 +8782,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
           <maml:name>StorageAccountName</maml:name>
           <maml:description>
             <maml:para>
-              Specifies a name for the storage account. The storage account name must be unique to Windows Azure and must be between 3 and 24 characters in length and use lowercase letters and numbers only.
+              Specifies a name for the storage account. The storage account name must be unique to Microsoft Azure and must be between 3 and 24 characters in length and use lowercase letters and numbers only.
             </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -8807,7 +8807,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
           <maml:name>Location</maml:name>
           <maml:description>
             <maml:para>
-              Specifies the Windows Azure data center location where the storage account is created. You can include either a Location or an AffinityGroup parameter, but not both.
+              Specifies the Microsoft Azure data center location where the storage account is created. You can include either a Location or an AffinityGroup parameter, but not both.
             </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -8859,7 +8859,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
         <maml:name>Location</maml:name>
         <maml:description>
           <maml:para>
-            Specifies the Windows Azure data center location where the storage account is created. You can include either a Location or an AffinityGroup parameter, but not both.
+            Specifies the Microsoft Azure data center location where the storage account is created. You can include either a Location or an AffinityGroup parameter, but not both.
           </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -8874,7 +8874,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
         <maml:name>StorageAccountName</maml:name>
         <maml:description>
           <maml:para>
-            Specifies a name for the storage account. The storage account name must be unique to Windows Azure and must be between 3 and 24 characters in length and use lowercase letters and numbers only.
+            Specifies a name for the storage account. The storage account name must be unique to Microsoft Azure and must be between 3 and 24 characters in length and use lowercase letters and numbers only.
           </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -8985,7 +8985,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
     <command:details>
       <command:name>New-AzureStorageKey</command:name>
       <maml:description>
-        <maml:para>Regenerates storage keys for a Windows Azure storage account.</maml:para>
+        <maml:para>Regenerates storage keys for a Microsoft Azure storage account.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -8995,7 +8995,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>The New-AzureStorageKey cmdlet regenerates the primary or secondary key for a Windows Azure storage account. It returns an object with the storage account name, primary key, and secondary key as properties. </maml:para>
+      <maml:para>The New-AzureStorageKey cmdlet regenerates the primary or secondary key for a Microsoft Azure storage account. It returns an object with the storage account name, primary key, and secondary key as properties. </maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -9011,7 +9011,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
           <maml:name>StorageAccountName</maml:name>
           <maml:description>
             <maml:para>
-              Specifies the name of the Windows Azure storage account to regenerate a key for.
+              Specifies the name of the Microsoft Azure storage account to regenerate a key for.
             </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -9036,7 +9036,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
         <maml:name>StorageAccountName</maml:name>
         <maml:description>
           <maml:para>
-            Specifies the name of the Windows Azure storage account to regenerate a key for.
+            Specifies the name of the Microsoft Azure storage account to regenerate a key for.
           </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -9132,7 +9132,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
         New-AzureVM
       </command:name>
       <maml:description>
-        <maml:para>Creates a new Windows Azure virtual machine.</maml:para>
+        <maml:para>Creates a new Microsoft Azure virtual machine.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para>
@@ -9144,7 +9144,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
       </dev:version>
     </command:details>
     <maml:description>
-      <maml:para>The New-AzureVM cmdlet adds a new virtual machine to an existing Windows Azure service, or creates a new virtual machine and service in the current subscription if either the -Location or -AffinityGroup is specified.</maml:para>
+      <maml:para>The New-AzureVM cmdlet adds a new virtual machine to an existing Microsoft Azure service, or creates a new virtual machine and service in the current subscription if either the -Location or -AffinityGroup is specified.</maml:para>
     </maml:description>
     <!-- Cmdlet syntax section-->
     <command:syntax>
@@ -9167,7 +9167,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
           <maml:name>AffinityGroup</maml:name>
           <maml:description>
-            <maml:para>Specifies the Windows Azure affinity group the cloud service will reside in. Only valid when creating a new cloud service.</maml:para>
+            <maml:para>Specifies the Microsoft Azure affinity group the cloud service will reside in. Only valid when creating a new cloud service.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
@@ -9377,7 +9377,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
         <maml:name>AffinityGroup</maml:name>
         <maml:description>
-          <maml:para>Specifies the Windows Azure affinity group the cloud service will reside in. Only valid when creating a new cloud service.</maml:para>
+          <maml:para>Specifies the Microsoft Azure affinity group the cloud service will reside in. Only valid when creating a new cloud service.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
@@ -9479,7 +9479,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
           <maml:para>Description</maml:para>
           <maml:para>-----------</maml:para>
           <maml:para>
-            This example creates a new Windows Azure virtual machine, "MyNewVM", and a new Windows Azure service, "MySvc2". Optional WaitForBoot flag blocks New-AzureVM till the VM boots.
+            This example creates a new Microsoft Azure virtual machine, "MyNewVM", and a new Microsoft Azure service, "MySvc2". Optional WaitForBoot flag blocks New-AzureVM till the VM boots.
             Description
           </maml:para>
           <maml:para>
@@ -9582,7 +9582,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
           <maml:para>Description</maml:para>
           <maml:para>-----------</maml:para>
           <maml:para>
-            This example creates a new Windows Azure virtual machine, "MyNewVM", and a new Windows Azure service, "MySvc2", using a reserved IP on the VM deployment
+            This example creates a new Microsoft Azure virtual machine, "MyNewVM", and a new Microsoft Azure service, "MySvc2", using a reserved IP on the VM deployment
           </maml:para>
           <maml:para>
           </maml:para>
@@ -9637,7 +9637,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>ServiceName</maml:name>
           <maml:description>
-            <maml:para>Specifies the name of the Windows Azure service that hosts the virtual machine.</maml:para>
+            <maml:para>Specifies the name of the Microsoft Azure service that hosts the virtual machine.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
@@ -9668,7 +9668,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
         <maml:name>ServiceName</maml:name>
         <maml:description>
-          <maml:para>Specifies the name of the Windows Azure service that hosts the virtual machine.</maml:para>
+          <maml:para>Specifies the name of the Microsoft Azure service that hosts the virtual machine.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
@@ -9807,7 +9807,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
         New-AzureVMConfig
       </command:name>
       <maml:description>
-        <maml:para>Creates a new Windows Azure virtual machine configuration object.</maml:para>
+        <maml:para>Creates a new Microsoft Azure virtual machine configuration object.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para>
@@ -9922,7 +9922,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>MediaLocation</maml:name>
           <maml:description>
-            <maml:para>Specifies the Windows Azure storage location for the new virtual machine disk.</maml:para>
+            <maml:para>Specifies the Microsoft Azure storage location for the new virtual machine disk.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
@@ -10024,7 +10024,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
         <maml:name>MediaLocation</maml:name>
         <maml:description>
-          <maml:para>Specifies the Windows Azure storage location for the new virtual machine disk.</maml:para>
+          <maml:para>Specifies the Microsoft Azure storage location for the new virtual machine disk.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
@@ -10194,7 +10194,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
     <command:details>
       <command:name>New-AzureVNetGateway</command:name>
       <maml:description>
-        <maml:para>Creates a new Windows Azure Virtual Network Gateway to the specified Windows Azure virtual network. </maml:para>
+        <maml:para>Creates a new Microsoft Azure Virtual Network Gateway to the specified Microsoft Azure virtual network. </maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -10204,7 +10204,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>The New-AzureVNetGateway cmdlet creates a new virtual network gateway for the specified Windows Azure virtual network. A virtual network gateway is a VPN endpoint for connecting to a Windows Azure virtual network.</maml:para>
+      <maml:para>The New-AzureVNetGateway cmdlet creates a new virtual network gateway for the specified Microsoft Azure virtual network. A virtual network gateway is a VPN endpoint for connecting to a Microsoft Azure virtual network.</maml:para>
       <maml:para>After the virtual network gateway has been created, you can get the shared key to allow you to configure the VPN device at the local network site to authenticate to the gateway with the Get-AzureVNetGatewayKey cmdlet. </maml:para>
     </maml:description>
     <command:syntax>
@@ -10417,7 +10417,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
     <command:details>
       <command:name>Remove-AzureCertificate</command:name>
       <maml:description>
-        <maml:para>Deletes the specified certificate from the Windows Azure service.</maml:para>
+        <maml:para>Deletes the specified certificate from the Microsoft Azure service.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -10435,7 +10435,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
           <maml:name>ServiceName</maml:name>
           <maml:description>
             <maml:para>
-              Specifies the Windows Azure service with which the certificate is associated.
+              Specifies the Microsoft Azure service with which the certificate is associated.
             </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -10465,7 +10465,7 @@ New-AzureVMConfig -Name "MyNonDomainVM" -InstanceSize Small -ImageName $img `
         <maml:name>ServiceName</maml:name>
         <maml:description>
           <maml:para>
-            Specifies the Windows Azure service with which the certificate is associated.
+            Specifies the Microsoft Azure service with which the certificate is associated.
           </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -10834,7 +10834,7 @@ This command gets the virtual machine object with the name "MyDemoVM01" running 
     <command:details>
       <command:name>Remove-AzureDeployment</command:name>
       <maml:description>
-        <maml:para>Deletes the specified deployment of a Windows Azure service.</maml:para>
+        <maml:para>Deletes the specified deployment of a Microsoft Azure service.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -10844,7 +10844,7 @@ This command gets the virtual machine object with the name "MyDemoVM01" running 
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>The Remove-AzureDeployment cmdlet deletes the specified deployment of a Windows Azure cloud service. The deployment should be in the suspended state. </maml:para>
+      <maml:para>The Remove-AzureDeployment cmdlet deletes the specified deployment of a Microsoft Azure cloud service. The deployment should be in the suspended state. </maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -10862,7 +10862,7 @@ This command gets the virtual machine object with the name "MyDemoVM01" running 
           <maml:name>Slot</maml:name>
           <maml:description>
             <maml:para>
-              Specifies the deployment environment from which the deployment of the specified Windows Azure service will be deleted. Choices are Staging or Production. If no slot is specified, the  production environment is assumed.
+              Specifies the deployment environment from which the deployment of the specified Microsoft Azure service will be deleted. Choices are Staging or Production. If no slot is specified, the  production environment is assumed.
             </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -10911,7 +10911,7 @@ This command gets the virtual machine object with the name "MyDemoVM01" running 
         <maml:name>Slot</maml:name>
         <maml:description>
           <maml:para>
-            Specifies the deployment environment from which the deployment of the specified Windows Azure service will be deleted. Choices are Staging or Production. If no slot is specified, the  production environment is assumed.
+            Specifies the deployment environment from which the deployment of the specified Microsoft Azure service will be deleted. Choices are Staging or Production. If no slot is specified, the  production environment is assumed.
           </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -10975,7 +10975,7 @@ This command gets the virtual machine object with the name "MyDemoVM01" running 
         </dev:code>
         <dev:remarks>
           <maml:para>
-            This command removes the deployment of the Windows Azure service "myservice" from the production environment.
+            This command removes the deployment of the Microsoft Azure service "myservice" from the production environment.
           </maml:para>
         </dev:remarks>
         <command:commandLines>
@@ -10998,7 +10998,7 @@ This command gets the virtual machine object with the name "MyDemoVM01" running 
         </dev:code>
         <dev:remarks>
           <maml:para>
-            This command removes the deployment of the Windows Azure service "myservice" from the production environment, and the underlying VHD(s).
+            This command removes the deployment of the Microsoft Azure service "myservice" from the production environment, and the underlying VHD(s).
           </maml:para>
         </dev:remarks>
         <command:commandLines>
@@ -11031,7 +11031,7 @@ This command gets the virtual machine object with the name "MyDemoVM01" running 
     <command:details>
       <command:name>Remove-AzureDisk</command:name>
       <maml:description>
-        <maml:para>Removes a disk from the Windows Azure disk repository.</maml:para>
+        <maml:para>Removes a disk from the Microsoft Azure disk repository.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -11042,7 +11042,7 @@ This command gets the virtual machine object with the name "MyDemoVM01" running 
     </command:details>
     <maml:description>
       <maml:para>
-        The Remove-AzureDisk cmdlet removes a disk from the Windows Azure disk repository in the current subscription.
+        The Remove-AzureDisk cmdlet removes a disk from the Microsoft Azure disk repository in the current subscription.
         By default, this does not delete the associated physical VHD file from the blob storage location. To delete the associated physical VHD, specify the DeleteVHD parameter.
       </maml:para>
     </maml:description>
@@ -11148,7 +11148,7 @@ This command gets the virtual machine object with the name "MyDemoVM01" running 
         </dev:code>
         <dev:remarks>
           <maml:para>
-            This example removes the "MyDataDisk" disk from the disk repository but does not remove the VHD from Windows Azure storage.
+            This example removes the "MyDataDisk" disk from the disk repository but does not remove the VHD from Microsoft Azure storage.
           </maml:para>
         </dev:remarks>
         <command:commandLines>
@@ -11171,7 +11171,7 @@ This command gets the virtual machine object with the name "MyDemoVM01" running 
         </dev:code>
         <dev:remarks>
           <maml:para>
-            This example removes the "MyDataDisk" disk from the disk repository and also removes the VHD from Windows Azure storage.
+            This example removes the "MyDataDisk" disk from the disk repository and also removes the VHD from Microsoft Azure storage.
           </maml:para>
         </dev:remarks>
         <command:commandLines>
@@ -11200,7 +11200,7 @@ This command gets the virtual machine object with the name "MyDemoVM01" running 
     <command:details>
       <command:name>Remove-AzureEndpoint</command:name>
       <maml:description>
-        <maml:para>Deletes an endpoint from a Windows Azure virtual machine object.</maml:para>
+        <maml:para>Deletes an endpoint from a Microsoft Azure virtual machine object.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -11340,7 +11340,7 @@ This command gets the virtual machine object with the name "MyDemoVM01" running 
     </command:details>
     <maml:description>
       <maml:para>
-        The Remove-AzureStorageAccount cmdlet removes an account from a Windows Azure subscription.
+        The Remove-AzureStorageAccount cmdlet removes an account from a Microsoft Azure subscription.
       </maml:para>
     </maml:description>
     <command:syntax>
@@ -11450,7 +11450,7 @@ This command gets the virtual machine object with the name "MyDemoVM01" running 
     <command:details>
       <command:name>Remove-AzureVM</command:name>
       <maml:description>
-        <maml:para>Removes a Windows Azure virtual machine.</maml:para>
+        <maml:para>Removes a Microsoft Azure virtual machine.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -11461,7 +11461,7 @@ This command gets the virtual machine object with the name "MyDemoVM01" running 
     </command:details>
     <maml:description>
       <maml:para>
-        The Remove-AzureVM cmdlet deletes a Windows Azure virtual machine. This process doesn’t delete the underlying .vhd files of the disks mounted on that virtual machine.
+        The Remove-AzureVM cmdlet deletes a Microsoft Azure virtual machine. This process doesn’t delete the underlying .vhd files of the disks mounted on that virtual machine.
       </maml:para>
     </maml:description>
     <command:syntax>
@@ -11471,7 +11471,7 @@ This command gets the virtual machine object with the name "MyDemoVM01" running 
           <maml:name>ServiceName</maml:name>
           <maml:description>
             <maml:para>
-              Specifies the Windows Azure service name from which the virtual machine is being removed.
+              Specifies the Microsoft Azure service name from which the virtual machine is being removed.
             </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -11503,7 +11503,7 @@ This command gets the virtual machine object with the name "MyDemoVM01" running 
         <maml:name>ServiceName</maml:name>
         <maml:description>
           <maml:para>
-            Specifies the Windows Azure service name from which the virtual machine is being removed.
+            Specifies the Microsoft Azure service name from which the virtual machine is being removed.
           </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -11870,7 +11870,7 @@ Get-AzureVMImage `
     <command:details>
       <command:name>Remove-AzureVNetConfig</command:name>
       <maml:description>
-        <maml:para>Deletes the network configuration from the current Windows Azure subscription.</maml:para>
+        <maml:para>Deletes the network configuration from the current Microsoft Azure subscription.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -11881,7 +11881,7 @@ Get-AzureVMImage `
     </command:details>
     <maml:description>
       <maml:para>
-        The Remove-AzureVNetConfig cmdlet removes all virtual network settings from the current Windows Azure subscription.
+        The Remove-AzureVNetConfig cmdlet removes all virtual network settings from the current Microsoft Azure subscription.
       </maml:para>
     </maml:description>
     <command:syntax>
@@ -11964,7 +11964,7 @@ Get-AzureVMImage `
     <command:details>
       <command:name>Remove-AzureVNetGateway</command:name>
       <maml:description>
-        <maml:para>Removes the Windows Azure virtual network gateway to the specified virtual network.</maml:para>
+        <maml:para>Removes the Microsoft Azure virtual network gateway to the specified virtual network.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -11974,7 +11974,7 @@ Get-AzureVMImage `
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>The Remove-AzureVNetGateway cmdlet removes the virtual network gateway to the specified Windows Azure virtual network. A virtual network gateway is a VPN endpoint for connecting to a virtual network. </maml:para>
+      <maml:para>The Remove-AzureVNetGateway cmdlet removes the virtual network gateway to the specified Microsoft Azure virtual network. A virtual network gateway is a VPN endpoint for connecting to a virtual network. </maml:para>
       <maml:para>If you remove the virtual network gateway, the underlying virtual network is unaffected and still in place, allowing you to create a new gateway with New-VNetGateway. However, the shared key for the gateway will be different, requiring reconfiguration of the VPN device at the local network site.</maml:para>
     </maml:description>
     <command:syntax>
@@ -12079,10 +12079,10 @@ Get-AzureVMImage `
     </command:details>
     <maml:description>
       <maml:para>The ReSet-AzureRoleInstance cmdlet requests a reboot or a reimage of a role instance that is running in a deployment. This operation executes synchronously. </maml:para>
-      <maml:para>When you reboot a role instance, Windows Azure takes the instance offline, restarts the underlying operating system for that instance, and brings the instance back online. Any data that is written to the local disk persists across reboots. Any data that is in-memory is lost. </maml:para>
-      <maml:para>Reimaging a role instance results in different behavior depending on the type of role. For a web or worker role, when the role is reimaged, Windows Azure takes the role offline and writes a fresh installation of the Windows Azure guest operating system to the virtual machine. The role is then brought back online. For a VM role, when the role is reimaged, Windows Azure takes the role offline, reapplies the custom image that you provided for it, and brings the role back online. </maml:para>
+      <maml:para>When you reboot a role instance, Microsoft Azure takes the instance offline, restarts the underlying operating system for that instance, and brings the instance back online. Any data that is written to the local disk persists across reboots. Any data that is in-memory is lost. </maml:para>
+      <maml:para>Reimaging a role instance results in different behavior depending on the type of role. For a web or worker role, when the role is reimaged, Microsoft Azure takes the role offline and writes a fresh installation of the Microsoft Azure guest operating system to the virtual machine. The role is then brought back online. For a VM role, when the role is reimaged, Microsoft Azure takes the role offline, reapplies the custom image that you provided for it, and brings the role back online. </maml:para>
       <maml:para>
-        Windows Azure attempts to maintain data in any local storage resources when the role is reimaged; however, in case of a transient hardware failure, the local storage resource may be lost. If your application requires that data persist, writing to a durable data source, such as a Windows Azure drive, is recommended. Any data that is written to a local directory other than that defined by the local storage resource will be lost when the role is reimaged.
+        Microsoft Azure attempts to maintain data in any local storage resources when the role is reimaged; however, in case of a transient hardware failure, the local storage resource may be lost. If your application requires that data persist, writing to a durable data source, such as a Microsoft Azure drive, is recommended. Any data that is written to a local directory other than that defined by the local storage resource will be lost when the role is reimaged.
       </maml:para>
     </maml:description>
     <command:syntax>
@@ -12322,7 +12322,7 @@ Get-AzureVMImage `
     <command:details>
       <command:name>Restart-AzureVM</command:name>
       <maml:description>
-        <maml:para>Restarts a Windows Azure virtual machine.</maml:para>
+        <maml:para>Restarts a Microsoft Azure virtual machine.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -12343,7 +12343,7 @@ Get-AzureVMImage `
           <maml:name>ServiceName</maml:name>
           <maml:description>
             <maml:para>
-              Specifies the name of the Windows Azure service that contains the virtual machine to restart.
+              Specifies the name of the Microsoft Azure service that contains the virtual machine to restart.
             </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -12362,7 +12362,7 @@ Get-AzureVMImage `
           <maml:name>ServiceName</maml:name>
           <maml:description>
             <maml:para>
-              Specifies the name of the Windows Azure service that contains the virtual machine to restart.
+              Specifies the name of the Microsoft Azure service that contains the virtual machine to restart.
             </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -12394,7 +12394,7 @@ Get-AzureVMImage `
         <maml:name>ServiceName</maml:name>
         <maml:description>
           <maml:para>
-            Specifies the name of the Windows Azure service that contains the virtual machine to restart.
+            Specifies the name of the Microsoft Azure service that contains the virtual machine to restart.
           </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -12466,7 +12466,7 @@ Get-AzureVMImage `
         </dev:code>
         <dev:remarks>
           <maml:para>
-            This command restarts the "MyVM" virtual machine running in the "myservice1" Windows Azure service.
+            This command restarts the "MyVM" virtual machine running in the "myservice1" Microsoft Azure service.
           </maml:para>
         </dev:remarks>
         <command:commandLines>
@@ -12827,7 +12827,7 @@ Get-AzureVMImage `
     <command:details>
       <command:name>Set-AzureAffinityGroup</command:name>
       <maml:description>
-        <maml:para>Updates the properties of a Windows Azure affinity group.</maml:para>
+        <maml:para>Updates the properties of a Microsoft Azure affinity group.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -13005,7 +13005,7 @@ Get-AzureVMImage `
     </command:details>
     <maml:description>
       <maml:para>
-        The Set-AzureDataDisk cmdlet updates the cache attributes of an existing data disk object on a Windows Azure virtual machine. The possible host caching values are: None, ReadOnly, and ReadWrite. You can specify which data disk to update by specifying its logical unit number (LUN).
+        The Set-AzureDataDisk cmdlet updates the cache attributes of an existing data disk object on a Microsoft Azure virtual machine. The possible host caching values are: None, ReadOnly, and ReadWrite. You can specify which data disk to update by specifying its logical unit number (LUN).
       </maml:para>
     </maml:description>
     <command:syntax>
@@ -13186,7 +13186,7 @@ Get-AzureVMImage `
         Set-AzureDeployment
       </command:name>
       <maml:description>
-        <maml:para>Sets status, upgrade mode, and configuration settings of a Windows Azure deployment.</maml:para>
+        <maml:para>Sets status, upgrade mode, and configuration settings of a Microsoft Azure deployment.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para>
@@ -13199,7 +13199,7 @@ Get-AzureVMImage `
     </command:details>
     <maml:description>
       <maml:para>
-        The Set-AzureDeployment cmdlet sets the status, configuration settings, or upgrade mode of a Windows Azure deployment.
+        The Set-AzureDeployment cmdlet sets the status, configuration settings, or upgrade mode of a Microsoft Azure deployment.
         With the -Status parameter, you can change the status of the deployment to either "Running" or "Suspended". With the -Config parameter, you can update the .cscfg file, and with the -Upgrade parameter, you set the upgrade mode and update configuration files. Use the Set-AzureWalkUpgradeDomain cmdlet to actually initiate the upgrade.
       </maml:para>
     </maml:description>
@@ -13223,7 +13223,7 @@ Get-AzureVMImage `
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>ServiceName</maml:name>
           <maml:description>
-            <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
+            <maml:para>Specifies the Microsoft Azure service name of the deployment.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
@@ -13247,7 +13247,7 @@ Get-AzureVMImage `
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
           <maml:name>Status</maml:name>
           <maml:description>
-            <maml:para>When specified, requests a status change for the Windows Azure deployment.</maml:para>
+            <maml:para>When specified, requests a status change for the Microsoft Azure deployment.</maml:para>
           </maml:description>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="3">
@@ -13267,7 +13267,7 @@ Get-AzureVMImage `
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>ServiceName</maml:name>
           <maml:description>
-            <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
+            <maml:para>Specifies the Microsoft Azure service name of the deployment.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
@@ -13284,13 +13284,13 @@ Get-AzureVMImage `
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
           <maml:name>Upgrade</maml:name>
           <maml:description>
-            <maml:para>When specified, requests an upgrade to the Windows Azure deployment.</maml:para>
+            <maml:para>When specified, requests an upgrade to the Microsoft Azure deployment.</maml:para>
           </maml:description>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
           <maml:name>ServiceName</maml:name>
           <maml:description>
-            <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
+            <maml:para>Specifies the Microsoft Azure service name of the deployment.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
@@ -13460,7 +13460,7 @@ Get-AzureVMImage `
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
         <maml:name>ServiceName</maml:name>
         <maml:description>
-          <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
+          <maml:para>Specifies the Microsoft Azure service name of the deployment.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
@@ -13486,7 +13486,7 @@ Get-AzureVMImage `
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
         <maml:name>Status</maml:name>
         <maml:description>
-          <maml:para>When specified, requests a status change for the Windows Azure deployment.</maml:para>
+          <maml:para>When specified, requests a status change for the Microsoft Azure deployment.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -13499,7 +13499,7 @@ Get-AzureVMImage `
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
         <maml:name>Upgrade</maml:name>
         <maml:description>
-          <maml:para>When specified, requests an upgrade to the Windows Azure deployment.</maml:para>
+          <maml:para>When specified, requests an upgrade to the Microsoft Azure deployment.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -13512,7 +13512,7 @@ Get-AzureVMImage `
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
         <maml:name>ExtensionConfiguration</maml:name>
         <maml:description>
-          <maml:para>When specified, requests an upgrade to the Windows Azure deployment.</maml:para>
+          <maml:para>When specified, requests an upgrade to the Microsoft Azure deployment.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">ExtensionConfigurationInput[]</command:parameterValue>
         <dev:type>
@@ -13838,7 +13838,7 @@ Get-AzureVMImage `
       <command:parameter required="" variableLength="false" globbing="false" pipelineInput="false" position="named">
         <maml:name>PublicPort</maml:name>
         <maml:description>
-          <maml:para>Specifies the public port that the endpoint will use. If not specified, Windows Azure will assign an available free port.</maml:para>
+          <maml:para>Specifies the public port that the endpoint will use. If not specified, Microsoft Azure will assign an available free port.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">int</command:parameterValue>
         <dev:type>
@@ -13954,7 +13954,7 @@ Get-AzureVMImage `
     <command:details>
       <command:name>Set-AzureOSDisk</command:name>
       <maml:description>
-        <maml:para>Updates the host-cache mode of a Windows Azure virtual machine operating system disk.</maml:para>
+        <maml:para>Updates the host-cache mode of a Microsoft Azure virtual machine operating system disk.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -14120,7 +14120,7 @@ Get-AzureVMImage `
     <command:details>
       <command:name>Set-AzureRole</command:name>
       <maml:description>
-        <maml:para>Sets the number of instances of a Windows Azure role to run.</maml:para>
+        <maml:para>Sets the number of instances of a Microsoft Azure role to run.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -14130,7 +14130,7 @@ Get-AzureVMImage `
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>The Set-AzureRole cmdlet sets the number of instances of a specified role to run in a Windows Azure deployment. </maml:para>
+      <maml:para>The Set-AzureRole cmdlet sets the number of instances of a specified role to run in a Microsoft Azure deployment. </maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -14138,7 +14138,7 @@ Get-AzureVMImage `
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1" aliases="">
           <maml:name>ServiceName</maml:name>
           <maml:description>
-            <maml:para>Specifies the name of the Windows Azure service.</maml:para>
+            <maml:para>Specifies the name of the Microsoft Azure service.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
@@ -14195,7 +14195,7 @@ Get-AzureVMImage `
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1" aliases="">
         <maml:name>ServiceName</maml:name>
         <maml:description>
-          <maml:para>Specifies the name of the Windows Azure service.</maml:para>
+          <maml:para>Specifies the name of the Microsoft Azure service.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -14282,7 +14282,7 @@ Get-AzureVMImage `
     <command:details>
       <command:name>Set-AzureService</command:name>
       <maml:description>
-        <maml:para>Sets or updates the label and description of the specified Windows Azure service.</maml:para>
+        <maml:para>Sets or updates the label and description of the specified Microsoft Azure service.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -14303,7 +14303,7 @@ Get-AzureVMImage `
           <maml:name>ServiceName</maml:name>
           <maml:description>
             <maml:para>
-              Specifies the name of the Windows Azure service to be updated.
+              Specifies the name of the Microsoft Azure service to be updated.
             </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -14312,7 +14312,7 @@ Get-AzureVMImage `
           <maml:name>Label</maml:name>
           <maml:description>
             <maml:para>
-              Sets a label for the Windows Azure service. The label may be up to 100 characters in length.
+              Sets a label for the Microsoft Azure service. The label may be up to 100 characters in length.
             </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -14321,7 +14321,7 @@ Get-AzureVMImage `
           <maml:name>Description</maml:name>
           <maml:description>
             <maml:para>
-              Sets a description for the Windows Azure service. The description may be up to 1024 characters in length.
+              Sets a description for the Microsoft Azure service. The description may be up to 1024 characters in length.
             </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -14333,7 +14333,7 @@ Get-AzureVMImage `
         <maml:name>Description</maml:name>
         <maml:description>
           <maml:para>
-            Sets a description for the Windows Azure service. The description may be up to 1024 characters in length.
+            Sets a description for the Microsoft Azure service. The description may be up to 1024 characters in length.
           </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -14348,7 +14348,7 @@ Get-AzureVMImage `
         <maml:name>Label</maml:name>
         <maml:description>
           <maml:para>
-            Sets a label for the Windows Azure service. The label may be up to 100 characters in length.
+            Sets a label for the Microsoft Azure service. The label may be up to 100 characters in length.
           </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -14363,7 +14363,7 @@ Get-AzureVMImage `
         <maml:name>ServiceName</maml:name>
         <maml:description>
           <maml:para>
-            Specifies the name of the Windows Azure service to be updated.
+            Specifies the name of the Microsoft Azure service to be updated.
           </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -14451,7 +14451,7 @@ Get-AzureVMImage `
         Set-AzureStorageAccount
       </command:name>
       <maml:description>
-        <maml:para>Updates the properties of a storage account in a Windows Azure subscription.</maml:para>
+        <maml:para>Updates the properties of a storage account in a Microsoft Azure subscription.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para>
@@ -14463,7 +14463,7 @@ Get-AzureVMImage `
       </dev:version>
     </command:details>
     <maml:description>
-      <maml:para>The Set-AzureStorageAccount cmdlet updates the properties of a Windows Azure storage account in the current subscription. Properties that can be set are: "Label", "Description" and "GeoReplicationEnabled".</maml:para>
+      <maml:para>The Set-AzureStorageAccount cmdlet updates the properties of a Microsoft Azure storage account in the current subscription. Properties that can be set are: "Label", "Description" and "GeoReplicationEnabled".</maml:para>
     </maml:description>
     <!-- Cmdlet syntax section-->
     <command:syntax>
@@ -14709,7 +14709,7 @@ Get-AzureVMImage `
     <command:details>
       <command:name>Set-AzureSubnet</command:name>
       <maml:description>
-        <maml:para>Defines the subnet list for a Windows Azure virtual machine.</maml:para>
+        <maml:para>Defines the subnet list for a Microsoft Azure virtual machine.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -14851,7 +14851,7 @@ Get-AzureVMImage `
         Set-AzureVMSize
       </command:name>
       <maml:description>
-        <maml:para>Sets the size of a Windows Azure virtual machine.</maml:para>
+        <maml:para>Sets the size of a Microsoft Azure virtual machine.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para>
@@ -15044,7 +15044,7 @@ Get-AzureVMImage `
     <command:details>
       <command:name>Set-AzureVNetConfig</command:name>
       <maml:description>
-        <maml:para>Updates the virtual network settings for a Windows Azure cloud service.</maml:para>
+        <maml:para>Updates the virtual network settings for a Microsoft Azure cloud service.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -15055,7 +15055,7 @@ Get-AzureVMImage `
     </command:details>
     <maml:description>
       <maml:para>
-        The Set-AzureVNetConfig cmdlet updates the network configuration for the current Windows Azure subscription by specifying a path to anetwork configuration file (.netcfg). The network configuration file defines DNS servers and subnets for cloud services within a subscription.
+        The Set-AzureVNetConfig cmdlet updates the network configuration for the current Microsoft Azure subscription by specifying a path to anetwork configuration file (.netcfg). The network configuration file defines DNS servers and subnets for cloud services within a subscription.
       </maml:para>
     </maml:description>
     <command:syntax>
@@ -15136,7 +15136,7 @@ Get-AzureVMImage `
         </dev:code>
         <dev:remarks>
           <maml:para>
-            This command updates the network configuration of the current Windows Azure subscription to that in the local file "c:\temp\MyAzNets.netcfg".
+            This command updates the network configuration of the current Microsoft Azure subscription to that in the local file "c:\temp\MyAzNets.netcfg".
           </maml:para>
         </dev:remarks>
         <command:commandLines>
@@ -15161,7 +15161,7 @@ Get-AzureVMImage `
         </dev:code>
         <dev:remarks>
           <maml:para>
-            This example sets the Windows Azure subscription, and then updates the network configuration of that subscription using the configuration defined in the local file "c:\temp\MyAzNets.netcfg".
+            This example sets the Microsoft Azure subscription, and then updates the network configuration of that subscription using the configuration defined in the local file "c:\temp\MyAzNets.netcfg".
           </maml:para>
         </dev:remarks>
         <command:commandLines>
@@ -15190,7 +15190,7 @@ Get-AzureVMImage `
     <command:details>
       <command:name>Set-AzureVNetGateway</command:name>
       <maml:description>
-        <maml:para>Enables or disables a Windows Azure Virtual Network Gateway. </maml:para>
+        <maml:para>Enables or disables a Microsoft Azure Virtual Network Gateway. </maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -15200,7 +15200,7 @@ Get-AzureVMImage `
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>The Set-AzureVNetGateway cmdlet enables or disables a virtual network gateway for the specified Windows Azure virtual network. A virtual network gateway is a virtual private network (VPN) endpoint for connecting to a virtual network.</maml:para>
+      <maml:para>The Set-AzureVNetGateway cmdlet enables or disables a virtual network gateway for the specified Microsoft Azure virtual network. A virtual network gateway is a virtual private network (VPN) endpoint for connecting to a virtual network.</maml:para>
       <maml:para>The Set-AzureVNetGateway cmdlet supports two functional parameters: Connect and Disconnect. These  parameters allow you to enable or disable the VPN connection between the specified LocalNetworkSiteName and the specified virtual network. </maml:para>
     </maml:description>
     <command:syntax>
@@ -15216,7 +15216,7 @@ Get-AzureVMImage `
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
           <maml:name>VNetName</maml:name>
           <maml:description>
-            <maml:para>Specifies the name of the Windows Azure virtual network to connect or disconnect.</maml:para>
+            <maml:para>Specifies the name of the Microsoft Azure virtual network to connect or disconnect.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
@@ -15240,7 +15240,7 @@ Get-AzureVMImage `
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
           <maml:name>VNetName</maml:name>
           <maml:description>
-            <maml:para>Specifies the name of the Windows Azure virtual network to connect or disconnect.</maml:para>
+            <maml:para>Specifies the name of the Microsoft Azure virtual network to connect or disconnect.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
@@ -15263,7 +15263,7 @@ Get-AzureVMImage `
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
           <maml:name>VNetName</maml:name>
           <maml:description>
-            <maml:para>Specifies the name of the Windows Azure virtual network to connect or disconnect.</maml:para>
+            <maml:para>Specifies the name of the Microsoft Azure virtual network to connect or disconnect.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
@@ -15331,7 +15331,7 @@ Get-AzureVMImage `
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
         <maml:name>VNetName</maml:name>
         <maml:description>
-          <maml:para>Specifies the name of the Windows Azure virtual network to connect or disconnect.</maml:para>
+          <maml:para>Specifies the name of the Microsoft Azure virtual network to connect or disconnect.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -15387,7 +15387,7 @@ Get-AzureVMImage `
           PS C:\&gt; Set-AzureVNetGateway -Connect –VnetName "MyProdNet" –LocalNetworkSiteName "MyBranchOffice"
         </dev:code>
         <dev:remarks>
-          <maml:para>This command enables the virtual network gateway between the Windows Azure virtual network, "MyProdNet" and the VPN device for the local network site, "MyBranchOffice".</maml:para>
+          <maml:para>This command enables the virtual network gateway between the Microsoft Azure virtual network, "MyProdNet" and the VPN device for the local network site, "MyBranchOffice".</maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
@@ -15407,7 +15407,7 @@ Get-AzureVMImage `
           PS C:\&gt; Set-AzureVNetGateway -Disconnect –VnetName "MyProdNet" –LocalNetworkSiteName "MyBranchOffice"
         </dev:code>
         <dev:remarks>
-          <maml:para>This command disables the virtual network gateway between the Windows Azure virtual network, "MyProdNet" and the VPN device for the local network site "MyBranchOffice".</maml:para>
+          <maml:para>This command disables the virtual network gateway between the Microsoft Azure virtual network, "MyProdNet" and the VPN device for the local network site "MyBranchOffice".</maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
@@ -15433,7 +15433,7 @@ Get-AzureVMImage `
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>The Set-AzureWalkUpgradeDomain cmdlet initiates the actual upgrade of a Windows Azure deployment. The upgrade package and configuration are set by using the Set-AzureDeployment cmdlet with the -Upgrade switch. </maml:para>
+      <maml:para>The Set-AzureWalkUpgradeDomain cmdlet initiates the actual upgrade of a Microsoft Azure deployment. The upgrade package and configuration are set by using the Set-AzureDeployment cmdlet with the -Upgrade switch. </maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -15442,7 +15442,7 @@ Get-AzureVMImage `
           <maml:name>ServiceName</maml:name>
           <maml:description>
             <maml:para>
-              Specifies the Windows Azure service name to upgrade.
+              Specifies the Microsoft Azure service name to upgrade.
             </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -15487,7 +15487,7 @@ Get-AzureVMImage `
         <maml:name>ServiceName</maml:name>
         <maml:description>
           <maml:para>
-            Specifies the Windows Azure service name to upgrade.
+            Specifies the Microsoft Azure service name to upgrade.
           </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -15574,7 +15574,7 @@ Get-AzureVMImage `
     <command:details>
       <command:name>Start-AzureVM</command:name>
       <maml:description>
-        <maml:para>Starts a Windows Azure virtual machine.</maml:para>
+        <maml:para>Starts a Microsoft Azure virtual machine.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -15585,7 +15585,7 @@ Get-AzureVMImage `
     </command:details>
     <maml:description>
       <maml:para>
-        The Start-AzureVM cmdlet requests the start of a  Windows Azure virtual machine.
+        The Start-AzureVM cmdlet requests the start of a  Microsoft Azure virtual machine.
       </maml:para>
     </maml:description>
     <command:syntax>
@@ -15595,7 +15595,7 @@ Get-AzureVMImage `
           <maml:name>ServiceName</maml:name>
           <maml:description>
             <maml:para>
-              Specifies the name of the Windows Azure service that contains the virtual machine to start.
+              Specifies the name of the Microsoft Azure service that contains the virtual machine to start.
             </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -15614,7 +15614,7 @@ Get-AzureVMImage `
           <maml:name>ServiceName</maml:name>
           <maml:description>
             <maml:para>
-              Specifies the name of the Windows Azure service that contains the virtual machine to start.
+              Specifies the name of the Microsoft Azure service that contains the virtual machine to start.
             </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -15646,7 +15646,7 @@ Get-AzureVMImage `
         <maml:name>ServiceName</maml:name>
         <maml:description>
           <maml:para>
-            Specifies the name of the Windows Azure service that contains the virtual machine to start.
+            Specifies the name of the Microsoft Azure service that contains the virtual machine to start.
           </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -15718,7 +15718,7 @@ Get-AzureVMImage `
         </dev:code>
         <dev:remarks>
           <maml:para>
-            This command starts the "MyVM" virtual machine running in the "myservice1" Windows Azure service.
+            This command starts the "MyVM" virtual machine running in the "myservice1" Microsoft Azure service.
           </maml:para>
         </dev:remarks>
         <command:commandLines>
@@ -15780,7 +15780,7 @@ Get-AzureVMImage `
         Stop-AzureVM
       </command:name>
       <maml:description>
-        <maml:para>Shuts down a Windows Azure virtual machine.</maml:para>
+        <maml:para>Shuts down a Microsoft Azure virtual machine.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para>
@@ -15801,7 +15801,7 @@ Get-AzureVMImage `
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1">
           <maml:name>ServiceName</maml:name>
           <maml:description>
-            <maml:para>Specifies the name of the Windows Azure service that contains the virtual machine to shut down.</maml:para>
+            <maml:para>Specifies the name of the Microsoft Azure service that contains the virtual machine to shut down.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
@@ -15830,7 +15830,7 @@ Get-AzureVMImage `
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1">
           <maml:name>ServiceName</maml:name>
           <maml:description>
-            <maml:para>Specifies the name of the Windows Azure service that contains the virtual machine to shut down.</maml:para>
+            <maml:para>Specifies the name of the Microsoft Azure service that contains the virtual machine to shut down.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
@@ -15873,7 +15873,7 @@ Get-AzureVMImage `
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1">
         <maml:name>ServiceName</maml:name>
         <maml:description>
-          <maml:para>Specifies the name of the Windows Azure service that contains the virtual machine to shut down.</maml:para>
+          <maml:para>Specifies the name of the Microsoft Azure service that contains the virtual machine to shut down.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
@@ -15985,7 +15985,7 @@ Get-AzureVMImage `
         <dev:remarks>
           <maml:para>Description</maml:para>
           <maml:para>-----------</maml:para>
-          <maml:para>This command shuts down the "MyVM" virtual machine running in the "myservice1" Windows Azure service and deprovisions it. If it is the last VM in deployment, then confirmation pop-up window is displayed with a warning that deprovisioning will cause loss deployment VIP.</maml:para>
+          <maml:para>This command shuts down the "MyVM" virtual machine running in the "myservice1" Microsoft Azure service and deprovisions it. If it is the last VM in deployment, then confirmation pop-up window is displayed with a warning that deprovisioning will cause loss deployment VIP.</maml:para>
           <maml:para>
           </maml:para>
           <maml:para>
@@ -16045,7 +16045,7 @@ Get-AzureVMImage `
         <dev:remarks>
           <maml:para>Description</maml:para>
           <maml:para>-----------</maml:para>
-          <maml:para>This command shuts down the "MyVM" virtual machine running in the "myservice1" Windows Azure service and keeps the VM provisioned.</maml:para>
+          <maml:para>This command shuts down the "MyVM" virtual machine running in the "myservice1" Microsoft Azure service and keeps the VM provisioned.</maml:para>
           <maml:para>
           </maml:para>
           <maml:para>
@@ -16075,7 +16075,7 @@ Get-AzureVMImage `
         <dev:remarks>
           <maml:para>Description</maml:para>
           <maml:para>-----------</maml:para>
-          <maml:para>This command shuts down the "MyVM" virtual machine running in the "myservice1" Windows Azure service even if it is the last VM in the deployment.</maml:para>
+          <maml:para>This command shuts down the "MyVM" virtual machine running in the "myservice1" Microsoft Azure service even if it is the last VM in the deployment.</maml:para>
           <maml:para>
           </maml:para>
           <maml:para>
@@ -16121,7 +16121,7 @@ Get-AzureVMImage `
     <command:details>
       <command:name>Update-AzureDisk</command:name>
       <maml:description>
-        <maml:para>Updates the label of a disk in the Windows Azure disk repository.</maml:para>
+        <maml:para>Updates the label of a disk in the Microsoft Azure disk repository.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -16131,7 +16131,7 @@ Get-AzureVMImage `
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>The Update-AzureDisk cmdlet changes the label associated with a disk in the disk repository of the current Windows Azure subscription.</maml:para>
+      <maml:para>The Update-AzureDisk cmdlet changes the label associated with a disk in the disk repository of the current Microsoft Azure subscription.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -16263,7 +16263,7 @@ Get-AzureVMImage `
     <command:details>
       <command:name>Update-AzureVM</command:name>
       <maml:description>
-        <maml:para>Modifies the configuration of a Windows Azure virtual machine.</maml:para>
+        <maml:para>Modifies the configuration of a Microsoft Azure virtual machine.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -16284,7 +16284,7 @@ Get-AzureVMImage `
           <maml:name>ServiceName</maml:name>
           <maml:description>
             <maml:para>
-              Specifies the name of the Windows Azure service.
+              Specifies the name of the Microsoft Azure service.
             </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -16323,7 +16323,7 @@ Get-AzureVMImage `
         <maml:name>ServiceName</maml:name>
         <maml:description>
           <maml:para>
-            Specifies the name of the Windows Azure service.
+            Specifies the name of the Microsoft Azure service.
           </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -16886,7 +16886,7 @@ Get-AzureVMImage `
         Add-AzureVhd
       </command:name>
       <maml:description>
-        <maml:para>Uploads a VHD file from an on premise machine to a blob in a cloud storage account in Windows Azure</maml:para>
+        <maml:para>Uploads a VHD file from an on premise machine to a blob in a cloud storage account in Microsoft Azure</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para>
@@ -16909,14 +16909,14 @@ Get-AzureVMImage `
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="3">
           <maml:name>Destination</maml:name>
           <maml:description>
-            <maml:para>A Uri to a blob in Windows Azure Blob Storage.  Shared Access Signature (SAS) in Uri input is supported as well, however in patching scenarios destination cannot be a SAS Uri.</maml:para>
+            <maml:para>A Uri to a blob in Microsoft Azure Blob Storage.  Shared Access Signature (SAS) in Uri input is supported as well, however in patching scenarios destination cannot be a SAS Uri.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">Uri</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="6">
           <maml:name>BaseImageUriToPatch</maml:name>
           <maml:description>
-            <maml:para>A Uri to a base image blob in Windows Azure Blob Storage. Shared Access Signature (SAS) in Uri input is supported as well.</maml:para>
+            <maml:para>A Uri to a base image blob in Microsoft Azure Blob Storage. Shared Access Signature (SAS) in Uri input is supported as well.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">Uri</command:parameterValue>
         </command:parameter>
@@ -16947,7 +16947,7 @@ Get-AzureVMImage `
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="6">
         <maml:name>BaseImageUriToPatch</maml:name>
         <maml:description>
-          <maml:para>A Uri to a base image blob in Windows Azure Blob Storage. Shared Access Signature (SAS) in Uri input is supported as well.</maml:para>
+          <maml:para>A Uri to a base image blob in Microsoft Azure Blob Storage. Shared Access Signature (SAS) in Uri input is supported as well.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">Uri</command:parameterValue>
         <dev:type>
@@ -16960,7 +16960,7 @@ Get-AzureVMImage `
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="3">
         <maml:name>Destination</maml:name>
         <maml:description>
-          <maml:para>A Uri to a blob in Windows Azure Blob Storage.  Shared Access Signature (SAS) in Uri input is supported as well, however in patching scenarios destination cannot be a SAS Uri.</maml:para>
+          <maml:para>A Uri to a blob in Microsoft Azure Blob Storage.  Shared Access Signature (SAS) in Uri input is supported as well, however in patching scenarios destination cannot be a SAS Uri.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">Uri</command:parameterValue>
         <dev:type>
@@ -17218,14 +17218,14 @@ Get-AzureVMImage `
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
           <maml:name>Source</maml:name>
           <maml:description>
-            <maml:para>Uri to the blob in Windows Azure.</maml:para>
+            <maml:para>Uri to the blob in Microsoft Azure.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">Uri</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="5">
           <maml:name>StorageKey</maml:name>
           <maml:description>
-            <maml:para>Storage key of the blob storage account. If it is not provided, Save-AzureVhd tries to determine the storage key of the account in Source Uri from Windows Azure Cloud.</maml:para>
+            <maml:para>Storage key of the blob storage account. If it is not provided, Save-AzureVhd tries to determine the storage key of the account in Source Uri from Microsoft Azure Cloud.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
@@ -17295,7 +17295,7 @@ Get-AzureVMImage `
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
         <maml:name>Source</maml:name>
         <maml:description>
-          <maml:para>Uri to the blob in Windows Azure.</maml:para>
+          <maml:para>Uri to the blob in Microsoft Azure.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">Uri</command:parameterValue>
         <dev:type>
@@ -17308,7 +17308,7 @@ Get-AzureVMImage `
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="5">
         <maml:name>StorageKey</maml:name>
         <maml:description>
-          <maml:para>Storage key of the blob storage account. If it is not provided, Save-AzureVhd tries to determine the storage key of the account in Source Uri from Windows Azure Cloud.</maml:para>
+          <maml:para>Storage key of the blob storage account. If it is not provided, Save-AzureVhd tries to determine the storage key of the account in Source Uri from Microsoft Azure Cloud.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
@@ -17471,7 +17471,7 @@ Get-AzureVMImage `
         <dev:remarks>
           <maml:para>Description</maml:para>
           <maml:para>-----------</maml:para>
-          <maml:para>If storage key is specified, Save-AzureVhd doesn't attempt to get the storage key from Windows Azure Cloud and uses the provided the key in download.</maml:para>
+          <maml:para>If storage key is specified, Save-AzureVhd doesn't attempt to get the storage key from Microsoft Azure Cloud and uses the provided the key in download.</maml:para>
           <maml:para>
           </maml:para>
           <maml:para>
@@ -17683,7 +17683,7 @@ Get-AzureVMImage `
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
           <maml:name>ServiceName</maml:name>
           <maml:description>
-            <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
+            <maml:para>Specifies the Microsoft Azure service name of the deployment.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
@@ -17701,7 +17701,7 @@ Get-AzureVMImage `
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
         <maml:name>ServiceName</maml:name>
         <maml:description>
-          <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
+          <maml:para>Specifies the Microsoft Azure service name of the deployment.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
@@ -17841,7 +17841,7 @@ Get-AzureVMImage `
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
           <maml:name>ServiceName</maml:name>
           <maml:description>
-            <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
+            <maml:para>Specifies the Microsoft Azure service name of the deployment.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
@@ -17859,7 +17859,7 @@ Get-AzureVMImage `
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
         <maml:name>ServiceName</maml:name>
         <maml:description>
-          <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
+          <maml:para>Specifies the Microsoft Azure service name of the deployment.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
@@ -18313,7 +18313,7 @@ Get-AzureVMImage `
           <maml:name>DiagnosticsConfiguration</maml:name>
           <maml:description>
             <maml:para><![CDATA[ 
-Configuration for Windows Azure diagnostics. The schema is:
+Configuration for Microsoft Azure diagnostics. The schema is:
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema id="DiagnosticsConfigSchema"
     targetNamespace="http://schemas.microsoft.com/ServiceHosting/2010/10/DiagnosticsConfiguration"
@@ -18956,7 +18956,7 @@ Configuration for Windows Azure diagnostics. The schema is:
           <maml:name>DiagnosticsConfiguration</maml:name>
           <maml:description>
             <maml:para><![CDATA[ 
-Configuration for Windows Azure diagnostics. The schema is:
+Configuration for Microsoft Azure diagnostics. The schema is:
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema id="DiagnosticsConfigSchema"
     targetNamespace="http://schemas.microsoft.com/ServiceHosting/2010/10/DiagnosticsConfiguration"
@@ -19599,7 +19599,7 @@ Configuration for Windows Azure diagnostics. The schema is:
         <maml:name>DiagnosticsConfiguration</maml:name>
         <maml:description>
           <maml:para><![CDATA[ 
-Configuration for Windows Azure diagnostics. The schema is:
+Configuration for Microsoft Azure diagnostics. The schema is:
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema id="DiagnosticsConfigSchema"
     targetNamespace="http://schemas.microsoft.com/ServiceHosting/2010/10/DiagnosticsConfiguration"
@@ -20412,7 +20412,7 @@ Configuration for Windows Azure diagnostics. The schema is:
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
           <maml:name>ServiceName</maml:name>
           <maml:description>
-            <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
+            <maml:para>Specifies the Microsoft Azure service name of the deployment.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
@@ -20435,7 +20435,7 @@ Configuration for Windows Azure diagnostics. The schema is:
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
           <maml:name>ServiceName</maml:name>
           <maml:description>
-            <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
+            <maml:para>Specifies the Microsoft Azure service name of the deployment.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
@@ -20460,7 +20460,7 @@ Configuration for Windows Azure diagnostics. The schema is:
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
         <maml:name>ServiceName</maml:name>
         <maml:description>
-          <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
+          <maml:para>Specifies the Microsoft Azure service name of the deployment.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
@@ -20656,7 +20656,7 @@ Configuration for Windows Azure diagnostics. The schema is:
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
           <maml:name>ServiceName</maml:name>
           <maml:description>
-            <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
+            <maml:para>Specifies the Microsoft Azure service name of the deployment.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
@@ -20679,7 +20679,7 @@ Configuration for Windows Azure diagnostics. The schema is:
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
           <maml:name>ServiceName</maml:name>
           <maml:description>
-            <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
+            <maml:para>Specifies the Microsoft Azure service name of the deployment.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
@@ -20717,7 +20717,7 @@ Configuration for Windows Azure diagnostics. The schema is:
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
         <maml:name>ServiceName</maml:name>
         <maml:description>
-          <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
+          <maml:para>Specifies the Microsoft Azure service name of the deployment.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
@@ -20900,7 +20900,7 @@ Configuration for Windows Azure diagnostics. The schema is:
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
           <maml:name>ServiceName</maml:name>
           <maml:description>
-            <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
+            <maml:para>Specifies the Microsoft Azure service name of the deployment.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
@@ -20952,7 +20952,7 @@ Configuration for Windows Azure diagnostics. The schema is:
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
           <maml:name>ServiceName</maml:name>
           <maml:description>
-            <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
+            <maml:para>Specifies the Microsoft Azure service name of the deployment.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
@@ -21057,7 +21057,7 @@ Configuration for Windows Azure diagnostics. The schema is:
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
         <maml:name>ServiceName</maml:name>
         <maml:description>
-          <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
+          <maml:para>Specifies the Microsoft Azure service name of the deployment.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
@@ -21253,7 +21253,7 @@ Configuration for Windows Azure diagnostics. The schema is:
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
           <maml:name>ServiceName</maml:name>
           <maml:description>
-            <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
+            <maml:para>Specifies the Microsoft Azure service name of the deployment.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
@@ -21282,7 +21282,7 @@ Configuration for Windows Azure diagnostics. The schema is:
           <maml:name>DiagnosticsConfiguration</maml:name>
           <maml:description>
             <maml:para><![CDATA[ 
-Configuration for Windows Azure diagnostics. The schema is:
+Configuration for Microsoft Azure diagnostics. The schema is:
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema id="DiagnosticsConfigSchema"
     targetNamespace="http://schemas.microsoft.com/ServiceHosting/2010/10/DiagnosticsConfiguration"
@@ -21910,7 +21910,7 @@ Configuration for Windows Azure diagnostics. The schema is:
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
           <maml:name>ServiceName</maml:name>
           <maml:description>
-            <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
+            <maml:para>Specifies the Microsoft Azure service name of the deployment.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
@@ -21939,7 +21939,7 @@ Configuration for Windows Azure diagnostics. The schema is:
           <maml:name>DiagnosticsConfiguration</maml:name>
           <maml:description>
             <maml:para><![CDATA[ 
-Configuration for Windows Azure diagnostics. The schema is:
+Configuration for Microsoft Azure diagnostics. The schema is:
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema id="DiagnosticsConfigSchema"
     targetNamespace="http://schemas.microsoft.com/ServiceHosting/2010/10/DiagnosticsConfiguration"
@@ -22582,7 +22582,7 @@ Configuration for Windows Azure diagnostics. The schema is:
         <maml:name>DiagnosticsConfiguration</maml:name>
         <maml:description>
           <maml:para><![CDATA[ 
-Configuration for Windows Azure diagnostics. The schema is:
+Configuration for Microsoft Azure diagnostics. The schema is:
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema id="DiagnosticsConfigSchema"
     targetNamespace="http://schemas.microsoft.com/ServiceHosting/2010/10/DiagnosticsConfiguration"
@@ -23212,7 +23212,7 @@ Configuration for Windows Azure diagnostics. The schema is:
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
         <maml:name>ServiceName</maml:name>
         <maml:description>
-          <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
+          <maml:para>Specifies the Microsoft Azure service name of the deployment.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
@@ -23884,7 +23884,7 @@ C:\PS&gt; Get-AzureVM -ServiceName "MyService" -Name "MyVM" | Set-AzureEndpoint 
     <command:details>
       <command:name>Set-AzureLoadBalancedEndpoint</command:name>
       <maml:description>
-        <maml:para>Updates all of the endpoints in a given load balancer set within a Windows Azure Service.</maml:para>
+        <maml:para>Updates all of the endpoints in a given load balancer set within a Microsoft Azure Service.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -23895,7 +23895,7 @@ C:\PS&gt; Get-AzureVM -ServiceName "MyService" -Name "MyVM" | Set-AzureEndpoint 
     </command:details>
     <maml:description>
       <maml:para>
-        The Set-AzureLoadBalancedEndpoint cmdlet updates all of the endpoints in a given load balancer set within a Windows Azure Service.
+        The Set-AzureLoadBalancedEndpoint cmdlet updates all of the endpoints in a given load balancer set within a Microsoft Azure Service.
       </maml:para>
     </maml:description>
     <command:syntax>
@@ -23905,7 +23905,7 @@ C:\PS&gt; Get-AzureVM -ServiceName "MyService" -Name "MyVM" | Set-AzureEndpoint 
           <maml:name>ServiceName</maml:name>
           <maml:description>
             <maml:para>
-              Specifies the name of the Windows Azure service containing the endpoint that will be modified.
+              Specifies the name of the Microsoft Azure service containing the endpoint that will be modified.
             </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -23934,7 +23934,7 @@ C:\PS&gt; Get-AzureVM -ServiceName "MyService" -Name "MyVM" | Set-AzureEndpoint 
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>PublicPort</maml:name>
           <maml:description>
-            <maml:para>Specifies the public port that the endpoint will use. If not specified, Windows Azure will assign an available free port.</maml:para>
+            <maml:para>Specifies the public port that the endpoint will use. If not specified, Microsoft Azure will assign an available free port.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
         </command:parameter>
@@ -23966,7 +23966,7 @@ C:\PS&gt; Get-AzureVM -ServiceName "MyService" -Name "MyVM" | Set-AzureEndpoint 
           <maml:name>ServiceName</maml:name>
           <maml:description>
             <maml:para>
-              Specifies the name of the Windows Azure service containing the endpoint that will be modified.
+              Specifies the name of the Microsoft Azure service containing the endpoint that will be modified.
             </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -23995,7 +23995,7 @@ C:\PS&gt; Get-AzureVM -ServiceName "MyService" -Name "MyVM" | Set-AzureEndpoint 
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>PublicPort</maml:name>
           <maml:description>
-            <maml:para>Specifies the public port that the endpoint will use. If not specified, Windows Azure will assign an available free port.</maml:para>
+            <maml:para>Specifies the public port that the endpoint will use. If not specified, Microsoft Azure will assign an available free port.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
         </command:parameter>
@@ -24023,7 +24023,7 @@ C:\PS&gt; Get-AzureVM -ServiceName "MyService" -Name "MyVM" | Set-AzureEndpoint 
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>ProbePort</maml:name>
           <maml:description>
-            <maml:para>Specifies the port that the load balancer probe will use. If not specified, Windows Azure will assign the endpoints local port.</maml:para>
+            <maml:para>Specifies the port that the load balancer probe will use. If not specified, Microsoft Azure will assign the endpoints local port.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
         </command:parameter>
@@ -24055,7 +24055,7 @@ C:\PS&gt; Get-AzureVM -ServiceName "MyService" -Name "MyVM" | Set-AzureEndpoint 
           <maml:name>ServiceName</maml:name>
           <maml:description>
             <maml:para>
-              Specifies the name of the Windows Azure service containing the endpoint that will be modified.
+              Specifies the name of the Microsoft Azure service containing the endpoint that will be modified.
             </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -24084,7 +24084,7 @@ C:\PS&gt; Get-AzureVM -ServiceName "MyService" -Name "MyVM" | Set-AzureEndpoint 
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>PublicPort</maml:name>
           <maml:description>
-            <maml:para>Specifies the public port that the endpoint will use. If not specified, Windows Azure will assign an available free port.</maml:para>
+            <maml:para>Specifies the public port that the endpoint will use. If not specified, Microsoft Azure will assign an available free port.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
         </command:parameter>
@@ -24119,7 +24119,7 @@ C:\PS&gt; Get-AzureVM -ServiceName "MyService" -Name "MyVM" | Set-AzureEndpoint 
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>ProbePort</maml:name>
           <maml:description>
-            <maml:para>Specifies the port that the load balancer probe will use. If not specified, Windows Azure will assign the endpoints local port.</maml:para>
+            <maml:para>Specifies the port that the load balancer probe will use. If not specified, Microsoft Azure will assign the endpoints local port.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
         </command:parameter>
@@ -24151,7 +24151,7 @@ C:\PS&gt; Get-AzureVM -ServiceName "MyService" -Name "MyVM" | Set-AzureEndpoint 
         <maml:name>ServiceName</maml:name>
         <maml:description>
           <maml:para>
-            Specifies the name of the Windows Azure service containing the endpoint that will be modified.
+            Specifies the name of the Microsoft Azure service containing the endpoint that will be modified.
           </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -24187,7 +24187,7 @@ C:\PS&gt; Get-AzureVM -ServiceName "MyService" -Name "MyVM" | Set-AzureEndpoint 
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
         <maml:name>PublicPort</maml:name>
         <maml:description>
-          <maml:para>Specifies the public port that the endpoint will use. If not specified, Windows Azure will assign an available free port.</maml:para>
+          <maml:para>Specifies the public port that the endpoint will use. If not specified, Microsoft Azure will assign an available free port.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
       </command:parameter>
@@ -24229,7 +24229,7 @@ C:\PS&gt; Get-AzureVM -ServiceName "MyService" -Name "MyVM" | Set-AzureEndpoint 
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
         <maml:name>ProbePort</maml:name>
         <maml:description>
-          <maml:para>Specifies the port that the load balancer probe will use. If not specified, Windows Azure will assign the endpoints local port.</maml:para>
+          <maml:para>Specifies the port that the load balancer probe will use. If not specified, Microsoft Azure will assign the endpoints local port.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
       </command:parameter>
@@ -24359,8 +24359,8 @@ C:\PS&gt; Get-AzureVM -ServiceName "MyService" -Name "MyVM" | Set-AzureEndpoint 
           ProviderNameSpace          : Microsoft.Windows.Azure.Extensions
           Type                       : RDP
           Version                    : 1.0
-          Label                      : Windows Azure Remote Desktop Extension
-          Description                : Windows Azure Remote Desktop Extension
+          Label                      : Microsoft Azure Remote Desktop Extension
+          Description                : Microsoft Azure Remote Desktop Extension
           HostingResources           : WebOrWorkerRole
           ThumbprintAlgorithm        : sha1
           PublicConfigurationSchema  : &lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified"
@@ -24679,7 +24679,7 @@ C:\PS&gt; Get-AzureVM -ServiceName "MyService" -Name "MyVM" | Set-AzureEndpoint 
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
           <maml:name>ServiceName</maml:name>
           <maml:description>
-            <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
+            <maml:para>Specifies the Microsoft Azure service name of the deployment.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
@@ -24698,7 +24698,7 @@ C:\PS&gt; Get-AzureVM -ServiceName "MyService" -Name "MyVM" | Set-AzureEndpoint 
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
         <maml:name>ServiceName</maml:name>
         <maml:description>
-          <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
+          <maml:para>Specifies the Microsoft Azure service name of the deployment.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
@@ -27105,8 +27105,8 @@ New-AzureDeployment -ServiceName $cloudSvc -Slot Production -Package $pkg -Confi
           ProviderNameSpace          : Microsoft.Windows.Azure.Extensions
           ExtensionName              : RDP
           Version                    : 1.0
-          Label                      : Windows Azure Remote Desktop Extension
-          Description                : Windows Azure Remote Desktop Extension
+          Label                      : Microsoft Azure Remote Desktop Extension
+          Description                : Microsoft Azure Remote Desktop Extension
           HostingResources           : WebOrWorkerRole
           ThumbprintAlgorithm        : sha1
           PublicConfigurationSchema  : &lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified"
@@ -27154,8 +27154,8 @@ New-AzureDeployment -ServiceName $cloudSvc -Slot Production -Package $pkg -Confi
           ProviderNameSpace          : Microsoft.Windows.Azure.Extensions
           ExtensionName              : RDP
           Version                    : 1.0.0.1
-          Label                      : Windows Azure Remote Desktop Extension
-          Description                : Windows Azure Remote Desktop Extension
+          Label                      : Microsoft Azure Remote Desktop Extension
+          Description                : Microsoft Azure Remote Desktop Extension
           HostingResources           : WebOrWorkerRole
           ThumbprintAlgorithm        : sha1
           PublicConfigurationSchema  : &lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified"
@@ -27203,8 +27203,8 @@ New-AzureDeployment -ServiceName $cloudSvc -Slot Production -Package $pkg -Confi
           ProviderNameSpace          : Microsoft.Windows.Azure.Extensions
           ExtensionName              : RDP
           Version                    : 1.0.0.1
-          Label                      : Windows Azure Remote Desktop Extension
-          Description                : Windows Azure Remote Desktop Extension
+          Label                      : Microsoft Azure Remote Desktop Extension
+          Description                : Microsoft Azure Remote Desktop Extension
           HostingResources           : WebOrWorkerRole
           ThumbprintAlgorithm        : sha1
           PublicConfigurationSchema  : &lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified"
@@ -27694,7 +27694,7 @@ New-AzureDeployment -ServiceName $cloudSvc -Slot Production -Package $pkg -Confi
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
           <maml:name>ServiceName</maml:name>
           <maml:description>
-            <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
+            <maml:para>Specifies the Microsoft Azure service name of the deployment.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
@@ -27761,7 +27761,7 @@ New-AzureDeployment -ServiceName $cloudSvc -Slot Production -Package $pkg -Confi
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
           <maml:name>ServiceName</maml:name>
           <maml:description>
-            <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
+            <maml:para>Specifies the Microsoft Azure service name of the deployment.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
@@ -27908,7 +27908,7 @@ New-AzureDeployment -ServiceName $cloudSvc -Slot Production -Package $pkg -Confi
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
         <maml:name>ServiceName</maml:name>
         <maml:description>
-          <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
+          <maml:para>Specifies the Microsoft Azure service name of the deployment.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
@@ -28117,7 +28117,7 @@ New-AzureDeployment -ServiceName $cloudSvc -Slot Production -Package $pkg -Confi
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1">
           <maml:name>ServiceName</maml:name>
           <maml:description>
-            <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
+            <maml:para>Specifies the Microsoft Azure service name of the deployment.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
@@ -28176,7 +28176,7 @@ New-AzureDeployment -ServiceName $cloudSvc -Slot Production -Package $pkg -Confi
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1">
         <maml:name>ServiceName</maml:name>
         <maml:description>
-          <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
+          <maml:para>Specifies the Microsoft Azure service name of the deployment.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
@@ -31769,6 +31769,9 @@ Remove-AzureVMCustomScriptExtension -VM $vm;                        </dev:code>
       </maml:navigationLink>
     </maml:relatedLinks>
   </command:command>
+
+
+  <!-- v 1.3.0.36 -->
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
     <command:details>
       <command:name>
@@ -31778,13 +31781,11 @@ Remove-AzureVMCustomScriptExtension -VM $vm;                        </dev:code>
         <maml:para>Set Azure VM Custom Script Extension Information.</maml:para>
       </maml:description>
       <maml:copyright>
-        <maml:para>
-        </maml:para>
+        <maml:para></maml:para>
       </maml:copyright>
       <command:verb>Set</command:verb>
       <command:noun>AzureVMCustomScriptExtension</command:noun>
-      <dev:version>
-      </dev:version>
+      <dev:version></dev:version>
     </command:details>
     <maml:description>
       <maml:para>Set Azure VM Custom Script Extension Information.</maml:para>
@@ -31861,7 +31862,7 @@ Remove-AzureVMCustomScriptExtension -VM $vm;                        </dev:code>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="4">
           <maml:name>Run</maml:name>
           <maml:description>
-            <maml:para>The command to run by the extension on the VM, currently only "powershell.exe" is supported.</maml:para>
+            <maml:para>The command to run by the extension on the VM, currently only &quot;powershell.exe&quot; is supported.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
@@ -31990,197 +31991,197 @@ Remove-AzureVMCustomScriptExtension -VM $vm;                        </dev:code>
         <maml:name>Argument</maml:name>
         <maml:description>
           <maml:para>Argument for the command to run on the VM.</maml:para>
+
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
           <maml:name>string</maml:name>
-          <maml:uri />
+          <maml:uri/>
         </dev:type>
-        <dev:defaultValue>
-        </dev:defaultValue>
+        <dev:defaultValue></dev:defaultValue>
       </command:parameter>
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="3">
         <maml:name>ContainerName</maml:name>
         <maml:description>
           <maml:para>The container name within the storage account.</maml:para>
+
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
           <maml:name>string</maml:name>
-          <maml:uri />
+          <maml:uri/>
         </dev:type>
-        <dev:defaultValue>
-        </dev:defaultValue>
+        <dev:defaultValue></dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="3">
         <maml:name>Disable</maml:name>
         <maml:description>
           <maml:para>To Set the Extension State to 'Disable'.</maml:para>
+
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
           <maml:name>SwitchParameter</maml:name>
-          <maml:uri />
+          <maml:uri/>
         </dev:type>
-        <dev:defaultValue>
-        </dev:defaultValue>
+        <dev:defaultValue></dev:defaultValue>
       </command:parameter>
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="true (ByPropertyName)" position="4">
         <maml:name>FileName</maml:name>
         <maml:description>
           <maml:para>The names of the blob files in the specified container.</maml:para>
+
         </maml:description>
         <command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
         <dev:type>
           <maml:name>string[]</maml:name>
-          <maml:uri />
+          <maml:uri/>
         </dev:type>
-        <dev:defaultValue>
-        </dev:defaultValue>
+        <dev:defaultValue></dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="true (ByPropertyName)" position="3">
         <maml:name>FileUri</maml:name>
         <maml:description>
           <maml:para>The URLs of the blob files.</maml:para>
+
         </maml:description>
         <command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
         <dev:type>
           <maml:name>string[]</maml:name>
-          <maml:uri />
+          <maml:uri/>
         </dev:type>
-        <dev:defaultValue>
-        </dev:defaultValue>
+        <dev:defaultValue></dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
         <maml:name>PipelineVariable</maml:name>
         <maml:description>
           <maml:para>Not Specified</maml:para>
+
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
           <maml:name>string</maml:name>
-          <maml:uri />
+          <maml:uri/>
         </dev:type>
-        <dev:defaultValue>
-        </dev:defaultValue>
+        <dev:defaultValue></dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1">
         <maml:name>ReferenceName</maml:name>
         <maml:description>
           <maml:para>The extension's reference name.</maml:para>
+
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
           <maml:name>string</maml:name>
-          <maml:uri />
+          <maml:uri/>
         </dev:type>
-        <dev:defaultValue>
-        </dev:defaultValue>
+        <dev:defaultValue></dev:defaultValue>
       </command:parameter>
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="4">
         <maml:name>Run</maml:name>
         <maml:description>
-          <maml:para>The command to run by the extension on the VM, currently only "powershell.exe" is supported.</maml:para>
+          <maml:para>The command to run by the extension on the VM, currently only &quot;powershell.exe&quot; is supported.</maml:para>
+
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
           <maml:name>string</maml:name>
-          <maml:uri />
+          <maml:uri/>
         </dev:type>
-        <dev:defaultValue>
-        </dev:defaultValue>
+        <dev:defaultValue></dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="7">
         <maml:name>StorageAccountKey</maml:name>
         <maml:description>
           <maml:para>The storage account key</maml:para>
+
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
           <maml:name>string</maml:name>
-          <maml:uri />
+          <maml:uri/>
         </dev:type>
-        <dev:defaultValue>
-        </dev:defaultValue>
+        <dev:defaultValue></dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="5">
         <maml:name>StorageAccountName</maml:name>
         <maml:description>
           <maml:para>The storage account name in the current subscription.</maml:para>
+
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
           <maml:name>string</maml:name>
-          <maml:uri />
+          <maml:uri/>
         </dev:type>
-        <dev:defaultValue>
-        </dev:defaultValue>
+        <dev:defaultValue></dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="6">
         <maml:name>StorageEndpointSuffix</maml:name>
         <maml:description>
           <maml:para>The storage service endpoint.</maml:para>
+
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
           <maml:name>string</maml:name>
-          <maml:uri />
+          <maml:uri/>
         </dev:type>
-        <dev:defaultValue>
-        </dev:defaultValue>
+        <dev:defaultValue></dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="3">
         <maml:name>Uninstall</maml:name>
         <maml:description>
           <maml:para>Not Specified</maml:para>
+
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
           <maml:name>SwitchParameter</maml:name>
-          <maml:uri />
+          <maml:uri/>
         </dev:type>
-        <dev:defaultValue>
-        </dev:defaultValue>
+        <dev:defaultValue></dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
         <maml:name>Version</maml:name>
         <maml:description>
           <maml:para>The Extension Version.</maml:para>
+
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
           <maml:name>string</maml:name>
-          <maml:uri />
+          <maml:uri/>
         </dev:type>
-        <dev:defaultValue>
-        </dev:defaultValue>
+        <dev:defaultValue></dev:defaultValue>
       </command:parameter>
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue, ByPropertyName)" position="named">
         <maml:name>VM</maml:name>
         <maml:description>
           <maml:para>The persistent VM object.</maml:para>
+
         </maml:description>
         <command:parameterValue required="true" variableLength="false">IPersistentVM</command:parameterValue>
         <dev:type>
           <maml:name>IPersistentVM</maml:name>
-          <maml:uri />
+          <maml:uri/>
         </dev:type>
-        <dev:defaultValue>
-        </dev:defaultValue>
+        <dev:defaultValue></dev:defaultValue>
       </command:parameter>
     </command:parameters>
     <!-- Input - Output section-->
     <command:inputTypes>
       <command:inputType>
         <dev:type>
-          <maml:name>
-          </maml:name>
-          <maml:uri />
+          <maml:name></maml:name>
+          <maml:uri/>
           <maml:description />
         </dev:type>
         <maml:description>
           <maml:para>
             <!-- description  -->
+
           </maml:para>
         </maml:description>
       </command:inputType>
@@ -32188,14 +32189,14 @@ Remove-AzureVMCustomScriptExtension -VM $vm;                        </dev:code>
     <command:returnValues>
       <command:returnValue>
         <dev:type>
-          <maml:name>
-          </maml:name>
+          <maml:name></maml:name>
           <maml:uri />
           <maml:description />
         </dev:type>
         <maml:description>
           <maml:para>
             <!-- description  -->
+
           </maml:para>
         </maml:description>
       </command:returnValue>
@@ -32205,19 +32206,19 @@ Remove-AzureVMCustomScriptExtension -VM $vm;                        </dev:code>
     <command:nonTerminatingErrors />
     <!-- Notes section  -->
     <maml:alertSet>
-      <maml:title>
-      </maml:title>
+      <maml:title></maml:title>
       <maml:alert>
         <maml:para>
+
         </maml:para>
       </maml:alert>
       <maml:alert>
-        <maml:para>
-        </maml:para>
+        <maml:para></maml:para>
       </maml:alert>
     </maml:alertSet>
     <!-- Example section  -->
     <command:examples>
+
       <command:example>
         <maml:title>
           -------------------------- EXAMPLE 1 --------------------------
@@ -32226,29 +32227,26 @@ Remove-AzureVMCustomScriptExtension -VM $vm;                        </dev:code>
           <maml:para>C:\PS&gt;</maml:para>
         </maml:introduction>
         <dev:code>
+          $x = Set-AzureVMCustomScriptExtension -VM $x -ContainerName 'test' -FileName 'script1.ps1','script2.ps1' -Run 'script1.ps1' -Argument 'arg1 arg2';
+
+          New-AzureVM -Location 'West US' -ServiceName $svc -VM $x;
         </dev:code>
         <dev:remarks>
           <maml:para>Description</maml:para>
           <maml:para>-----------</maml:para>
-          <maml:para>
-            Description
-          </maml:para>
-          <maml:para>
-          </maml:para>
-          <maml:para>
-          </maml:para>
-          <maml:para>
-          </maml:para>
-          <maml:para>
-          </maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
-            <command:commandText>
-            </command:commandText>
+            <command:commandText></command:commandText>
           </command:commandLine>
         </command:commandLines>
       </command:example>
+
       <command:example>
         <maml:title>
           -------------------------- EXAMPLE 2 --------------------------
@@ -32257,26 +32255,22 @@ Remove-AzureVMCustomScriptExtension -VM $vm;                        </dev:code>
           <maml:para>C:\PS&gt;</maml:para>
         </maml:introduction>
         <dev:code>
+          Set-AzureVMCustomScriptExtension -VM $vm -FileUri 'http://foo1.blob.core.windows.net/bar/script1.ps1','http://foo2.blob.core.windows.net/baz/script2.ps1' -Run 'script1.ps1' -Argument 'arg1 arg2';
+
+          Update-AzureVM -ServiceName $svc -Name $name -VM vm;
         </dev:code>
         <dev:remarks>
           <maml:para>Description</maml:para>
           <maml:para>-----------</maml:para>
-          <maml:para>
-            Description
-          </maml:para>
-          <maml:para>
-          </maml:para>
-          <maml:para>
-          </maml:para>
-          <maml:para>
-          </maml:para>
-          <maml:para>
-          </maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
-            <command:commandText>
-            </command:commandText>
+            <command:commandText></command:commandText>
           </command:commandLine>
         </command:commandLines>
       </command:example>
@@ -32284,12 +32278,17 @@ Remove-AzureVMCustomScriptExtension -VM $vm;                        </dev:code>
     <!-- Link section  -->
     <maml:relatedLinks>
       <maml:navigationLink>
-        <maml:linkText>
-        </maml:linkText>
-        <maml:uri />
+        <maml:linkText></maml:linkText>
+        <maml:uri/>
       </maml:navigationLink>
     </maml:relatedLinks>
   </command:command>
+
+
+
+
+
+
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
     <command:details>
       <command:name>

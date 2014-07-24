@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Storage
-{
-
-
+namespace Microsoft.WindowsAzure.Commands.Storage {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -1006,7 +1006,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The given path/prefix &apos;{0}&apos; is not a valid name for a file or directory or does match the requirement for Windows Azure File Service REST API..
+        ///   Looks up a localized string similar to The given path/prefix &apos;{0}&apos; is not a valid name for a file or directory or does match the requirement for Microsoft Azure File Service REST API..
         /// </summary>
         internal static string PathInvalid {
             get {
@@ -1015,7 +1015,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The length of the given path/prefix &apos;{0}&apos; exceeded the max allowed length {1} for Windows Azure File Service REST API..
+        ///   Looks up a localized string similar to The length of the given path/prefix &apos;{0}&apos; exceeded the max allowed length {1} for Microsoft Azure File Service REST API..
         /// </summary>
         internal static string PathTooLong {
             get {
@@ -1204,7 +1204,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The given share name/prefix &apos;{0}&apos; is not a valid name for a file share of Windows Azure File Service..
+        ///   Looks up a localized string similar to The given share name/prefix &apos;{0}&apos; is not a valid name for a file share of Microsoft Azure File Service..
         /// </summary>
         internal static string ShareNameInvalid {
             get {

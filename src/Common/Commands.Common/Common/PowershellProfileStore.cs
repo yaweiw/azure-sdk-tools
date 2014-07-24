@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.Security.Cryptography;
+
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using System;
@@ -30,10 +32,16 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         private readonly string profileFileName;
 
         public const string DefaultProfileName = "WindowsAzureProfile.xml";
+        public const string TokenCacheFileName = "TokenCache.dat";
 
         private string FullProfilePath
         {
             get { return Path.Combine(settingsDirectory, profileFileName); }
+        }
+
+        private string FullTokenCachePath
+        {
+            get { return Path.Combine(settingsDirectory, TokenCacheFileName); }
         }
 
         /// <summary>
@@ -101,6 +109,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             File.Replace(tempFilePath, FullProfilePath, null);
         }
 
+        public void SaveTokenCache(byte[] data)
+        {
+            File.WriteAllBytes(FullTokenCachePath, data);
+        }
+
         /// <summary>
         /// Load from the store.
         /// </summary>
@@ -127,12 +140,36 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             return null;
         }
 
+        public byte[] LoadTokenCache()
+        {
+            if (File.Exists(FullTokenCachePath))
+            {
+                return File.ReadAllBytes(FullTokenCachePath);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         /// <summary>
         /// Destroy the store and it's backing data.
         /// </summary>
         public void DestroyData()
         {
             Directory.Delete(settingsDirectory, true);
+        }
+
+        public void DestroyTokenCache()
+        {
+            try
+            {
+                File.Delete(FullTokenCachePath);
+            }
+            catch (IOException)
+            {
+                // Ignore
+            }
         }
 
         private void EnsureSettingsDirectoryExists()

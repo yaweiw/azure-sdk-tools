@@ -170,31 +170,36 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 throw new ArgumentException(Resources.CurrentStorageAccountIsNotSet);
             }
 
-            try
+            if (this.ParameterSetName.Equals("CreateService", StringComparison.OrdinalIgnoreCase))
             {
-                if (this.ParameterSetName.Equals("CreateService", StringComparison.OrdinalIgnoreCase))
+                var parameter = new HostedServiceCreateParameters
                 {
-                    var parameter = new HostedServiceCreateParameters
-                    {
-                        AffinityGroup = this.AffinityGroup,
-                        Location = this.Location,
-                        ServiceName = this.ServiceName,
-                        Description = this.ServiceDescription ??
-                                        String.Format("Implicitly created hosted service{0}",DateTime.Now.ToUniversalTime().ToString("yyyy-MM-dd HH:mm")),
-                        Label = this.ServiceLabel ?? this.ServiceName,
-                        ReverseDnsFqdn = this.ReverseDnsFqdn
-                    };
+                    AffinityGroup = this.AffinityGroup,
+                    Location = this.Location,
+                    ServiceName = this.ServiceName,
+                    Description = this.ServiceDescription ?? String.Format(
+                                      "Implicitly created hosted service{0}",
+                                      DateTime.Now.ToUniversalTime().ToString("yyyy-MM-dd HH:mm")),
+                    Label = this.ServiceLabel ?? this.ServiceName,
+                    ReverseDnsFqdn = this.ReverseDnsFqdn
+                };
 
-                    ExecuteClientActionNewSM(
-                        parameter,
-                        CommandRuntime + " - Create Cloud Service",
-                        () => this.ComputeClient.HostedServices.Create(parameter));
+                try
+                {
+                    this.ComputeClient.HostedServices.Create(parameter);
                 }
-            }
-            catch (CloudException ex)
-            {
-                this.WriteExceptionDetails(ex);
-                return;
+                catch (CloudException ex)
+                {
+                    if (string.Equals(ex.ErrorCode, "ConflictError"))
+                    {
+                        this.WriteWarning(ex.ErrorMessage);
+                    }
+                    else
+                    {
+                        this.WriteExceptionDetails(ex);
+                        return;
+                    }
+                }
             }
 
             foreach (var vm in from v in VMs let configuration = v.ConfigurationSets.OfType<Model.PersistentVMModel.WindowsProvisioningConfigurationSet>().FirstOrDefault() where configuration != null select v)

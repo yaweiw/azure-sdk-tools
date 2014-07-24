@@ -651,7 +651,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 PrivacyUri = new Uri(@"http://www.bing.com"),
                 PublishedDate = DateTime.Now,
                 RecommendedVMSize = InstanceSize.Medium.ToString(),
-                ShowInGui = true,
+                ShowInGui = false,
                 SmallIconUri = new Uri(@"http://www.bing.com"),
             };
 

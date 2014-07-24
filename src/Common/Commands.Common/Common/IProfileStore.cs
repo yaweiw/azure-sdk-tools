@@ -21,6 +21,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// </summary>
         /// <param name="profile">Data to store.</param>
         void Save(ProfileData profile);
+
+        /// <summary>
+        /// Save the token cache to the data store.
+        /// </summary>
+        /// <param name="data">Data to store.</param>
+        void SaveTokenCache(byte[] data);
         
         /// <summary>
         /// Load from the store.
@@ -29,8 +35,19 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         ProfileData Load();
 
         /// <summary>
+        /// Load from the store.
+        /// </summary>
+        /// <returns>The loaded data.</returns>
+        byte[] LoadTokenCache();
+
+        /// <summary>
         /// Destroy the store and it's backing data.
         /// </summary>
         void DestroyData();
+
+        /// <summary>
+        /// Destroy the store and it's backing data.
+        /// </summary>
+        void DestroyTokenCache();
     }
 }

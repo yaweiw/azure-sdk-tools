@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
     using System.Management.Automation;
 
     /// <summary>
-    /// Retrieves a list of Windows Azure SQL Database server quotas for the selected server.
+    /// Retrieves a list of Microsoft Azure SQL Database server quotas for the selected server.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureSqlDatabaseServerQuota", ConfirmImpact = ConfirmImpact.None)]
     public class GetAzureSqlDatabaseServerQuota : SqlDatabaseCmdletBase

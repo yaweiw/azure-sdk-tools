@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     using System.Security.Cryptography.X509Certificates;
 
     /// <summary>
-    /// New Windows Azure Service Domain Membership Extension.
+    /// New Microsoft Azure Service Domain Membership Extension.
     /// </summary>
     [Cmdlet(VerbsCommon.New, ADDomainExtensionConfigNoun, DefaultParameterSetName = DomainParameterSet), OutputType(typeof(ExtensionConfigurationInput))]
     public class NewAzureServiceADDomainExtensionConfigCommand : BaseAzureServiceADDomainExtensionCmdlet

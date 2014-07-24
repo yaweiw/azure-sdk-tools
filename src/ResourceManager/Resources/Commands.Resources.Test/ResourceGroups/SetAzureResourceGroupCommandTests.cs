@@ -15,6 +15,7 @@
 using System.Collections;
 using System.Linq;
 using Microsoft.Azure.Commands.Resources.Models;
+using Microsoft.WindowsAzure.Commands.ScenarioTest;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Moq;
 using System.Collections.Generic;
@@ -53,6 +54,7 @@ namespace Microsoft.Azure.Commands.Resources.Test
         }
 
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void UpdatesSetPSResourceGroupWithTag()
         {
             UpdatePSResourceGroupParameters expectedParameters = new UpdatePSResourceGroupParameters()

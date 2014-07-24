@@ -77,6 +77,9 @@ This repository contains a set of PowerShell cmdlets for developers and administ
 * VNet
   * Manage virtual network config, connection and gateway.
   * Manage static IP
+* Azure Media Services
+  * Create, read and delete Media Services Accounts
+  * Generate new account keys for Media Services Accounts
 * HDInsight
   * Manage clusters, such as CRUD, add/set storage
   * Manage jobs, such as CRUD, start/stop/wait/invoke
