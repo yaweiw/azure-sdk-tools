@@ -10255,7 +10255,7 @@ PS C:\&gt;(Get-AzureWebsite -Name ContosoWeb).Instances.Count
         </maml:introduction>
         <dev:code>New-AzureWebsite mySite -Git</dev:code>
         <dev:remarks>
-          <maml:para>Create a new azure website and a local git repository to use for deploying fiels to the new website</maml:para>
+          <maml:para>Create a new azure website and a local git repository to use for deploying files to the new website</maml:para>
           <maml:para>
           </maml:para>
           <maml:para>
