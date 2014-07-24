@@ -152,18 +152,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                     this.ThrowInvalidArgumentError(Resources.PublishVMDscExtensionUploadArchiveConfigFileInvalidExtension, this.ConfigurationPath);
                 }
 
-                // Ensure we have an storage account
-                this._storageCredentials = this.StorageContext != null ? this.StorageContext.StorageAccount.Credentials : this.GetStorageCredentials();
-                if (string.IsNullOrEmpty(this._storageCredentials.AccountName))
-                {
-                    this.ThrowInvalidArgumentError(Resources.AzureVMDscStorageContextMustIncludeAccountName);
-                }
+                this._storageCredentials = this.GetStorageCredentials(this.StorageContext);
 
                 if (this.ContainerName == null)
                 {
                     this.ContainerName = VirtualMachineDscExtensionCmdletBase.DefaultContainerName;
                 }
-            } else if (this.ParameterSetName == CreateArchiveParameterSetName)
+            } 
+            else if (this.ParameterSetName == CreateArchiveParameterSetName)
             {
                 if (!CreateArchiveAllowedFileExtensions.Contains(Path.GetExtension(configurationFileExtension)))
                 {

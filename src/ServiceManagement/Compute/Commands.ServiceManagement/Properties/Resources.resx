@@ -703,4 +703,7 @@ The file needs to be a PowerShell script (.ps1 or .psm1).</value>
     <value>Your current PowerShell version {1} is less then required by this cmdlet {0}. Consider download and install latest PowerShell version.</value>
     <comment>{0} = minimal required PS version, {1} = current PS version</comment>
   </data>
+  <data name="AzureVMDscDefaultStorageCredentialsNotFound" xml:space="preserve">
+    <value>Can not find your azure storage credential. Please specify an storage context using the -StorageContext parameter, or set the current storage account using "Set-AzureSubscription", or set the "AZURE_STORAGE_CONNECTION_STRING" environment variable.</value>
+  </data>
 </root>

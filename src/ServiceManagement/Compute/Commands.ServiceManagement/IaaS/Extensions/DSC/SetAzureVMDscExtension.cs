@@ -203,19 +203,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                     }
                 }
 
-                if (this.StorageContext == null)
-                {
-                    this._storageCredentials = this.GetStorageCredentials();
-                }
-                else
-                {
-                    this._storageCredentials = this.StorageContext.StorageAccount.Credentials;
-                }
-
-                if (string.IsNullOrEmpty(this._storageCredentials.AccountName))
-                {
-                    this.ThrowInvalidArgumentError(Resources.AzureVMDscStorageContextMustIncludeAccountName);
-                }
+                this._storageCredentials = this.GetStorageCredentials(this.StorageContext);
 
                 if (this.ConfigurationName == null)
                 {

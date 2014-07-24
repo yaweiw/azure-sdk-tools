@@ -196,6 +196,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Can not find your azure storage credential. Please specify an storage context using the -StorageContext parameter, or set the current storage account using &quot;Set-AzureSubscription&quot;, or set the &quot;AZURE_STORAGE_CONNECTION_STRING&quot; environment variable..
+        /// </summary>
+        public static string AzureVMDscDefaultStorageCredentialsNotFound {
+            get {
+                return ResourceManager.GetString("AzureVMDscDefaultStorageCredentialsNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The configuration data must be a .psd1 file.
         /// </summary>
         public static string AzureVMDscInvalidConfigurationDataFile {
