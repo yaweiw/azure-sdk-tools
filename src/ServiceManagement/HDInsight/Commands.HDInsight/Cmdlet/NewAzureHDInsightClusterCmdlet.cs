@@ -109,6 +109,9 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
                 result.MapReduceConfiguration.ConfigurationCollection.AddRange(this.command.MapReduceConfiguration.ConfigurationCollection);
                 result.MapReduceConfiguration.CapacitySchedulerConfigurationCollection.AddRange(
                     this.command.MapReduceConfiguration.CapacitySchedulerConfigurationCollection);
+                result.StormConfiguration.AddRange(this.command.StormConfiguration);
+                result.HBaseConfiguration.AdditionalLibraries = this.command.HBaseConfiguration.AdditionalLibraries;
+                result.HBaseConfiguration.ConfigurationCollection.AddRange(this.command.HBaseConfiguration.ConfigurationCollection);
                 return result;
             }
 
@@ -140,6 +143,9 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
                 this.command.OozieConfiguration.AdditionalActionExecutorLibraries = value.OozieConfiguration.AdditionalActionExecutorLibraries;
                 this.command.HiveMetastore = value.HiveMetastore;
                 this.command.OozieMetastore = value.OozieMetastore;
+                this.command.StormConfiguration.AddRange(value.StormConfiguration);
+                this.command.HBaseConfiguration.AdditionalLibraries = value.HBaseConfiguration.AdditionalLibraries;
+                this.command.HBaseConfiguration.ConfigurationCollection.AddRange(value.HBaseConfiguration.ConfigurationCollection);
             }
         }
 

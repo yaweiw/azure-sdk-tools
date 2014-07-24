@@ -35,6 +35,8 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImp
             this.MapReduceConfiguration = new MapReduceConfiguration();
             this.HiveConfiguration = new HiveConfiguration();
             this.OozieConfiguration = new OozieConfiguration();
+            this.StormConfiguration = new ConfigValuesCollection();
+            this.HBaseConfiguration = new HBaseConfiguration();
         }
 
         public ICollection<AzureHDInsightStorageAccount> AdditionalStorageAccounts { get; private set; }
@@ -85,6 +87,12 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImp
 
         public AzureHDInsightMetastore OozieMetastore { get; set; }
 
+        /// <inheritdoc />
+        public ConfigValuesCollection StormConfiguration { get; set; }
+
+        /// <inheritdoc />
+        public HBaseConfiguration HBaseConfiguration { get; set; }
+
         public ClusterState State { get; private set; }
 
         public ClusterType ClusterType { get; set; }
@@ -122,6 +130,9 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImp
             createClusterRequest.OozieConfiguration.ConfigurationCollection.AddRange(this.OozieConfiguration.ConfigurationCollection);
             createClusterRequest.OozieConfiguration.AdditionalSharedLibraries = this.OozieConfiguration.AdditionalSharedLibraries;
             createClusterRequest.OozieConfiguration.AdditionalActionExecutorLibraries = this.OozieConfiguration.AdditionalActionExecutorLibraries;
+            createClusterRequest.StormConfiguration.AddRange(this.StormConfiguration);
+            createClusterRequest.HBaseConfiguration.AdditionalLibraries = this.HBaseConfiguration.AdditionalLibraries;
+            createClusterRequest.HBaseConfiguration.ConfigurationCollection.AddRange(this.HBaseConfiguration.ConfigurationCollection);
             createClusterRequest.HeadNodeSize = this.HeadNodeSize;
             createClusterRequest.DefaultStorageAccountName = this.DefaultStorageAccountName;
             createClusterRequest.DefaultStorageAccountKey = this.DefaultStorageAccountKey;

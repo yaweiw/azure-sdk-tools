@@ -178,6 +178,21 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CmdLetTests
             var yarnConfig = new Hashtable();
             yarnConfig.Add("yarn.fakevalue", "12345");
 
+            var hbaseConfig = new Hashtable();
+            hbaseConfig.Add("hbase.blob.size", "12345");
+
+            var hbaseServiceConfig = new AzureHDInsightHBaseConfiguration
+            {
+                Configuration = hbaseConfig,
+                AdditionalLibraries =
+                    new AzureHDInsightDefaultStorageAccount
+                    {
+                        StorageAccountKey = Guid.NewGuid().ToString(),
+                        StorageAccountName = Guid.NewGuid().ToString(),
+                        StorageContainerName = Guid.NewGuid().ToString()
+                    }
+            };
+
             string dnsName = this.GetRandomClusterName();
             using (IRunspace runspace = this.GetPowerShellRunspace())
             {
@@ -202,6 +217,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CmdLetTests
                             .AddCommand(CmdletConstants.AddAzureHDInsightConfigValues)
                             .WithParameter(CmdletConstants.CoreConfig, coreConfig)
                             .WithParameter(CmdletConstants.YarnConfig, yarnConfig)
+                            .WithParameter(CmdletConstants.HBaseConfig, hbaseServiceConfig)
                             .AddCommand(CmdletConstants.NewAzureHDInsightCluster)
                     // Ensure that the subscription Id can be accepted as a guid as well as a string.
                             .WithParameter(CmdletConstants.Name, dnsName)
