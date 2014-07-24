@@ -55,32 +55,6 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                     {
                         Assert.AreEqual(expected.RequestInfo.Method, actual.Method);
                         Assert.AreEqual(expected.RequestInfo.UserAgent, actual.UserAgent);
-                        switch (expected.Index)
-                        {
-                            // Request 0-6: Query P1 and P2 Service Objective
-                            case 0:
-                            case 1:
-                            case 2:
-                            case 3:
-                            case 4:
-                            case 5:
-                            case 6:
-                            // Request 7-9: Create NewAzureSqlPremiumDatabaseTests_P1
-                            case 7:
-                            case 8:
-                            case 9:
-                            // Request 10-12: Create NewAzureSqlPremiumDatabaseTests_P2
-                            case 10:
-                            case 11:
-                            case 12:
-                                DatabaseTestHelper.ValidateHeadersForODataRequest(
-                                    expected.RequestInfo,
-                                    actual);
-                                break;
-                            default:
-                                Assert.Fail("No more requests expected.");
-                                break;
-                        }
                     });
 
                 using (AsyncExceptionManager exceptionManager = new AsyncExceptionManager())
@@ -94,12 +68,12 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                         powershell.InvokeBatchScript(
                             @"$P1 = Get-AzureSqlDatabaseServiceObjective" +
                             @" -Context $context" +
-                            @" -ServiceObjectiveName ""Reserved P1""");                        
+                            @" -ServiceObjectiveName ""P1""");                        
 
                         powershell.InvokeBatchScript(
                             @"$P2 = Get-AzureSqlDatabaseServiceObjective " +
                             @"-Context $context" +
-                            @" -ServiceObjectiveName ""Reserved P2"""); 
+                            @" -ServiceObjectiveName ""P2"""); 
 
                         premiumDB_P1 = powershell.InvokeBatchScript(
                             @"$premiumDB_P1 = New-AzureSqlDatabase " +
@@ -143,12 +117,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                         "Japanese_CI_AS",
                         databaseP2.CollationName,
                         "Expected collation to be Japanese_CI_AS");
-                    /* SQL Server: Defect 1655888: When creating a premium database, 
-                     * the immediate returned value do not have valid Edition and Max Database Size info                 
-                     * We should active the following asserts once the defect is fixed.
-                    Assert.AreEqual("Premium", database2Obj.Edition, "Expected edition to be Premium");
-                    Assert.AreEqual(10, database2Obj.MaxSizeGB, "Expected max size to be 10 GB");
-                     */
+                    Assert.AreEqual("Premium", databaseP2.Edition, "Expected edition to be Premium");
+                    Assert.AreEqual(10, databaseP2.MaxSizeGB, "Expected max size to be 10 GB");
                 }
             }
         }
