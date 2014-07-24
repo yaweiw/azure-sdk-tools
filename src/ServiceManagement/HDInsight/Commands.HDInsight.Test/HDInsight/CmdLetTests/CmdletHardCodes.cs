@@ -110,6 +110,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CmdLetTests
         public const string WaitTimeoutInSeconds = "WaitTimeoutInSeconds";
         public const string HeadNodeVMSize = "HeadNodeVMSize";
         public const string ClusterType = "ClusterType";
+        public const string VirtualNetworkId = "VirtualNetworkId";
+        public const string SubnetName = "SubnetName";
     }
 }
 

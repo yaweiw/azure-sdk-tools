@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImp
     using DataObjects;
     using GetAzureHDInsightClusters;
     using GetAzureHDInsightClusters.Extensions;
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
@@ -88,6 +89,10 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImp
 
         public ClusterType ClusterType { get; set; }
 
+        public string VirtualNetworkId { get; set; }
+
+        public string SubnetName { get; set; }
+
         /// <inheritdoc />
         public string Version { get; set; }
 
@@ -125,6 +130,14 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImp
             createClusterRequest.Password = this.Credential.GetCleartextPassword();
             createClusterRequest.ClusterSizeInNodes = this.ClusterSizeInNodes;
             createClusterRequest.ClusterType = this.ClusterType;
+            if (!string.IsNullOrEmpty(this.VirtualNetworkId))
+            {
+                createClusterRequest.VirtualNetworkId = this.VirtualNetworkId;
+            }
+            if (!string.IsNullOrEmpty(this.SubnetName))
+            {
+                createClusterRequest.SubnetName = this.SubnetName;
+            }
             createClusterRequest.AdditionalStorageAccounts.AddRange(
                 this.AdditionalStorageAccounts.Select(act => new WabStorageAccountConfiguration(act.StorageAccountName, act.StorageAccountKey)));
             if (this.HiveMetastore.IsNotNull())

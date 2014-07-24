@@ -61,6 +61,16 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.DataObjects
         /// </summary>
         public ClusterType ClusterType { get; set; }
 
+         /// <summary>
+        /// Gets or sets the virtual network id.
+        /// </summary>
+        public string VirtualNetworkId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the subnet name.
+        /// </summary>
+        public string SubnetName { get; set; }
+
         /// <summary>
         ///     Gets a collection of configuration properties to customize the Core Hadoop service.
         /// </summary>

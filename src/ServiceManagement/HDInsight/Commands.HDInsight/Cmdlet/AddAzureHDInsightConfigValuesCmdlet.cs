@@ -75,6 +75,8 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
                 this.command.Config.OozieConfiguration.ConfigurationCollection.AddRange(value.OozieConfiguration.ConfigurationCollection);
                 this.command.Config.HeadNodeVMSize = value.HeadNodeVMSize;
                 this.command.Config.ClusterType = value.ClusterType;
+                this.command.Config.VirtualNetworkId = value.VirtualNetworkId;
+                this.command.Config.SubnetName = value.SubnetName;
             }
         }
 

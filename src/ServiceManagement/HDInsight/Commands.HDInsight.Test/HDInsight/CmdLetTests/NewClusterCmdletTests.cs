@@ -135,6 +135,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CmdLetTests
                                                   .WithParameter(CmdletConstants.ClusterSizeInNodes, 3)
                                                   .WithParameter(CmdletConstants.HeadNodeVMSize, NodeVMSize.ExtraLarge)
                                                   .WithParameter(CmdletConstants.ClusterType, ClusterType.Hadoop)
+                                                  .WithParameter(CmdletConstants.VirtualNetworkId, Guid.NewGuid().ToString())
+                                                  .WithParameter(CmdletConstants.SubnetName, "fakeSubnet")
                                                   .Invoke();
 
                 Assert.AreEqual(1, results.Results.Count);
@@ -190,7 +192,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CmdLetTests
                             .AddCommand(CmdletConstants.NewAzureHDInsightClusterConfig)
                             .WithParameter(CmdletConstants.ClusterSizeInNodes, 3)
                             .WithParameter(CmdletConstants.HeadNodeVMSize, NodeVMSize.Large)
-                            .WithParameter(CmdletConstants.ClusterType, ClusterType.Hadoop)
+                            .WithParameter(CmdletConstants.ClusterType, ClusterType.HBase)
+                            .WithParameter(CmdletConstants.VirtualNetworkId, Guid.NewGuid().ToString())
+                            .WithParameter(CmdletConstants.SubnetName, "fakeSubnet")
                             .AddCommand(CmdletConstants.SetAzureHDInsightDefaultStorage)
                             .WithParameter(CmdletConstants.StorageAccountName, TestCredentials.Environments[0].DefaultStorageAccount.Name)
                             .WithParameter(CmdletConstants.StorageAccountKey, TestCredentials.Environments[0].DefaultStorageAccount.Key)
