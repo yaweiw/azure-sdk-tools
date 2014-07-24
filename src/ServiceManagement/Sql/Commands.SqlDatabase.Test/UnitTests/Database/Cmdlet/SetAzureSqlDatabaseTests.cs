@@ -264,7 +264,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                     Services.Server.Database databaseObj = database.Single().BaseObject as Services.Server.Database;
                     Assert.IsNotNull(databaseObj, "Expecting a Database object");
                     Assert.AreEqual("testdb2", databaseObj.Name, "Expected db name to be testdb2");
-                    Assert.AreEqual((byte)1, databaseObj.ServiceObjectiveAssignmentState, "Expected assignment state to be pending");
+                    Assert.AreEqual((byte)0, databaseObj.ServiceObjectiveAssignmentState, "Expected assignment state to be complete");
                     DatabaseTestHelper.ValidateDatabaseProperties(databaseObj, "testdb2", "Web", 5, 5368709120L, "Japanese_CI_AS", "Shared", false, DatabaseTestHelper.PremiumP1SloGuid);
                 }
             }
