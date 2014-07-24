@@ -20,27 +20,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
     public class VirtualMachineDscExtensionCmdletBase : VirtualMachineExtensionCmdletBase
     {
+        internal static readonly string ExtensionPublishedNamespace = "Microsoft.Powershell.DSC";
+        internal static readonly string ExtensionPublishedName = "DSC";
+        internal static readonly string DefaultContainerName = "windows-powershell-dsc";
+        internal static readonly string DefaultExtensionVersion = "1.*";
+
         protected const string VirtualMachineDscExtensionCmdletNoun = "AzureVMDscExtension";
-        protected const string ExtensionPublishedNamespace = "Microsoft.DSCExtension.Test"; // TODO: Need to update Name and Namespace with production values
-        protected const string ExtensionPublishedName = "DSC5.5";
-        // This constant also used in Publish cmdlet, which is not inhereted from VirtualMachineDscExtensionCmdletBase.
-        public const string DefaultContainerName = "windows-powershell-dsc";
-        protected const string DefaultExtensionVersion = "1.*";
 
         public VirtualMachineDscExtensionCmdletBase()
         {
             this.extensionName = ExtensionPublishedName;
             this.publisherName = ExtensionPublishedNamespace;
-        }
-
-        protected void ThrowArgumentError(string format, params object[] args)
-        {
-            ThrowTerminatingError(
-                new ErrorRecord(
-                    new ArgumentException(string.Format(CultureInfo.CurrentUICulture, format, args)),
-                    string.Empty,
-                    ErrorCategory.InvalidArgument,
-                    null));
         }
     }
 }

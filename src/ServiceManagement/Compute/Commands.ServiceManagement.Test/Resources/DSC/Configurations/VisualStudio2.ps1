@@ -1,4 +1,4 @@
-# ----------------------------------------------------------------------------------
+﻿# ----------------------------------------------------------------------------------
 #
 # Copyright Microsoft Corporation
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,22 +12,20 @@
 # limitations under the License.
 # ----------------------------------------------------------------------------------
 
-configuration DscExtensionTestConfiguration
+Configuration VisualStudio2
 {
-    [CmdletBinding()]
-    param(
-        [Parameter(Mandatory=$true, Position=0, ValueFromPipeline=$true)]
-        [string] 
-        $destinationPath
-    )
+    Node localhost {
+	
+		Import-DscResource -Module xPSDesiredStateConfiguration
 
-    Node $AllNodes.Where{$_.Role -eq "TestNode"}.NodeName
-    {
-        File MyDirectory
-        { 
-            Type = 'Directory'
-            DestinationPath = $destinationPath
-            Ensure = "Present"
+		xPackage VS
+        {
+            Ensure="Present"
+            Name = "Microsoft Visual Studio Ultimate 2013"
+            Path = "\\products\public\PRODUCTS\Developers\Visual Studio 2013\ultimate\vs_ultimate.exe"
+            ProductId = ""
         }
     }
 }
+
+. VisualStudio2
