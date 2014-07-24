@@ -87,15 +87,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Profile
             var currentSubscription = WindowsAzureProfile.Instance.CurrentSubscription;
             if (currentSubscription.ActiveDirectoryUserId != null)
             {
-                if (subscriptionClient == null)
-                {
-                    subscriptionClient = currentSubscription.CreateClient<SubscriptionClient>(false, currentSubscription.CreateTokenCredentials());
-                }
-                return subscriptionClient.Subscriptions.List().Subscriptions.Select(s => new WindowsAzureSubscription
-                {
-                    SubscriptionId = s.SubscriptionId,
-                    SubscriptionName = s.DisplayName
-                });
+                return WindowsAzureProfile.Instance.CurrentEnvironment.ListSubscriptions(currentSubscription.TokenProvider, false);
             }
             else
             {
