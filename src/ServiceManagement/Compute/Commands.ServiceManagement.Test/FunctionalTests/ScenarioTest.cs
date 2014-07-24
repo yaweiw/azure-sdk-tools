@@ -12,11 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 {
     using ConfigDataInfo;
     using Extensions;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs;
     using Model;
+    using Properties;
     using Service.Gateway;
     using System;
     using System.Collections.Generic;
@@ -27,12 +30,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using System.Net;
     using System.Net.Cache;
     using System.Reflection;
+    using System.Security.Cryptography.X509Certificates;
     using System.Text;
     using System.Threading;
     using System.Xml;
     using System.Xml.Linq;
     using VisualStudio.TestTools.UnitTesting;
     using WindowsAzure.ServiceManagement;
+
+
 
     [TestClass]
     public class ScenarioTest : ServiceManagementTest
@@ -1257,7 +1263,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 VerifyRDP(serviceName, rdpPath);
 
                 vmPowershellCmdlets.RemoveAzureServiceRemoteDesktopExtension(serviceName, true);
-
                 try
                 {
                     vmPowershellCmdlets.GetAzureRemoteDesktopFile("WebRole1_IN_0", serviceName, rdpPath, false);

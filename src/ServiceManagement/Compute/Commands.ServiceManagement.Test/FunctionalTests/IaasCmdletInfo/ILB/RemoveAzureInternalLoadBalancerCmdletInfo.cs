@@ -1,4 +1,4 @@
-﻿// ----------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,20 +12,22 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.PreviewCmdletInfo
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.ILB
 {
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.PowershellCore;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net;
+    using System.Text;
 
-
-    public class RemoveAzureReservedIPCmdletInfo : CmdletsInfo
+    public class RemoveAzureInternalLoadBalancerCmdletInfo: CmdletsInfo
     {
-        public RemoveAzureReservedIPCmdletInfo(string name, bool force)
+        public RemoveAzureInternalLoadBalancerCmdletInfo(string serviceName)
         {
-            this.cmdletName = Utilities.RemoveAzureReservedIPCmdletName;
-
-            this.cmdletParams.Add(new CmdletParam("ReservedIPName", name));
-            if(force)
-            this.cmdletParams.Add(new CmdletParam("Force"));
+            this.cmdletName = Utilities.RemoveAzureInternalLoadBalancerCmdletName;
+            this.cmdletParams.Add(new CmdletParam("ServiceName", serviceName));
         }
+
     }
 }
