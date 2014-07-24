@@ -12,10 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using Authentication;
     using Commands.Common.Properties;
+    using System.Management.Automation;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -32,6 +34,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         // Store - responsible for loading and saving a profile to a particular location
         private readonly IProfileStore profileStore;
+
+        // Token provider - talks to Active Directory to get access tokens
+        public IProfileStore ProfileStore
+        {
+            get { return profileStore; }
+        }
 
         // Token provider - talks to Active Directory to get access tokens
         public ITokenProvider TokenProvider { get; set; }
@@ -311,10 +319,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// for the given account in that environment.
         /// </summary>
         /// <param name="environment">environment that the subscription is in.</param>
-        public string AddAccounts(WindowsAzureEnvironment environment)
+        /// <param name="credential">optional credentials</param>
+        public string AddAccounts(WindowsAzureEnvironment environment, PSCredential credential)
         {
             environment = environment ?? CurrentEnvironment;
-            var newSubscriptions = environment.AddAccount(TokenProvider).ToList();
+            var newSubscriptions = environment.AddAccount(TokenProvider, credential).ToList();
             AddSubscriptions(newSubscriptions);
             Save();
             return newSubscriptions[0].ActiveDirectoryUserId;
