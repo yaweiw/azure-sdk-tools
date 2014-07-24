@@ -179,27 +179,23 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         /// </summary>
         protected void PublishConfiguration()
         {
-            var archivePath = string.Compare(Path.GetExtension(this.ConfigurationPath), ZipFileExtension, StringComparison.OrdinalIgnoreCase) == 0 ? 
-                this.ConfigurationPath
-                :
-                CreateConfigurationArchive();
-
-            if (this.ParameterSetName == UploadArchiveParameterSetName)
+            if (this.ParameterSetName == CreateArchiveParameterSetName)
             {
+                this.ConfirmAction(true, string.Empty, Resources.AzureVMDscCreateArchiveAction, this.ConfigurationArchivePath, ()=> CreateConfigurationArchive());
+            }
+            else
+            {
+                var archivePath = string.Compare(Path.GetExtension(this.ConfigurationPath), ZipFileExtension, StringComparison.OrdinalIgnoreCase) == 0 ?
+                    this.ConfigurationPath
+                    :
+                    CreateConfigurationArchive();
+
                 UploadConfigurationArchive(archivePath);
             }
         }
 
         private string CreateConfigurationArchive()
         {
-            if (this.ParameterSetName == CreateArchiveParameterSetName)
-            {
-                if (!this.ShouldProcess(this.ConfigurationArchivePath, Resources.AzureVMDscCreateArchiveAction))
-                {
-                    return null;
-                }
-            }
-
             WriteVerbose(String.Format(CultureInfo.CurrentUICulture, Resources.AzureVMDscParsingConfiguration, this.ConfigurationPath));
             ConfigurationParseResult parseResult = ConfigurationParsingHelper.ExtractConfigurationNames(this.ConfigurationPath);
             if (parseResult.Errors.Any())
@@ -305,11 +301,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
             CloudBlockBlob modulesBlob = cloudBlobContainer.GetBlockBlobReference(blobName);
 
-            var shouldProcess = this.ShouldProcess(
-                modulesBlob.Uri.AbsoluteUri,
-                string.Format(CultureInfo.CurrentUICulture, Resources.AzureVMDscUploadToBlobStorageAction, archivePath));
-
-            if (shouldProcess)
+            this.ConfirmAction(true, string.Empty, string.Format(CultureInfo.CurrentUICulture, Resources.AzureVMDscUploadToBlobStorageAction, archivePath), modulesBlob.Uri.AbsoluteUri, () =>
             {
                 if (!this.Force && modulesBlob.Exists())
                 {
@@ -322,7 +314,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                 }
 
                 modulesBlob.UploadFromFile(archivePath, FileMode.Open);
-            }
+            });
         }
 
         private CloudBlobContainer GetStorageContainier()

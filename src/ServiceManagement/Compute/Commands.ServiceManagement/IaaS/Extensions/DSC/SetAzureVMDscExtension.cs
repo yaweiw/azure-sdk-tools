@@ -155,13 +155,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             
             CreateConfiguration();
 
-            var shouldProcess = this.ShouldProcess("VM", string.Format(CultureInfo.CurrentUICulture, Resources.AzureVMDscApplyConfigurationAction, this.ConfigurationName));
-
-            if (shouldProcess)
+            this.ConfirmAction(true, string.Empty, string.Format(CultureInfo.CurrentUICulture, Resources.AzureVMDscApplyConfigurationAction, this.ConfigurationName), "VM", () =>
             {
                 RemovePredicateExtensions();
                 AddResourceExtension();
-            }
+            });
 
             WriteObject(VM);
         }
@@ -282,11 +280,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
                 if (this.ConfigurationDataPath != null)
                 {
-                    var shouldProcess = this.ShouldProcess(
-                        configurationBlobReference.Uri.AbsoluteUri,
-                        string.Format(CultureInfo.CurrentUICulture, Resources.AzureVMDscUploadToBlobStorageAction, this.ConfigurationDataPath));
-
-                    if (shouldProcess)
+                    this.ConfirmAction(true, string.Empty, string.Format(CultureInfo.CurrentUICulture, Resources.AzureVMDscUploadToBlobStorageAction, this.ConfigurationDataPath), configurationBlobReference.Uri.AbsoluteUri, ()=>
                     {
                         var guid = Guid.NewGuid(); // there may be multiple VMs using the same configuration
 
@@ -309,7 +303,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                         var configurationDataBlobSasToken = configurationDataBlobReference.GetSharedAccessSignature(blobAccessPolicy);
 
                         configurationDataBlobUri = configurationDataBlobReference.StorageUri.PrimaryUri.AbsoluteUri + configurationDataBlobSasToken;
-                    }
+                    });
                 }
 
                 publicSettings.SasToken              = configurationBlobSasToken;
