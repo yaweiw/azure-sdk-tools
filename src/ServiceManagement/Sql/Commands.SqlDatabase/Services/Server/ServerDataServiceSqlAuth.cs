@@ -569,7 +569,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                 IsInterlinkConnected = copy.IsInterlinkConnected,
                 StartDate = DateTime.Parse(copy.TextStartDate),
                 ModifyDate = DateTime.Parse(copy.TextModifyDate),
-                PercentComplete = copy.PercentComplete.GetValueOrDefault()
+                PercentComplete = copy.PercentComplete.GetValueOrDefault(),
+                IsOfflineSecondary = copy.IsOfflineSecondary
             };
         }
         
@@ -682,12 +683,14 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         /// <param name="partnerServer">The name for the partner server.</param>
         /// <param name="partnerDatabaseName">The name of the database on the partner server.</param>
         /// <param name="continuousCopy"><c>true</c> to make this a continuous copy.</param>
+        /// <param name="isOfflineSecondary"><c>true</c> to make this an offline secondary copy.</param>
         /// <returns>The new instance of database copy operation.</returns>
         public DatabaseCopyModel StartDatabaseCopy(
             string databaseName,
             string partnerServer,
             string partnerDatabaseName,
-            bool continuousCopy)
+            bool continuousCopy,
+            bool isOfflineSecondary)
         {
             // Create a new request Id for this operation
             this.clientRequestId = SqlDatabaseCmdletBase.GenerateClientTracingId();
@@ -701,6 +704,9 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
 
             // Set the optional continuous copy flag
             databaseCopy.IsContinuous = continuousCopy;
+
+            // Set the optional IsOfflineSecondary flag
+            databaseCopy.IsOfflineSecondary = isOfflineSecondary;
 
             this.AddToDatabaseCopies(databaseCopy);
             DatabaseCopy trackedDatabaseCopy = databaseCopy;
