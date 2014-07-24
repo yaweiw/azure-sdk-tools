@@ -124,9 +124,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
         [Parameter(
             Position = 11,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The Extension Publisher Name.")]
+            HelpMessage = "The Extension Publisher's Company Name.")]
         [ValidateNotNullOrEmpty]
-        public string PublisherName { get; set; }
+        public string CompanyName { get; set; }
 
         [Parameter(
             Position = 12,
