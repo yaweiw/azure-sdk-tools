@@ -15,7 +15,7 @@
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using Microsoft.WindowsAzure.Commands.Common.Properties;
-    using ServiceManagement;
+    using ServiceManagement.Model.PersistentVMModel;
     using System;
     using System.Globalization;
     using System.Linq;
@@ -364,7 +364,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         protected virtual Operation GetOperationStatus(string subscriptionId, string operationId)
         {
             var channel = (IServiceManagement)Channel;
-            return channel.GetOperationStatus(subscriptionId, operationId);
+            //return channel.GetOperationStatus(subscriptionId, operationId);
+            return null;
         }
 
         protected virtual void WriteErrorDetails(CommunicationException exception)
@@ -418,7 +419,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
             if ((WebOperationContext.Current != null) && (WebOperationContext.Current.IncomingResponse != null))
             {
-                operationId = WebOperationContext.Current.IncomingResponse.Headers[ServiceManagement.Constants.OperationTrackingIdHeader];
+                operationId = WebOperationContext.Current.IncomingResponse.Headers[ServiceManagement.Model.PersistentVMModel.Constants.OperationTrackingIdHeader];
             }
 
             return operationId;

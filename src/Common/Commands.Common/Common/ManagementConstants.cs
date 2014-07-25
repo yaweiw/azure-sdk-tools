@@ -18,8 +18,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
     public static class ApiConstants
     {
-        public const string LatestApiVersion = ServiceManagement.Constants.VersionHeaderContentLatest;
-        public const string VersionHeaderName = ServiceManagement.Constants.VersionHeaderName;
+        public const string LatestApiVersion = ServiceManagement.Model.PersistentVMModel.Constants.VersionHeaderContentLatest;
+        public const string VersionHeaderName = ServiceManagement.Model.PersistentVMModel.Constants.VersionHeaderName;
 
         public const string AuthorizationHeaderName = "Authorization";
 

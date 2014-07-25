@@ -34,6 +34,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System.Threading;
     using WindowsAzure;
     using Storage.Auth;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel;
 
     public abstract class ServiceManagementBaseCmdlet : CloudBaseCmdlet<IServiceManagement>
     {
@@ -132,6 +133,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 new HttpRestMessageInspector(this.WriteDebug)
             };
 
+            /*
             var clientOptions = new ServiceManagementClientOptions(null, null, null, 0, RetryPolicy.NoRetryPolicy, ServiceManagementClientOptions.DefaultOptions.WaitTimeForOperationToComplete, messageInspectors);
             var smClient = new ServiceManagementClient(new Uri(this.ServiceEndpoint), CurrentSubscription.SubscriptionId, CurrentSubscription.Certificate, clientOptions);
 
@@ -140,6 +142,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             var syncService = (IServiceManagement)propertyInfo.GetValue(smClient, null);
 
             return syncService;
+            */
+            return null;
         }
 
         /// <summary>
@@ -167,7 +171,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         {
             try
             {
-                return Channel.ToContextChannel();
+                //return Channel.ToContextChannel();
+                return null;
             }
             catch (Exception)
             {
@@ -205,7 +210,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
             try
             {
-                contextChannel = Channel.ToContextChannel();
+                //contextChannel = Channel.ToContextChannel();
             }
             catch (Exception)
             {
@@ -401,7 +406,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
             try
             {
-                contextChannel = Channel.ToContextChannel();
+                //contextChannel = Channel.ToContextChannel();
             }
             catch (Exception)
             {
@@ -491,7 +496,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         protected override Operation GetOperationStatus(string subscriptionId, string operationId)
         {
             var channel = (IServiceManagement)Channel;
-            return channel.GetOperationStatus(subscriptionId, operationId);
+            //return channel.GetOperationStatus(subscriptionId, operationId);
+            return null;
         }
 
         protected T2 ContextFactory<T1, T2>(T1 source) where T2 : ManagementOperationContext

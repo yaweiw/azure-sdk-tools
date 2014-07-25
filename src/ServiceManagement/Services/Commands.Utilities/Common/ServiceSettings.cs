@@ -23,6 +23,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
     using System.Linq;
     using System.Text;
     using System.Web.Script.Serialization;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel;
 
     public class ServiceSettings
     {

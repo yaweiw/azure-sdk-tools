@@ -29,7 +29,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMMo
     using System.ServiceModel.Web;
     using System.Text;
     using System.Xml;
-    using Properties;
+    using Microsoft.WindowsAzure.Commands.Common.Properties;
 
     #region Constants
     public static class Constants

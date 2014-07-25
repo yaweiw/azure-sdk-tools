@@ -29,6 +29,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
+using Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel;
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.MediaServices
 {

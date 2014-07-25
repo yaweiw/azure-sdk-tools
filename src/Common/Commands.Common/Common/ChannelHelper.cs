@@ -14,7 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
-    using ServiceManagement;
+    using ServiceManagement.Model.PersistentVMModel;
     using System;
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
