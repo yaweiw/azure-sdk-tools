@@ -19,9 +19,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMMo
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Globalization;
     using System.IO;
     using System.Linq;
+    using System.Net;
     using System.Runtime.Serialization;
+    using System.Security.Permissions;
     using System.Text;
     using Properties;
 
@@ -4493,6 +4496,123 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMMo
         public static string DecodeFromBase64String(string encodedString)
         {
             return Encoding.UTF8.GetString(Convert.FromBase64String(encodedString));
+        }
+    }
+
+    /// <summary>
+    /// Represents exceptions on the wire when calling the Service Management API.
+    /// </summary>
+    [Serializable]
+    public class ServiceManagementClientException : Exception
+    {
+        /// <summary>
+        /// Gets the HTTP status code of the failed Service Management request.
+        /// </summary>
+        public HttpStatusCode HttpStatus { get; private set; }
+
+        /// <summary>
+        /// Gets the error details of the failed Service Management request.
+        /// </summary>
+        public ServiceManagementError ErrorDetails { get; private set; }
+
+        /// <summary>
+        /// Gets the operation tracking ID if called asynchronously of the failed Service Management request.
+        /// </summary>
+        public string OperationTrackingId { get; private set; }
+
+        /// <summary>
+        /// Gets the headers associated with the response from the request that caused the exception.
+        /// </summary>
+        public WebHeaderCollection ResponseHeaders { get; private set; }
+
+        /// <summary>
+        /// Constructs a new instance of ServiceManagementClientException.
+        /// </summary>
+        /// <param name="httpStatus">The HTTP status code of the failed Service Management request.</param>
+        /// <param name="errorDetails">The error details of the failed Service Management request.</param>
+        /// <param name="operationTrackingId">The operation tracking ID if called asynchronously of the failed Service Management request.</param>
+        public ServiceManagementClientException(HttpStatusCode httpStatus, ServiceManagementError errorDetails, string operationTrackingId)
+            : this(httpStatus, errorDetails, operationTrackingId, null)
+        {
+            // Empty
+        }
+
+        /// <summary>
+        /// Constructs a new instance of ServiceManagementClientException.
+        /// </summary>
+        /// <param name="httpStatus">The HTTP status code of the failed Service Management request.</param>
+        /// <param name="errorDetails">The error details of the failed Service Management request.</param>
+        /// <param name="operationTrackingId">The operation tracking ID if called asynchronously of the failed Service Management request.</param>
+        /// <param name="responseHeaders">Optional WebResponse containing the original response object from the server</param>
+        public ServiceManagementClientException(HttpStatusCode httpStatus, ServiceManagementError errorDetails, string operationTrackingId, WebHeaderCollection responseHeaders)
+            : base(string.Format(CultureInfo.CurrentCulture,
+                Resources.ServiceManagementClientExceptionStringFormat,
+                (int)httpStatus,
+                (errorDetails != null) && !string.IsNullOrEmpty(errorDetails.Code) ? errorDetails.Code : Resources.None,
+                (errorDetails != null) && !string.IsNullOrEmpty(errorDetails.Message) ? errorDetails.Message : Resources.None,
+                string.IsNullOrEmpty(operationTrackingId) ? Resources.None : operationTrackingId))
+        {
+            this.HttpStatus = httpStatus;
+            this.ErrorDetails = errorDetails;
+            this.OperationTrackingId = operationTrackingId;
+            this.ResponseHeaders = responseHeaders;
+        }
+
+        [SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter = true)]
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            base.GetObjectData(info, context);
+        }
+    }
+
+    [DataContract(Name = "Error", Namespace = Constants.ServiceManagementNS)]
+    public class ServiceManagementError : IExtensibleDataObject
+    {
+        [DataMember(Order = 1)]
+        public string Code { get; set; }
+
+        [DataMember(Order = 2)]
+        public string Message { get; set; }
+
+        [DataMember(Order = 3, EmitDefaultValue = false)]
+        public ConfigurationWarningsList ConfigurationWarnings { get; set; }
+
+        [DataMember(Order = 4, EmitDefaultValue = false)]
+        public string ConflictingOperationId { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class ConfigurationWarning : IExtensibleDataObject
+    {
+        [DataMember(Order = 1)]
+        public string WarningCode { get; set; }
+
+        [DataMember(Order = 2)]
+        public string WarningMessage { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+
+        public override string ToString()
+        {
+            return string.Format("WarningCode:{0} WarningMessage:{1}", WarningCode, WarningMessage);
+        }
+    }
+
+    [CollectionDataContract(Namespace = Constants.ServiceManagementNS)]
+    public class ConfigurationWarningsList : List<ConfigurationWarning>
+    {
+        public override string ToString()
+        {
+            StringBuilder warnings = new StringBuilder(string.Format("ConfigurationWarnings({0}):\n", this.Count));
+
+            foreach (ConfigurationWarning warning in this)
+            {
+                warnings.Append(warning + "\n");
+            }
+            return warnings.ToString();
         }
     }
 }

@@ -799,6 +799,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;NONE&gt;.
+        /// </summary>
+        public static string None {
+            get {
+                return ResourceManager.GetString("None", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An OSDisk has not been defined for this VM. Use New-OSDisk to assign a new OS disk..
         /// </summary>
         public static string OSDiskNotDefinedForVM {
@@ -1526,6 +1535,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         public static string ServiceExtensionUploadingCertificate {
             get {
                 return ResourceManager.GetString("ServiceExtensionUploadingCertificate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &quot;An exception occurred when calling the ServiceManagement API. HTTP Status Code: {0}. Service Management Error Code: {1}. Message: {2}. Operation Tracking ID: {3}.&quot;.
+        /// </summary>
+        public static string ServiceManagementClientExceptionStringFormat {
+            get {
+                return ResourceManager.GetString("ServiceManagementClientExceptionStringFormat", resourceCulture);
             }
         }
         
