@@ -114,7 +114,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Publisher Name.")]
         [ValidateNotNullOrEmpty]
-        public string PublisherName { get; set; }
+        public string CompanyName { get; set; }
 
         public bool? BlockRoleUponFailure { get; set; }
 

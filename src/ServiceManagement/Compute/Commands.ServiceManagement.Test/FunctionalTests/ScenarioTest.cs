@@ -1635,7 +1635,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 Assert.AreEqual(extID, resultContext.Id, "extension id is not same");
                 Assert.AreEqual(userName, resultContext.UserName, "storage account name is not same");
                 Assert.IsTrue(Utilities.CompareDateTime(exp, resultContext.Expiration), "expiration is not same");
-                if (string.IsNullOrEmpty(version))
+                if (! string.IsNullOrEmpty(version))
                 {
                     Assert.AreEqual(version, resultContext.Version, "version numbers are not same");
                 }
