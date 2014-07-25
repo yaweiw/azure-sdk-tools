@@ -1186,12 +1186,48 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Copy &apos;{0}&apos; to &apos;{1}&apos;..
+        /// </summary>
+        public static string PublishVMDscExtensionCopyFileVerbose {
+            get {
+                return ResourceManager.GetString("PublishVMDscExtensionCopyFileVerbose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy the module &apos;{0}&apos; to &apos;{1}&apos;..
+        /// </summary>
+        public static string PublishVMDscExtensionCopyModuleVerbose {
+            get {
+                return ResourceManager.GetString("PublishVMDscExtensionCopyModuleVerbose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid configuration file: {0}.
         ///The file needs to be a PowerShell script (.ps1 or .psm1)..
         /// </summary>
         public static string PublishVMDscExtensionCreateArchiveConfigFileInvalidExtension {
             get {
                 return ResourceManager.GetString("PublishVMDscExtensionCreateArchiveConfigFileInvalidExtension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create a zip file &apos;{0}&apos; from directory &apos;{1}&apos;..
+        /// </summary>
+        public static string PublishVMDscExtensionCreateZipVerbose {
+            get {
+                return ResourceManager.GetString("PublishVMDscExtensionCreateZipVerbose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to List of required modules: [{0}]..
+        /// </summary>
+        public static string PublishVMDscExtensionRequiredModulesVerbose {
+            get {
+                return ResourceManager.GetString("PublishVMDscExtensionRequiredModulesVerbose", resourceCulture);
             }
         }
         
@@ -1211,6 +1247,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         public static string PublishVMDscExtensionStorageParserErrors {
             get {
                 return ResourceManager.GetString("PublishVMDscExtensionStorageParserErrors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Temp folder &apos;{0}&apos; created..
+        /// </summary>
+        public static string PublishVMDscExtensionTempFolderVerbose {
+            get {
+                return ResourceManager.GetString("PublishVMDscExtensionTempFolderVerbose", resourceCulture);
             }
         }
         

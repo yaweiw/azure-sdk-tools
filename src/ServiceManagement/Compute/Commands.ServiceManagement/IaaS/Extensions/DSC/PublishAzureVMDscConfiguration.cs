@@ -208,17 +208,24 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                         ErrorCategory.ParserError,
                         null));
             }
-
-            var requiredModules = parseResult.RequiredModules;
+            List<string> requiredModules = parseResult.RequiredModules;
+            WriteVerbose(String.Format(CultureInfo.CurrentUICulture, Resources.PublishVMDscExtensionRequiredModulesVerbose, String.Join(", ", requiredModules)));
 
             // Create a temporary directory for uploaded zip file
             string tempZipFolder = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+            WriteVerbose(String.Format(CultureInfo.CurrentUICulture, Resources.PublishVMDscExtensionTempFolderVerbose, tempZipFolder));
             Directory.CreateDirectory(tempZipFolder);
-
+            
             // CopyConfiguration
             string configurationName = Path.GetFileName(this.ConfigurationPath);
-            File.Copy(this.ConfigurationPath, Path.Combine(tempZipFolder, configurationName));
-
+            string configurationDestination = Path.Combine(tempZipFolder, configurationName);
+            WriteVerbose(String.Format(
+                CultureInfo.CurrentUICulture, 
+                Resources.PublishVMDscExtensionCopyFileVerbose, 
+                this.ConfigurationPath, 
+                configurationDestination));
+            File.Copy(this.ConfigurationPath, configurationDestination);
+            
             // CopyRequiredModules
             foreach (var module in requiredModules)
             {
@@ -238,6 +245,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                     powershell.AddCommand("Copy-Module")
                         .AddParameter("module", module)
                         .AddParameter("tempZipFolder", tempZipFolder);
+                    WriteVerbose(String.Format(
+                        CultureInfo.CurrentUICulture,
+                        Resources.PublishVMDscExtensionCopyModuleVerbose,
+                        module,
+                        tempZipFolder));
                     powershell.Invoke();
                 }
             }
@@ -283,6 +295,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                     @"[void] [System.IO.Compression.ZipFile]::CreateFromDirectory('" + tempZipFolder + "', '" + archive + "');";
 
                 powershell.AddScript(script);
+                WriteVerbose(String.Format(
+                        CultureInfo.CurrentUICulture,
+                        Resources.PublishVMDscExtensionCreateZipVerbose,
+                        archive,
+                        tempZipFolder));
                 powershell.Invoke();
             }
 

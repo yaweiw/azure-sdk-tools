@@ -706,4 +706,24 @@ The file needs to be a PowerShell script (.ps1 or .psm1).</value>
   <data name="AzureVMDscDefaultStorageCredentialsNotFound" xml:space="preserve">
     <value>Can not find your azure storage credential. Please specify an storage context using the -StorageContext parameter, or set the current storage account using "Set-AzureSubscription", or set the "AZURE_STORAGE_CONNECTION_STRING" environment variable.</value>
   </data>
+  <data name="PublishVMDscExtensionRequiredModulesVerbose" xml:space="preserve">
+    <value>List of required modules: [{0}].</value>
+    <comment>{0} = list of modules</comment>
+  </data>
+  <data name="PublishVMDscExtensionTempFolderVerbose" xml:space="preserve">
+    <value>Temp folder '{0}' created.</value>
+    <comment>{0} = temp folder path</comment>
+  </data>
+  <data name="PublishVMDscExtensionCopyFileVerbose" xml:space="preserve">
+    <value>Copy '{0}' to '{1}'.</value>
+    <comment>{0} = source, {1} = destination</comment>
+  </data>
+  <data name="PublishVMDscExtensionCopyModuleVerbose" xml:space="preserve">
+  <value>Copy the module '{0}' to '{1}'.</value>
+    <comment>{0} = source, {1} = destination</comment>
+  </data>
+  <data name="PublishVMDscExtensionCreateZipVerbose" xml:space="preserve">
+  <value>Create a zip file '{0}' from directory '{1}'.</value>
+    <comment>{0} = target zip, {1} = source</comment>
+  </data>
 </root>
