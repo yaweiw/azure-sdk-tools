@@ -48,6 +48,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "Path to a file containing one or more configurations")]
+        [ValidateNotNullOrEmpty]
         public string ConfigurationPath { get; set; }
 
         /// <summary>
@@ -57,6 +58,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             ValueFromPipelineByPropertyName = true,
             ParameterSetName = UploadArchiveParameterSetName,
             HelpMessage = "Name of the Azure Storage Container the configuration is uploaded to")]
+        [ValidateNotNullOrEmpty]
         public string ContainerName { get; set; }
 
         /// <summary>
@@ -76,6 +78,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             ParameterSetName = UploadArchiveParameterSetName,
             HelpMessage = "The Azure Storage Context that provides the security settings used to upload " +
                           "the configuration script to the container specified by ContainerName")]
+        [ValidateNotNullOrEmpty]
         public AzureStorageContext StorageContext { get; set; }
 
         /// <summary>
@@ -87,6 +90,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             ValueFromPipelineByPropertyName = true,
             ParameterSetName = CreateArchiveParameterSetName,
             HelpMessage = "Path to a local ZIP file to write the configuration archive to.")]
+        [ValidateNotNullOrEmpty]
         public string ConfigurationArchivePath { get; set; }
 
         /// <summary>
@@ -136,12 +140,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
         protected void ValidateParameters()
         {
+            this.ConfigurationPath = this.GetUnresolvedProviderPathFromPSPath(this.ConfigurationPath);
+
             var configurationFileExtension = Path.GetExtension(this.ConfigurationPath);
 
             if (this.ParameterSetName == UploadArchiveParameterSetName)
             { 
-                this.ConfigurationPath = this.GetUnresolvedProviderPathFromPSPath(this.ConfigurationPath);
-
                 // Check that ConfigurationPath points to a valid file
                 if (!File.Exists(this.ConfigurationPath))
                 {
