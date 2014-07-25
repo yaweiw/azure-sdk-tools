@@ -295,6 +295,22 @@ function Wait-Function
     }
 }
 
+
+<#
+.SYNOPSIS
+Waits for specified duration if not-mocked, otherwise skips wait.
+
+.PARAMETER timeout
+Timeout in seconds
+#>
+function Wait-Seconds
+{
+	param([int] $timeout)
+    
+    [Microsoft.WindowsAzure.Testing.TestUtilities]::Wait($timeout * 1000)
+}
+
+
 <#
 .SYNOPSIS
 Retires the specified job the given numer of times, waiting the given interval between tries

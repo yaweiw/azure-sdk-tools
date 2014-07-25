@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.Store
     using System.Security.Permissions;
 
     /// <summary>
-    /// Purchase a new Add-On from Windows Azure Store.
+    /// Purchase a new Add-On from Microsoft Azure Store.
     /// </summary>
     [Cmdlet(VerbsCommon.Set, "AzureStoreAddOn"), OutputType(typeof(bool))]
     public class SetAzureStoreAddOnCommand : ServiceManagementBaseCmdlet

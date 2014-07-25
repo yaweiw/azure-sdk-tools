@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImp
     using DataObjects;
     using GetAzureHDInsightClusters;
     using GetAzureHDInsightClusters.Extensions;
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
@@ -34,6 +35,8 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImp
             this.MapReduceConfiguration = new MapReduceConfiguration();
             this.HiveConfiguration = new HiveConfiguration();
             this.OozieConfiguration = new OozieConfiguration();
+            this.StormConfiguration = new ConfigValuesCollection();
+            this.HBaseConfiguration = new HBaseConfiguration();
         }
 
         public ICollection<AzureHDInsightStorageAccount> AdditionalStorageAccounts { get; private set; }
@@ -84,9 +87,19 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImp
 
         public AzureHDInsightMetastore OozieMetastore { get; set; }
 
+        /// <inheritdoc />
+        public ConfigValuesCollection StormConfiguration { get; set; }
+
+        /// <inheritdoc />
+        public HBaseConfiguration HBaseConfiguration { get; set; }
+
         public ClusterState State { get; private set; }
 
         public ClusterType ClusterType { get; set; }
+
+        public string VirtualNetworkId { get; set; }
+
+        public string SubnetName { get; set; }
 
         /// <inheritdoc />
         public string Version { get; set; }
@@ -117,6 +130,9 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImp
             createClusterRequest.OozieConfiguration.ConfigurationCollection.AddRange(this.OozieConfiguration.ConfigurationCollection);
             createClusterRequest.OozieConfiguration.AdditionalSharedLibraries = this.OozieConfiguration.AdditionalSharedLibraries;
             createClusterRequest.OozieConfiguration.AdditionalActionExecutorLibraries = this.OozieConfiguration.AdditionalActionExecutorLibraries;
+            createClusterRequest.StormConfiguration.AddRange(this.StormConfiguration);
+            createClusterRequest.HBaseConfiguration.AdditionalLibraries = this.HBaseConfiguration.AdditionalLibraries;
+            createClusterRequest.HBaseConfiguration.ConfigurationCollection.AddRange(this.HBaseConfiguration.ConfigurationCollection);
             createClusterRequest.HeadNodeSize = this.HeadNodeSize;
             createClusterRequest.DefaultStorageAccountName = this.DefaultStorageAccountName;
             createClusterRequest.DefaultStorageAccountKey = this.DefaultStorageAccountKey;
@@ -125,6 +141,14 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImp
             createClusterRequest.Password = this.Credential.GetCleartextPassword();
             createClusterRequest.ClusterSizeInNodes = this.ClusterSizeInNodes;
             createClusterRequest.ClusterType = this.ClusterType;
+            if (!string.IsNullOrEmpty(this.VirtualNetworkId))
+            {
+                createClusterRequest.VirtualNetworkId = this.VirtualNetworkId;
+            }
+            if (!string.IsNullOrEmpty(this.SubnetName))
+            {
+                createClusterRequest.SubnetName = this.SubnetName;
+            }
             createClusterRequest.AdditionalStorageAccounts.AddRange(
                 this.AdditionalStorageAccounts.Select(act => new WabStorageAccountConfiguration(act.StorageAccountName, act.StorageAccountKey)));
             if (this.HiveMetastore.IsNotNull())

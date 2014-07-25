@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     using Utilities.Common;
 
     /// <summary>
-    /// Get Windows Azure VM Extension Image.
+    /// Get Microsoft Azure VM Extension Image.
     /// </summary>
     [Cmdlet(
         VerbsCommon.Get,

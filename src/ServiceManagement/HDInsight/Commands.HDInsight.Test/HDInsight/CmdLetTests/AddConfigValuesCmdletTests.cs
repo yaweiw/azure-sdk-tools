@@ -71,6 +71,19 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CmdLetTests
 
         [TestMethod]
         [TestCategory("CheckIn")]
+        public void CanCallTheAddConfigValuesCmdletTestsCmdlet_StormConfig()
+        {
+            using (IRunspace runspace = this.GetPowerShellRunspace())
+            {
+                var stormConfig = new Hashtable();
+                stormConfig.Add("storm.fakeconfig.value", "12345");
+                RunConfigOptionstest(runspace, CmdletConstants.StormConfig, stormConfig, c => c.StormConfiguration);
+            }
+
+        }
+
+        [TestMethod]
+        [TestCategory("CheckIn")]
         public void CanCallTheAddConfigValuesCmdletTestsCmdlet_HiveConfig()
         {
             using (IRunspace runspace = this.GetPowerShellRunspace())
@@ -103,6 +116,43 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CmdLetTests
                 Assert.AreEqual(config.HiveConfiguration.AdditionalLibraries.Container, hiveServiceConfig.AdditionalLibraries.StorageContainerName);
                 Assert.AreEqual(config.HiveConfiguration.AdditionalLibraries.Key, hiveServiceConfig.AdditionalLibraries.StorageAccountKey);
                 Assert.AreEqual(config.HiveConfiguration.AdditionalLibraries.Name, hiveServiceConfig.AdditionalLibraries.StorageAccountName);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("CheckIn")]
+        public void CanCallTheAddConfigValuesCmdletTestsCmdlet_HBaseConfig()
+        {
+            using (IRunspace runspace = this.GetPowerShellRunspace())
+            {
+                var hbaseConfig = new Hashtable();
+                hbaseConfig.Add("hbase.blob.size", "12345");
+
+                var hbaseServiceConfig = new AzureHDInsightHBaseConfiguration
+                {
+                    Configuration = hbaseConfig,
+                    AdditionalLibraries =
+                        new AzureHDInsightDefaultStorageAccount
+                        {
+                            StorageAccountKey = Guid.NewGuid().ToString(),
+                            StorageAccountName = Guid.NewGuid().ToString(),
+                            StorageContainerName = Guid.NewGuid().ToString()
+                        }
+                };
+
+                IPipelineResult results =
+                    runspace.NewPipeline()
+                            .AddCommand(CmdletConstants.AddAzureHDInsightConfigValues)
+                            .WithParameter(CmdletConstants.ClusterConfig, new AzureHDInsightConfig())
+                            .WithParameter(CmdletConstants.HBaseConfig, hbaseServiceConfig)
+                            .Invoke();
+                AzureHDInsightConfig config = results.Results.ToEnumerable<AzureHDInsightConfig>().First();
+                ValidateConfigurationOptions(hbaseConfig, config.HBaseConfiguration.ConfigurationCollection);
+                Assert.IsNotNull(config.HBaseConfiguration.AdditionalLibraries);
+
+                Assert.AreEqual(config.HBaseConfiguration.AdditionalLibraries.Container, hbaseServiceConfig.AdditionalLibraries.StorageContainerName);
+                Assert.AreEqual(config.HBaseConfiguration.AdditionalLibraries.Key, hbaseServiceConfig.AdditionalLibraries.StorageAccountKey);
+                Assert.AreEqual(config.HBaseConfiguration.AdditionalLibraries.Name, hbaseServiceConfig.AdditionalLibraries.StorageAccountName);
             }
         }
 
@@ -167,6 +217,70 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CmdLetTests
 
                 ValidateConfigurationOptions(hiveConfig, config.HiveConfiguration.ConfigurationCollection);
                 ValidateConfigurationOptions(hiveConfig2, config.HiveConfiguration.ConfigurationCollection);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("CheckIn")]
+        public void CanCallTheAddConfigValuesCmdletTestsCmdlet_HBaseConfig_Multiple_Invokes()
+        {
+            using (IRunspace runspace = this.GetPowerShellRunspace())
+            {
+                var hbaseConfig = new Hashtable();
+                hbaseConfig.Add("hbase.logfiles.size", "12345");
+
+
+                var hbaseServiceConfig = new AzureHDInsightHBaseConfiguration
+                {
+                    Configuration = hbaseConfig,
+                    AdditionalLibraries =
+                        new AzureHDInsightDefaultStorageAccount
+                        {
+                            StorageAccountKey = Guid.NewGuid().ToString(),
+                            StorageAccountName = Guid.NewGuid().ToString(),
+                            StorageContainerName = Guid.NewGuid().ToString()
+                        }
+                };
+
+
+                var hbaseConfig2 = new Hashtable();
+                hbaseConfig2.Add("hadoop.logfiles.size2", "12345");
+
+
+                var hbaseServiceConfig2 = new AzureHDInsightHBaseConfiguration
+                {
+                    Configuration = hbaseConfig2,
+                    AdditionalLibraries =
+                        new AzureHDInsightDefaultStorageAccount
+                        {
+                            StorageAccountKey = Guid.NewGuid().ToString(),
+                            StorageAccountName = Guid.NewGuid().ToString(),
+                            StorageContainerName = Guid.NewGuid().ToString()
+                        }
+                };
+
+
+                var results =
+                    runspace.NewPipeline()
+                            .AddCommand(CmdletConstants.AddAzureHDInsightConfigValues)
+                            .WithParameter(CmdletConstants.ClusterConfig, new AzureHDInsightConfig())
+                            .WithParameter(CmdletConstants.HBaseConfig, hbaseServiceConfig)
+                            .AddCommand(CmdletConstants.AddAzureHDInsightConfigValues)
+                            .WithParameter(CmdletConstants.HBaseConfig, hbaseServiceConfig2)
+                            .Invoke();
+                AzureHDInsightConfig config = results.Results.ToEnumerable<AzureHDInsightConfig>().First();
+
+
+                Assert.IsNotNull(config.HBaseConfiguration.AdditionalLibraries);
+
+
+                Assert.AreEqual(config.HBaseConfiguration.AdditionalLibraries.Container, hbaseServiceConfig2.AdditionalLibraries.StorageContainerName);
+                Assert.AreEqual(config.HBaseConfiguration.AdditionalLibraries.Key, hbaseServiceConfig2.AdditionalLibraries.StorageAccountKey);
+                Assert.AreEqual(config.HBaseConfiguration.AdditionalLibraries.Name, hbaseServiceConfig2.AdditionalLibraries.StorageAccountName);
+
+
+                ValidateConfigurationOptions(hbaseConfig, config.HBaseConfiguration.ConfigurationCollection);
+                ValidateConfigurationOptions(hbaseConfig2, config.HBaseConfiguration.ConfigurationCollection);
             }
         }
 
@@ -257,6 +371,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CmdLetTests
             {
                 var coreConfig = new Hashtable();
                 var yarnConfig = new Hashtable();
+                var stormConfig = new Hashtable();
+                stormConfig.Add("storm.fakekey", "123");
                 var clusterConfig = new AzureHDInsightConfig
                 {
                     HiveMetastore =
@@ -283,11 +399,13 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CmdLetTests
                             .WithParameter(CmdletConstants.ClusterConfig, clusterConfig)
                             .WithParameter(CmdletConstants.CoreConfig, coreConfig)
                             .WithParameter(CmdletConstants.YarnConfig, yarnConfig)
+                            .WithParameter(CmdletConstants.StormConfig, stormConfig)
                             .Invoke();
                 AzureHDInsightConfig config = results.Results.ToEnumerable<AzureHDInsightConfig>().First();
 
                 Assert.AreEqual(config.CoreConfiguration.Count, coreConfig.Count);
                 Assert.AreEqual(config.YarnConfiguration.Count, yarnConfig.Count);
+                Assert.AreEqual(config.StormConfiguration.Count, stormConfig.Count);
 
                 foreach (object entry in coreConfig.Keys)
                 {
@@ -303,6 +421,14 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CmdLetTests
                         config.YarnConfiguration.FirstOrDefault(c => string.Equals(c.Key, entry.ToString(), StringComparison.Ordinal));
                     Assert.IsNotNull(configUnderTest, "Unable to find yarn config option with name '{0}'", entry);
                     Assert.AreEqual(yarnConfig[entry], configUnderTest.Value, "value doesn't match for yarn config option with name '{0}'", entry);
+                }
+
+                foreach (object entry in stormConfig.Keys)
+                {
+                    KeyValuePair<string, string> configUnderTest =
+                        config.StormConfiguration.FirstOrDefault(c => string.Equals(c.Key, entry.ToString(), StringComparison.Ordinal));
+                    Assert.IsNotNull(configUnderTest, "Unable to find storm config option with name '{0}'", entry);
+                    Assert.AreEqual(stormConfig[entry], configUnderTest.Value, "value doesn't match for storm config option with name '{0}'", entry);
                 }
 
                 Assert.AreEqual(clusterConfig.HiveMetastore.DatabaseName, config.HiveMetastore.DatabaseName);

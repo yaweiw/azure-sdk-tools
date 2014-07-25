@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Store
     using Commands.Utilities.Common;
 
     /// <summary>
-    /// Search options for getting Windows Azure add on.
+    /// Search options for getting Microsoft Azure add on.
     /// </summary>
     public class AddOnSearchOptions
     {

@@ -29,6 +29,9 @@ namespace Microsoft.WindowsAzure.Commands.Profile
         [Parameter(Mandatory = false, HelpMessage = "Environment containing the account to log into")]
         public string Environment { get; set; }
 
+        [Parameter(Mandatory = false, HelpMessage = "Optional credential")]
+        public PSCredential Credential { get; set; }
+
         public AddAzureAccount() : base(true)
         {
         }
@@ -36,7 +39,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
         public override void ExecuteCmdlet()
         {
             WindowsAzureEnvironment env = ChosenEnvironment() ?? Profile.CurrentEnvironment;
-            string accountName = Profile.AddAccounts(env);
+            string accountName = Profile.AddAccounts(env, Credential);
             WriteVerbose(string.Format(Resources.AddAccountAdded, accountName));
             WriteVerbose(string.Format(Resources.AddAccountShowDefaultSubscription, Profile.DefaultSubscription.SubscriptionName));
             WriteVerbose(Resources.AddAccountViewSubscriptions);

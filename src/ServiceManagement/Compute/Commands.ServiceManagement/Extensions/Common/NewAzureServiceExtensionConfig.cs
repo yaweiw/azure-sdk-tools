@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     using System.Security.Cryptography.X509Certificates;
 
     /// <summary>
-    /// New Windows Azure Service Extension.
+    /// New Microsoft Azure Service Extension.
     /// </summary>
     [Cmdlet(VerbsCommon.New, "AzureServiceExtensionConfig", DefaultParameterSetName = "NewExtension"), OutputType(typeof(ExtensionConfigurationInput))]
     public class NewAzureServiceExtensionConfigCommand : BaseAzureServiceExtensionCmdlet

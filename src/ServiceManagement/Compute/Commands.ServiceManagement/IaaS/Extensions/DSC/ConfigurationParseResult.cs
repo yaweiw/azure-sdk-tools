@@ -20,7 +20,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions.DSC
     public class ConfigurationParseResult
     {
         public string Path { get; set; }
-        public List<String> Configurations { get; set; }
         public ParseError[] Errors { get; set; }
         public List<String> RequiredModules { get; set; }
 

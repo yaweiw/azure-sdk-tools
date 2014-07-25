@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
     using Utilities.Common;
 
     /// <summary>
-    /// Retrieve Windows Azure Locations.
+    /// Retrieve Microsoft Azure Locations.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureLocation"), OutputType(typeof(LocationsContext))]
     public class GetAzureLocationCommand : ServiceManagementBaseCmdlet

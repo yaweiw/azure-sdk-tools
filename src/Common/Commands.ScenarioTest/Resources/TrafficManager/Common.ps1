@@ -14,7 +14,7 @@
 
 $ErrorActionPreference = "Stop"
 
-$ProfileNamePrefix = "scenarioTestProfile";
+$ProfileNamePrefix = "onesdk";
 
 #TODO: Make the domain name suffix environment dependent
 $TrafficManagerDomain = ".trafficmanager.net";
@@ -25,9 +25,9 @@ Gets valid profile name.
 #>
 function Get-ProfileName
 {
-	param([string] $postfix)
-
-	return $ProfileNamePrefix + $postfix
+    $name = getAssetName
+    Write-Debug "Using profile with name: $name"
+    return $name
 }
 
 <#
@@ -36,10 +36,10 @@ Creates a profile.
 #>
 function New-Profile
 {
-	param([string] $profileName)
-	
-	#TODO: Make the domain name suffix environment dependent
-	$domainName = $profileName  + $TrafficManagerDomain
+    param([string] $profileName)
+
+    #TODO: Make the domain name suffix environment dependent
+    $domainName = $profileName  + $TrafficManagerDomain
 
     New-AzureTrafficManagerProfile -Name $profileName -DomainName $domainName -LoadBalancingMethod RoundRobin -MonitorPort 80 -MonitorProtocol Http -MonitorRelativePath "/" -Ttl 300
 }
@@ -50,5 +50,5 @@ Removes all profiles from the $profileNames list from the current subscription.
 #>
 function Initialize-TrafficManagerTest
 {
-	Get-AzureTrafficManagerProfile | Where-Object { $_.Name.StartsWith($ProfileNamePrefix) } | Remove-AzureTrafficManagerProfile -Force
+    Get-AzureTrafficManagerProfile | Where-Object { $_.Name.StartsWith($ProfileNamePrefix) } | Remove-AzureTrafficManagerProfile -Force
 }

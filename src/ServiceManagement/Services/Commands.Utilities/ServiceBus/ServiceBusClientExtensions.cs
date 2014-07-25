@@ -412,7 +412,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
 
         /// <summary>
         /// Creates shared access signature authorization for the service bus namespace. This authorization works on
-        /// public Windows Azure environments and Windows Azure Pack on prim as well.
+        /// public Microsoft Azure environments and Windows Azure Pack on prim as well.
         /// </summary>
         /// <param name="namespaceName">The service bus namespace name</param>
         /// <param name="ruleName">The SAS authorization rule name</param>
@@ -443,7 +443,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
 
         /// <summary>
         /// Creates shared access signature authorization for the service bus entity. This authorization works on
-        /// public Windows Azure environments and Windows Azure Pack on prim as well.
+        /// public Microsoft Azure environments and Windows Azure Pack on prim as well.
         /// </summary>
         /// <param name="namespaceName">The service bus namespace name</param>
         /// <param name="entityName">The fully qualified service bus entity name</param>
@@ -554,7 +554,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
 
         /// <summary>
         /// Updates shared access signature authorization for the service bus namespace. This authorization works on
-        /// public Windows Azure environments and Windows Azure Pack on prim as well.
+        /// public Microsoft Azure environments and Windows Azure Pack on prim as well.
         /// </summary>
         /// <param name="namespaceName">The service bus namespace name</param>
         /// <param name="ruleName">The SAS authorization rule name</param>
@@ -598,7 +598,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
 
         /// <summary>
         /// Updates shared access signature authorization for the service bus entity. This authorization works on
-        /// public Windows Azure environments and Windows Azure Pack on prim as well.
+        /// public Microsoft Azure environments and Windows Azure Pack on prim as well.
         /// </summary>
         /// <param name="namespaceName">The service bus namespace name</param>
         /// <param name="entityName">The fully qualified service bus entity name</param>

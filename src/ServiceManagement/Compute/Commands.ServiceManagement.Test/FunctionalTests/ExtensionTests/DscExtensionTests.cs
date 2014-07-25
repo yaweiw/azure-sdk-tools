@@ -31,12 +31,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     [TestClass]
     public class DscExtensionTests: ServiceManagementTest
     {
-        private const string DscExtensionPublisher = "Microsoft.DSCExtension.Test"; // TODO: Need to update Publisher and Name with production values
-        private const string DscExtensionName = "DSC5.5";
+        private const string DscExtensionPublisher = "Microsoft.Powershell.DSC";
+        private const string DscExtensionName = "DSC";
 
         private const string DefaultContainerName = "windows-powershell-dsc";
 
-        private const string testConfigurationFileName = "DscExtensionTestConfiguration.ps1";
+        private const string testConfigurationArchive = "DscExtensionTestConfiguration.ps1";
         private const string testConfigurationName     = "DscExtensionTestConfiguration";
         private Hashtable    testConfigurationArgument = new Hashtable() { { "DestinationPath", @"'C:\MyDirectory" } };
         private const string testConfigurationDataPath = @".\DSC\DscExtensionTestConfigurationData.psd1";
@@ -107,7 +107,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 {
                     Version = DscExtensionTests.dscExtensionVersion,
                     VM = vm,
-                    ConfigurationFileName = testConfigurationFileName,
+                    ConfigurationArchive = testConfigurationArchive,
                     StorageContext = null,
                     ContainerName = DefaultContainerName,
                     ConfigurationName = testConfigurationName,
@@ -148,7 +148,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 {
                     Version = DscExtensionTests.dscExtensionVersion,
                     VM = vmPowershellCmdlets.GetAzureVM(vmName, this.testServiceName).VM,
-                    ConfigurationFileName = testConfigurationFileName,
+                    ConfigurationArchive = testConfigurationArchive,
                     StorageContext = null,
                     ContainerName = DefaultContainerName,
                     ConfigurationName = testConfigurationName,
@@ -187,7 +187,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 {
                     Version = DscExtensionTests.dscExtensionVersion,
                     VM = vm,
-                    ConfigurationFileName = testConfigurationFileName,
+                    ConfigurationArchive = testConfigurationArchive,
                     StorageContext = null,
                     ContainerName = null,
                     ConfigurationName = null,
@@ -261,15 +261,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 Utilities.LogAssert(() => Assert.AreEqual(vmName, context.RoleName), "Verifiying RoleName");
 
                 var expectedContainer = (expected.ContainerName ?? DefaultContainerName) + "/";
-                var expectedConfigurationFileName = expected.ConfigurationFileName + ".zip";
                 Utilities.LogAssert(() => Assert.IsNotNull(context.ModulesUrl), "Verifiying ModulesUrl is not null");
                 var modulesUrl = new Uri(context.ModulesUrl);
                 Utilities.LogAssert(() => Assert.AreEqual(3, modulesUrl.Segments.Length), "Verifiying ModulesUrl is well formed");
                 Utilities.LogAssert(() => Assert.AreEqual(expectedContainer, modulesUrl.Segments[1]), "Verifiying the container in ModulesUrl");
-                Utilities.LogAssert(() => Assert.AreEqual(expectedConfigurationFileName, modulesUrl.Segments[2]),    "Verifiying the configuration in ModulesUrl");
+                Utilities.LogAssert(() => Assert.AreEqual(expected.ConfigurationArchive, modulesUrl.Segments[2]), "Verifiying the configuration in ModulesUrl");
 
-                var expectedConfigurationName = expected.ConfigurationName ?? Path.GetFileNameWithoutExtension(expected.ConfigurationFileName);
-                var expectedConfigurationFunction = expected.ConfigurationFileName + "\\" + expectedConfigurationName;
+                var expectedConfigurationName = expected.ConfigurationName ?? Path.GetFileNameWithoutExtension(expected.ConfigurationArchive);
+                var expectedConfigurationFunction = Path.GetFileNameWithoutExtension(expected.ConfigurationArchive) + "\\" + expectedConfigurationName;
                 Utilities.LogAssert(() => Assert.AreEqual(expectedConfigurationFunction, context.ConfigurationFunction), "Verifiying the configuration in ModulesUrl");
 
                 if (expected.ConfigurationArgument == null)

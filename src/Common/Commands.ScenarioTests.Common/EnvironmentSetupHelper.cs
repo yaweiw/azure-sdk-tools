@@ -110,6 +110,11 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest
             WindowsAzureProfile.Instance.CurrentEnvironment.ServiceEndpoint =
                 rdfeEnvironment.BaseUri.AbsoluteUri;
 
+            if (currentEnvironment.UserName == null)
+            {
+                currentEnvironment.UserName = "fakeuser@microsoft.com";
+            }
+
             testSubscription = new WindowsAzureSubscription(false, false)
             {
                 SubscriptionId = currentEnvironment.SubscriptionId,

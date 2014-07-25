@@ -54,6 +54,22 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.DataObjects
         }
 
         /// <summary>
+        ///     Gets the virtual network Id of the cluster.
+        /// </summary>
+        public string VirtualNetworkId
+        {
+            get { return this.cluster.VirtualNetworkId; }
+        }
+
+        /// <summary>
+        ///     Gets the subnet name of the cluster.
+        /// </summary>
+        public string SubnetName
+        {
+            get { return this.cluster.SubnetName; }
+        }
+
+        /// <summary>
         ///     Gets the connection Url for the Azure HD Insight Cluster.
         /// </summary>
         [SuppressMessage("Microsoft.Design", "CA1056:UriPropertiesShouldNotBeStrings",
