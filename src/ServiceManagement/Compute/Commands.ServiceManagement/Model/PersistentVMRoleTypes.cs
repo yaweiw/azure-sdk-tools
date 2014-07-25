@@ -22,6 +22,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMMo
     using System.IO;
     using System.Linq;
     using System.Runtime.Serialization;
+    using System.Text;
+    using Properties;
 
     #region Constants
     public static class Constants
@@ -2896,6 +2898,1602 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMMo
 
         [EnumMember]
         Private = 1,
+    }
+
+
+    [CollectionDataContract(Name = "StorageServices", ItemName = "StorageService", Namespace = Constants.ServiceManagementNS)]
+    public class StorageServiceList : List<StorageService>
+    {
+        public StorageServiceList()
+        {
+        }
+
+        public StorageServiceList(IEnumerable<StorageService> storageServices)
+            : base(storageServices)
+        {
+        }
+    }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class StorageDomain : IExtensibleDataObject
+    {
+        [DataMember(Order = 1, EmitDefaultValue = false)]
+        public string ServiceName { get; set; }
+
+        [DataMember(Order = 2)]
+        public string DomainName { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class CustomDomain : IExtensibleDataObject
+    {
+
+        [DataMember(EmitDefaultValue = false, Order = 1)]
+        public string Name { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 2)]
+        public bool UseSubDomainName { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [CollectionDataContract(Namespace = Constants.ServiceManagementNS, Name = "CustomDomains", ItemName = "CustomDomain")]
+    public class CustomDomainList : List<CustomDomain>, IExtensibleDataObject
+    {
+        public CustomDomainList()
+        {
+        }
+
+        public CustomDomainList(IEnumerable<CustomDomain> customDomains)
+            : base(customDomains)
+        {
+        }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class CreateStorageServiceInput : IExtensibleDataObject
+    {
+        [DataMember(Order = 1, EmitDefaultValue = false)]
+        public string ServiceName { get; set; }
+
+        [DataMember(Order = 2)]
+        public string Description { get; set; }
+
+        [DataMember(Order = 3, Name = "Label")]
+        private string _base64EncodedLabel { get; set; }
+
+        public string Label
+        {
+            get
+            {
+                string decodedLabel;
+                if (!StringEncoder.TryDecodeFromBase64String(this._base64EncodedLabel, out decodedLabel))
+                {
+                    throw new InvalidOperationException(Resources.UnableToDecodeBase64String);
+                }
+                return decodedLabel;
+            }
+            set
+            {
+                this._base64EncodedLabel = StringEncoder.EncodeToBase64String(value);
+            }
+        }
+
+        [DataMember(Order = 4, EmitDefaultValue = false)]
+        public string AffinityGroup { get; set; }
+
+        [DataMember(Order = 5, EmitDefaultValue = false)]
+        public string Location { get; set; }
+
+        [DataMember(Order = 6, EmitDefaultValue = false)]
+        public bool? GeoReplicationEnabled { get; set; }
+
+        [DataMember(Order = 7, EmitDefaultValue = false)]
+        public ExtendedPropertiesList ExtendedProperties { get; set; }
+
+        [DataMember(Order = 8, EmitDefaultValue = false)]
+        public bool? SecondaryReadEnabled { get; set; }
+
+        [DataMember(Order = 9, EmitDefaultValue = false)]
+        public string AccountType { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class UpdateStorageServiceInput : IExtensibleDataObject
+    {
+        [DataMember(Order = 1)]
+        public string Description { get; set; }
+
+        [DataMember(Order = 2, Name = "Label")]
+        private string _base64EncodedLabel { get; set; }
+
+        public string Label
+        {
+            get
+            {
+                string decodedLabel;
+                if (!StringEncoder.TryDecodeFromBase64String(this._base64EncodedLabel, out decodedLabel))
+                {
+                    throw new InvalidOperationException(Resources.UnableToDecodeBase64String);
+                }
+                return decodedLabel;
+            }
+            set
+            {
+                this._base64EncodedLabel = StringEncoder.EncodeToBase64String(value);
+            }
+        }
+
+        [DataMember(Order = 3, EmitDefaultValue = false)]
+        public bool? GeoReplicationEnabled { get; set; }
+
+        [DataMember(Order = 4, EmitDefaultValue = false)]
+        public ExtendedPropertiesList ExtendedProperties { get; set; }
+
+        [DataMember(Order = 5, EmitDefaultValue = false)]
+        public CustomDomainList CustomDomains { get; set; }
+
+        [DataMember(Order = 6, EmitDefaultValue = false)]
+        public bool? SecondaryReadEnabled { get; set; }
+
+        [DataMember(Order = 7, EmitDefaultValue = false)]
+        public string AccountType { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class StorageService : IExtensibleDataObject
+    {
+        [DataMember(Order = 1)]
+        public Uri Url { get; set; }
+
+        [DataMember(Order = 2, EmitDefaultValue = false)]
+        public string ServiceName { get; set; }
+
+        [DataMember(Order = 3, EmitDefaultValue = false)]
+        public StorageServiceProperties StorageServiceProperties { get; set; }
+
+        [DataMember(Order = 4, EmitDefaultValue = false)]
+        public StorageServiceKeys StorageServiceKeys { get; set; }
+
+        [DataMember(Order = 5, EmitDefaultValue = false)]
+        public ExtendedPropertiesList ExtendedProperties { get; set; }
+
+        [DataMember(Order = 6, EmitDefaultValue = false)]
+        public CapabilitiesList Capabilities { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [CollectionDataContract(Namespace = Constants.ServiceManagementNS, Name = "Endpoints", ItemName = "Endpoint")]
+    public class EndpointList : List<String>, IExtensibleDataObject
+    {
+        public ExtensionDataObject ExtensionData { get; set; }
+
+    }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class StorageServiceProperties : IExtensibleDataObject
+    {
+        [DataMember(Order = 1)]
+        public string Description { get; set; }
+
+        [DataMember(Order = 2, EmitDefaultValue = false)]
+        public string AffinityGroup { get; set; }
+
+        [DataMember(Order = 3, EmitDefaultValue = false)]
+        public string Location { get; set; }
+
+        [DataMember(Order = 4, Name = "Label", EmitDefaultValue = false)]
+        private string _base64EncodedLabel { get; set; }
+
+        public string Label
+        {
+            get
+            {
+                string decodedLabel;
+                if (!StringEncoder.TryDecodeFromBase64String(this._base64EncodedLabel, out decodedLabel))
+                {
+                    throw new InvalidOperationException(Resources.UnableToDecodeBase64String);
+                }
+                return decodedLabel;
+            }
+            set
+            {
+                this._base64EncodedLabel = StringEncoder.EncodeToBase64String(value);
+            }
+        }
+
+        [DataMember(Order = 5, EmitDefaultValue = false)]
+        public string Status { get; set; }
+
+        [DataMember(Order = 6, EmitDefaultValue = false)]
+        public EndpointList Endpoints { get; set; }
+
+        [DataMember(Order = 7, EmitDefaultValue = false)]
+        public bool? GeoReplicationEnabled { get; set; } // Defines as nullable for older client compat.
+
+        [DataMember(Order = 8, EmitDefaultValue = false)]
+        public string GeoPrimaryRegion { get; set; }
+
+        [DataMember(Order = 9, EmitDefaultValue = false)]
+        public string StatusOfPrimary { get; set; }
+
+        [DataMember(Order = 10, EmitDefaultValue = false)]
+        public string GeoSecondaryRegion { get; set; }
+
+        [DataMember(Order = 11, EmitDefaultValue = false)]
+        public string StatusOfSecondary { get; set; }
+
+        [DataMember(Order = 12, EmitDefaultValue = false, Name = "LastGeoFailoverTime")]
+        public string isoLastGeoFailoverTime { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Anvil.RdUsage!TimeUtc", "27102",
+            Justification = "fixing it at this stage might break the old behavior/interface since LastGeoFailoverTime is customer facing and there is a lot of existing data")]
+        public DateTime LastGeoFailoverTime
+        {
+            get
+            {
+                return (string.IsNullOrEmpty(this.isoLastGeoFailoverTime) ? new DateTime() : DateTime.Parse(this.isoLastGeoFailoverTime));
+            }
+            set
+            {
+                this.isoLastGeoFailoverTime = value.ToString(Constants.StandardTimeFormat);
+            }
+        }
+
+        // Below property name should be "CreatedTime", alligning with Disk, Deployment, AffinityGroup.
+        [DataMember(Order = 13, EmitDefaultValue = false, Name = "CreationTime")]
+        private string _isoCreationTimeString { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Anvil.RdUsage!TimeUtc", "27102",
+            Justification = "fixing it at this stage might break the old behavior/interface since CreationTime is customer facing and there is a lot of existing data")]
+        public DateTime CreationTime
+        {
+            get
+            {
+                return (string.IsNullOrEmpty(this._isoCreationTimeString) ? DateTime.MinValue : DateTime.Parse(this._isoCreationTimeString));
+            }
+            set
+            {
+                if (value.Equals(DateTime.MinValue))
+                {
+                    this._isoCreationTimeString = null;
+                }
+                else
+                {
+                    this._isoCreationTimeString = value.ToString(Constants.StandardTimeFormat);
+                }
+            }
+        }
+
+        [DataMember(Order = 14, EmitDefaultValue = false)]
+        public CustomDomainList CustomDomains { get; set; }
+
+        [DataMember(Order = 15, EmitDefaultValue = false)]
+        public bool? SecondaryReadEnabled { get; set; }
+
+        [DataMember(Order = 16, EmitDefaultValue = false)]
+        public EndpointList SecondaryEndpoints { get; set; }
+
+        [DataMember(Order = 17, EmitDefaultValue = false)]
+        public string AccountType { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public enum StorageAccountType
+    {
+        [EnumMember]
+        Standard_LRS,
+
+        [EnumMember]
+        Standard_GRS,
+
+        [EnumMember]
+        Standard_RAGRS,
+
+        [EnumMember]
+        Standard_ZRS,
+    }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class StorageServiceKeys : IExtensibleDataObject
+    {
+        [DataMember(Order = 1)]
+        public string Primary { get; set; }
+
+        [DataMember(Order = 2)]
+        public string Secondary { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class RegenerateKeys : IExtensibleDataObject
+    {
+        [DataMember(Order = 1)]
+        public string KeyType { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class ExtendedProperty : IExtensibleDataObject
+    {
+
+        [DataMember(Order = 1)]
+        public string Name { get; set; }
+
+        [DataMember(Order = 2, EmitDefaultValue = false)]
+        public string Value { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [CollectionDataContract(Name = "ExtendedPropertiesList", ItemName = "ExtendedProperty", Namespace = Constants.ServiceManagementNS)]
+    public class ExtendedPropertiesList : List<ExtendedProperty>
+    {
+        public ExtendedPropertiesList()
+        {
+            // Empty
+        }
+
+        public ExtendedPropertiesList(IEnumerable<ExtendedProperty> propertyList)
+            : base(propertyList)
+        {
+            // Empty
+        }
+    }
+
+
+    [CollectionDataContract(Name = "AffinityGroups", ItemName = "AffinityGroup", Namespace = Constants.ServiceManagementNS)]
+    public class AffinityGroupList : List<AffinityGroup>
+    {
+        public AffinityGroupList()
+        {
+        }
+
+        public AffinityGroupList(IEnumerable<AffinityGroup> affinityGroups)
+            : base(affinityGroups)
+        {
+        }
+    }
+
+    //Use ComputeCapabilities for the compute related things. In new API this should not be used
+    //as it doesn't give the good idea of what capabilities are supported.
+    [CollectionDataContract(Name = "Capabilities", ItemName = "Capability", Namespace = Constants.ServiceManagementNS)]
+    public class CapabilitiesList : List<String>, IExtensibleDataObject
+    {
+        public CapabilitiesList()
+        {
+        }
+
+        public CapabilitiesList(IEnumerable<String> capabilities)
+            : base(capabilities)
+        {
+        }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class AffinityGroup : IExtensibleDataObject
+    {
+        [DataMember(Order = 1, EmitDefaultValue = false)]
+        public string Name { get; set; }
+
+        [DataMember(Order = 2, Name = "Label")]
+        private string _base64EncodedLabel { get; set; }
+
+        public string Label
+        {
+            get
+            {
+                string decodedLabel;
+                if (!StringEncoder.TryDecodeFromBase64String(this._base64EncodedLabel, out decodedLabel))
+                {
+                    throw new InvalidOperationException(Resources.UnableToDecodeBase64String);
+                }
+                return decodedLabel;
+            }
+            set
+            {
+                this._base64EncodedLabel = StringEncoder.EncodeToBase64String(value);
+            }
+        }
+
+        [DataMember(Order = 3)]
+        public string Description { get; set; }
+
+        [DataMember(Order = 4)]
+        public string Location { get; set; }
+
+        [DataMember(Order = 5, EmitDefaultValue = false)]
+        public HostedServiceList HostedServices { get; set; }
+
+        [DataMember(Order = 6, EmitDefaultValue = false)]
+        public StorageServiceList StorageServices { get; set; }
+
+        //Use ComputeCapabilities for the compute related things. In new API this should not be used
+        //as it doesn't give the good idea of what capabilities are supported.
+        [DataMember(Order = 7, EmitDefaultValue = false)]
+        public CapabilitiesList Capabilities { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 8, Name = "CreatedTime")]
+        private string _isoCreatedTimeString { get; set; }
+
+        public DateTime CreatedTime
+        {
+            get
+            {
+                return (string.IsNullOrEmpty(this._isoCreatedTimeString) ? DateTime.MinValue : DateTime.Parse(this._isoCreatedTimeString));
+            }
+            set
+            {
+                if (value.Equals(DateTime.MinValue))
+                {
+                    this._isoCreatedTimeString = null;
+                }
+                else
+                {
+                    this._isoCreatedTimeString = value.ToString(Constants.StandardTimeFormat);
+                }
+            }
+        }
+        [DataMember(Order = 9, EmitDefaultValue = false)]
+        public ComputeCapabilities ComputeCapabilities { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [DataContract(Name = "CreateAffinityGroup", Namespace = Constants.ServiceManagementNS)]
+    public class CreateAffinityGroupInput : IExtensibleDataObject
+    {
+        [DataMember(Order = 1)]
+        public string Name { get; set; }
+
+        [DataMember(Order = 2, Name = "Label")]
+        private string _base64EncodedLabel { get; set; }
+
+        public string Label
+        {
+            get
+            {
+                string decodedLabel;
+                if (!StringEncoder.TryDecodeFromBase64String(this._base64EncodedLabel, out decodedLabel))
+                {
+                    throw new InvalidOperationException(Resources.UnableToDecodeBase64String);
+                }
+                return decodedLabel;
+            }
+            set
+            {
+                this._base64EncodedLabel = StringEncoder.EncodeToBase64String(value);
+            }
+        }
+
+        [DataMember(Order = 3, EmitDefaultValue = false)]
+        public string Description { get; set; }
+
+        [DataMember(Order = 4)]
+        public string Location { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [DataContract(Name = "UpdateAffinityGroup", Namespace = Constants.ServiceManagementNS)]
+    public class UpdateAffinityGroupInput : IExtensibleDataObject
+    {
+        [DataMember(Order = 1, Name = "Label")]
+        private string _base64EncodedLabel { get; set; }
+
+        public string Label
+        {
+            get
+            {
+                string decodedLabel;
+                if (!StringEncoder.TryDecodeFromBase64String(this._base64EncodedLabel, out decodedLabel))
+                {
+                    throw new InvalidOperationException(Resources.UnableToDecodeBase64String);
+                }
+                return decodedLabel;
+            }
+            set
+            {
+                this._base64EncodedLabel = StringEncoder.EncodeToBase64String(value);
+            }
+        }
+
+        [DataMember(Order = 2, EmitDefaultValue = false)]
+        public string Description { get; set; }
+
+        [DataMember(Order = 3, EmitDefaultValue = false)]
+        public string LocationConstraint { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [CollectionDataContract(Name = "HostedServices", ItemName = "HostedService", Namespace = Constants.ServiceManagementNS)]
+    public class HostedServiceList : List<HostedService>
+    {
+        public HostedServiceList()
+        {
+        }
+
+        public HostedServiceList(IEnumerable<HostedService> hostedServices)
+            : base(hostedServices)
+        {
+        }
+    }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class HostedService : IExtensibleDataObject
+    {
+        [DataMember(Order = 1)]
+        public Uri Url { get; set; }
+
+        [DataMember(Order = 2, EmitDefaultValue = false)]
+        public string ServiceName { get; set; }
+
+        [DataMember(Order = 3, EmitDefaultValue = false)]
+        public HostedServiceProperties HostedServiceProperties { get; set; }
+
+        [DataMember(Order = 4, EmitDefaultValue = false)]
+        public DeploymentList Deployments { get; set; }
+
+        [DataMember(Order = 5, EmitDefaultValue = false)]
+        public bool? IsComplete { get; set; }
+
+        [DataMember(Order = 6, EmitDefaultValue = false)]
+        public string DefaultWinRmCertificateThumbprint { get; set; }
+
+        [DataMember(Order = 7, EmitDefaultValue = false)]
+        public ComputeCapabilities ComputeCapabilities { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [CollectionDataContract(Name = "Deployments", ItemName = "Deployment", Namespace = Constants.ServiceManagementNS)]
+    public class DeploymentList : List<Deployment>
+    {
+        public DeploymentList()
+        {
+        }
+
+        public DeploymentList(IEnumerable<Deployment> deployments)
+            : base(deployments)
+        {
+        }
+    }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class HostedServiceProperties : IExtensibleDataObject
+    {
+        [DataMember(Order = 1)]
+        public string Description { get; set; }
+
+        [DataMember(Order = 2, EmitDefaultValue = false)]
+        public string AffinityGroup { get; set; }
+
+        [DataMember(Order = 3, EmitDefaultValue = false)]
+        public string Location { get; set; }
+
+        [DataMember(Order = 4, Name = "Label")]
+        private string _base64EncodedLabel { get; set; }
+
+        public string Label
+        {
+            get
+            {
+                string decodedLabel;
+                if (!StringEncoder.TryDecodeFromBase64String(this._base64EncodedLabel, out decodedLabel))
+                {
+                    throw new InvalidOperationException(Resources.UnableToDecodeBase64String);
+                }
+                return decodedLabel;
+            }
+            set
+            {
+                this._base64EncodedLabel = StringEncoder.EncodeToBase64String(value);
+            }
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 5)]
+        public string Status { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 6, Name = "DateCreated")]
+        private string _isoDateCreatedString { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Anvil.RdUsage!TimeUtc", "27102",
+            Justification = "fixing it at this stage might break the old behavior/interface since DateCreated is customer facing and there is a lot of existing data")]
+        public DateTime DateCreated
+        {
+            get
+            {
+                return (string.IsNullOrEmpty(this._isoDateCreatedString) ? new DateTime() : DateTime.Parse(this._isoDateCreatedString));
+            }
+            set
+            {
+                this._isoDateCreatedString = value.ToString(Constants.StandardTimeFormat);
+            }
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 7, Name = "DateLastModified")]
+        private string _isoDateLastModifiedString { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Anvil.RdUsage!TimeUtc", "27102",
+            Justification = "fixing it at this stage might break the old behavior/interface since DateLastModified is customer facing and there is a lot of existing data")]
+        public DateTime DateLastModified
+        {
+            get
+            {
+                return (string.IsNullOrEmpty(this._isoDateLastModifiedString) ? new DateTime() : DateTime.Parse(this._isoDateLastModifiedString));
+            }
+            set
+            {
+                this._isoDateLastModifiedString = value.ToString(Constants.StandardTimeFormat);
+            }
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 8)]
+        public ExtendedPropertiesList ExtendedProperties { get; set; }
+
+        [DataMember(Order = 9, EmitDefaultValue = false)]
+        public string GuestAgentType { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 10)]
+        public string ReverseDnsFqdn { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [CollectionDataContract(Name = "Locations", ItemName = "Location", Namespace = Constants.ServiceManagementNS)]
+    public class LocationList : List<Location>
+    {
+        public LocationList()
+        {
+        }
+
+        public LocationList(IEnumerable<Location> locations)
+            : base(locations)
+        {
+        }
+    }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class Location : IExtensibleDataObject
+    {
+        [DataMember(Order = 1)]
+        public string Name { get; set; }
+
+        [DataMember(Order = 2, EmitDefaultValue = false)]
+        public string DisplayName { get; set; }
+
+        [DataMember(Order = 3, EmitDefaultValue = false)]
+        public AvailableServicesList AvailableServices { get; set; }
+
+        [DataMember(Order = 4, EmitDefaultValue = false)]
+        public ComputeCapabilities ComputeCapabilities { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class ComputeCapabilities : IExtensibleDataObject
+    {
+
+        [DataMember(Order = 1, EmitDefaultValue = false)]
+        public WebWorkerRoleSizes WebWorkerRoleSizes { get; set; }
+
+        [DataMember(Order = 2, EmitDefaultValue = false)]
+        public VirtualMachinesRoleSizes VirtualMachinesRoleSizes { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [CollectionDataContract(Namespace = Constants.ServiceManagementNS, ItemName = "RoleSize")]
+    public class WebWorkerRoleSizes : List<String>
+    {
+        public WebWorkerRoleSizes()
+        {
+        }
+
+        public WebWorkerRoleSizes(IEnumerable<String> webWorkerRoleSizes)
+            : base(webWorkerRoleSizes)
+        {
+        }
+    }
+
+    [CollectionDataContract(Namespace = Constants.ServiceManagementNS, ItemName = "RoleSize")]
+    public class VirtualMachinesRoleSizes : List<String>
+    {
+        public VirtualMachinesRoleSizes()
+        {
+        }
+
+        public VirtualMachinesRoleSizes(IEnumerable<String> virtualMachinesRoleSizes)
+            : base(virtualMachinesRoleSizes)
+        {
+        }
+    }
+
+    [DataContract(Name = "CreateHostedService", Namespace = Constants.ServiceManagementNS)]
+    public class CreateHostedServiceInput : IExtensibleDataObject
+    {
+        [DataMember(Order = 1)]
+        public string ServiceName { get; set; }
+
+        [DataMember(Order = 2, Name = "Label")]
+        private string _base64EncodedLabel { get; set; }
+
+        public string Label
+        {
+            get
+            {
+                string decodedLabel;
+                if (!StringEncoder.TryDecodeFromBase64String(this._base64EncodedLabel, out decodedLabel))
+                {
+                    throw new InvalidOperationException(Resources.UnableToDecodeBase64String);
+                }
+                return decodedLabel;
+            }
+            set
+            {
+                this._base64EncodedLabel = StringEncoder.EncodeToBase64String(value);
+            }
+        }
+
+        [DataMember(Order = 3, EmitDefaultValue = false)]
+        public string Description { get; set; }
+
+        [DataMember(Order = 4, EmitDefaultValue = false)]
+        public string Location { get; set; }
+
+        [DataMember(Order = 5, EmitDefaultValue = false)]
+        public string AffinityGroup { get; set; }
+
+        [DataMember(Order = 6, EmitDefaultValue = false)]
+        public ExtendedPropertiesList ExtendedProperties { get; set; }
+
+        [DataMember(Order = 7, EmitDefaultValue = false)]
+        public string ReverseDnsFqdn { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [DataContract(Name = "UpdateHostedService", Namespace = Constants.ServiceManagementNS)]
+    public class UpdateHostedServiceInput : IExtensibleDataObject
+    {
+        [DataMember(Order = 1, EmitDefaultValue = false, Name = "Label")]
+        private string _base64EncodedLabel { get; set; }
+
+        public string Label
+        {
+            get
+            {
+                string decodedLabel;
+                if (!StringEncoder.TryDecodeFromBase64String(this._base64EncodedLabel, out decodedLabel))
+                {
+                    throw new InvalidOperationException(Resources.UnableToDecodeBase64String);
+                }
+                return decodedLabel;
+            }
+            set
+            {
+                this._base64EncodedLabel = StringEncoder.EncodeToBase64String(value);
+            }
+        }
+
+        [DataMember(Order = 2, EmitDefaultValue = false)]
+        public string Description { get; set; }
+
+        [DataMember(Order = 3, EmitDefaultValue = false)]
+        public string Location { get; set; }
+
+        [DataMember(Order = 4, EmitDefaultValue = false)]
+        public string AffinityGroup { get; set; }
+
+        [DataMember(Order = 5, EmitDefaultValue = false)]
+        public ExtendedPropertiesList ExtendedProperties { get; set; }
+        [DataMember(Order = 6, EmitDefaultValue = false)]
+        public string GuestAgentType { get; set; }
+
+        [DataMember(Order = 7, EmitDefaultValue = false)]
+        public string ReverseDnsFqdn { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [DataContract(Name = "AvailabilityResponse", Namespace = Constants.ServiceManagementNS)]
+    public class AvailabilityResponse : IExtensibleDataObject
+    {
+        [DataMember(Order = 1)]
+        public bool Result { get; set; }
+        [DataMember(Order = 2)]
+        public string Reason { get; set; }
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+
+    [DataContract(Name = "Swap", Namespace = Constants.ServiceManagementNS)]
+    public class SwapDeploymentInput : IExtensibleDataObject
+    {
+        [DataMember(Order = 1)]
+        public string Production { get; set; }
+
+        [DataMember(Order = 2)]
+        public string SourceDeployment { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class Deployment : IExtensibleDataObject
+    {
+        [DataMember(Order = 1, EmitDefaultValue = false)]
+        public string Name { get; set; }
+
+        [DataMember(Order = 2, EmitDefaultValue = false)]
+        public string DeploymentSlot { get; set; }
+
+        [DataMember(Order = 3, EmitDefaultValue = false)]
+        public string PrivateID { get; set; }
+
+        [DataMember(Order = 4, EmitDefaultValue = false)]
+        public string Status { get; set; }
+
+        [DataMember(Order = 5, EmitDefaultValue = false, Name = "Label")]
+        private string _base64EncodedLabel { get; set; }
+
+        public string Label
+        {
+            get
+            {
+                string decodedLabel;
+                if (!StringEncoder.TryDecodeFromBase64String(this._base64EncodedLabel, out decodedLabel))
+                {
+                    throw new InvalidOperationException(Resources.UnableToDecodeBase64String);
+                }
+                return decodedLabel;
+            }
+            set
+            {
+                this._base64EncodedLabel = value;
+            }
+        }
+
+
+        [DataMember(Order = 6, EmitDefaultValue = false)]
+        public Uri Url { get; set; }
+
+        [DataMember(Order = 7, EmitDefaultValue = false, Name = "Configuration")]
+        private string _base64EncodedConfiguration { get; set; }
+
+        public string Configuration
+        {
+            get
+            {
+                string decodedConfiguration;
+                if (!StringEncoder.TryDecodeFromBase64String(this._base64EncodedConfiguration, out decodedConfiguration))
+                {
+                    throw new InvalidOperationException(Resources.UnableToDecodeBase64String);
+                }
+                return decodedConfiguration;
+            }
+            set
+            {
+                this._base64EncodedConfiguration = StringEncoder.EncodeToBase64String(value);
+            }
+        }
+
+        [DataMember(Order = 8, EmitDefaultValue = false)]
+        public RoleInstanceList RoleInstanceList { get; set; }
+
+        [DataMember(Order = 10, EmitDefaultValue = false)]
+        public UpgradeStatus UpgradeStatus { get; set; }
+
+        [DataMember(Order = 11, EmitDefaultValue = false)]
+        public int UpgradeDomainCount { get; set; }
+
+        [DataMember(Order = 12, EmitDefaultValue = false)]
+        public RoleList RoleList { get; set; }
+
+        [DataMember(Order = 13, EmitDefaultValue = false)]
+        public string SdkVersion { get; set; }
+
+        [DataMember(Order = 14, EmitDefaultValue = false)]
+        public DeploymentInputEndpointList InputEndpointList { get; set; }
+
+        [DataMember(Order = 15, EmitDefaultValue = false)]
+        public bool? Locked { get; set; }
+
+        [DataMember(Order = 16, EmitDefaultValue = false)]
+        public bool? RollbackAllowed { get; set; }
+
+        [DataMember(Order = 17, EmitDefaultValue = false)]
+        public string VirtualNetworkName { get; set; }
+
+        [DataMember(Order = 18, EmitDefaultValue = false, Name = "CreatedTime")]
+        private string _isoCreatedTimeString { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Anvil.RdUsage!TimeUtc", "27102",
+            Justification = "fixing it at this stage might break the old behavior/interface since CreatedTime is customer facing and there is a lot of existing data")]
+        public DateTime CreatedTime
+        {
+            get
+            {
+                return (string.IsNullOrEmpty(this._isoCreatedTimeString) ? new DateTime() : DateTime.Parse(this._isoCreatedTimeString));
+            }
+            set
+            {
+                if (value.Equals(DateTime.MinValue))
+                {
+                    this._isoCreatedTimeString = null;
+                }
+                else
+                {
+                    this._isoCreatedTimeString = value.ToString(Constants.StandardTimeFormat);
+                }
+            }
+        }
+
+        [DataMember(Order = 19, EmitDefaultValue = false, Name = "LastModifiedTime")]
+        private string _isoLastModifiedTimeString { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Anvil.RdUsage!TimeUtc", "27102",
+            Justification = "fixing it at this stage might break the old behavior/interface since LastModifiedTime is customer facing and there is a lot of existing data")]
+        public DateTime LastModifiedTime
+        {
+            get
+            {
+                return (string.IsNullOrEmpty(this._isoLastModifiedTimeString) ? new DateTime() : DateTime.Parse(this._isoLastModifiedTimeString));
+            }
+            set
+            {
+                this._isoLastModifiedTimeString = value.ToString(Constants.StandardTimeFormat);
+            }
+        }
+
+        [DataMember(Order = 20, EmitDefaultValue = false)]
+        public ExtendedPropertiesList ExtendedProperties { get; set; }
+
+        [DataMember(Order = 21, EmitDefaultValue = false)]
+        public DnsSettings Dns { get; set; }
+
+        [DataMember(Order = 22, EmitDefaultValue = false)]
+        public PersistentVMDowntimeInfo PersistentVMDowntime;
+
+        [DataMember(Order = 23, EmitDefaultValue = false)]
+        public VirtualIPList VirtualIPs { get; set; }
+
+        [DataMember(Order = 23, EmitDefaultValue = false)]
+        public ExtensionConfiguration ExtensionConfiguration { get; set; }
+
+        [DataMember(Order = 24, EmitDefaultValue = false)]
+        public string ReservedIPName { get; set; }
+
+        //
+        // Note: Setting Order = 26 below to accomodate for the duplicate 
+        // order values (23) above which should be fixed.
+        //
+
+        // This is the IDNS FQDN suffix, e.g. "hostedservice.a1.internal.cloudapp.net".
+        [DataMember(Order = 26, EmitDefaultValue = false)]
+        public string InternalDnsSuffix { get; set; }
+
+        [DataMember(Order = 27, EmitDefaultValue = false)]
+        public LoadBalancerList LoadBalancers { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class OutboundNatVirtualIP : IExtensibleDataObject
+    {
+        [DataMember(Order = 1, EmitDefaultValue = false)]
+        public string Address { get; set; }
+
+        [DataMember(Order = 2, EmitDefaultValue = false)]
+        public string Name { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+
+        #region Implements Equals
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+
+            OutboundNatVirtualIP vip = obj as OutboundNatVirtualIP;
+            if (vip == null)
+            {
+                return false;
+            }
+
+            return this == vip;
+        }
+
+        public static bool operator ==(OutboundNatVirtualIP left, OutboundNatVirtualIP right)
+        {
+            if (Object.ReferenceEquals(left, right))
+            {
+                return true;
+            }
+
+            if ((object)left == null && (object)right == null)
+            {
+                return true;
+            }
+
+            if ((object)left == null || (object)right == null)
+            {
+                return false;
+            }
+
+            return string.Equals(left.Address, right.Address, StringComparison.OrdinalIgnoreCase) &&
+                   string.Equals(left.Name, right.Name, StringComparison.OrdinalIgnoreCase);
+        }
+
+        public static bool operator !=(OutboundNatVirtualIP left, OutboundNatVirtualIP right)
+        {
+            return !(left == right);
+        }
+
+        public override int GetHashCode()
+        {
+            return this.Address.GetHashCode();
+        }
+        #endregion
+    }
+
+    [CollectionDataContract(Name = "OutboundNatVirtualIPs", ItemName = "OutboundNatVirtualIP", Namespace = Constants.ServiceManagementNS)]
+    public class OutboundNatVirtualIPList : List<OutboundNatVirtualIP>
+    {
+        public OutboundNatVirtualIPList()
+        {
+
+        }
+
+        public OutboundNatVirtualIPList(IEnumerable<OutboundNatVirtualIP> ips)
+            : base(ips)
+        {
+
+        }
+    }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class OutboundNatVirtualIPGroup : IExtensibleDataObject
+    {
+        [DataMember(Order = 1, EmitDefaultValue = false)]
+        public string VipGroupName { get; set; }
+
+        [DataMember(Order = 2, EmitDefaultValue = false)]
+        public OutboundNatVirtualIPList OutboundNatVirtualIPs { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [CollectionDataContract(Name = "OutboundNatVirtualIPGroups", ItemName = "OutboundNatVirtualIPGroup", Namespace = Constants.ServiceManagementNS)]
+    public class OutboundNatVirtualIPGroups : List<OutboundNatVirtualIPGroup>
+    {
+        public OutboundNatVirtualIPGroups()
+        {
+        }
+
+        public OutboundNatVirtualIPGroups(IEnumerable<OutboundNatVirtualIPGroup> groups)
+            : base(groups)
+        {
+        }
+    }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class PersistentVMDowntimeInfo : IExtensibleDataObject
+    {
+        [DataMember(Order = 1, EmitDefaultValue = false)]
+        public DateTime? StartTime { get; set; }
+
+        [DataMember(Order = 2, EmitDefaultValue = false)]
+        public DateTime? EndTime { get; set; }
+
+        [DataMember(Order = 3, EmitDefaultValue = false)]
+        public string Status { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [CollectionDataContract(Name = "RoleList", ItemName = "Role", Namespace = Constants.ServiceManagementNS)]
+    public class RoleList : List<Role>
+    {
+        public RoleList()
+        {
+        }
+
+        public RoleList(IEnumerable<Role> roles)
+            : base(roles)
+        {
+        }
+    }
+
+    [CollectionDataContract(Name = "InputEndpointList", ItemName = "InputEndpoint", Namespace = Constants.ServiceManagementNS)]
+    public class DeploymentInputEndpointList : List<DeploymentInputEndpoint>
+    {
+        public DeploymentInputEndpointList()
+        {
+        }
+
+        public DeploymentInputEndpointList(IEnumerable<DeploymentInputEndpoint> endpoints)
+            : base(endpoints)
+        {
+        }
+    }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class DeploymentInputEndpoint : IExtensibleDataObject
+    {
+        [DataMember(Order = 1)]
+        public string RoleName { get; set; }
+
+        [DataMember(Order = 2)]
+        public string Vip { get; set; }
+
+        [DataMember(Order = 3)]
+        public int Port { get; set; }
+
+        [DataMember(Order = 4)]
+        public int? IdleTimeoutInMinutes { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [CollectionDataContract(Name = "RoleInstanceList", ItemName = "RoleInstance", Namespace = Constants.ServiceManagementNS)]
+    public class RoleInstanceList : List<RoleInstance>
+    {
+        public RoleInstanceList()
+        {
+        }
+
+        public RoleInstanceList(IEnumerable<RoleInstance> roles)
+            : base(roles)
+        {
+        }
+    }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class RoleInstance : IExtensibleDataObject
+    {
+        [DataMember(Order = 1)]
+        public string RoleName { get; set; }
+
+        [DataMember(Order = 2)]
+        public string InstanceName { get; set; }
+
+        [DataMember(Order = 3)]
+        public string InstanceStatus { get; set; }
+
+        [DataMember(Order = 4, EmitDefaultValue = false)]
+        public int? InstanceUpgradeDomain { get; set; }
+
+        [DataMember(Order = 5, EmitDefaultValue = false)]
+        public int? InstanceFaultDomain { get; set; }
+
+        [DataMember(Order = 6, EmitDefaultValue = false)]
+        public string InstanceSize { get; set; }
+
+        [DataMember(Order = 7, EmitDefaultValue = false)]
+        public string InstanceStateDetails { get; set; }
+
+        [DataMember(Order = 8, EmitDefaultValue = false)]
+        public string InstanceErrorCode { get; set; }
+
+        [DataMember(Order = 10, EmitDefaultValue = false)]
+        public string IpAddress { get; set; }
+
+        [DataMember(Order = 11, EmitDefaultValue = false)]
+        public InstanceEndpointList InstanceEndpoints { get; set; }
+
+        [DataMember(Order = 12, EmitDefaultValue = false)]
+        public string PowerState { get; set; }
+
+        [DataMember(Order = 13, EmitDefaultValue = false)]
+        public string HostName { get; set; }
+
+        [DataMember(Order = 14, EmitDefaultValue = false)]
+        public string RemoteAccessCertificateThumbprint { get; set; }
+
+        // Order 15 is purposely skipped due to a property being removed before being published.
+
+        [DataMember(Order = 16, EmitDefaultValue = false)]
+        public GuestAgentStatus GuestAgentStatus { get; set; }
+
+        [DataMember(Order = 17, EmitDefaultValue = false)]
+        public ResourceExtensionStatusList ResourceExtensionStatusList { get; set; }
+
+        [DataMember(Order = 18, EmitDefaultValue = false)]
+        public string ExtendedInstanceStatus { get; set; }
+
+        [DataMember(Order = 19, EmitDefaultValue = false)]
+        public PublicIPList PublicIPs { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [CollectionDataContract(Name = "RoleInstances", ItemName = "Name", Namespace = Constants.ServiceManagementNS)]
+    public class RoleInstanceNamesCollection : Collection<string> { }
+
+    [DataContract(Name = "CreateDeployment", Namespace = Constants.ServiceManagementNS)]
+    public class CreateDeploymentInput : IExtensibleDataObject
+    {
+        [DataMember(Order = 1)]
+        public string Name { get; set; }
+
+        [DataMember(Order = 2)]
+        public Uri PackageUrl { get; set; }
+
+        [DataMember(Order = 3, Name = "Label")]
+        private string _base64EncodedLabel { get; set; }
+
+        public string Label
+        {
+            get
+            {
+                string decodedLabel;
+                if (!StringEncoder.TryDecodeFromBase64String(this._base64EncodedLabel, out decodedLabel))
+                {
+                    throw new InvalidOperationException(Resources.UnableToDecodeBase64String);
+                }
+                return decodedLabel;
+            }
+            set
+            {
+                this._base64EncodedLabel = StringEncoder.EncodeToBase64String(value);
+            }
+        }
+
+        [DataMember(Order = 4, Name = "Configuration")]
+        private string _base64EncodedConfiguration { get; set; }
+
+        public string Configuration
+        {
+            get
+            {
+                string decodedConfiguration;
+                if (!StringEncoder.TryDecodeFromBase64String(this._base64EncodedConfiguration, out decodedConfiguration))
+                {
+                    throw new InvalidOperationException(Resources.UnableToDecodeBase64String);
+                }
+                return decodedConfiguration;
+            }
+            set
+            {
+                this._base64EncodedConfiguration = StringEncoder.EncodeToBase64String(value);
+            }
+        }
+
+        [DataMember(Order = 5, EmitDefaultValue = false)]
+        public bool? StartDeployment { get; set; }
+
+        [DataMember(Order = 6, EmitDefaultValue = false)]
+        public bool? TreatWarningsAsError { get; set; }
+
+        [DataMember(Order = 7, EmitDefaultValue = false)]
+        public ExtendedPropertiesList ExtendedProperties { get; set; }
+
+        [DataMember(Order = 8, EmitDefaultValue = false)]
+        public ExtensionConfiguration ExtensionConfiguration { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [DataContract(Name = "ChangeConfiguration", Namespace = Constants.ServiceManagementNS)]
+    public class ChangeConfigurationInput : IExtensibleDataObject
+    {
+        [DataMember(Order = 1, Name = "Configuration")]
+        private string _base64EncodedConfiguration { get; set; }
+
+        public string Configuration
+        {
+            get
+            {
+                string decodedConfiguration;
+                if (!StringEncoder.TryDecodeFromBase64String(this._base64EncodedConfiguration, out decodedConfiguration))
+                {
+                    throw new InvalidOperationException(Resources.UnableToDecodeBase64String);
+                }
+                return decodedConfiguration;
+            }
+            set
+            {
+                this._base64EncodedConfiguration = StringEncoder.EncodeToBase64String(value);
+            }
+        }
+
+        [DataMember(Order = 2, EmitDefaultValue = false)]
+        public bool? TreatWarningsAsError { get; set; }
+
+        [DataMember(Order = 3, EmitDefaultValue = false)]
+        public string Mode { get; set; }
+
+        [DataMember(Order = 4, EmitDefaultValue = false)]
+        public ExtendedPropertiesList ExtendedProperties { get; set; }
+
+        [DataMember(Order = 5, EmitDefaultValue = false)]
+        public ExtensionConfiguration ExtensionConfiguration { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [DataContract(Name = "UpdateDeploymentStatus", Namespace = Constants.ServiceManagementNS)]
+    public class UpdateDeploymentStatusInput : IExtensibleDataObject
+    {
+        [DataMember(Order = 1)]
+        public string Status { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [DataContract(Name = "UpgradeDeployment", Namespace = Constants.ServiceManagementNS)]
+    public class UpgradeDeploymentInput : IExtensibleDataObject
+    {
+        [DataMember(Order = 1)]
+        public string Mode { get; set; }
+
+        [DataMember(Order = 2)]
+        public Uri PackageUrl { get; set; }
+
+        [DataMember(Order = 3, Name = "Configuration")]
+        private string _base64EncodedConfiguration { get; set; }
+
+        public string Configuration
+        {
+            get
+            {
+                string decodedConfiguration;
+                if (!StringEncoder.TryDecodeFromBase64String(this._base64EncodedConfiguration, out decodedConfiguration))
+                {
+                    throw new InvalidOperationException(Resources.UnableToDecodeBase64String);
+                }
+                return decodedConfiguration;
+            }
+            set
+            {
+                this._base64EncodedConfiguration = StringEncoder.EncodeToBase64String(value);
+            }
+        }
+
+        [DataMember(Order = 4, Name = "Label")]
+        private string _base64EncodedLabel { get; set; }
+
+        public string Label
+        {
+            get
+            {
+                string decodedLabel;
+                if (!StringEncoder.TryDecodeFromBase64String(this._base64EncodedLabel, out decodedLabel))
+                {
+                    throw new InvalidOperationException(Resources.UnableToDecodeBase64String);
+                }
+                return decodedLabel;
+            }
+            set
+            {
+                this._base64EncodedLabel = StringEncoder.EncodeToBase64String(value);
+            }
+        }
+
+        [DataMember(Order = 5)]
+        public string RoleToUpgrade { get; set; }
+
+        [DataMember(Order = 6, EmitDefaultValue = false)]
+        public bool? TreatWarningsAsError { get; set; }
+
+        [DataMember(Order = 7, EmitDefaultValue = false)]
+        public bool? Force { get; set; }
+
+        [DataMember(Order = 8, EmitDefaultValue = false)]
+        public ExtendedPropertiesList ExtendedProperties { get; set; }
+
+        [DataMember(Order = 9, EmitDefaultValue = false)]
+        public ExtensionConfiguration ExtensionConfiguration { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [DataContract(Name = "WalkUpgradeDomain", Namespace = Constants.ServiceManagementNS)]
+    public class WalkUpgradeDomainInput : IExtensibleDataObject
+    {
+        [DataMember(Order = 1)]
+        public int UpgradeDomain { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class UpgradeStatus : IExtensibleDataObject
+    {
+        [DataMember(Order = 1)]
+        public string UpgradeType { get; set; }
+
+        [DataMember(Order = 2)]
+        public string CurrentUpgradeDomainState { get; set; }
+
+        [DataMember(Order = 3)]
+        public int CurrentUpgradeDomain { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [DataContract(Name = "RollbackUpdateOrUpgrade", Namespace = Constants.ServiceManagementNS)]
+    public class RollbackUpdateOrUpgradeInput : IExtensibleDataObject
+    {
+        [DataMember(Order = 1)]
+        public string Mode { get; set; }
+
+        [DataMember(Order = 2, EmitDefaultValue = false)]
+        public bool? Force { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+
+    #region Extension related classes
+    /// <summary>
+    /// Extension used in deployment APIs
+    /// </summary>
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class Extension : IExtensibleDataObject
+    {
+        public Extension(string id, int seqNo, string state)
+        {
+            Id = id;
+            SequenceNumber = seqNo;
+            State = state;
+        }
+
+        [DataMember(Order = 1)]
+        public string Id { get; set; }
+
+        [DataMember(Order = 2, EmitDefaultValue = false)]
+        public int SequenceNumber { get; set; }
+
+        [DataMember(Order = 3)]
+        public string State { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    /// <summary>
+    /// Extension List used in deployment APIs
+    /// </summary>
+    [CollectionDataContract(Name = "Extensions", ItemName = "Extension", Namespace = Constants.ServiceManagementNS)]
+    public class ExtensionList : List<Extension>
+    {
+        public ExtensionList()
+        {
+        }
+        public ExtensionList(IEnumerable<Extension> list)
+            : base(list)
+        {
+        }
+    }
+
+    /// <summary>
+    /// Extension Setting used in deployment APIs
+    /// </summary>
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class RoleExtensions : IExtensibleDataObject
+    {
+        /// <summary>
+        /// Name of the role
+        /// </summary>
+        [DataMember(Order = 1)]
+        public string RoleName;
+
+        /// <summary>
+        /// List of extension Ids
+        /// </summary>
+        [DataMember(Order = 2)]
+        public ExtensionList Extensions;
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    /// <summary>
+    /// A default Extension List used in deployment APIs
+    /// </summary>
+    [CollectionDataContract(Name = "AllRoles", ItemName = "Extension", Namespace = Constants.ServiceManagementNS)]
+    public class AllRoles : List<Extension>
+    {
+        public AllRoles()
+        {
+        }
+        public AllRoles(IEnumerable<Extension> list)
+            : base(list)
+        {
+        }
+    }
+
+    /// <summary>
+    /// Extension Setting List used in deployment APIs to override extensions specified in AllRoles
+    /// </summary>
+    [CollectionDataContract(Name = "NamedRoles", ItemName = "Role", Namespace = Constants.ServiceManagementNS)]
+    public class NamedRoles : List<RoleExtensions>
+    {
+        public NamedRoles()
+        {
+        }
+        public NamedRoles(IEnumerable<RoleExtensions> list)
+            : base(list)
+        {
+        }
+    }
+
+    /// <summary>
+    /// Extension Setting List used in deployment APIs
+    /// </summary>
+    [DataContract(Name = "ExtensionConfiguration", Namespace = Constants.ServiceManagementNS)]
+    public class ExtensionConfiguration : IExtensibleDataObject
+    {
+        [DataMember(EmitDefaultValue = false, Order = 1)]
+        public AllRoles AllRoles;
+
+        [DataMember(EmitDefaultValue = false, Order = 2)]
+        public NamedRoles NamedRoles;
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+    #endregion
+
+    internal static class StringEncoder
+    {
+        public static bool TryDecodeFromBase64String(string encodedString, out string decodedString)
+        {
+            bool canDecode = true;
+            decodedString = encodedString;
+
+            // A null or empty string will not be considered a failure and will result in the original null or empty value being persisted
+            if (!string.IsNullOrEmpty(encodedString))
+            {
+                try
+                {
+                    decodedString = StringEncoder.DecodeFromBase64String(encodedString);
+                }
+                catch (Exception)
+                {
+                    canDecode = false;
+                }
+            }
+
+            return canDecode;
+        }
+
+        public static string EncodeToBase64String(string decodedString)
+        {
+            string encodedString = decodedString;
+
+            if (!string.IsNullOrEmpty(decodedString))
+            {
+                encodedString = Convert.ToBase64String(Encoding.UTF8.GetBytes(decodedString));
+            }
+
+            return encodedString;
+        }
+
+        public static string DecodeFromBase64String(string encodedString)
+        {
+            return Encoding.UTF8.GetString(Convert.FromBase64String(encodedString));
+        }
     }
 }
 

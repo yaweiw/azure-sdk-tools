@@ -665,4 +665,8 @@ The file needs to be a PowerShell script (.ps1) or a MOF interface (.mof).</valu
   <data name="AzureVMDscStorageContextMustIncludeAccountName" xml:space="preserve">
     <value>The storage context must include an storage account.</value>
   </data>
+  <data name="UnableToDecodeBase64String" xml:space="preserve">
+    <value>Unable to decode string from base 64. Please make sure the string is correctly encoded: {0}.</value>
+    <comment>{0} is the string that is not in a valid base 64 format.</comment>
+  </data>
 </root>
