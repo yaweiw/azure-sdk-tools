@@ -25,7 +25,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMMo
     using System.Net;
     using System.Runtime.Serialization;
     using System.Security.Permissions;
+    using System.ServiceModel;
+    using System.ServiceModel.Web;
     using System.Text;
+    using System.Xml;
     using Properties;
 
     #region Constants
@@ -4458,6 +4461,1581 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMMo
     }
     #endregion
 
+
+    [CollectionDataContract(Name = "Certificates", ItemName = "Certificate", Namespace = Constants.ServiceManagementNS)]
+    public class CertificateList : List<Certificate>
+    {
+        public CertificateList()
+        {
+        }
+
+        public CertificateList(IEnumerable<Certificate> certificateList)
+            : base(certificateList)
+        {
+        }
+    }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class Certificate : IExtensibleDataObject
+    {
+        [DataMember(Order = 1, EmitDefaultValue = false)]
+        public Uri CertificateUrl;
+
+        [DataMember(Order = 2, EmitDefaultValue = false)]
+        public string Thumbprint;
+
+        [DataMember(Order = 3, EmitDefaultValue = false)]
+        public string ThumbprintAlgorithm;
+
+        [DataMember(Order = 4, EmitDefaultValue = false)]
+        public string Data;
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class Disk : IExtensibleDataObject
+    {
+        [DataMember(EmitDefaultValue = false, Order = 0)]
+        public string AffinityGroup
+        {
+            get;
+            set;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 1)]
+        public RoleReference AttachedTo
+        {
+            get;
+            set;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 2)]
+        public string OS
+        {
+            get;
+            set;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 3)]
+        public bool IsCorrupted
+        {
+            get;
+            set;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 4)]
+        public string Label
+        {
+            get;
+            set;
+        }
+
+
+        [DataMember(EmitDefaultValue = false, Order = 5)]
+        public string Location
+        {
+            get;
+            set;
+        }
+
+
+        [DataMember(EmitDefaultValue = false, Order = 6)]
+        public int LogicalDiskSizeInGB
+        {
+            get;
+            set;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 7)]
+        public Uri MediaLink
+        {
+            get;
+            set;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 8)]
+        public string Name
+        {
+            get;
+            set;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 9)]
+        public string SourceImageName
+        {
+            get;
+            set;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 10, Name = "CreatedTime")]
+        private string _isoCreatedTimeString { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 11)]
+        public Uri RemoteSourceImageLink
+        {
+            get;
+            set;
+        }
+
+        public DateTime CreatedTime
+        {
+            get
+            {
+                return (string.IsNullOrEmpty(this._isoCreatedTimeString) ? DateTime.MinValue : DateTime.Parse(this._isoCreatedTimeString));
+            }
+            set
+            {
+                if (value.Equals(DateTime.MinValue))
+                {
+                    this._isoCreatedTimeString = null;
+                }
+                else
+                {
+                    this._isoCreatedTimeString = value.ToString(Constants.StandardTimeFormat);
+                }
+            }
+        }
+
+        #region IExtensibleDataObject Members
+        public ExtensionDataObject ExtensionData { get; set; }
+        #endregion
+    }
+
+    [CollectionDataContract(Name = "Disks", ItemName = "Disk", Namespace = Constants.ServiceManagementNS)]
+    public class DiskList : Collection<Disk>
+    {
+
+    }
+
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class ReplicationInput : IExtensibleDataObject
+    {
+        [DataMember(Order = 0, EmitDefaultValue = false)]
+        public RegionList TargetLocations { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [CollectionDataContract(Name = "Regions", ItemName = "Region", Namespace = Constants.ServiceManagementNS)]
+    public class RegionList : List<String>
+    {
+    }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class OSImage : IExtensibleDataObject
+    {
+        [DataMember(EmitDefaultValue = false, Order = 0)]
+        public string AffinityGroup
+        {
+            get;
+            set;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 1)]
+        public string Category
+        {
+            get;
+            set;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 2)]
+        public string Label
+        {
+            get;
+            set;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 3)]
+        public string Location
+        {
+            get;
+            set;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 4)]
+        public int LogicalSizeInGB
+        {
+            get;
+            set;
+        }
+
+
+        [DataMember(EmitDefaultValue = false, Order = 5)]
+        public Uri MediaLink
+        {
+            get;
+            set;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 6)]
+        public string Name
+        {
+            get;
+            set;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 7)]
+        public string OS
+        {
+            get;
+            set;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 8)]
+        public string Eula
+        {
+            get;
+            set;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 9)]
+        public string Description
+        {
+            get;
+            set;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 10)]
+        public string ImageFamily
+        {
+            get;
+            set;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 11)]
+        public bool? ShowInGui
+        {
+            get;
+            set;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 12)]
+        public DateTime? PublishedDate
+        {
+            get;
+            set;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 13)]
+        public bool? IsPremium
+        {
+            get;
+            set;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 14)]
+        public Uri IconUri
+        {
+            get;
+            set;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 15)]
+        public Uri PrivacyUri
+        {
+            get;
+            set;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 16)]
+        public string RecommendedVMSize
+        {
+            get;
+            set;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 17)]
+        public string PublisherName
+        {
+            get;
+            set;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 18)]
+        public Uri SmallIconUri
+        {
+            get;
+            set;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 19)]
+        public string Language
+        {
+            get;
+            set;
+        }
+
+        #region IExtensibleDataObject Members
+        public ExtensionDataObject ExtensionData { get; set; }
+        #endregion
+    }
+
+    [CollectionDataContract(Name = "Images", ItemName = "OSImage", Namespace = Constants.ServiceManagementNS)]
+    public class OSImageList : Collection<OSImage>
+    {
+
+    }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class RoleReference : IExtensibleDataObject
+    {
+        [DataMember(EmitDefaultValue = false, Order = 0)]
+        public string DeploymentName
+        {
+            get;
+            set;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 1)]
+        public string HostedServiceName
+        {
+            get;
+            set;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 2)]
+        public string RoleName
+        {
+            get;
+            set;
+        }
+
+        public override bool Equals(object obj)
+        {
+            RoleReference other = obj as RoleReference;
+
+            if (other != null)
+            {
+                return string.Equals(other.HostedServiceName, this.HostedServiceName, StringComparison.OrdinalIgnoreCase) && string.Equals(other.DeploymentName, this.DeploymentName, StringComparison.OrdinalIgnoreCase) &&
+                    string.Equals(other.RoleName, this.RoleName, StringComparison.OrdinalIgnoreCase);
+            }
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            string hashString = string.Format("{0}-{1}-{2}", this.HostedServiceName, this.DeploymentName, this.RoleName);
+            return StringComparer.OrdinalIgnoreCase.GetHashCode(hashString);
+        }
+
+        #region IExtensibleDataObject Members
+        public ExtensionDataObject ExtensionData { get; set; }
+        #endregion
+    }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public enum OSType
+    {
+        [EnumMember]
+        Linux = 0,
+        [EnumMember]
+        Windows = 1
+    }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class OSImageDetails : OSImage
+    {
+        [DataMember(EmitDefaultValue = false, Order = 90)]
+        public bool IsCorrupted { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 100)]
+        public ReplicationProgressList ReplicationProgress { get; set; }
+    }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class ReplicationProgressElement : IExtensibleDataObject
+    {
+        [DataMember(EmitDefaultValue = false, Order = 1)]
+        public string Location { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 2)]
+        public string Progress { get; set; }
+
+        #region IExtensibleDataObject Members
+        public ExtensionDataObject ExtensionData { get; set; }
+        #endregion
+
+    }
+
+    [CollectionDataContract(Name = "ReplicationProgressList", ItemName = "ReplicationProgressElement", Namespace = Constants.ServiceManagementNS)]
+    public class ReplicationProgressList : Collection<ReplicationProgressElement>
+    {
+
+    }
+
+
+
+    [CollectionDataContract(Name = "ExtensionImages", ItemName = "ExtensionImage", Namespace = Constants.ServiceManagementNS)]
+    public class ExtensionImageList : List<ExtensionImage>
+    {
+        public ExtensionImageList()
+        {
+        }
+
+        public ExtensionImageList(IEnumerable<ExtensionImage> extensions)
+            : base(extensions)
+        {
+        }
+    }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS, Name = "ExtensionImage")]
+    public class ExtensionImage : IExtensibleDataObject
+    {
+        [DataMember(EmitDefaultValue = false, Order = 1)]
+        public string ProviderNameSpace { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 2)]
+        public string Type { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 3)]
+        public string Version { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 4)]
+        public string Label { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 5)]
+        public string Description { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 6)]
+        public string HostingResources { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 7)]
+        public string ThumbprintAlgorithm { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 8, Name = "PublicConfigurationSchema")]
+        private string _base64EncodedPublicConfigurationSchema { get; set; }
+
+        public string PublicConfigurationSchema
+        {
+            get
+            {
+                string decodedConfiguration;
+                if (!StringEncoder.TryDecodeFromBase64String(this._base64EncodedPublicConfigurationSchema, out decodedConfiguration))
+                {
+                    throw new InvalidOperationException(Resources.UnableToDecodeBase64String);
+                }
+                return decodedConfiguration;
+            }
+            set
+            {
+                this._base64EncodedPublicConfigurationSchema = StringEncoder.EncodeToBase64String(value);
+            }
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 9, Name = "PrivateConfigurationSchema")]
+        private string _base64EncodedPrivateConfigurationSchema { get; set; }
+
+        public string PrivateConfigurationSchema
+        {
+            get
+            {
+                string decodedConfiguration;
+                if (!StringEncoder.TryDecodeFromBase64String(this._base64EncodedPrivateConfigurationSchema, out decodedConfiguration))
+                {
+                    throw new InvalidOperationException(Resources.UnableToDecodeBase64String);
+                }
+                return decodedConfiguration;
+            }
+            set
+            {
+                this._base64EncodedPrivateConfigurationSchema = StringEncoder.EncodeToBase64String(value);
+            }
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 10)]
+        public bool? BlockRoleUponFailure { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 11)]
+        public string SampleConfig { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 12)]
+        public bool? ReplicationCompleted { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 13)]
+        public Uri Eula { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 14)]
+        public Uri PrivacyUri { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 15)]
+        public Uri HomepageUri { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 16)]
+        public bool IsJsonExtension { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 17)]
+        public bool IsInternalExtension { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 18)]
+        public string SupportedOS { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 19)]
+        public string CompanyName { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 20)]
+        public DateTime? PublishedDate { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    /// <summary>
+    /// This encapsulates the input for RegisterExtension and UpdateExtension Operation.
+    /// </summary>
+    [DataContract(Namespace = Constants.ServiceManagementNS, Name = "ExtensionImage")]
+    public class ExtensionImageInput : IExtensibleDataObject
+    {
+        [DataMember(EmitDefaultValue = false, Order = 0)]
+        public string ProviderNameSpace { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 1)]
+        public string Type { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 2)]
+        public string Version { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 3)]
+        public string Label { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 4)]
+        public string HostingResources { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 5)]
+        public Uri MediaLink { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 6)]
+        public ExtensionCertificate Certificate { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 7)]
+        public ExtensionEndpoints Endpoints { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 8, Name = "PublicConfigurationSchema")]
+        private string _base64EncodedPublicConfigurationSchema { get; set; }
+
+        public string PublicConfigurationSchema
+        {
+            get
+            {
+                string decodedConfiguration;
+                if (!StringEncoder.TryDecodeFromBase64String(this._base64EncodedPublicConfigurationSchema, out decodedConfiguration))
+                {
+                    throw new InvalidOperationException(Resources.UnableToDecodeBase64String);
+                }
+                return decodedConfiguration;
+            }
+            set
+            {
+                this._base64EncodedPublicConfigurationSchema = StringEncoder.EncodeToBase64String(value);
+            }
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 9, Name = "PrivateConfigurationSchema")]
+        private string _base64EncodedPrivateConfigurationSchema { get; set; }
+
+        public string PrivateConfigurationSchema
+        {
+            get
+            {
+                string decodedConfiguration;
+                if (!StringEncoder.TryDecodeFromBase64String(this._base64EncodedPrivateConfigurationSchema, out decodedConfiguration))
+                {
+                    throw new InvalidOperationException(Resources.UnableToDecodeBase64String);
+                }
+                return decodedConfiguration;
+            }
+            set
+            {
+                this._base64EncodedPrivateConfigurationSchema = StringEncoder.EncodeToBase64String(value);
+            }
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 10)]
+        public string Description { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 11)]
+        public string PublisherName { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 12)]
+        public DateTime? PublishedDate { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 13)]
+        public ExtensionImageLocalResourceList LocalResources { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 14)]
+        public bool? BlockRoleUponFailure { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 15)]
+        public bool IsInternalExtension { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 16)]
+        public string SampleConfig { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 17)]
+        public Uri Eula { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 18)]
+        public Uri PrivacyUri { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 19)]
+        public Uri HomepageUri { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 20)]
+        public bool IsJsonExtension { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 21)]
+        public bool DisallowMajorVersionUpgrade { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 22)]
+        public string SupportedOS { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 23)]
+        public string CompanyName { get; set; }
+
+        #region IExtensibleDataObject Members
+        ExtensionDataObject IExtensibleDataObject.ExtensionData { get; set; }
+        #endregion
+    }
+
+    /// <summary>
+    /// This represents the certificate used in ExtensionImage.
+    /// </summary>
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class ExtensionCertificate
+    {
+        public ExtensionCertificate(string storeLocation, string storeName, bool thumbprintRequired, string thumbprintAlgorithm)
+        {
+            this.StoreLocation = storeLocation;
+            this.StoreName = storeName;
+            this.ThumbprintRequired = thumbprintRequired;
+            this.ThumbprintAlgorithm = thumbprintAlgorithm;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 1)]
+        public string StoreLocation { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 2)]
+        public string StoreName { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 3)]
+        public bool ThumbprintRequired { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 4)]
+        public string ThumbprintAlgorithm { get; set; }
+    }
+
+    /// <summary>
+    /// This represents the endpoint used in ExtensionImage.
+    /// </summary>
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class ExtensionEndpoints
+    {
+        [DataMember(EmitDefaultValue = false, Order = 1)]
+        public ExtensionInputEndpointList InputEndpoints { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 2)]
+        public ExtensionInternalEndpointList InternalEndpoints { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 3)]
+        public ExtensionInstanceInputEndpointList InstanceInputEndpoints { get; set; }
+    }
+
+    /// <summary>
+    /// This represents a list of input endpoints used in ExtensionEndpoint.
+    /// </summary>
+    [CollectionDataContract(Name = "InputEndpoints", ItemName = "InputEndpoint", Namespace = Constants.ServiceManagementNS)]
+    public class ExtensionInputEndpointList : List<ExtensionInputEndpoint>
+    {
+        public ExtensionInputEndpointList()
+        {
+        }
+
+        public ExtensionInputEndpointList(IEnumerable<ExtensionInputEndpoint> inputEndpoints)
+            : base(inputEndpoints)
+        {
+        }
+    }
+
+    /// <summary>
+    /// This represents the input endpoint used in add extension image.
+    /// </summary>
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class ExtensionInputEndpoint
+    {
+        [DataMember(EmitDefaultValue = false, Order = 1)]
+        public string Name { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 2)]
+        public string Protocol { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 3)]
+        public string Port { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 4)]
+        public string LocalPort { get; set; }
+    }
+
+    /// <summary>
+    /// This represents a list of internal endpoints used in ExtensionEndpoint.
+    /// </summary>
+    [CollectionDataContract(Name = "InternalEndpoints", ItemName = "InternalEndpoint", Namespace = Constants.ServiceManagementNS)]
+    public class ExtensionInternalEndpointList : List<ExtensionInternalEndpoint>
+    {
+        public ExtensionInternalEndpointList()
+        {
+        }
+
+        public ExtensionInternalEndpointList(IEnumerable<ExtensionInternalEndpoint> internalEndpoints)
+            : base(internalEndpoints)
+        {
+        }
+    }
+
+    /// <summary>
+    /// This represents the internal endpoint used in add extension image.
+    /// </summary>
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class ExtensionInternalEndpoint
+    {
+        [DataMember(EmitDefaultValue = false, Order = 1)]
+        public string Name { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 2)]
+        public string Protocol { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 3)]
+        public string Port { get; set; }
+    }
+
+    /// <summary>
+    /// This represents a list of instance input endpoints used in ExtensionEndpoint.
+    /// </summary>
+    [CollectionDataContract(Name = "InstanceInputEndpoints", ItemName = "InstanceInputEndpoint", Namespace = Constants.ServiceManagementNS)]
+    public class ExtensionInstanceInputEndpointList : List<ExtensionInstanceInputEndpoint>
+    {
+        public ExtensionInstanceInputEndpointList()
+        {
+        }
+
+        public ExtensionInstanceInputEndpointList(IEnumerable<ExtensionInstanceInputEndpoint> instanceInputEndpoints)
+            : base(instanceInputEndpoints)
+        {
+        }
+    }
+
+    /// <summary>
+    /// This represents the instance input endpoint used in add extension image.
+    /// </summary>
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class ExtensionInstanceInputEndpoint
+    {
+        [DataMember(EmitDefaultValue = false, Order = 1)]
+        public string Name { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 2)]
+        public string Protocol { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 3)]
+        public string LocalPort { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 4)]
+        public string FixedPortMin { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 5)]
+        public string FixedPortMax { get; set; }
+    }
+
+    /// <summary>
+    /// This represents a list of local resources used in extension image.
+    /// </summary>
+    [CollectionDataContract(Name = "LocalResources", ItemName = "LocalResource", Namespace = Constants.ServiceManagementNS)]
+    public class ExtensionImageLocalResourceList : List<ExtensionImageLocalResource>
+    {
+        public ExtensionImageLocalResourceList()
+        {
+        }
+
+        public ExtensionImageLocalResourceList(IEnumerable<ExtensionImageLocalResource> resources)
+            : base(resources)
+        {
+        }
+    }
+
+    /// <summary>
+    /// This represents the local resource used in extension image.
+    /// </summary>
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class ExtensionImageLocalResource
+    {
+        [DataMember(EmitDefaultValue = false, Order = 1)]
+        public string Name { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 2)]
+        public int? SizeInMB { get; set; }
+    }
+
+    [CollectionDataContract(Name = "ResourceExtensions", ItemName = "ResourceExtension", Namespace = Constants.ServiceManagementNS)]
+    public class ResourceExtensionList : List<ResourceExtension>
+    {
+        public ResourceExtensionList()
+        {
+        }
+
+        public ResourceExtensionList(IEnumerable<ResourceExtension> extensions)
+            : base(extensions)
+        {
+        }
+    }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class ResourceExtension : IExtensibleDataObject
+    {
+        [DataMember(EmitDefaultValue = false, Order = 1)]
+        public string Publisher { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 2)]
+        public string Name { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 3)]
+        public string Version { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 4)]
+        public string Label { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 5)]
+        public string Description { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 6, Name = "PublicConfigurationSchema")]
+        private string base64EncodedPublicConfigurationSchema { get; set; }
+
+        public string PublicConfigurationSchema
+        {
+            get
+            {
+                string decodedConfiguration;
+                if (!StringEncoder.TryDecodeFromBase64String(this.base64EncodedPublicConfigurationSchema, out decodedConfiguration))
+                {
+                    throw new InvalidOperationException(Resources.UnableToDecodeBase64String);
+                }
+                return decodedConfiguration;
+            }
+            set
+            {
+                this.base64EncodedPublicConfigurationSchema = StringEncoder.EncodeToBase64String(value);
+            }
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 7, Name = "PrivateConfigurationSchema")]
+        private string base64EncodedPrivateConfigurationSchema { get; set; }
+
+        public string PrivateConfigurationSchema
+        {
+            get
+            {
+                string decodedConfiguration;
+                if (!StringEncoder.TryDecodeFromBase64String(this.base64EncodedPrivateConfigurationSchema, out decodedConfiguration))
+                {
+                    throw new InvalidOperationException(Resources.UnableToDecodeBase64String);
+                }
+                return decodedConfiguration;
+            }
+            set
+            {
+                this.base64EncodedPrivateConfigurationSchema = StringEncoder.EncodeToBase64String(value);
+            }
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 8, Name = "SampleConfig")]
+        private string base64EncodedSampleConfig { get; set; }
+
+        public string SampleConfig
+        {
+            get
+            {
+                string decodedSampleConfig;
+                if (!StringEncoder.TryDecodeFromBase64String(this.base64EncodedSampleConfig, out decodedSampleConfig))
+                {
+                    throw new InvalidOperationException(Resources.UnableToDecodeBase64String);
+                }
+                return decodedSampleConfig;
+            }
+            set
+            {
+                this.base64EncodedSampleConfig = StringEncoder.EncodeToBase64String(value);
+            }
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 9)]
+        public bool? ReplicationCompleted { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 10)]
+        public Uri Eula { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 11)]
+        public Uri PrivacyUri { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 12)]
+        public Uri HomepageUri { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 13)]
+        public bool IsJsonExtension { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 14)]
+        public bool IsInternalExtension { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 15)]
+        public bool DisallowMajorVersionUpgrade { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 16)]
+        public string SupportedOS { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 17)]
+        public string CompanyName { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 18)]
+        public DateTime? PublishedDate { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    /// <summary>
+    ///  This represents the a extension object used in ListHostedServiceExtension operation.
+    /// </summary>
+    [DataContract(Namespace = Constants.ServiceManagementNS, Name = "Extension")]
+    public class HostedServiceExtension : IExtensibleDataObject
+    {
+        [DataMember(EmitDefaultValue = false, Order = 1)]
+        public string ProviderNameSpace { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 2)]
+        public string Type { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 3)]
+        public string Id { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 4)]
+        public string Version { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 5)]
+        public string Thumbprint { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 6)]
+        public string ThumbprintAlgorithm { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 7, Name = "PublicConfiguration")]
+        private string _base64EncodedPublicConfiguration { get; set; }
+
+        public string PublicConfiguration
+        {
+            get
+            {
+                string decodedConfiguration;
+                if (!StringEncoder.TryDecodeFromBase64String(this._base64EncodedPublicConfiguration, out decodedConfiguration))
+                {
+                    throw new InvalidOperationException(Resources.UnableToDecodeBase64String);
+                }
+                return decodedConfiguration;
+            }
+            set
+            {
+                this._base64EncodedPublicConfiguration = StringEncoder.EncodeToBase64String(value);
+            }
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 9)]
+        public bool IsJsonExtension { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 10)]
+        public bool DisallowMajorVersionUpgrade { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    /// <summary>
+    /// This represents the input of AddHostedServiceExtension operation.
+    /// </summary>
+    [DataContract(Namespace = Constants.ServiceManagementNS, Name = "Extension")]
+    public class HostedServiceExtensionInput : IExtensibleDataObject
+    {
+        [DataMember(EmitDefaultValue = false, Order = 1)]
+        public string ProviderNameSpace { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 2)]
+        public string Type { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 3)]
+        public string Id { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 4)]
+        public string Thumbprint { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 5)]
+        public string ThumbprintAlgorithm { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 6, Name = "PublicConfiguration")]
+        private string _base64EncodedPublicConfiguration { get; set; }
+
+        public string PublicConfiguration
+        {
+            get
+            {
+                string decodedConfiguration;
+                if (!StringEncoder.TryDecodeFromBase64String(this._base64EncodedPublicConfiguration, out decodedConfiguration))
+                {
+                    throw new InvalidOperationException(Resources.UnableToDecodeBase64String);
+                }
+                return decodedConfiguration;
+            }
+            set
+            {
+                this._base64EncodedPublicConfiguration = StringEncoder.EncodeToBase64String(value);
+            }
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 7, Name = "PrivateConfiguration")]
+        private string _base64EncodedPrivateConfiguration { get; set; }
+
+        public string PrivateConfiguration
+        {
+            get
+            {
+                string decodedConfiguration;
+                if (!StringEncoder.TryDecodeFromBase64String(this._base64EncodedPrivateConfiguration, out decodedConfiguration))
+                {
+                    throw new InvalidOperationException(Resources.UnableToDecodeBase64String);
+                }
+                return decodedConfiguration;
+            }
+            set
+            {
+                this._base64EncodedPrivateConfiguration = StringEncoder.EncodeToBase64String(value);
+            }
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 8)]
+        public string Version { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [CollectionDataContract(Namespace = Constants.ServiceManagementNS, Name = "Extensions", ItemName = "Extension")]
+    public class HostedServiceExtensionList : List<HostedServiceExtension>
+    {
+        public HostedServiceExtensionList() { }
+
+        public HostedServiceExtensionList(IEnumerable<HostedServiceExtension> extensions)
+            : base(extensions)
+        {
+        }
+    }
+
+
+    [CollectionDataContract(Name = "OperatingSystemFamilies", ItemName = "OperatingSystemFamily", Namespace = Constants.ServiceManagementNS)]
+    public class OperatingSystemFamilyList : List<OperatingSystemFamily>
+    {
+        public OperatingSystemFamilyList()
+        {
+        }
+
+        public OperatingSystemFamilyList(IEnumerable<OperatingSystemFamily> operatingSystemFamilies)
+            : base(operatingSystemFamilies)
+        {
+        }
+    }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class OperatingSystemFamily : IExtensibleDataObject
+    {
+        [DataMember(Order = 1)]
+        public string Name { get; set; }
+
+        [DataMember(Order = 2, EmitDefaultValue = false, Name = "Label")]
+        private string _base64EncodedLabel { get; set; }
+
+        public string Label
+        {
+            get
+            {
+                string decodedLabel;
+                if (!StringEncoder.TryDecodeFromBase64String(this._base64EncodedLabel, out decodedLabel))
+                {
+                    throw new InvalidOperationException(Resources.UnableToDecodeBase64String);
+                }
+                return decodedLabel;
+            }
+            set
+            {
+                this._base64EncodedLabel = StringEncoder.EncodeToBase64String(value);
+            }
+        }
+
+        [DataMember(Order = 3)]
+        public OperatingSystemList OperatingSystems { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [CollectionDataContract(Name = "OperatingSystems", ItemName = "OperatingSystem", Namespace = Constants.ServiceManagementNS)]
+    public class OperatingSystemList : List<OperatingSystem>
+    {
+        public OperatingSystemList()
+        {
+        }
+
+        public OperatingSystemList(IEnumerable<OperatingSystem> operatingSystems)
+            : base(operatingSystems)
+        {
+        }
+    }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class OperatingSystem : IExtensibleDataObject
+    {
+        [DataMember(Order = 1)]
+        public string Version { get; set; }
+
+        [DataMember(Order = 2, EmitDefaultValue = false, Name = "Label")]
+        private string _base64EncodedLabel { get; set; }
+
+        public string Label
+        {
+            get
+            {
+                string decodedLabel;
+                if (!StringEncoder.TryDecodeFromBase64String(this._base64EncodedLabel, out decodedLabel))
+                {
+                    throw new InvalidOperationException(Resources.UnableToDecodeBase64String);
+                }
+                return decodedLabel;
+            }
+            set
+            {
+                this._base64EncodedLabel = StringEncoder.EncodeToBase64String(value);
+            }
+        }
+
+        [DataMember(Order = 3)]
+        public bool IsDefault { get; set; }
+
+        [DataMember(Order = 4)]
+        public bool IsActive { get; set; }
+
+        [DataMember(Order = 5, EmitDefaultValue = false)]
+        public string Family { get; set; }
+
+        [DataMember(Order = 6, EmitDefaultValue = false, Name = "FamilyLabel")]
+        private string _base64EncodedFamilyLabel { get; set; }
+
+        public string FamilyLabel
+        {
+            get
+            {
+                string decodedFamilyLabel;
+                if (!StringEncoder.TryDecodeFromBase64String(this._base64EncodedFamilyLabel, out decodedFamilyLabel))
+                {
+                    throw new InvalidOperationException(Resources.UnableToDecodeBase64String);
+                }
+                return decodedFamilyLabel;
+            }
+            set
+            {
+                this._base64EncodedFamilyLabel = StringEncoder.EncodeToBase64String(value);
+            }
+        }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+
+    [CollectionDataContract(Name = "SubscriptionCertificates", ItemName = "SubscriptionCertificate", Namespace = Constants.ServiceManagementNS)]
+    public class SubscriptionCertificateList : List<SubscriptionCertificate>
+    {
+        public SubscriptionCertificateList()
+        {
+        }
+
+        public SubscriptionCertificateList(IEnumerable<SubscriptionCertificate> Certificates)
+            : base(Certificates)
+        {
+        }
+    }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class SubscriptionCertificate : IExtensibleDataObject
+    {
+        [DataMember(EmitDefaultValue = false, Order = 0)]
+        public string SubscriptionCertificatePublicKey { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 1)]
+        public string SubscriptionCertificateThumbprint { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 2)]
+        public string SubscriptionCertificateData { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 3)]
+        public DateTime Created { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class SubscriptionOperationCollection : IExtensibleDataObject
+    {
+        [DataMember(Order = 0)]
+        public SubscriptionOperationList SubscriptionOperations { get; set; }
+
+        [DataMember(Order = 1, EmitDefaultValue = false)]
+        public string ContinuationToken { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [CollectionDataContract(Namespace = Constants.ServiceManagementNS, Name = "SubscriptionOperations", ItemName = "SubscriptionOperation")]
+    public class SubscriptionOperationList : List<SubscriptionOperation>, IExtensibleDataObject
+    {
+        public ExtensionDataObject ExtensionData { get; set; }
+
+        public SubscriptionOperationList()
+        {
+        }
+
+        public SubscriptionOperationList(IEnumerable<SubscriptionOperation> subscriptions)
+            : base(subscriptions)
+        {
+        }
+    }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class SubscriptionOperationCaller : IExtensibleDataObject
+    {
+        [DataMember(Order = 0)]
+        public bool UsedServiceManagementApi { get; set; }
+
+        [DataMember(Order = 1, EmitDefaultValue = false)]
+        public string UserEmailAddress { get; set; }
+
+        [DataMember(Order = 2, EmitDefaultValue = false)]
+        public string SubscriptionCertificateThumbprint { get; set; }
+
+        [DataMember(Order = 3, EmitDefaultValue = false)]
+        public string ClientIP { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [CollectionDataContract(Namespace = Constants.ServiceManagementNS, Name = "OperationParameters", ItemName = "OperationParameter")]
+    public class OperationParameterList : List<OperationParameter>, IExtensibleDataObject
+    {
+        public ExtensionDataObject ExtensionData { get; set; }
+
+        public OperationParameterList()
+        {
+        }
+
+        public OperationParameterList(IEnumerable<OperationParameter> operations)
+            : base(operations)
+        {
+        }
+    }
+
+    [DataContract]
+    public class OperationParameter : IExtensibleDataObject
+    {
+        [DataMember(Order = 0)]
+        public string Name { get; set; }
+
+        [DataMember(Order = 1)]
+        private string Value { get; set; }
+
+        private static readonly ReadOnlyCollection<Type> KnownTypes = new ReadOnlyCollection<Type>(new[] { 
+                                             typeof(CreateAffinityGroupInput), 
+                                             typeof(UpdateAffinityGroupInput),
+                                             typeof(CertificateFile), 
+                                             typeof(ChangeConfigurationInput),
+                                             typeof(CreateDeploymentInput), 
+                                             typeof(CreateHostedServiceInput), 
+                                             typeof(CreateStorageServiceInput), 
+                                             typeof(RegenerateKeys), 
+                                             typeof(StorageDomain),
+                                             typeof(SubscriptionCertificate), 
+                                             typeof(SwapDeploymentInput), 
+                                             typeof(UpdateDeploymentStatusInput), 
+                                             typeof(UpdateHostedServiceInput), 
+                                             typeof(UpdateStorageServiceInput), 
+                                             typeof(UpgradeDeploymentInput), 
+                                             typeof(WalkUpgradeDomainInput),
+                                             typeof(CaptureRoleOperation),
+                                             typeof(ShutdownRoleOperation),
+                                             typeof(StartRoleOperation),
+                                             //typeof(CaptureRoleAsVMImageOperation),
+                                             typeof(RestartRoleOperation),
+                                             typeof(OSImage),
+                                             typeof(PersistentVMRole),
+                                             typeof(Deployment),
+                                             typeof(DataVirtualHardDisk),
+                                             typeof(OSImage),
+                                             typeof(Disk),
+                                             typeof(ExtendedProperty),
+                                             typeof(ExtensionConfiguration),
+                                             typeof(HostedServiceExtensionInput), 
+                                             typeof(ReservedIP),
+                                           });
+
+        public string GetSerializedValue()
+        {
+            return this.Value;
+        }
+
+        public object GetValue()
+        {
+            DataContractSerializer serializer;
+
+            if (string.IsNullOrEmpty(this.Value))
+            {
+                return null;
+            }
+
+            XmlReaderSettings xmlReaderSettings = new XmlReaderSettings
+            {
+                IgnoreComments = true,
+                IgnoreProcessingInstructions = true,
+                IgnoreWhitespace = false,
+                XmlResolver = null,
+                DtdProcessing = DtdProcessing.Prohibit,
+                MaxCharactersInDocument = 0, // No size limit
+                MaxCharactersFromEntities = 0 // No size limit
+            };
+
+            serializer = new DataContractSerializer(typeof(Object), OperationParameter.KnownTypes);
+            try
+            {
+                using (StringReader reader = new StringReader(this.Value))
+                {
+                    return serializer.ReadObject(XmlReader.Create(reader, xmlReaderSettings));
+                }
+            }
+            catch
+            {
+                return this.Value;
+            }
+        }
+
+        public void SetValue(object value)
+        {
+            if (value != null)
+            {
+                Type valueType = value.GetType();
+
+                if (valueType.Equals(typeof(string)))
+                {
+                    this.Value = (string)value;
+                    return;
+                }
+
+                DataContractSerializer serializer = new DataContractSerializer(typeof(Object), OperationParameter.KnownTypes);
+                StringBuilder target = new StringBuilder();
+                using (XmlWriter writer = XmlWriter.Create(target))
+                {
+                    serializer.WriteObject(writer, value);
+                    writer.Flush();
+                    this.Value = target.ToString();
+                }
+            }
+        }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class SubscriptionOperation : IExtensibleDataObject
+    {
+        [DataMember(Order = 0)]
+        public string OperationId { get; set; }
+
+        [DataMember(Order = 1)]
+        public string OperationObjectId { get; set; }
+
+        [DataMember(Order = 2)]
+        public string OperationName { get; set; }
+
+        [DataMember(Order = 3)]
+        public OperationParameterList OperationParameters { get; set; }
+
+        [DataMember(Order = 4)]
+        public SubscriptionOperationCaller OperationCaller { get; set; }
+
+        [DataMember(Order = 5)]
+        public Operation OperationStatus { get; set; }
+
+        [DataMember(Order = 7, EmitDefaultValue = false)]
+        public string OperationStartedTime { get; set; }
+
+        [DataMember(Order = 8, EmitDefaultValue = false)]
+        public string OperationCompletedTime { get; set; }
+
+        [DataMember(Order = 9, EmitDefaultValue = false)]
+        public string OperationKind { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class Subscription : IExtensibleDataObject
+    {
+        [DataMember(Order = 0)]
+        public string SubscriptionID { get; set; }
+
+        [DataMember(Order = 1)]
+        public string SubscriptionName { get; set; }
+
+        [DataMember(Order = 2)]
+        public string SubscriptionStatus { get; set; }
+
+        [DataMember(Order = 3)]
+        public string AccountAdminLiveEmailId { get; set; }
+
+        [DataMember(Order = 4)]
+        public string ServiceAdminLiveEmailId { get; set; }
+
+        [DataMember(Order = 5)]
+        public int MaxCoreCount { get; set; }
+
+        [DataMember(Order = 6)]
+        public int MaxStorageAccounts { get; set; }
+
+        [DataMember(Order = 7)]
+        public int MaxHostedServices { get; set; }
+
+        [DataMember(Order = 8)]
+        public int CurrentCoreCount { get; set; }
+
+        [DataMember(Order = 9)]
+        public int CurrentHostedServices { get; set; }
+
+        [DataMember(Order = 10)]
+        public int CurrentStorageAccounts { get; set; }
+
+        [DataMember(Order = 11, EmitDefaultValue = false)]
+        public int MaxVirtualNetworkSites { get; set; }
+
+        [DataMember(Order = 12, EmitDefaultValue = false)]
+        public int CurrentVirtualNetworkSites { get; set; }
+
+        [DataMember(Order = 13, EmitDefaultValue = false)]
+        public int MaxLocalNetworkSites { get; set; }
+
+        [DataMember(Order = 14, EmitDefaultValue = false)]
+        public int CurrentLocalNetworkSites { get; set; }
+
+        [DataMember(Order = 15, EmitDefaultValue = false)]
+        public int MaxDnsServers { get; set; }
+
+        [DataMember(Order = 16, EmitDefaultValue = false)]
+        public int CurrentDnsServers { get; set; }
+
+        [DataMember(Order = 17, EmitDefaultValue = false)]
+        public string OfferCategories { get; set; }
+
+        /// <summary>
+        /// Current count of extra multiple vips
+        /// </summary>
+        [DataMember(Order = 18, EmitDefaultValue = false)]
+        public int CurrentExtraVIPCount { get; set; }
+
+        /// <summary>
+        /// Max count of extra multiple vips
+        /// </summary>
+        [DataMember(Order = 19, EmitDefaultValue = false)]
+        public int MaxExtraVIPCount { get; set; }
+
+        /// <summary>
+        /// Windows Azure Active Directory tenant ID (GUID)
+        /// </summary>
+        [DataMember(Order = 20, EmitDefaultValue = false)]
+        public string AADTenantID { get; set; }
+
+        [DataMember(Order = 21, EmitDefaultValue = false)]
+        public string CreatedTime { get; set; }
+
+        [DataMember(Order = 22, EmitDefaultValue = false)]
+        public int MaxReservedIPs { get; set; }
+
+        [DataMember(Order = 23, EmitDefaultValue = false)]
+        public int? CurrentReservedIPs { get; set; }
+
+        /// <summary>
+        /// Current count of extra multiple vips
+        /// </summary>
+        [DataMember(Order = 24, EmitDefaultValue = false)]
+        public int CurrentPublicIPCount { get; set; }
+
+        /// <summary>
+        /// Max count of extra multiple vips
+        /// </summary>
+        [DataMember(Order = 25, EmitDefaultValue = false)]
+        public int MaxPublicIPCount { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [CollectionDataContract(Namespace = "http://schemas.microsoft.com/windowsazure", Name = "Subscriptions", ItemName = "Subscription")]
+    public class SubscriptionList : List<Subscription>, IExtensibleDataObject
+    {
+        public ExtensionDataObject ExtensionData { get; set; }
+
+        public SubscriptionList()
+        {
+        }
+
+        public SubscriptionList(IEnumerable<Subscription> subscriptions)
+            : base(subscriptions)
+        {
+        }
+    }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class SubscriptionService : IExtensibleDataObject
+    {
+        [DataMember(EmitDefaultValue = false, Order = 1)]
+        public string SubscriptionID { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 2)]
+        public string ServiceType { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 3)]
+        public string ServiceName { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 4)]
+        public string ServiceUri { get; set; }
+        public ExtensionDataObject ExtensionData { get; set; }
+
+    }
+
+    [CollectionDataContract(Namespace = "http://schemas.microsoft.com/windowsazure", Name = "SubscriptionServices", ItemName = "SubscriptionService")]
+    public class SubscriptionServicesList : List<SubscriptionService>, IExtensibleDataObject
+    {
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class Operation : IExtensibleDataObject
+    {
+        [DataMember(Name = "ID", Order = 1)]
+        public string OperationTrackingId { get; set; }
+
+        [DataMember(Order = 2)]
+        public string Status { get; set; }
+
+        [DataMember(Order = 3, EmitDefaultValue = false)]
+        public int HttpStatusCode { get; set; }
+
+        [DataMember(Order = 4, EmitDefaultValue = false)]
+        public ServiceManagementError Error { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }   
+
     internal static class StringEncoder
     {
         public static bool TryDecodeFromBase64String(string encodedString, out string decodedString)
@@ -4614,6 +6192,632 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMMo
             }
             return warnings.ToString();
         }
+    }
+
+    [ServiceContract(Namespace = "http://schemas.microsoft.com/windowsazure")]
+    public interface IServiceManagement
+    {
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "POST", UriTemplate = "{subscriptionId}/affinitygroups")]
+        IAsyncResult BeginCreateAffinityGroup(string subscriptionId, CreateAffinityGroupInput input, AsyncCallback callback, object state);
+
+        void EndCreateAffinityGroup(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "DELETE", UriTemplate = "{subscriptionId}/affinitygroups/{affinityGroupName}")]
+        IAsyncResult BeginDeleteAffinityGroup(string subscriptionId, string affinityGroupName, AsyncCallback callback, object state);
+
+        void EndDeleteAffinityGroup(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "PUT", UriTemplate = "{subscriptionId}/affinitygroups/{affinityGroupName}")]
+        IAsyncResult BeginUpdateAffinityGroup(string subscriptionId, string affinityGroupName, UpdateAffinityGroupInput input, AsyncCallback callback, object state);
+
+        void EndUpdateAffinityGroup(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebGet(UriTemplate = "{subscriptionId}/affinitygroups")]
+        IAsyncResult BeginListAffinityGroups(string subscriptionId, AsyncCallback callback, object state);
+
+        AffinityGroupList EndListAffinityGroups(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebGet(UriTemplate = "{subscriptionId}/affinitygroups/{affinityGroupName}")]
+        IAsyncResult BeginGetAffinityGroup(string subscriptionId, string affinityGroupName, AsyncCallback callback, object state);
+
+        AffinityGroup EndGetAffinityGroup(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebGet(UriTemplate = "{subscriptionId}/services/hostedservices/{serviceName}/certificates")]
+        IAsyncResult BeginListCertificates(string subscriptionId, string serviceName, AsyncCallback callback, object state);
+
+        CertificateList EndListCertificates(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebGet(UriTemplate = "{subscriptionId}/services/hostedservices/{serviceName}/certificates/{thumbprintalgorithm}-{thumbprint_in_hex}")]
+        IAsyncResult BeginGetCertificate(string subscriptionId, string serviceName, string thumbprintalgorithm, string thumbprint_in_hex, AsyncCallback callback, object state);
+
+        Certificate EndGetCertificate(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "POST", UriTemplate = "{subscriptionId}/services/hostedservices/{serviceName}/certificates")]
+        IAsyncResult BeginAddCertificates(string subscriptionId, string serviceName, CertificateFile input, AsyncCallback callback, object state);
+
+        void EndAddCertificates(IAsyncResult asyncResult);
+
+        [WebInvoke(Method = "DELETE", UriTemplate = "{subscriptionId}/services/hostedservices/{serviceName}/certificates/{thumbprintalgorithm}-{thumbprint_in_hex}")]
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginDeleteCertificate(string subscriptionId, string serviceName, string thumbprintalgorithm, string thumbprint_in_hex, AsyncCallback callback, object state);
+
+        void EndDeleteCertificate(IAsyncResult asyncResult);
+
+        [WebInvoke(Method = "POST", UriTemplate = "{subscriptionId}/services/hostedservices/{serviceName}")]
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginSwapDeployment(string subscriptionId, string serviceName, SwapDeploymentInput input, AsyncCallback callback, object state);
+
+        void EndSwapDeployment(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "POST", UriTemplate = "{subscriptionId}/services/hostedservices/{serviceName}/deploymentslots/{deploymentSlot}")]
+        IAsyncResult BeginCreateOrUpdateDeployment(string subscriptionId, string serviceName, string deploymentSlot, CreateDeploymentInput input, AsyncCallback callback, object state);
+
+        void EndCreateOrUpdateDeployment(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "POST", UriTemplate = "{subscriptionId}/services/hostedservices/{serviceName}/deployments")]
+        IAsyncResult BeginCreateDeployment(string subscriptionId, string serviceName, Deployment deployment, AsyncCallback callback, object state);
+
+        void EndCreateDeployment(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "DELETE", UriTemplate = "{subscriptionId}/services/hostedservices/{serviceName}/deployments/{deploymentName}")]
+        IAsyncResult BeginDeleteDeployment(string subscriptionId, string serviceName, string deploymentName, AsyncCallback callback, object state);
+
+        void EndDeleteDeployment(IAsyncResult asyncResult);
+
+        [WebInvoke(Method = "DELETE", UriTemplate = "{subscriptionId}/services/hostedservices/{serviceName}/deploymentslots/{deploymentSlot}")]
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginDeleteDeploymentBySlot(string subscriptionId, string serviceName, string deploymentSlot, AsyncCallback callback, object state);
+
+        void EndDeleteDeploymentBySlot(IAsyncResult asyncResult);
+
+        [WebGet(UriTemplate = "{subscriptionId}/services/hostedservices/{serviceName}/deployments/{deploymentName}")]
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginGetDeployment(string subscriptionId, string serviceName, string deploymentName, AsyncCallback callback, object state);
+
+        Deployment EndGetDeployment(IAsyncResult asyncResult);
+
+        [WebGet(UriTemplate = "{subscriptionId}/services/hostedservices/{serviceName}/deploymentslots/{deploymentSlot}")]
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginGetDeploymentBySlot(string subscriptionId, string serviceName, string deploymentSlot, AsyncCallback callback, object state);
+
+        Deployment EndGetDeploymentBySlot(IAsyncResult asyncResult);
+
+        [WebInvoke(Method = "POST", UriTemplate = "{subscriptionId}/services/hostedservices/{serviceName}/deployments/{deploymentName}/?comp=config")]
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginChangeConfiguration(string subscriptionId, string serviceName, string deploymentName, ChangeConfigurationInput input, AsyncCallback callback, object state);
+
+        void EndChangeConfiguration(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "POST", UriTemplate = "{subscriptionId}/services/hostedservices/{serviceName}/deploymentslots/{deploymentSlot}/?comp=config")]
+        IAsyncResult BeginChangeConfigurationBySlot(string subscriptionId, string serviceName, string deploymentSlot, ChangeConfigurationInput input, AsyncCallback callback, object state);
+
+        void EndChangeConfigurationBySlot(IAsyncResult asyncResult);
+
+        [WebInvoke(Method = "POST", UriTemplate = "{subscriptionId}/services/hostedservices/{serviceName}/deployments/{deploymentName}/?comp=resume")]
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginResumeDeploymentUpdateOrUpgrade(string subscriptionId, string serviceName, string deploymentName, AsyncCallback callback, object state);
+
+        void EndResumeDeploymentUpdateOrUpgrade(IAsyncResult asyncResult);
+
+        [WebInvoke(Method = "POST", UriTemplate = "{subscriptionId}/services/hostedservices/{serviceName}/deploymentslots/{deploymentSlot}/?comp=resume")]
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginResumeDeploymentUpdateOrUpgradeBySlot(string subscriptionId, string serviceName, string deploymentSlot, AsyncCallback callback, object state);
+
+        void EndResumeDeploymentUpdateOrUpgradeBySlot(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "POST", UriTemplate = "{subscriptionId}/services/hostedservices/{serviceName}/deployments/{deploymentName}/?comp=suspend")]
+        IAsyncResult BeginSuspendDeploymentUpdateOrUpgrade(string subscriptionId, string serviceName, string deploymentName, AsyncCallback callback, object state);
+
+        void EndSuspendDeploymentUpdateOrUpgrade(IAsyncResult asyncResult);
+
+        [WebInvoke(Method = "POST", UriTemplate = "{subscriptionId}/services/hostedservices/{serviceName}/deploymentslots/{deploymentSlot}/?comp=suspend")]
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginSuspendDeploymentUpdateOrUpgradeBySlot(string subscriptionId, string serviceName, string deploymentSlot, AsyncCallback callback, object state);
+
+        void EndSuspendDeploymentUpdateOrUpgradeBySlot(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "POST", UriTemplate = "{subscriptionId}/services/hostedservices/{serviceName}/deployments/{deploymentName}/?comp=status")]
+        IAsyncResult BeginUpdateDeploymentStatus(string subscriptionId, string serviceName, string deploymentName, UpdateDeploymentStatusInput input, AsyncCallback callback, object state);
+
+        void EndUpdateDeploymentStatus(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "POST", UriTemplate = "{subscriptionId}/services/hostedservices/{serviceName}/deploymentslots/{deploymentSlot}/?comp=status")]
+        IAsyncResult BeginUpdateDeploymentStatusBySlot(string subscriptionId, string serviceName, string deploymentSlot, UpdateDeploymentStatusInput input, AsyncCallback callback, object state);
+
+        void EndUpdateDeploymentStatusBySlot(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "POST", UriTemplate = "{subscriptionId}/services/hostedservices/{serviceName}/deployments/{deploymentName}/?comp=upgrade")]
+        IAsyncResult BeginUpgradeDeployment(string subscriptionId, string serviceName, string deploymentName, UpgradeDeploymentInput input, AsyncCallback callback, object state);
+
+        void EndUpgradeDeployment(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "POST", UriTemplate = "{subscriptionId}/services/hostedservices/{serviceName}/deploymentslots/{deploymentSlot}/?comp=upgrade")]
+        IAsyncResult BeginUpgradeDeploymentBySlot(string subscriptionId, string serviceName, string deploymentSlot, UpgradeDeploymentInput input, AsyncCallback callback, object state);
+
+        void EndUpgradeDeploymentBySlot(IAsyncResult asyncResult);
+
+        [WebInvoke(Method = "POST", UriTemplate = "{subscriptionId}/services/hostedservices/{serviceName}/deployments/{deploymentName}/?comp=walkupgradedomain")]
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginWalkUpgradeDomain(string subscriptionId, string serviceName, string deploymentName, WalkUpgradeDomainInput input, AsyncCallback callback, object state);
+
+        void EndWalkUpgradeDomain(IAsyncResult asyncResult);
+
+        [WebInvoke(Method = "POST", UriTemplate = "{subscriptionId}/services/hostedservices/{serviceName}/deploymentslots/{deploymentSlot}/?comp=walkupgradedomain")]
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginWalkUpgradeDomainBySlot(string subscriptionId, string serviceName, string deploymentSlot, WalkUpgradeDomainInput input, AsyncCallback callback, object state);
+
+        void EndWalkUpgradeDomainBySlot(IAsyncResult asyncResult);
+
+        [WebInvoke(Method = "POST", UriTemplate = "{subscriptionId}/services/hostedservices/{serviceName}/deployments/{deploymentName}/roleinstances/{roleinstancename}?comp=reboot")]
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginRebootDeploymentRoleInstance(string subscriptionId, string serviceName, string deploymentName, string roleInstanceName, AsyncCallback callback, object state);
+
+        void EndRebootDeploymentRoleInstance(IAsyncResult asyncResult);
+
+        [WebInvoke(Method = "POST", UriTemplate = "{subscriptionId}/services/hostedservices/{serviceName}/deployments/{deploymentName}/?comp=rollback")]
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginRollbackDeploymentUpdateOrUpgrade(string subscriptionId, string serviceName, string deploymentName, RollbackUpdateOrUpgradeInput input, AsyncCallback callback, object state);
+
+        void EndRollbackDeploymentUpdateOrUpgrade(IAsyncResult asyncResult);
+
+        [WebInvoke(Method = "POST", UriTemplate = "{subscriptionId}/services/hostedservices/{serviceName}/deploymentslots/{deploymentSlot}/?comp=rollback")]
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginRollbackDeploymentUpdateOrUpgradeBySlot(string subscriptionId, string serviceName, string deploymentSlot, RollbackUpdateOrUpgradeInput input, AsyncCallback callback, object state);
+
+        void EndRollbackDeploymentUpdateOrUpgradeBySlot(IAsyncResult asyncResult);
+
+        [WebInvoke(Method = "POST", UriTemplate = "{subscriptionId}/services/hostedservices/{serviceName}/deployments/{deploymentName}/roleinstances/{roleinstancename}?comp=reimage")]
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginReimageDeploymentRoleInstance(string subscriptionId, string serviceName, string deploymentName, string roleInstanceName, AsyncCallback callback, object state);
+
+        void EndReimageDeploymentRoleInstance(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "POST", UriTemplate = "{subscriptionId}/services/hostedservices/{serviceName}/deployments/{deploymentName}/roleinstances/{roleinstancename}?comp=rebuild&resources={resources}")]
+        IAsyncResult BeginRebuildDeploymentRoleInstance(string subscriptionId, string serviceName, string deploymentName, string roleInstanceName, string resources, AsyncCallback callback, object state);
+
+        void EndRebuildDeploymentRoleInstance(IAsyncResult asyncResult);
+
+        [WebInvoke(Method = "POST", UriTemplate = "{subscriptionId}/services/hostedservices/{serviceName}/deploymentslots/{deploymentSlot}/roleinstances/{roleinstancename}?comp=reboot")]
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginRebootDeploymentRoleInstanceBySlot(string subscriptionId, string serviceName, string deploymentSlot, string roleInstanceName, AsyncCallback callback, object state);
+
+        void EndRebootDeploymentRoleInstanceBySlot(IAsyncResult asyncResult);
+
+        [WebInvoke(Method = "POST", UriTemplate = "{subscriptionId}/services/hostedservices/{serviceName}/deploymentslots/{deploymentSlot}/roleinstances/{roleinstancename}?comp=reimage")]
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginReimageDeploymentRoleInstanceBySlot(string subscriptionId, string serviceName, string deploymentSlot, string roleInstanceName, AsyncCallback callback, object state);
+
+        void EndReimageDeploymentRoleInstanceBySlot(IAsyncResult asyncResult);
+
+        [WebInvoke(Method = "POST", UriTemplate = "{subscriptionId}/services/hostedservices/{serviceName}/deploymentslots/{deploymentSlot}/roleinstances/{roleinstancename}?comp=rebuild&resources={resources}")]
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginRebuildDeploymentRoleInstanceBySlot(string subscriptionId, string serviceName, string deploymentSlot, string roleInstanceName, string resources, AsyncCallback callback, object state);
+
+        void EndRebuildDeploymentRoleInstanceBySlot(IAsyncResult asyncResult);
+
+        [WebInvoke(Method = "POST", UriTemplate = "{subscriptionId}/services/hostedservices/{serviceName}/deployments/{deploymentName}/package?containerUri={containerUri}&overwriteExisting={overwriteExisting}")]
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginGetPackage(string subscriptionId, string serviceName, string deploymentName, string containerUri, bool overwriteExisting, AsyncCallback callback, object state);
+
+        void EndGetPackage(IAsyncResult asyncResult);
+
+        [WebInvoke(Method = "POST", UriTemplate = "{subscriptionId}/services/hostedservices/{serviceName}/deploymentslots/{deploymentSlot}/package?containerUri={containerUri}&overwriteExisting={overwriteExisting}")]
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginGetPackageBySlot(string subscriptionId, string serviceName, string deploymentSlot, string containerUri, bool overwriteExisting, AsyncCallback callback, object state);
+
+        void EndGetPackageBySlot(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "POST", UriTemplate = "{subscriptionId}/services/hostedservices/{serviceName}/deployments/{deploymentName}/virtualipgroups/{vipGroupName}?comp=deletevips")]
+        IAsyncResult BeginDeleteDeploymentVirtualIPs(string subscriptionId, string serviceName, string deploymentName, string vipGroupName, VirtualIPList vips, AsyncCallback callback, object state);
+
+        void EndDeleteDeploymentVirtualIPs(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "POST", UriTemplate = "{subscriptionId}/services/hostedservices/{serviceName}/deploymentslots/{deploymentSlot}/ virtualipgroups/{vipGroupName}?comp=deletevips")]
+        IAsyncResult BeginDeleteDeploymentVirtualIPsBySlot(string subscriptionId, string serviceName, string deploymentSlot, string vipGroupName, VirtualIPList vips, AsyncCallback callback, object state);
+
+        void EndDeleteDeploymentVirtualIPsBySlot(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebGet(UriTemplate = "{subscriptionID}/services/disks")]
+        IAsyncResult BeginListDisks(string subscriptionID, AsyncCallback callback, object state);
+
+        DiskList EndListDisks(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "POST", UriTemplate = "{subscriptionID}/services/disks")]
+        IAsyncResult BeginCreateDisk(string subscriptionID, Disk disk, AsyncCallback callback, object state);
+
+        Disk EndCreateDisk(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebGet(UriTemplate = "{subscriptionID}/services/disks/{diskName}")]
+        IAsyncResult BeginGetDisk(string subscriptionID, string diskName, AsyncCallback callback, object state);
+
+        Disk EndGetDisk(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "PUT", UriTemplate = "{subscriptionID}/services/disks/{diskName}")]
+        IAsyncResult BeginUpdateDisk(string subscriptionID, string diskName, Disk disk, AsyncCallback callback, object state);
+
+        Disk EndUpdateDisk(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "DELETE", UriTemplate = "{subscriptionID}/services/disks/{diskName}")]
+        IAsyncResult BeginDeleteDisk(string subscriptionID, string diskName, AsyncCallback callback, object state);
+
+        void EndDeleteDisk(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "DELETE", UriTemplate = "{subscriptionID}/services/disks/{diskName}?comp={comp}")]
+        IAsyncResult BeginDeleteDiskEx(string subscriptionID, string diskName, string comp, AsyncCallback callback, object state);
+
+        void EndDeleteDiskEx(IAsyncResult asyncResult);
+
+        [ServiceKnownType(typeof(PersistentVMRole))]
+        [WebInvoke(Method = "POST", UriTemplate = "{subscriptionID}/services/hostedservices/{serviceName}/deployments/{deploymentName}/Roles")]
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginAddRole(string subscriptionID, string serviceName, string deploymentName, Role role, AsyncCallback callback, object state);
+
+        void EndAddRole(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [ServiceKnownType(typeof(PersistentVMRole))]
+        [WebGet(UriTemplate = "{subscriptionID}/services/hostedservices/{serviceName}/deployments/{deploymentName}/Roles/{roleName}")]
+        IAsyncResult BeginGetRole(string subscriptionID, string serviceName, string deploymentName, string roleName, AsyncCallback callback, object state);
+
+        Role EndGetRole(IAsyncResult asyncResult);
+
+        [WebInvoke(Method = "PUT", UriTemplate = "{subscriptionID}/services/hostedservices/{serviceName}/deployments/{deploymentName}/Roles/{roleName}")]
+        [ServiceKnownType(typeof(PersistentVMRole))]
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginUpdateRole(string subscriptionID, string serviceName, string deploymentName, string roleName, Role role, AsyncCallback callback, object state);
+
+        void EndUpdateRole(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "DELETE", UriTemplate = "{subscriptionID}/services/hostedservices/{serviceName}/deployments/{deploymentName}/Roles/{roleName}")]
+        IAsyncResult BeginDeleteRole(string subscriptionID, string serviceName, string deploymentName, string roleName, AsyncCallback callback, object state);
+
+        void EndDeleteRole(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "POST", UriTemplate = "{subscriptionID}/services/hostedservices/{serviceName}/deployments/{deploymentName}/Roles/{roleName}/DataDisks")]
+        IAsyncResult BeginAddDataDisk(string subscriptionID, string serviceName, string deploymentName, string roleName, DataVirtualHardDisk dataDisk, AsyncCallback callback, object state);
+
+        void EndAddDataDisk(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "PUT", UriTemplate = "{subscriptionID}/services/hostedservices/{serviceName}/deployments/{deploymentName}/Roles/{roleName}/DataDisks/{lun}")]
+        IAsyncResult BeginUpdateDataDisk(string subscriptionID, string serviceName, string deploymentName, string roleName, string lun, DataVirtualHardDisk dataDisk, AsyncCallback callback, object state);
+
+        void EndUpdateDataDisk(IAsyncResult asyncResult);
+
+        [WebGet(UriTemplate = "{subscriptionID}/services/hostedservices/{serviceName}/deployments/{deploymentName}/Roles/{roleName}/DataDisks/{lun}")]
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginGetDataDisk(string subscriptionID, string serviceName, string deploymentName, string roleName, string lun, AsyncCallback callback, object state);
+
+        DataVirtualHardDisk EndGetDataDisk(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "DELETE", UriTemplate = "{subscriptionID}/services/hostedservices/{serviceName}/deployments/{deploymentName}/Roles/{roleName}/DataDisks/{lun}")]
+        IAsyncResult BeginDeleteDataDisk(string subscriptionID, string serviceName, string deploymentName, string roleName, string lun, AsyncCallback callback, object state);
+
+        void EndDeleteDataDisk(IAsyncResult asyncResult);
+
+        [WebInvoke(Method = "POST", UriTemplate = "{subscriptionID}/services/hostedservices/{serviceName}/deployments/{deploymentName}/roleInstances/{roleInstanceName}/Operations")]
+        [ServiceKnownType(typeof(StartRoleOperation))]
+        [ServiceKnownType(typeof(RestartRoleOperation))]
+        [ServiceKnownType(typeof(CaptureRoleOperation))]
+        [OperationContract(AsyncPattern = true)]
+        [ServiceKnownType(typeof(ShutdownRoleOperation))]
+        IAsyncResult BeginExecuteRoleOperation(string subscriptionID, string serviceName, string deploymentName, string roleInstanceName, RoleOperation roleOperation, AsyncCallback callback, object state);
+
+        void EndExecuteRoleOperation(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebGet(UriTemplate = "{subscriptionID}/services/hostedservices/{serviceName}/deployments/{deploymentName}/roleinstances/{instanceName}/ModelFile?FileType=RDP")]
+        IAsyncResult BeginDownloadRDPFile(string subscriptionID, string serviceName, string deploymentName, string instanceName, AsyncCallback callback, object state);
+
+        Stream EndDownloadRDPFile(IAsyncResult asyncResult);
+
+        [WebInvoke(Method = "POST", UriTemplate = "{subscriptionID}/services/hostedservices/{serviceName}/deployments/{deploymentName}/Roles/Operations")]
+        [OperationContract(AsyncPattern = true)]
+        [ServiceKnownType(typeof(ShutdownRolesOperation))]
+        [ServiceKnownType(typeof(StartRolesOperation))]
+        IAsyncResult BeginExecuteRoleSetOperation(string subscriptionID, string serviceName, string deploymentName, RoleSetOperation roleSetOperation, AsyncCallback callback, object state);
+
+        void EndExecuteRoleSetOperation(IAsyncResult asyncResult);
+
+        [ServiceKnownType(typeof(LoadBalancedEndpointList))]
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "POST", UriTemplate = "{subscriptionID}/services/hostedservices/{serviceName}/deployments/{deploymentName}?comp=UpdateLbSet")]
+        IAsyncResult BeginUpdateLoadBalancedEndpointSet(string subscriptionID, string serviceName, string deploymentName, LoadBalancedEndpointList loadBalancedEndpointList, AsyncCallback callback, object state);
+
+        void EndUpdateLoadBalancedEndpointSet(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "POST", UriTemplate = "{subscriptionId}/services/hostedservices/{serviceName}/extensions")]
+        IAsyncResult BeginAddHostedServiceExtension(string subscriptionId, string serviceName, HostedServiceExtensionInput extension, AsyncCallback callback, object state);
+
+        void EndAddHostedServiceExtension(IAsyncResult asyncResult);
+
+        [WebInvoke(Method = "GET", UriTemplate = "{subscriptionId}/services/hostedservices/{serviceName}/extensions")]
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginListHostedServiceExtensions(string subscriptionId, string serviceName, AsyncCallback callback, object state);
+
+        HostedServiceExtensionList EndListHostedServiceExtensions(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "GET", UriTemplate = "{subscriptionId}/services/hostedservices/{serviceName}/extensions/{extensionId}")]
+        IAsyncResult BeginGetHostedServiceExtension(string subscriptionId, string serviceName, string extensionId, AsyncCallback callback, object state);
+
+        HostedServiceExtension EndGetHostedServiceExtension(IAsyncResult asyncResult);
+
+        [WebInvoke(Method = "DELETE", UriTemplate = "{subscriptionId}/services/hostedservices/{serviceName}/extensions/{extensionId}")]
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginDeleteHostedServiceExtension(string subscriptionId, string serviceName, string extensionId, AsyncCallback callback, object state);
+
+        void EndDeleteHostedServiceExtension(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebGet(UriTemplate = "{subscriptionId}/services/extensions")]
+        IAsyncResult BeginListLatestExtensions(string subscriptionId, AsyncCallback callback, object state);
+
+        ExtensionImageList EndListLatestExtensions(IAsyncResult asyncResult);
+
+        [WebInvoke(Method = "POST", UriTemplate = "{subscriptionId}/services/hostedservices")]
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginCreateHostedService(string subscriptionId, CreateHostedServiceInput input, AsyncCallback callback, object state);
+
+        void EndCreateHostedService(IAsyncResult asyncResult);
+
+        [WebInvoke(Method = "PUT", UriTemplate = "{subscriptionId}/services/hostedservices/{serviceName}")]
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginUpdateHostedService(string subscriptionId, string serviceName, UpdateHostedServiceInput input, AsyncCallback callback, object state);
+
+        void EndUpdateHostedService(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "DELETE", UriTemplate = "{subscriptionId}/services/hostedservices/{serviceName}")]
+        IAsyncResult BeginDeleteHostedService(string subscriptionId, string serviceName, AsyncCallback callback, object state);
+
+        void EndDeleteHostedService(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebGet(UriTemplate = "{subscriptionId}/services/hostedservices")]
+        IAsyncResult BeginListHostedServices(string subscriptionId, AsyncCallback callback, object state);
+
+        HostedServiceList EndListHostedServices(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebGet(UriTemplate = "{subscriptionId}/services/hostedservices/{serviceName}")]
+        IAsyncResult BeginGetHostedService(string subscriptionId, string serviceName, AsyncCallback callback, object state);
+
+        HostedService EndGetHostedService(IAsyncResult asyncResult);
+
+        [WebGet(UriTemplate = "{subscriptionId}/services/hostedservices/{serviceName}?embed-detail={embedDetail}")]
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginGetHostedServiceWithDetails(string subscriptionId, string serviceName, bool embedDetail, AsyncCallback callback, object state);
+
+        HostedService EndGetHostedServiceWithDetails(IAsyncResult asyncResult);
+
+        [WebGet(UriTemplate = "{subscriptionId}/locations")]
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginListLocations(string subscriptionId, AsyncCallback callback, object state);
+
+        LocationList EndListLocations(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "GET", UriTemplate = "{subscriptionId}/services/hostedservices/operations/isavailable/{serviceName}")]
+        IAsyncResult BeginIsDNSAvailable(string subscriptionId, string serviceName, AsyncCallback callback, object state);
+
+        AvailabilityResponse EndIsDNSAvailable(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "PUT", UriTemplate = "{subscriptionId}/services/networking/media")]
+        IAsyncResult BeginSetNetworkConfiguration(string subscriptionId, Stream networkConfiguration, AsyncCallback callback, object state);
+
+        void EndSetNetworkConfiguration(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebGet(UriTemplate = "{subscriptionId}/services/networking/media")]
+        IAsyncResult BeginGetNetworkConfiguration(string subscriptionId, AsyncCallback callback, object state);
+
+        Stream EndGetNetworkConfiguration(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebGet(UriTemplate = "{subscriptionId}/services/networking/virtualnetwork")]
+        IAsyncResult BeginListVirtualNetworkSites(string subscriptionId, AsyncCallback callback, object state);
+
+        VirtualNetworkSiteList EndListVirtualNetworkSites(IAsyncResult asyncResult);
+
+        [WebInvoke(Method = "GET", UriTemplate = "{subscriptionId}/operatingsystems")]
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginListOperatingSystems(string subscriptionId, AsyncCallback callback, object state);
+
+        OperatingSystemList EndListOperatingSystems(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "GET", UriTemplate = "{subscriptionId}/operatingsystemfamilies")]
+        IAsyncResult BeginListOperatingSystemFamilies(string subscriptionId, AsyncCallback callback, object state);
+
+        OperatingSystemFamilyList EndListOperatingSystemFamilies(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebGet(UriTemplate = "{subscriptionId}/operations/{operationTrackingId}")]
+        IAsyncResult BeginGetOperationStatus(string subscriptionId, string operationTrackingId, AsyncCallback callback, object state);
+
+        Operation EndGetOperationStatus(IAsyncResult asyncResult);
+
+        [WebGet(UriTemplate = "{subscriptionID}/services/images")]
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginListOSImages(string subscriptionID, AsyncCallback callback, object state);
+
+        OSImageList EndListOSImages(IAsyncResult asyncResult);
+
+        [WebInvoke(Method = "POST", UriTemplate = "{subscriptionID}/services/images")]
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginCreateOSImage(string subscriptionID, OSImage image, AsyncCallback callback, object state);
+
+        OSImage EndCreateOSImage(IAsyncResult asyncResult);
+
+        [WebGet(UriTemplate = "{subscriptionID}/services/images/{imageName}")]
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginGetOSImage(string subscriptionID, string imageName, AsyncCallback callback, object state);
+
+        OSImage EndGetOSImage(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "PUT", UriTemplate = "{subscriptionID}/services/images/{imageName}")]
+        IAsyncResult BeginUpdateOSImage(string subscriptionID, string imageName, OSImage image, AsyncCallback callback, object state);
+
+        OSImage EndUpdateOSImage(IAsyncResult asyncResult);
+
+        [WebInvoke(Method = "DELETE", UriTemplate = "{subscriptionID}/services/images/{imageName}")]
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginDeleteOSImage(string subscriptionID, string imageName, AsyncCallback callback, object state);
+
+        void EndDeleteOSImage(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "DELETE", UriTemplate = "{subscriptionID}/services/images/{imageName}?comp={comp}")]
+        IAsyncResult BeginDeleteOSImageEx(string subscriptionID, string imageName, string comp, AsyncCallback callback, object state);
+
+        void EndDeleteOSImageEx(IAsyncResult asyncResult);
+
+        [WebInvoke(Method = "PUT", UriTemplate = "{subscriptionID}/services/images/{imageName}/replicate")]
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginReplicateOSImage(string subscriptionID, string imageName, ReplicationInput replicationInput, AsyncCallback callback, object state);
+
+        string EndReplicateOSImage(IAsyncResult asyncResult);
+
+        [WebInvoke(Method = "PUT", UriTemplate = "{subscriptionID}/services/images/{imageName}/share?permission={permission}")]
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginShareOSImage(string subscriptionID, string imageName, string permission, AsyncCallback callback, object state);
+
+        bool EndShareOSImage(IAsyncResult asyncResult);
+
+        [WebInvoke(Method = "PUT", UriTemplate = "{subscriptionID}/services/images/{imageName}/unreplicate")]
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginUnReplicateOSImage(string subscriptionID, string imageName, AsyncCallback callback, object state);
+
+        void EndUnReplicateOSImage(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebGet(UriTemplate = "{subscriptionID}/services/images/query?location={location}&publisher={publisher}")]
+        IAsyncResult BeginQueryOSImages(string subscriptionID, string location, string publisher, AsyncCallback callback, object state);
+
+        OSImageList EndQueryOSImages(IAsyncResult asyncResult);
+
+        [WebGet(UriTemplate = "{subscriptionID}/services/images/{imageName}/details")]
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginGetOSImageWithDetails(string subscriptionID, string imageName, AsyncCallback callback, object state);
+
+        OSImageDetails EndGetOSImageWithDetails(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "POST", UriTemplate = "{subscriptionId}/services/storageservices")]
+        IAsyncResult BeginCreateStorageService(string subscriptionId, CreateStorageServiceInput input, AsyncCallback callback, object state);
+
+        void EndCreateStorageService(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "PUT", UriTemplate = "{subscriptionId}/services/storageservices/{serviceName}")]
+        IAsyncResult BeginUpdateStorageService(string subscriptionId, string serviceName, UpdateStorageServiceInput input, AsyncCallback callback, object state);
+
+        void EndUpdateStorageService(IAsyncResult asyncResult);
+
+        [WebInvoke(Method = "DELETE", UriTemplate = "{subscriptionId}/services/storageservices/{serviceName}")]
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginDeleteStorageService(string subscriptionId, string serviceName, AsyncCallback callback, object state);
+
+        void EndDeleteStorageService(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebGet(UriTemplate = "{subscriptionId}/services/storageservices")]
+        IAsyncResult BeginListStorageServices(string subscriptionId, AsyncCallback callback, object state);
+
+        StorageServiceList EndListStorageServices(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebGet(UriTemplate = "{subscriptionId}/services/storageservices/{serviceName}")]
+        IAsyncResult BeginGetStorageService(string subscriptionId, string serviceName, AsyncCallback callback, object state);
+
+        StorageService EndGetStorageService(IAsyncResult asyncResult);
+
+        [WebGet(UriTemplate = "{subscriptionId}/services/storageservices/{serviceName}/keys")]
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginGetStorageKeys(string subscriptionId, string serviceName, AsyncCallback callback, object state);
+
+        StorageService EndGetStorageKeys(IAsyncResult asyncResult);
+
+        [WebInvoke(Method = "POST", UriTemplate = "{subscriptionId}/services/storageservices/{serviceName}/keys?action=regenerate")]
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginRegenerateStorageServiceKeys(string subscriptionId, string serviceName, RegenerateKeys regenerateKeys, AsyncCallback callback, object state);
+
+        StorageService EndRegenerateStorageServiceKeys(IAsyncResult asyncResult);
+
+        [WebGet(UriTemplate = "{subscriptionID}/services/storageservices/operations/isavailable/{serviceName}")]
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginIsStorageServiceAvailable(string subscriptionID, string serviceName, AsyncCallback callback, object state);
+
+        AvailabilityResponse EndIsStorageServiceAvailable(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebGet(UriTemplate = "{subscriptionID}")]
+        IAsyncResult BeginGetSubscription(string subscriptionID, AsyncCallback callback, object state);
+
+        Subscription EndGetSubscription(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebGet(UriTemplate = "{subscriptionID}/operations?starttime={starttime}&endtime={endtime}&objectidfilter={objectidfilter}&operationresultfilter={operationresultfilter}&continuationtoken={continuationtoken}")]
+        IAsyncResult BeginListSubscriptionOperations(string subscriptionID, string startTime, string endTime, string objectIdFilter, string operationResultFilter, string continuationToken, AsyncCallback callback, object state);
+
+        SubscriptionOperationCollection EndListSubscriptionOperations(IAsyncResult asyncResult);
+
+        [OperationContract(AsyncPattern = true)]
+        [WebGet(UriTemplate = "{subscriptionID}/certificates")]
+        IAsyncResult BeginListSubscriptionCertificates(string subscriptionID, AsyncCallback callback, object state);
+
+        SubscriptionCertificateList EndListSubscriptionCertificates(IAsyncResult asyncResult);
+
+        [WebGet(UriTemplate = "{subscriptionID}/certificates/{thumbprint}")]
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginGetSubscriptionCertificate(string subscriptionID, string thumbprint, AsyncCallback callback, object state);
+
+        SubscriptionCertificate EndGetSubscriptionCertificate(IAsyncResult asyncResult);
+
+        [WebInvoke(Method = "POST", UriTemplate = "{subscriptionID}/certificates")]
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginAddSubscriptionCertificate(string subscriptionId, SubscriptionCertificate Certificate, AsyncCallback callback, object state);
+
+        void EndAddSubscriptionCertificate(IAsyncResult asyncResult);
+
+        [WebInvoke(Method = "DELETE", UriTemplate = "{subscriptionID}/certificates/{thumbprint}")]
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginRemoveSubscriptionCertificate(string subscriptionID, string thumbprint, AsyncCallback callback, object state);
+
+        void EndRemoveSubscriptionCertificate(IAsyncResult asyncResult);
     }
 }
 

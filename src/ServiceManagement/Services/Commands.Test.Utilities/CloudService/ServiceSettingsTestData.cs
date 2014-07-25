@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.CloudService
 {
     using Commands.Utilities.CloudService;
     using ServiceManagement;
+    using ServiceManagement.Model.PersistentVMModel;
     using System.Collections.Generic;
 
     class ServiceSettingsTestData
