@@ -48,6 +48,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "Path to a file containing one or more configurations")]
+        [ValidateNotNullOrEmpty]
         public string ConfigurationPath { get; set; }
 
         /// <summary>
@@ -57,6 +58,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             ValueFromPipelineByPropertyName = true,
             ParameterSetName = UploadArchiveParameterSetName,
             HelpMessage = "Name of the Azure Storage Container the configuration is uploaded to")]
+        [ValidateNotNullOrEmpty]
         public string ContainerName { get; set; }
 
         /// <summary>
@@ -76,6 +78,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             ParameterSetName = UploadArchiveParameterSetName,
             HelpMessage = "The Azure Storage Context that provides the security settings used to upload " +
                           "the configuration script to the container specified by ContainerName")]
+        [ValidateNotNullOrEmpty]
         public AzureStorageContext StorageContext { get; set; }
 
         /// <summary>
@@ -87,6 +90,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             ValueFromPipelineByPropertyName = true,
             ParameterSetName = CreateArchiveParameterSetName,
             HelpMessage = "Path to a local ZIP file to write the configuration archive to.")]
+        [ValidateNotNullOrEmpty]
         public string ConfigurationArchivePath { get; set; }
 
         /// <summary>
@@ -102,10 +106,43 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
         private const int MinMajorPowerShellVersion = 4;
 
+        private List<string> _temporaryFilesToDelete = new List<string>();
+        private List<string> _temporaryDirectoriesToDelete = new List<string>();
+
         protected override void ProcessRecord()
         {
-            base.ProcessRecord();
-            ExecuteCommand();
+            try
+            {
+                base.ProcessRecord();
+                ExecuteCommand();
+            }
+            finally
+            {
+                foreach (var file in this._temporaryFilesToDelete)
+                {
+                    try
+                    {
+                        File.Delete(file);
+                        WriteVerbose(string.Format(CultureInfo.CurrentUICulture, Resources.PublishVMDscExtensionDeletedFileMessage, file)); 
+                    }
+                    catch (Exception e)
+                    {
+                        WriteVerbose(string.Format(CultureInfo.CurrentUICulture, Resources.PublishVMDscExtensionDeleteErrorMessage, file, e.Message));
+                    }
+                }
+                foreach (var directory in this._temporaryDirectoriesToDelete)
+                {
+                    try
+                    {
+                        Directory.Delete(directory, true);
+                        WriteVerbose(string.Format(CultureInfo.CurrentUICulture, Resources.PublishVMDscExtensionDeletedFileMessage, directory));
+                    }
+                    catch (Exception e)
+                    {
+                        WriteVerbose(string.Format(CultureInfo.CurrentUICulture, Resources.PublishVMDscExtensionDeleteErrorMessage, directory, e.Message));
+                    }
+                }
+            }
         }
 
         internal void ExecuteCommand()
@@ -136,12 +173,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
         protected void ValidateParameters()
         {
+            this.ConfigurationPath = this.GetUnresolvedProviderPathFromPSPath(this.ConfigurationPath);
+
             var configurationFileExtension = Path.GetExtension(this.ConfigurationPath);
 
             if (this.ParameterSetName == UploadArchiveParameterSetName)
             { 
-                this.ConfigurationPath = this.GetUnresolvedProviderPathFromPSPath(this.ConfigurationPath);
-
                 // Check that ConfigurationPath points to a valid file
                 if (!File.Exists(this.ConfigurationPath))
                 {
@@ -208,17 +245,25 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                         ErrorCategory.ParserError,
                         null));
             }
-
-            var requiredModules = parseResult.RequiredModules;
+            List<string> requiredModules = parseResult.RequiredModules;
+            WriteVerbose(String.Format(CultureInfo.CurrentUICulture, Resources.PublishVMDscExtensionRequiredModulesVerbose, String.Join(", ", requiredModules)));
 
             // Create a temporary directory for uploaded zip file
             string tempZipFolder = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+            WriteVerbose(String.Format(CultureInfo.CurrentUICulture, Resources.PublishVMDscExtensionTempFolderVerbose, tempZipFolder));
             Directory.CreateDirectory(tempZipFolder);
-
+            this._temporaryDirectoriesToDelete.Add(tempZipFolder);
+            
             // CopyConfiguration
             string configurationName = Path.GetFileName(this.ConfigurationPath);
-            File.Copy(this.ConfigurationPath, Path.Combine(tempZipFolder, configurationName));
-
+            string configurationDestination = Path.Combine(tempZipFolder, configurationName);
+            WriteVerbose(String.Format(
+                CultureInfo.CurrentUICulture, 
+                Resources.PublishVMDscExtensionCopyFileVerbose, 
+                this.ConfigurationPath, 
+                configurationDestination));
+            File.Copy(this.ConfigurationPath, configurationDestination);
+            
             // CopyRequiredModules
             foreach (var module in requiredModules)
             {
@@ -238,6 +283,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                     powershell.AddCommand("Copy-Module")
                         .AddParameter("module", module)
                         .AddParameter("tempZipFolder", tempZipFolder);
+                    WriteVerbose(String.Format(
+                        CultureInfo.CurrentUICulture,
+                        Resources.PublishVMDscExtensionCopyModuleVerbose,
+                        module,
+                        tempZipFolder));
                     powershell.Invoke();
                 }
             }
@@ -269,6 +319,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                 {
                     File.Delete(archive);
                 }
+
+                this._temporaryFilesToDelete.Add(archive);
             }
 
             // azure-sdk-tools uses .net framework 4.0
@@ -283,6 +335,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                     @"[void] [System.IO.Compression.ZipFile]::CreateFromDirectory('" + tempZipFolder + "', '" + archive + "');";
 
                 powershell.AddScript(script);
+                WriteVerbose(String.Format(
+                        CultureInfo.CurrentUICulture,
+                        Resources.PublishVMDscExtensionCreateZipVerbose,
+                        archive,
+                        tempZipFolder));
                 powershell.Invoke();
             }
 
