@@ -31,11 +31,27 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.BaseComman
         NodeVMSize HeadNodeVMSize { get; set; }
 
         /// <summary>
-        /// Gets or sets the type of the head.
+        /// Gets or sets the type of the cluster.
         /// </summary>
         /// <value>
         /// The type of cluster.
         /// </value>
-        ClusterType ClusterType { get; set; }        
+        ClusterType ClusterType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the virtual network id of the cluster.
+        /// </summary>
+        /// <value>
+        /// The GUID of virtual network.
+        /// </value>
+        string VirtualNetworkId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the subnet name of the cluster.
+        /// </summary>
+        /// <value>
+        /// The name of subnet.
+        /// </value>
+        string SubnetName { get; set; }
     }
 }

@@ -14,32 +14,72 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions.DSC
 {
+    using System;
+    using System.Globalization;
+    using System.Management.Automation;
+    using Commands.Common.Storage;
+    using Management.Storage.Models;
     using Storage.Auth;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.Properties;
     using Utilities.Common;
 
     static class ServiceManagementBaseCmdletExtentions
     {
-        public static StorageCredentials GetStorageCredentials(this ServiceManagementBaseCmdlet cmdlet)
+        /// <summary>
+        /// Attempts to get the user's credentials from the given Storage Context or the current subscription, if the former is null. 
+        /// Throws a terminating error if the credentials cannot be determined.
+        /// </summary>
+        public static StorageCredentials GetStorageCredentials(this ServiceManagementBaseCmdlet cmdlet, AzureStorageContext storageContext)
         {
-            var storageAccountName = cmdlet.CurrentSubscription.CurrentStorageAccountName;
+            StorageCredentials credentials = null;
 
-            var storageAccount = cmdlet.StorageClient.StorageAccounts.Get(storageAccountName);
-
-            if (storageAccount == null)
+            if (storageContext != null)
             {
-                return null;
+                credentials = storageContext.StorageAccount.Credentials;
+            }
+            else
+            {
+                var storageAccountName = cmdlet.CurrentSubscription.CurrentStorageAccountName;
+                
+                if (!string.IsNullOrEmpty(storageAccountName))
+                {
+                    var keys = cmdlet.StorageClient.StorageAccounts.GetKeys(storageAccountName);
+                    
+                    if (keys != null)
+                    {
+                        var storageAccountKey = string.IsNullOrEmpty(keys.PrimaryKey) ? keys.SecondaryKey : keys.PrimaryKey;
+
+                        credentials = new StorageCredentials(storageAccountName, storageAccountKey);
+                    }
+                }
             }
 
-            var keys = cmdlet.StorageClient.StorageAccounts.GetKeys(storageAccountName);
-
-            if (keys == null)
+            if (credentials == null)
             {
-                return null;
+                cmdlet.ThrowTerminatingError(
+                    new ErrorRecord(
+                        new UnauthorizedAccessException(Resources.AzureVMDscDefaultStorageCredentialsNotFound),
+                        string.Empty,
+                        ErrorCategory.PermissionDenied,
+                        null));
             }
 
-            var storageAccountKey = string.IsNullOrEmpty(keys.PrimaryKey) ? keys.SecondaryKey : keys.PrimaryKey;
+            if (string.IsNullOrEmpty(credentials.AccountName))
+            {
+                cmdlet.ThrowInvalidArgumentError(Resources.AzureVMDscStorageContextMustIncludeAccountName);
+            }
 
-            return new StorageCredentials(storageAccountName, storageAccountKey);
+            return credentials;
+        }
+
+        public static void ThrowInvalidArgumentError(this ServiceManagementBaseCmdlet cmdlet, string format, params object[] args)
+        {
+            cmdlet.ThrowTerminatingError(
+                new ErrorRecord(
+                    new ArgumentException(string.Format(CultureInfo.CurrentUICulture, format, args)),
+                    string.Empty,
+                    ErrorCategory.InvalidArgument,
+                    null));
         }
     }
 }

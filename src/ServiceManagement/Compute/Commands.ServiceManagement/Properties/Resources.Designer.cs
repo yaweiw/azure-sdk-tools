@@ -151,6 +151,24 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Apply configuration &apos;{0}&apos;.
+        /// </summary>
+        public static string AzureVMDscApplyConfigurationAction {
+            get {
+                return ResourceManager.GetString("AzureVMDscApplyConfigurationAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File &apos;{0}&apos; already exists. Use the -Force parameter to overwrite it..
+        /// </summary>
+        public static string AzureVMDscArchiveAlreadyExists {
+            get {
+                return ResourceManager.GetString("AzureVMDscArchiveAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot find configuration data file: {0}.
         /// </summary>
         public static string AzureVMDscCannotFindConfigurationDataFile {
@@ -160,11 +178,29 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The -ConfigurationFileName parameter must no include a path.
+        ///   Looks up a localized string similar to The -ConfigurationArchive parameter must no include a path.
         /// </summary>
         public static string AzureVMDscConfigurationDataFileShouldNotIncludePath {
             get {
                 return ResourceManager.GetString("AzureVMDscConfigurationDataFileShouldNotIncludePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create Archive.
+        /// </summary>
+        public static string AzureVMDscCreateArchiveAction {
+            get {
+                return ResourceManager.GetString("AzureVMDscCreateArchiveAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Can not find your azure storage credential. Please specify an storage context using the -StorageContext parameter, or set the current storage account using &quot;Set-AzureSubscription&quot;, or set the &quot;AZURE_STORAGE_CONNECTION_STRING&quot; environment variable..
+        /// </summary>
+        public static string AzureVMDscDefaultStorageCredentialsNotFound {
+            get {
+                return ResourceManager.GetString("AzureVMDscDefaultStorageCredentialsNotFound", resourceCulture);
             }
         }
         
@@ -178,11 +214,56 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to If the ConfigurationArchive argument is null, then the ConfigurationName, ConfigurationArgument, and ConfigurationDataPath parameters must not be specified .
+        /// </summary>
+        public static string AzureVMDscNullArchiveNoConfiguragionParameters {
+            get {
+                return ResourceManager.GetString("AzureVMDscNullArchiveNoConfiguragionParameters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If the ConfigurationArchive argument is null, then the StorageContext, ContainerName, and StorageEndpointSuffix parameters must not be specified.
+        /// </summary>
+        public static string AzureVMDscNullArchiveNoStorageParameters {
+            get {
+                return ResourceManager.GetString("AzureVMDscNullArchiveNoStorageParameters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parsing configuration script: {0}.
+        /// </summary>
+        public static string AzureVMDscParsingConfiguration {
+            get {
+                return ResourceManager.GetString("AzureVMDscParsingConfiguration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Storage Blob &apos;{0}&apos; already exists. Use the -Force parameter to overwrite it..
+        /// </summary>
+        public static string AzureVMDscStorageBlobAlreadyExists {
+            get {
+                return ResourceManager.GetString("AzureVMDscStorageBlobAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The storage context must include an storage account..
         /// </summary>
         public static string AzureVMDscStorageContextMustIncludeAccountName {
             get {
                 return ResourceManager.GetString("AzureVMDscStorageContextMustIncludeAccountName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload &apos;{0}&apos;.
+        /// </summary>
+        public static string AzureVMDscUploadToBlobStorageAction {
+            get {
+                return ResourceManager.GetString("AzureVMDscUploadToBlobStorageAction", resourceCulture);
             }
         }
         
@@ -1096,21 +1177,84 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid configuration file: {0}.
-        ///The file needs to be a PowerShell script (.ps1) or a MOF interface (.mof)..
-        /// </summary>
-        public static string PublishVMDscExtensionConfigFileInvalidExtension {
-            get {
-                return ResourceManager.GetString("PublishVMDscExtensionConfigFileInvalidExtension", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Cannot find configuration file: {0}..
         /// </summary>
         public static string PublishVMDscExtensionConfigFileNotFound {
             get {
                 return ResourceManager.GetString("PublishVMDscExtensionConfigFileNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy &apos;{0}&apos; to &apos;{1}&apos;..
+        /// </summary>
+        public static string PublishVMDscExtensionCopyFileVerbose {
+            get {
+                return ResourceManager.GetString("PublishVMDscExtensionCopyFileVerbose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy the module &apos;{0}&apos; to &apos;{1}&apos;..
+        /// </summary>
+        public static string PublishVMDscExtensionCopyModuleVerbose {
+            get {
+                return ResourceManager.GetString("PublishVMDscExtensionCopyModuleVerbose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid configuration file: {0}.
+        ///The file needs to be a PowerShell script (.ps1 or .psm1)..
+        /// </summary>
+        public static string PublishVMDscExtensionCreateArchiveConfigFileInvalidExtension {
+            get {
+                return ResourceManager.GetString("PublishVMDscExtensionCreateArchiveConfigFileInvalidExtension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create a zip file &apos;{0}&apos; from directory &apos;{1}&apos;..
+        /// </summary>
+        public static string PublishVMDscExtensionCreateZipVerbose {
+            get {
+                return ResourceManager.GetString("PublishVMDscExtensionCreateZipVerbose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deleted &apos;{0}&apos;.
+        /// </summary>
+        public static string PublishVMDscExtensionDeletedFileMessage {
+            get {
+                return ResourceManager.GetString("PublishVMDscExtensionDeletedFileMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot delete &apos;{0}&apos;: {1}.
+        /// </summary>
+        public static string PublishVMDscExtensionDeleteErrorMessage {
+            get {
+                return ResourceManager.GetString("PublishVMDscExtensionDeleteErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to List of required modules: [{0}]..
+        /// </summary>
+        public static string PublishVMDscExtensionRequiredModulesVerbose {
+            get {
+                return ResourceManager.GetString("PublishVMDscExtensionRequiredModulesVerbose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your current PowerShell version {1} is less then required by this cmdlet {0}. Consider download and install latest PowerShell version..
+        /// </summary>
+        public static string PublishVMDscExtensionRequiredPsVersion {
+            get {
+                return ResourceManager.GetString("PublishVMDscExtensionRequiredPsVersion", resourceCulture);
             }
         }
         
@@ -1121,6 +1265,25 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         public static string PublishVMDscExtensionStorageParserErrors {
             get {
                 return ResourceManager.GetString("PublishVMDscExtensionStorageParserErrors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Temp folder &apos;{0}&apos; created..
+        /// </summary>
+        public static string PublishVMDscExtensionTempFolderVerbose {
+            get {
+                return ResourceManager.GetString("PublishVMDscExtensionTempFolderVerbose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid configuration file: {0}.
+        ///The file needs to be a PowerShell script (.ps1 or .psm1) or a ZIP archive (.zip)..
+        /// </summary>
+        public static string PublishVMDscExtensionUploadArchiveConfigFileInvalidExtension {
+            get {
+                return ResourceManager.GetString("PublishVMDscExtensionUploadArchiveConfigFileInvalidExtension", resourceCulture);
             }
         }
         

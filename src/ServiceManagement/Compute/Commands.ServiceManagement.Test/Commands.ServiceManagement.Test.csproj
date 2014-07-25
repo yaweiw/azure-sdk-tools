@@ -382,6 +382,8 @@
     <None Include="packages.config" />
     <None Include="Resources\affinityGroupData.csv" />
     <None Include="Resources\certificateData.csv" />
+    <None Include="Resources\DSC\Configurations\VisualStudio2.ps1" />
+    <None Include="Resources\DSC\Configurations\VisualStudio.ps1" />
     <None Include="Resources\DSC\Configurations\CorporateClientConfiguration.ps1" />
     <None Include="Resources\DSC\Configurations\DomainControllerConfiguration.ps1" />
     <None Include="Resources\DSC\Configurations\SHMulptiConfigurations.ps1" />

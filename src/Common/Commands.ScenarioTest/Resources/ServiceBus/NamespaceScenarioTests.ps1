@@ -290,7 +290,7 @@ function Test-NewAzureSBNamespaceWithWebsite
 	do
 	{
 		$namespace = Get-AzureSBNamespace $namespaceName
-		Start-Sleep -s 5
+		Wait-Seconds 5
 	} while ($namespace.Status -ne "Active")
 
 	$namespace | % { Set-AzureWebsite $websiteName -AppSettings @{ $settingName = $_.ConnectionString } }

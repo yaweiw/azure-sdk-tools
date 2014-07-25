@@ -151,6 +151,15 @@ namespace Microsoft.Azure.Commands.Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid tag format. Ensure that each tag has a unique name. Example: @{Name = &quot;tagName1&quot;; Value = &quot;tagValue1&quot;}, @{Name = &quot;tagName2&quot;; Value = &quot;tagValue2&quot;}.
+        /// </summary>
+        internal static string InvalidTagFormatNotUniqueName {
+            get {
+                return ResourceManager.GetString("InvalidTagFormatNotUniqueName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot find a template with identity &apos;{0}&apos;. Check the template identity and try the command again..
         /// </summary>
         internal static string InvalidTemplateIdentity {

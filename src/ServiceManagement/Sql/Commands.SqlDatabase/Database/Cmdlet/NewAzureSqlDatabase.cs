@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
     using Services.Server;
     using System;
     using System.Management.Automation;
+    using System.Threading;
 
     /// <summary>
     /// Creates a new Microsoft Azure SQL Databases in the given server context.
@@ -175,14 +176,18 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
 
                 GetClientRequestId = () => context.ClientRequestId;
                 
-                // Retrieve the database with the specified name
-                this.WriteObject(context.CreateNewDatabase(
-                    this.DatabaseName, 
-                    maxSizeGb, 
+                Database response = context.CreateNewDatabase(
+                    this.DatabaseName,
+                    maxSizeGb,
                     maxSizeBytes,
                     this.Collation,
                     this.Edition,
-                    this.ServiceObjective));
+                    this.ServiceObjective);
+
+                response = CmdletCommon.WaitForDatabaseOperation(this, context, response, this.DatabaseName, true);
+
+                // Retrieve the database with the specified name
+                this.WriteObject(response);
             }
             catch (Exception ex)
             {
@@ -208,6 +213,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                     this.Collation,
                     this.Edition,
                     this.ServiceObjective);
+
+                database = CmdletCommon.WaitForDatabaseOperation(this, this.ConnectionContext, database, this.DatabaseName, true);
 
                 this.WriteObject(database, true);
             }

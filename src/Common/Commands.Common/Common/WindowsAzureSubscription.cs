@@ -209,7 +209,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         public TClient CreateClientFromResourceManagerEndpoint<TClient>() where TClient : ServiceClient<TClient>
         {
-            if (ResourceManagerEndpoint == null)
+            if (ResourceManagerEndpoint == null || string.IsNullOrEmpty(ActiveDirectoryUserId))
             {
                 throw new ArgumentException(Resources.InvalidSubscriptionState);
             }
