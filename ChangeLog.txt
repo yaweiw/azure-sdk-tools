@@ -13,6 +13,12 @@
     * Tag parameter in Get-AzureResourceGroup and Get-AzureResource
 * Compute
     * ReverseDnsFqdn parameter in New-AzureService, Set-AzureService, New-AzureVM and New-AzureQuickVM
+* Network
+    * Set-AzureInternalLoadBalancer
+    * Add-AzureDns
+    * Set-AzureDns
+    * Remove-AzureDns
+    * Added IdealTimeoutInMinutes parameter to Set-AzurePublicIP, Add-AzureEndpoint and Set-AzureLoadBalancedEndpoint
 
 2014.06.30 Version 0.8.4
 * Compute
