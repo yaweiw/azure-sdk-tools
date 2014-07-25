@@ -30,6 +30,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
             GetComputeEmulatorDirectory();
         }
 
+        public static bool IgnoreMissingSDKError { get; set; }
+
         public static string GetAzureSdkVersion()
         {
             string versionKeyValue = GetSdkVersionRegistryValue();
@@ -108,7 +110,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
             catch (InvalidOperationException)
             {
                 //temporary workaround: catch exception and fall back to v2.4
-                version = "v2.4";
+                if (IgnoreMissingSDKError)
+                {
+                    version = "v2.4";
+                }
+                else
+                {
+                    throw;
+                }
             }
             return version;
         }
