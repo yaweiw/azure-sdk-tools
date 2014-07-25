@@ -192,8 +192,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
         public SwitchParameter DisallowMajorVersionUpgrade { get; set; }
 
         [Parameter(
-            Mandatory = false,
             Position = 21,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "To disallow major version upgrade.")]
+        [ValidateNotNullOrEmpty]
+        public string SupportedOS { get; set; }
+
+        [Parameter(
+            Mandatory = false,
+            Position = 22,
             HelpMessage = "To force the registration operation.")]
         public SwitchParameter Force { get; set; }
 
