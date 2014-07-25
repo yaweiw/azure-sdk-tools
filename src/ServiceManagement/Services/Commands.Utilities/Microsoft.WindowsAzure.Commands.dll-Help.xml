@@ -18,11 +18,19 @@
       <maml:para>Add-AzureAccount downloads information about your Azure account and saves it in a subscription data file in your roaming user profile. It also gets an access token that allows Windows PowerShell to access your Azure account on your behalf. When the command completes, you can manage your Azure account in Windows PowerShell.</maml:para>
       <maml:para>There are two different ways to make your Azure account available to Windows PowerShell. You can use the Add-AzureAccount cmdlet, which uses Azure Active Directory (Azure AD) authentication access tokens, or Import-AzurePublishSettingsFile, which uses a management certificate. For guidance on which method to use, see "<maml:navigationLink><maml:linkText>How to: Connect to your subscription</maml:linkText><maml:uri></maml:uri></maml:navigationLink>" (http://azure.microsoft.com/en-us/documentation/articles/install-configure-powershell/#Connect).</maml:para>
       <maml:para>When you run Add-AzureAccount, it displays an interactive window that prompts you to sign into your Azure account. This sign-in is valid until the access token expires. When it expires, cmdlets that require access to your account prompt you to run Add-AzureAccount again.</maml:para>
+      <maml:para>If you have a Microsoft Organizational account, you can use the -Credential parameter to add the subscriptions associated with your account to Windows PowerShell without an interactive dialog.</maml:para>
       <maml:para>This topic describes the cmdlet in the .7.2 version of the Microsoft Azure PowerShell module. To find out the version of the module you're using, from the Azure PowerShell console, type (get-module azure).version.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Add-AzureAccount</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>Credential</maml:name>
+          <maml:description>
+            <maml:para>The username and password account credentials used to authenticate with Azure Active Directory.  The credentials must be for a Microsoft Organizational account and not another kind of Microsoft account.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+        </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>Environment</maml:name>
           <maml:description>
@@ -43,6 +51,19 @@
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>Credential</maml:name>
+        <maml:description>
+          <maml:para>The username and password account credentials used to authenticate with Azure Active Directory.  The credentials must be for a Microsoft Organizational account and not another kind of Microsoft account.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+        <dev:type>
+          <maml:name>PSCredential</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
         <maml:name>Environment</maml:name>
         <maml:description>
@@ -146,6 +167,43 @@
 </dev:code>
         <dev:remarks>
           <maml:para>This command uses the SubscriptionDataFile parameter to direct Add-AzureAccount to store the account data in the C:\Testing\SDF.xml file, instead of the default file.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>---------- Example 3: Add a Microsoft Organizational account using -Credential ----------</maml:title>
+        <maml:introduction>
+          <maml:para>
+          </maml:para>
+        </maml:introduction>
+        <dev:code>
+          PS C:\&gt;$credential = Get-Credential
+PS C:\&gt;Add-AzureAccount -Credential $credential
+        </dev:code>
+        <dev:remarks>
+          <maml:para>This command uses the Credential parameter to provide AAD authentication information on the command line, rather than using the pop-up dialog for AAD authentication.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>---------- Example 4: Add an account in Azure China ----------</maml:title>
+        <maml:introduction>
+          <maml:para>
+          </maml:para>
+        </maml:introduction>
+        <dev:code>
+          PS C:\&gt;Add-AzureAccount -Environment AzureChinaCloud
+        </dev:code>
+        <dev:remarks>
+          <maml:para>This command uses the Environment parameter to add an Azure China account to Windows PowerShell. When you run the command, a windows pops up to request the user name and password of the account.</maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
