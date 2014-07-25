@@ -106,10 +106,43 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
         private const int MinMajorPowerShellVersion = 4;
 
+        private List<string> _temporaryFilesToDelete = new List<string>();
+        private List<string> _temporaryDirectoriesToDelete = new List<string>();
+
         protected override void ProcessRecord()
         {
-            base.ProcessRecord();
-            ExecuteCommand();
+            try
+            {
+                base.ProcessRecord();
+                ExecuteCommand();
+            }
+            finally
+            {
+                foreach (var file in this._temporaryFilesToDelete)
+                {
+                    try
+                    {
+                        File.Delete(file);
+                        WriteVerbose(string.Format(CultureInfo.CurrentUICulture, Resources.PublishVMDscExtensionDeletedFileMessage, file)); 
+                    }
+                    catch (Exception e)
+                    {
+                        WriteVerbose(string.Format(CultureInfo.CurrentUICulture, Resources.PublishVMDscExtensionDeleteErrorMessage, file, e.Message));
+                    }
+                }
+                foreach (var directory in this._temporaryDirectoriesToDelete)
+                {
+                    try
+                    {
+                        Directory.Delete(directory, true);
+                        WriteVerbose(string.Format(CultureInfo.CurrentUICulture, Resources.PublishVMDscExtensionDeletedFileMessage, directory));
+                    }
+                    catch (Exception e)
+                    {
+                        WriteVerbose(string.Format(CultureInfo.CurrentUICulture, Resources.PublishVMDscExtensionDeleteErrorMessage, directory, e.Message));
+                    }
+                }
+            }
         }
 
         internal void ExecuteCommand()
@@ -219,6 +252,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             string tempZipFolder = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
             WriteVerbose(String.Format(CultureInfo.CurrentUICulture, Resources.PublishVMDscExtensionTempFolderVerbose, tempZipFolder));
             Directory.CreateDirectory(tempZipFolder);
+            this._temporaryDirectoriesToDelete.Add(tempZipFolder);
             
             // CopyConfiguration
             string configurationName = Path.GetFileName(this.ConfigurationPath);
@@ -285,6 +319,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                 {
                     File.Delete(archive);
                 }
+
+                this._temporaryFilesToDelete.Add(archive);
             }
 
             // azure-sdk-tools uses .net framework 4.0

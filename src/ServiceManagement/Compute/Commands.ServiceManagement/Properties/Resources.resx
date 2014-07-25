@@ -719,11 +719,19 @@ The file needs to be a PowerShell script (.ps1 or .psm1).</value>
     <comment>{0} = source, {1} = destination</comment>
   </data>
   <data name="PublishVMDscExtensionCopyModuleVerbose" xml:space="preserve">
-  <value>Copy the module '{0}' to '{1}'.</value>
+    <value>Copy the module '{0}' to '{1}'.</value>
     <comment>{0} = source, {1} = destination</comment>
   </data>
   <data name="PublishVMDscExtensionCreateZipVerbose" xml:space="preserve">
-  <value>Create a zip file '{0}' from directory '{1}'.</value>
+    <value>Create a zip file '{0}' from directory '{1}'.</value>
     <comment>{0} = target zip, {1} = source</comment>
+  </data>
+  <data name="PublishVMDscExtensionDeletedFileMessage" xml:space="preserve">
+    <value>Deleted '{0}'</value>
+    <comment>{0} is the path of a file</comment>
+  </data>
+  <data name="PublishVMDscExtensionDeleteErrorMessage" xml:space="preserve">
+    <value>Cannot delete '{0}': {1}</value>
+    <comment>{0} is the path of a file, {1} is an error message</comment>
   </data>
 </root>

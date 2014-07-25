@@ -1223,6 +1223,24 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Deleted &apos;{0}&apos;.
+        /// </summary>
+        public static string PublishVMDscExtensionDeletedFileMessage {
+            get {
+                return ResourceManager.GetString("PublishVMDscExtensionDeletedFileMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot delete &apos;{0}&apos;: {1}.
+        /// </summary>
+        public static string PublishVMDscExtensionDeleteErrorMessage {
+            get {
+                return ResourceManager.GetString("PublishVMDscExtensionDeleteErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to List of required modules: [{0}]..
         /// </summary>
         public static string PublishVMDscExtensionRequiredModulesVerbose {
