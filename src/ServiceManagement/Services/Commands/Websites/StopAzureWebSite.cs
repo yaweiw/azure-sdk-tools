@@ -23,7 +23,6 @@ namespace Microsoft.WindowsAzure.Commands.Websites
     [Cmdlet(VerbsLifecycle.Stop, "AzureWebsite"), OutputType(typeof(bool))]
     public class StopAzureWebsiteCommand : WebsiteContextBaseCmdlet
     {
-
         [Parameter(Mandatory = false)]
         public SwitchParameter PassThru { get; set; }
 

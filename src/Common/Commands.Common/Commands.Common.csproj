@@ -155,6 +155,7 @@
     <Compile Include="Common\ErrorHelper.cs" />
     <Compile Include="Common\IManagementClientHelper.cs" />
     <Compile Include="Common\ManagementClientHelper.cs" />
+    <Compile Include="Common\IdnHelper.cs" />
     <Compile Include="Common\ManagementOperationContext.cs" />
     <Compile Include="Common\Parameters.cs" />
     <Compile Include="Common\ServiceManagementClientExtensions.cs" />
