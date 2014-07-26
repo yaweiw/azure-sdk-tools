@@ -37,8 +37,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Profile
 
         private WindowsAzureProfile loadedProfile;
 
-        private ISubscriptionClient subscriptionClient;
-
         private readonly bool createFileIfNotExists;
 
         protected SubscriptionCmdletBase(bool createFileIfNotExists)
