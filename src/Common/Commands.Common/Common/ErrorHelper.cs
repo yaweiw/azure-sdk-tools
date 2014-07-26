@@ -14,11 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
-    using ServiceManagement.Model.PersistentVMModel;
+    using ServiceManagement;
     using System.IO;
     using System.Net;
     using System.ServiceModel;
     using System.Xml;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
 
     public class ErrorHelper
     {

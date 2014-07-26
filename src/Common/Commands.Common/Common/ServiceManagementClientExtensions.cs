@@ -14,7 +14,7 @@
 
 namespace Microsoft.WindowsAzure.ServiceManagement
 {
-    using Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel;
+    using Commands.ServiceManagement.Model;
     using System.IO;
 
     public static class ServiceManagementClientExtensions

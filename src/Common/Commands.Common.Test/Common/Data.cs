@@ -16,7 +16,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
 {
     using Commands.Common.Properties;
     using Commands.Utilities.Common;
-    using Commands.ServiceManagement.Model.PersistentVMModel;
+    using Commands.ServiceManagement.Model;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;

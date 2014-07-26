@@ -15,7 +15,7 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
 {
     using Management.Compute.Models;
-    using Model.PersistentVMModel;
+    using Model;
     using System;
     using System.Linq;
     using System.Security.Cryptography;

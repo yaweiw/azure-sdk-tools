@@ -30,7 +30,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.ILB;
     using Microsoft.WindowsAzure.Storage.Blob;
     using Model;
-    using Model.PersistentVMModel;
     using PaasCmdletInfo;
     using PIRCmdletInfo;
     using PlatformImageRepository.Model;

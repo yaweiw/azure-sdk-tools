@@ -16,7 +16,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using Helpers;
     using Management.Compute.Models;
-    using Model;
     using Properties;
     using System;
     using System.Linq;
@@ -109,7 +108,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 return;
             }
 
-            VirtualMachineImageType otherImagetype = VirtualMachineImageType.None;
+            Model.VirtualMachineImageType otherImagetype = Model.VirtualMachineImageType.None;
             if (!ValidateNoImageInOtherType(out otherImagetype))
             {
                 // If there is another type of image with the same name,
@@ -162,14 +161,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             }
         }
 
-        protected bool ValidateNoImageInOtherType(out VirtualMachineImageType otherType)
+        protected bool ValidateNoImageInOtherType(out Model.VirtualMachineImageType otherType)
         {
             var allTypes = new VirtualMachineImageHelper(this.ComputeClient).GetImageType(this.ImageName);
 
-            otherType = string.IsNullOrEmpty(this.OSState) ? VirtualMachineImageType.VMImage
-                                                           : VirtualMachineImageType.OSImage;
+            otherType = string.IsNullOrEmpty(this.OSState) ? Model.VirtualMachineImageType.VMImage
+                                                           : Model.VirtualMachineImageType.OSImage;
 
-            return allTypes == VirtualMachineImageType.None || !allTypes.HasFlag(otherType);
+            return allTypes == Model.VirtualMachineImageType.None || !allTypes.HasFlag(otherType);
         }
 
         protected string GetRoleInstanceStatus()

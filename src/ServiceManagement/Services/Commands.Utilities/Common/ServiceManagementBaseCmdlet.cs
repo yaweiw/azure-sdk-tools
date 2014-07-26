@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using Management.Network.Models;
     using Management.Storage;
     using Properties;
-    using ServiceManagement;
+    using ServiceManagement.Model;
     using System;
     using System.Collections.Generic;
     using System.Globalization;
@@ -34,7 +34,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System.Threading;
     using WindowsAzure;
     using Storage.Auth;
-    using Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel;
 
     public abstract class ServiceManagementBaseCmdlet : CloudBaseCmdlet<IServiceManagement>
     {

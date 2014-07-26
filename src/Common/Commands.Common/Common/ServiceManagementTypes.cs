@@ -14,7 +14,7 @@
 
 //TODO: When transition to SM.NET is completed, rename the namespace to "Microsoft.WindowsAzure.ServiceManagement"
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
     using System;
     using System.Collections.Generic;

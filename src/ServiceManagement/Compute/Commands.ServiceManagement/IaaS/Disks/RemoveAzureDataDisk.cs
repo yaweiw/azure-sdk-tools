@@ -15,7 +15,6 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using Model;
-    using Model.PersistentVMModel;
     using Properties;
     using System;
     using System.Collections.ObjectModel;

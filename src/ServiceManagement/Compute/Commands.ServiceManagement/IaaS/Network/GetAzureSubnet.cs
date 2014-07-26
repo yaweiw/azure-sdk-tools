@@ -14,7 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 {
-    using Model.PersistentVMModel;
+    using Model;
     using System.Linq;
     using System.Management.Automation;
 

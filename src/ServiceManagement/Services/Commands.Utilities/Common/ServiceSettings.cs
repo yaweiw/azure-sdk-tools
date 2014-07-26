@@ -16,14 +16,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 {
     using Commands.Common.Properties;
     using Common;
-    using Microsoft.WindowsAzure.ServiceManagement;
+    using ServiceManagement.Model;
     using System;
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Text;
     using System.Web.Script.Serialization;
-    using Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel;
 
     public class ServiceSettings
     {

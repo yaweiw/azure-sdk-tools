@@ -35651,7 +35651,7 @@ PS C:\&gt; Set-AzureServiceAntimalwareExtension -ServiceName "ContosoService03" 
       <command:returnValue>
         <dev:type>
           <maml:name>
-            Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.AssignPublicIPCollection
+            Microsoft.WindowsAzure.Commands.ServiceManagement.AssignPublicIPCollection
           </maml:name>
           <maml:uri />
           <maml:description />

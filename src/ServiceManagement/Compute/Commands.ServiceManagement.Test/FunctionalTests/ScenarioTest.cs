@@ -36,7 +36,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using System.Xml;
     using System.Xml.Linq;
     using VisualStudio.TestTools.UnitTesting;
-    using WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel;
+    using WindowsAzure.Commands.ServiceManagement;
 
 
 

@@ -32,7 +32,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
     using Utilities.Common;
     using NSM = Management.Compute.Models;
     using NVM = Management.Network.Models;
-    using PVM = Model.PersistentVMModel;
+    using PVM = Model;
 
     public static class ServiceManagementMapperExtension
     {
@@ -387,7 +387,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
 
             //Service mapping
-            Mapper.CreateMap<HostedServiceProperties, HostedServiceDetailedContext>()
+            Mapper.CreateMap<NSM.HostedServiceProperties, HostedServiceDetailedContext>()
                   .ForMember(c => c.Description, o => o.MapFrom(r => string.IsNullOrEmpty(r.Description) ? null : r.Description))
                   .ForMember(c => c.DateModified, o => o.MapFrom(r => r.DateLastModified));
             Mapper.CreateMap<HostedServiceGetResponse, HostedServiceDetailedContext>()

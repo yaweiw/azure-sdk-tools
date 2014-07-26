@@ -15,7 +15,7 @@
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using Microsoft.WindowsAzure.Commands.Common.Properties;
-    using ServiceManagement.Model.PersistentVMModel;
+    using ServiceManagement.Model;
     using System;
     using System.Globalization;
     using System.Linq;
@@ -419,7 +419,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
             if ((WebOperationContext.Current != null) && (WebOperationContext.Current.IncomingResponse != null))
             {
-                operationId = WebOperationContext.Current.IncomingResponse.Headers[ServiceManagement.Model.PersistentVMModel.Constants.OperationTrackingIdHeader];
+                operationId = WebOperationContext.Current.IncomingResponse.Headers[ServiceManagement.Model.Constants.OperationTrackingIdHeader];
             }
 
             return operationId;

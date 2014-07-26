@@ -14,7 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
-    using Model.PersistentVMModel;
+    using Model;
     using Newtonsoft.Json;
     using System.Linq;
     using Utilities.Common;

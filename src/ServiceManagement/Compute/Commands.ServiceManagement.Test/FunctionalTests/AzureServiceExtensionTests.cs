@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using System.IO;
     using System.Reflection;
     using VisualStudio.TestTools.UnitTesting;
-    using WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel;
+    using WindowsAzure.Commands.ServiceManagement;
 
     [TestClass]
     public class AzureServiceExtensionTests : ServiceManagementTest

@@ -18,8 +18,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development.Tests.Cm
     using Commands.Utilities.CloudService;
     using Commands.Utilities.Common;
     using Commands.Utilities.Properties;
-    using ServiceManagement;
-    using ServiceManagement.Model.PersistentVMModel;
+    using ServiceManagement.Model;
     using System;
     using Test.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;

@@ -154,7 +154,7 @@
     <Compile Include="Common\ManagementClientHelper.cs" />
     <Compile Include="Common\ManagementOperationContext.cs" />
     <Compile Include="Common\Parameters.cs" />
-    <Compile Include="Common\PersistentVMRoleTypes.cs" />
+    <Compile Include="Common\ServiceManagementTypes.cs" />
     <Compile Include="Common\ServiceManagementClientExtensions.cs" />
     <Compile Include="Common\SubscriptionCmdletBase.cs" />
     <Compile Include="Common\SubscriptionDataExtended.cs" />
