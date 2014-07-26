@@ -33,6 +33,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
         [Parameter(
             Mandatory = true,
             Position = 0,
+            ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Local Resource Config Object.")]
         public ExtensionLocalResourceConfigSet LocalResourceConfig { get; set; }
