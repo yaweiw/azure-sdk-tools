@@ -86,7 +86,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
                   .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
 
-            Mapper.CreateMap<ExtensionImage, ExtensionImageContext>()
+            Mapper.CreateMap<NSM.ExtensionImage, ExtensionImageContext>()
                   .ForMember(c => c.ThumbprintAlgorithm, o => o.MapFrom(r => r.Certificate.ThumbprintAlgorithm))
                   .ForMember(c => c.ExtensionName, o => o.MapFrom(r => r.Type));
 
