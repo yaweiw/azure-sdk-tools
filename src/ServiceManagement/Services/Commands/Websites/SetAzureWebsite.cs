@@ -30,6 +30,8 @@ namespace Microsoft.WindowsAzure.Commands.Websites
     [Cmdlet(VerbsCommon.Set, "AzureWebsite"), OutputType(typeof(bool))]
     public class SetAzureWebsiteCommand : WebsiteContextBaseCmdlet
     {
+        private string[] hostNames;
+
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Number of workers.")]
         [ValidateNotNullOrEmpty]
         public int? NumberOfWorkers { get; set; }
@@ -59,7 +61,26 @@ namespace Microsoft.WindowsAzure.Commands.Websites
 
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Hostnames.")]
         [ValidateNotNullOrEmpty]
-        public string[] HostNames { get; set; }
+        public string[] HostNames
+        {
+            get
+            {
+                return hostNames;
+            }
+            set
+            {
+                hostNames = value;
+
+                // Convert each host name to Unicode if necessary.
+                if (hostNames != null)
+                {
+                    for (int i = 0; i < hostNames.Length; i++ )
+                    {
+                        hostNames[i] = IdnHelper.GetUnicode(hostNames[i]);
+                    }
+                }
+            }
+        }
 
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "A string for the App Settings.")]
         public Hashtable AppSettings { get; set; }

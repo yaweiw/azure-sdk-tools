@@ -55,5 +55,15 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.BaseComman
         ///     Gets or sets a collection of configuration properties to customize the Oozie Hadoop service.
         /// </summary>
         AzureHDInsightOozieConfiguration Oozie { get; set; }
+
+        /// <summary>
+        ///     Gets or sets a collection of configuration properties to customize the Storm service.
+        /// </summary>
+        Hashtable Storm { get; set; }
+
+        /// <summary>
+        ///     Gets or sets a collection of configuration properties to customize the HBase service.
+        /// </summary>
+        AzureHDInsightHBaseConfiguration HBase { get; set; }
     }
 }

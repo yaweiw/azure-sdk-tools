@@ -44,6 +44,18 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImp
             set { this.config.ClusterType = value; }
         }
 
+        public string VirtualNetworkId
+        {
+            get { return this.config.VirtualNetworkId; }
+            set { this.config.VirtualNetworkId = value; }
+        }
+
+        public string SubnetName
+        {
+            get { return this.config.SubnetName; }
+            set { this.config.SubnetName = value; }
+        }
+
         public override Task EndProcessing()
         {
             this.Output.Add(this.config);

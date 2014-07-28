@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         public SetAzureVMDscExtensionCmdletInfo(
             string              version,
             IPersistentVM       vm,
-            string              configurationFileName,
+            string              configurationArchive,
             AzureStorageContext storageContext = null,
             string              containerName = null,
             string              configurationName = null,
@@ -38,7 +38,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 new CmdletParam [] {
                     new CmdletParam("Version", version),
                     new CmdletParam("VM", vm),
-                    new CmdletParam("ConfigurationFileName", configurationFileName),
+                    new CmdletParam("ConfigurationArchive", configurationArchive),
                 });
 
             if (storageContext != null)

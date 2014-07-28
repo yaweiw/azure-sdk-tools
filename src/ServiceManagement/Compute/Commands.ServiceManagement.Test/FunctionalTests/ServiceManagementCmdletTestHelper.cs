@@ -1908,7 +1908,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         {
             public string Version;
             public IPersistentVM VM;
-            public string ConfigurationFileName;
+            public string ConfigurationArchive;
             public AzureStorageContext StorageContext;
             public string ContainerName;
             public string ConfigurationName;
@@ -1923,7 +1923,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 new SetAzureVMDscExtensionCmdletInfo(
                     args.Version,
                     args.VM,
-                    args.ConfigurationFileName,
+                    args.ConfigurationArchive,
                     args.StorageContext,
                     args.ContainerName,
                     args.ConfigurationName,

@@ -59,7 +59,7 @@ function Test-UpdatesExistingResourceGroup
 		# Test update with bad tag format
 		Assert-Throws { Set-AzureResourceGroup -Name $rgname -Tags @{"testtag" = "testval"} } "Invalid tag format. Expect @{Name = `"tagName`"} or @{Name = `"tagName`"; Value = `"tagValue`"}"
 		# Test update with bad tag format
-		Assert-Throws { Set-AzureResourceGroup -Name $rgname -Tags @{Name = "testtag"; Value = "testval"}, @{Name = "testtag"; Value = "testval2"} } "Invalid tag format. Expect @{Name = `"tagName`"} or @{Name = `"tagName`"; Value = `"tagValue`"}"
+		Assert-Throws { Set-AzureResourceGroup -Name $rgname -Tags @{Name = "testtag"; Value = "testval"}, @{Name = "testtag"; Value = "testval2"} } "Invalid tag format. Ensure that each tag has a unique name. Example: @{Name = `"tagName1`"; Value = `"tagValue1`"}, @{Name = `"tagName2`"; Value = `"tagValue2`"}"
 			
 		$actual = Set-AzureResourceGroup -Name $rgname -Tags @{Name = "testtag"; Value = "testval"} 
 		$expected = Get-AzureResourceGroup -Name $rgname

@@ -20,7 +20,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     using System.IO;
     using System.Linq;
     using System.Management.Automation;
-    using System.Text.RegularExpressions;
     using Commands.Common.Storage;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions.DSC;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Properties;
@@ -34,11 +33,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     /// later can be applied to Azure Virtual Machines using the 
     /// Set-AzureVMDscExtension cmdlet.
     /// </summary>
-    [Cmdlet("Publish", "AzureVMDscConfiguration",
-        SupportsShouldProcess = true)]
+    [Cmdlet(VerbsData.Publish, "AzureVMDscConfiguration", SupportsShouldProcess = true, DefaultParameterSetName = UploadArchiveParameterSetName)]
     public class PublishAzureVMDscConfigurationCommand : ServiceManagementBaseCmdlet
     {
-        protected const string DefaultContainerName = "windows-powershell-dsc";
+        private const string CreateArchiveParameterSetName = "CreateArchive";
+        private const string UploadArchiveParameterSetName = "UploadArchive";
 
         /// <summary>
         /// Path to a file containing one or more configurations; the file can be a 
@@ -49,13 +48,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "Path to a file containing one or more configurations")]
+        [ValidateNotNullOrEmpty]
         public string ConfigurationPath { get; set; }
 
         /// <summary>
         /// Name of the Azure Storage Container the configuration is uploaded to.
         /// </summary>
-        [Parameter(ValueFromPipelineByPropertyName = true,
+        [Parameter(
+            ValueFromPipelineByPropertyName = true,
+            ParameterSetName = UploadArchiveParameterSetName,
             HelpMessage = "Name of the Azure Storage Container the configuration is uploaded to")]
+        [ValidateNotNullOrEmpty]
         public string ContainerName { get; set; }
 
         /// <summary>
@@ -69,12 +72,26 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         /// The Azure Storage Context that provides the security settings used to upload 
         /// the configuration script to the container specified by ContainerName. This 
         /// context should provide write access to the container.
-        ///  If not given, $ENV:azure_storage_connection_string is used instead.
         /// </summary>
-        [Parameter(ValueFromPipelineByPropertyName = true,
+        [Parameter(
+            ValueFromPipelineByPropertyName = true,
+            ParameterSetName = UploadArchiveParameterSetName,
             HelpMessage = "The Azure Storage Context that provides the security settings used to upload " +
                           "the configuration script to the container specified by ContainerName")]
+        [ValidateNotNullOrEmpty]
         public AzureStorageContext StorageContext { get; set; }
+
+        /// <summary>
+        /// Path to a local ZIP file to write the configuration archive to.
+        /// When using this parameter, Publish-AzureVMDscConfiguration creates a
+        /// local ZIP archive instead of uploading it to blob storage..
+        /// </summary>
+        [Parameter(
+            ValueFromPipelineByPropertyName = true,
+            ParameterSetName = CreateArchiveParameterSetName,
+            HelpMessage = "Path to a local ZIP file to write the configuration archive to.")]
+        [ValidateNotNullOrEmpty]
+        public string ConfigurationArchivePath { get; set; }
 
         /// <summary>
         /// Credentials used to access Azure Storage
@@ -82,61 +99,112 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         private StorageCredentials _storageCredentials;
 
         private const string Ps1FileExtension = ".ps1";
-        //private const string MofFileExtension = ".mof";
-        private static readonly HashSet<String> AllowedFileExtensions =
-            new HashSet<String>(StringComparer.OrdinalIgnoreCase) { Ps1FileExtension, };
+        private const string Psm1FileExtension = ".psm1";
+        private const string ZipFileExtension = ".zip";
+        private static readonly HashSet<String> UploadArchiveAllowedFileExtensions = new HashSet<String>(StringComparer.OrdinalIgnoreCase) { Ps1FileExtension, Psm1FileExtension, ZipFileExtension };
+        private static readonly HashSet<String> CreateArchiveAllowedFileExtensions = new HashSet<String>(StringComparer.OrdinalIgnoreCase) { Ps1FileExtension, Psm1FileExtension};
+
+        private const int MinMajorPowerShellVersion = 4;
+
+        private List<string> _temporaryFilesToDelete = new List<string>();
+        private List<string> _temporaryDirectoriesToDelete = new List<string>();
 
         protected override void ProcessRecord()
         {
-            base.ProcessRecord();
-            ExecuteCommand();
+            try
+            {
+                base.ProcessRecord();
+                ExecuteCommand();
+            }
+            finally
+            {
+                foreach (var file in this._temporaryFilesToDelete)
+                {
+                    try
+                    {
+                        File.Delete(file);
+                        WriteVerbose(string.Format(CultureInfo.CurrentUICulture, Resources.PublishVMDscExtensionDeletedFileMessage, file)); 
+                    }
+                    catch (Exception e)
+                    {
+                        WriteVerbose(string.Format(CultureInfo.CurrentUICulture, Resources.PublishVMDscExtensionDeleteErrorMessage, file, e.Message));
+                    }
+                }
+                foreach (var directory in this._temporaryDirectoriesToDelete)
+                {
+                    try
+                    {
+                        Directory.Delete(directory, true);
+                        WriteVerbose(string.Format(CultureInfo.CurrentUICulture, Resources.PublishVMDscExtensionDeletedFileMessage, directory));
+                    }
+                    catch (Exception e)
+                    {
+                        WriteVerbose(string.Format(CultureInfo.CurrentUICulture, Resources.PublishVMDscExtensionDeleteErrorMessage, directory, e.Message));
+                    }
+                }
+            }
         }
 
         internal void ExecuteCommand()
         {
+            ValidatePsVersion();
             ValidateParameters();
             PublishConfiguration();
         }
 
-        protected void ValidateParameters()
+        protected void ValidatePsVersion()
         {
-			// Resolve PowerShell path to a system path.
-			ProviderInfo provider;
-			this.ConfigurationPath = this.GetResolvedProviderPathFromPSPath(this.ConfigurationPath, out provider).FirstOrDefault();
-
-			// Check that ConfigurationPath points to a valid file
-			if (!File.Exists(this.ConfigurationPath))
+            using (PowerShell powershell = PowerShell.Create())
             {
-                throw new ArgumentException(String.Format(CultureInfo.CurrentCulture,
-                    Resources.PublishVMDscExtensionConfigFileNotFound, this.ConfigurationPath));
+                powershell.AddScript("$PSVersionTable.PSVersion.Major");
+                int major = powershell.Invoke<int>().FirstOrDefault();
+                if (major < MinMajorPowerShellVersion)
+                {
+                    this.ThrowTerminatingError(
+                        new ErrorRecord(
+                            new InvalidOperationException(
+                                string.Format(CultureInfo.CurrentUICulture, Resources.PublishVMDscExtensionRequiredPsVersion, MinMajorPowerShellVersion, major)), 
+                                string.Empty,
+                                ErrorCategory.InvalidOperation,
+                                null));
+                }
             }
-            if (!AllowedFileExtensions.Contains(GetConfigurationFileExtension()))
-            {
-                throw new ArgumentException(String.Format(CultureInfo.CurrentCulture,
-                    Resources.PublishVMDscExtensionConfigFileInvalidExtension, this.ConfigurationPath));
-            }
-
-            // Ensure we have an storage account
-            this._storageCredentials = this.StorageContext != null ? this.StorageContext.StorageAccount.Credentials : this.GetStorageCredentials();
-            if (string.IsNullOrEmpty(this._storageCredentials.AccountName))
-            {
-                ThrowTerminatingError(
-				new ErrorRecord(
-					new ArgumentException(string.Format(CultureInfo.CurrentUICulture, Resources.AzureVMDscStorageContextMustIncludeAccountName)),
-					string.Empty,
-					ErrorCategory.InvalidArgument,
-					null));
-            }
-
-			if (this.ContainerName == null)
-			{
-                this.ContainerName = DefaultContainerName;
-			}
         }
 
-        private string GetConfigurationFileExtension()
+        protected void ValidateParameters()
         {
-            return Path.GetExtension(this.ConfigurationPath);
+            this.ConfigurationPath = this.GetUnresolvedProviderPathFromPSPath(this.ConfigurationPath);
+
+            var configurationFileExtension = Path.GetExtension(this.ConfigurationPath);
+
+            if (this.ParameterSetName == UploadArchiveParameterSetName)
+            { 
+                // Check that ConfigurationPath points to a valid file
+                if (!File.Exists(this.ConfigurationPath))
+                {
+                    this.ThrowInvalidArgumentError(Resources.PublishVMDscExtensionConfigFileNotFound, this.ConfigurationPath);
+                }
+                if (!UploadArchiveAllowedFileExtensions.Contains(Path.GetExtension(configurationFileExtension)))
+                {
+                    this.ThrowInvalidArgumentError(Resources.PublishVMDscExtensionUploadArchiveConfigFileInvalidExtension, this.ConfigurationPath);
+                }
+
+                this._storageCredentials = this.GetStorageCredentials(this.StorageContext);
+
+                if (this.ContainerName == null)
+                {
+                    this.ContainerName = VirtualMachineDscExtensionCmdletBase.DefaultContainerName;
+                }
+            } 
+            else if (this.ParameterSetName == CreateArchiveParameterSetName)
+            {
+                if (!CreateArchiveAllowedFileExtensions.Contains(Path.GetExtension(configurationFileExtension)))
+                {
+                    this.ThrowInvalidArgumentError(Resources.PublishVMDscExtensionCreateArchiveConfigFileInvalidExtension, this.ConfigurationPath);
+                }
+
+                this.ConfigurationArchivePath = this.GetUnresolvedProviderPathFromPSPath(this.ConfigurationArchivePath);
+            }
         }
 
         /// <summary>
@@ -144,76 +212,117 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         /// </summary>
         protected void PublishConfiguration()
         {
-            string extenstion = GetConfigurationFileExtension();
-            List<string> requiredModules;
-            if (String.Equals(extenstion, Ps1FileExtension, StringComparison.OrdinalIgnoreCase))
+            if (this.ParameterSetName == CreateArchiveParameterSetName)
             {
-                WriteVerbose(String.Format(CultureInfo.CurrentCulture, "Parsing configuration script: {0}", this.ConfigurationPath));
-                ConfigurationParseResult parseResult = ConfigurationNameHelper.ExtractConfigurationNames(this.ConfigurationPath);
-                if (parseResult.Errors.Any())
-                {
-                    throw new ParseException(String.Format(CultureInfo.CurrentCulture,
-                        Resources.PublishVMDscExtensionStorageParserErrors,
-                        this.ConfigurationPath,
-                        String.Join("\n", parseResult.Errors.Select(error => error.ToString()))));
-                }
-                requiredModules = parseResult.RequiredModules;
+                this.ConfirmAction(true, string.Empty, Resources.AzureVMDscCreateArchiveAction, this.ConfigurationArchivePath, ()=> CreateConfigurationArchive());
             }
             else
             {
-                // TODO: Need parse for MOF files, use empty array for now
-                requiredModules = new List<string>();
+                var archivePath = string.Compare(Path.GetExtension(this.ConfigurationPath), ZipFileExtension, StringComparison.OrdinalIgnoreCase) == 0 ?
+                    this.ConfigurationPath
+                    :
+                    CreateConfigurationArchive();
+
+                UploadConfigurationArchive(archivePath);
             }
-
-            // Copy configuration
-            CloudBlobContainer cloudBlobContainer = GetStorageContainier();
-            CopyConfigurationAndRequiredModules(cloudBlobContainer, requiredModules);
         }
 
-        private static readonly Regex AlphaNumericRegexp = new Regex(@"^[a-zA-Z0-9\s,]*$");
-        private static Boolean IsAlphaNumeric(string str)
+        private string CreateConfigurationArchive()
         {
-            return AlphaNumericRegexp.IsMatch(str);
-        }
+            WriteVerbose(String.Format(CultureInfo.CurrentUICulture, Resources.AzureVMDscParsingConfiguration, this.ConfigurationPath));
+            ConfigurationParseResult parseResult = ConfigurationParsingHelper.ExtractConfigurationNames(this.ConfigurationPath);
+            if (parseResult.Errors.Any())
+            {
+                ThrowTerminatingError(
+                    new ErrorRecord(
+                        new ParseException(
+                            String.Format(
+                                CultureInfo.CurrentUICulture,
+                                Resources.PublishVMDscExtensionStorageParserErrors,
+                                this.ConfigurationPath,
+                                String.Join("\n", parseResult.Errors.Select(error => error.ToString())))),
+                        string.Empty,
+                        ErrorCategory.ParserError,
+                        null));
+            }
+            List<string> requiredModules = parseResult.RequiredModules;
+            WriteVerbose(String.Format(CultureInfo.CurrentUICulture, Resources.PublishVMDscExtensionRequiredModulesVerbose, String.Join(", ", requiredModules)));
 
-        private void CopyConfigurationAndRequiredModules(CloudBlobContainer cloudBlobContainer, List<string> requiredModules)
-        {
             // Create a temporary directory for uploaded zip file
             string tempZipFolder = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+            WriteVerbose(String.Format(CultureInfo.CurrentUICulture, Resources.PublishVMDscExtensionTempFolderVerbose, tempZipFolder));
             Directory.CreateDirectory(tempZipFolder);
-
+            this._temporaryDirectoriesToDelete.Add(tempZipFolder);
+            
             // CopyConfiguration
-            // TODO: Consider computing a checksum and publish only if there is anything new
             string configurationName = Path.GetFileName(this.ConfigurationPath);
-            File.Copy(this.ConfigurationPath, Path.Combine(tempZipFolder, configurationName));
-
+            string configurationDestination = Path.Combine(tempZipFolder, configurationName);
+            WriteVerbose(String.Format(
+                CultureInfo.CurrentUICulture, 
+                Resources.PublishVMDscExtensionCopyFileVerbose, 
+                this.ConfigurationPath, 
+                configurationDestination));
+            File.Copy(this.ConfigurationPath, configurationDestination);
+            
             // CopyRequiredModules
             foreach (var module in requiredModules)
             {
-                // Check that module name is alpha-numeric to prevent script-injection.
-                // Drop it, in case if it's not.
-                if (!IsAlphaNumeric(module))
+                using (PowerShell powershell = PowerShell.Create())
                 {
-                    WriteWarning(String.Format(CultureInfo.InvariantCulture, "Module name '{0}' contains illegal characters", module));
-                    continue;    
-                }
-                using (var powershell = System.Management.Automation.PowerShell.Create())
-                {
+                    // Wrapping script in a function to prevent script injection via $module variable.
                     powershell.AddScript(
-                        @"$mi = Get-Module -List -Name " + module + ";" +
-                        @"$moduleFolder = Split-Path -Parent $mi.Path;" +
-                        @"Copy-Item -Recurse -Path $moduleFolder -Destination " + tempZipFolder + ";"
+                        @"function Copy-Module([string]$module, [string]$tempZipFolder) 
+                        {
+                            $mi = Get-Module -List -Name $module;
+                            $moduleFolder = Split-Path -Parent $mi.Path;
+                            Copy-Item -Recurse -Path $moduleFolder -Destination $tempZipFolder;
+                        }"
                         );
+                    powershell.Invoke();
+                    powershell.Commands.Clear();
+                    powershell.AddCommand("Copy-Module")
+                        .AddParameter("module", module)
+                        .AddParameter("tempZipFolder", tempZipFolder);
+                    WriteVerbose(String.Format(
+                        CultureInfo.CurrentUICulture,
+                        Resources.PublishVMDscExtensionCopyModuleVerbose,
+                        module,
+                        tempZipFolder));
                     powershell.Invoke();
                 }
             }
+
+            //
 			// Zip the directory
-			string packageName = configurationName + ".zip";
-			string tempModuleArchive = Path.Combine(Path.GetTempPath(), packageName);
-            if (File.Exists(tempModuleArchive))
+            //
+            string archive;
+
+            if (this.ParameterSetName == CreateArchiveParameterSetName)
             {
-                File.Delete(tempModuleArchive);
+                archive = this.ConfigurationArchivePath;
+
+                if (!this.Force && System.IO.File.Exists(archive))
+                {
+                    this.ThrowTerminatingError(
+                        new ErrorRecord(
+                            new UnauthorizedAccessException(string.Format(CultureInfo.CurrentUICulture, Resources.AzureVMDscArchiveAlreadyExists, archive)),
+                            string.Empty,
+                            ErrorCategory.PermissionDenied,
+                            null));
+                }
             }
+            else
+            {
+                archive = Path.Combine(Path.GetTempPath(), configurationName + ZipFileExtension);
+
+                if (File.Exists(archive))
+                {
+                    File.Delete(archive);
+                }
+
+                this._temporaryFilesToDelete.Add(archive);
+            }
+
             // azure-sdk-tools uses .net framework 4.0
             // System.IO.Compression.ZipFile was added in .net 4.5
             // Since support for DSC require powershell 4.0+, which require .net 4.5+
@@ -223,13 +332,42 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             {
 				var script = 
 					@"Add-Type -AssemblyName System.IO.Compression.FileSystem > $null;" +
-                    @"[void] [System.IO.Compression.ZipFile]::CreateFromDirectory('" + tempZipFolder + "', '" + tempModuleArchive + "');";
+                    @"[void] [System.IO.Compression.ZipFile]::CreateFromDirectory('" + tempZipFolder + "', '" + archive + "');";
 
                 powershell.AddScript(script);
+                WriteVerbose(String.Format(
+                        CultureInfo.CurrentUICulture,
+                        Resources.PublishVMDscExtensionCreateZipVerbose,
+                        archive,
+                        tempZipFolder));
                 powershell.Invoke();
             }
-			CloudBlockBlob modulesBlob = cloudBlobContainer.GetBlockBlobReference(packageName);
-            modulesBlob.UploadFromFile(tempModuleArchive, FileMode.Open);
+
+            return archive;
+        }
+
+        private void UploadConfigurationArchive(string archivePath)
+        {
+            CloudBlobContainer cloudBlobContainer = GetStorageContainier();
+
+            var blobName = Path.GetFileName(archivePath);
+
+            CloudBlockBlob modulesBlob = cloudBlobContainer.GetBlockBlobReference(blobName);
+
+            this.ConfirmAction(true, string.Empty, string.Format(CultureInfo.CurrentUICulture, Resources.AzureVMDscUploadToBlobStorageAction, archivePath), modulesBlob.Uri.AbsoluteUri, () =>
+            {
+                if (!this.Force && modulesBlob.Exists())
+                {
+                    this.ThrowTerminatingError(
+                        new ErrorRecord(
+                            new UnauthorizedAccessException(string.Format(CultureInfo.CurrentUICulture, Resources.AzureVMDscStorageBlobAlreadyExists, modulesBlob)),
+                            string.Empty,
+                            ErrorCategory.PermissionDenied,
+                            null));
+                }
+
+                modulesBlob.UploadFromFile(archivePath, FileMode.Open);
+            });
         }
 
         private CloudBlobContainer GetStorageContainier()

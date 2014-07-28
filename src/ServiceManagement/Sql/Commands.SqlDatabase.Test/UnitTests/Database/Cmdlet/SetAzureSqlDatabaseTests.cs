@@ -246,7 +246,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                         powershell.InvokeBatchScript(
                             @"$slo = Get-AzureSqlDatabaseServiceObjective " +
                             @"-Context $context " +
-                            @"-ServiceObjectiveName ""Reserved P1""");
+                            @"-ServiceObjectiveName ""P1""");
 
                         database = powershell.InvokeBatchScript(
                             @"Set-AzureSqlDatabase " +
@@ -264,7 +264,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                     Services.Server.Database databaseObj = database.Single().BaseObject as Services.Server.Database;
                     Assert.IsNotNull(databaseObj, "Expecting a Database object");
                     Assert.AreEqual("testdb2", databaseObj.Name, "Expected db name to be testdb2");
-                    Assert.AreEqual((byte)0, databaseObj.ServiceObjectiveAssignmentState, "Expected assignment state to be pending");
+                    Assert.AreEqual((byte)0, databaseObj.ServiceObjectiveAssignmentState, "Expected assignment state to be complete");
                     DatabaseTestHelper.ValidateDatabaseProperties(databaseObj, "testdb2", "Web", 5, 5368709120L, "Japanese_CI_AS", "Shared", false, DatabaseTestHelper.PremiumP1SloGuid);
                 }
             }
@@ -296,7 +296,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                         powershell.InvokeBatchScript(
                             @"$P1 = Get-AzureSqlDatabaseServiceObjective" +
                             @" -Context $context" +
-                            @" -ServiceObjectiveName ""Reserved P1""");
+                            @" -ServiceObjectiveName ""P1""");
 
                         powershell.InvokeBatchScript(
                             @"$premiumDB_P1 = New-AzureSqlDatabase " +
@@ -328,7 +328,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                     Services.Server.Database premiumDBObj = premiumDB.Single().BaseObject as Services.Server.Database;
                     Assert.IsNotNull(premiumDBObj, "Expecting a Database object");
 
-                    DatabaseTestHelper.ValidateDatabaseProperties(premiumDBObj, "SetAzureSqlPremiumDatabaseTests_P1", "Business", 10, 10737418240L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, DatabaseTestHelper.PremiumP1SloGuid);
+                    DatabaseTestHelper.ValidateDatabaseProperties(premiumDBObj, "SetAzureSqlPremiumDatabaseTests_P1", "Premium", 10, 10737418240L, "SQL_Latin1_General_CP1_CI_AS", "P1", false, DatabaseTestHelper.PremiumP1SloGuid);
                 }
             }
         }

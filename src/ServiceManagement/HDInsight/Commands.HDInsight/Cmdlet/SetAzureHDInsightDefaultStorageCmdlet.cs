@@ -68,6 +68,16 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
                 this.command.Config.AdditionalStorageAccounts.AddRange(value.AdditionalStorageAccounts);
                 this.command.Config.HiveMetastore = value.HiveMetastore ?? this.command.Config.HiveMetastore;
                 this.command.Config.OozieMetastore = value.OozieMetastore ?? this.command.Config.OozieMetastore;
+                this.command.Config.HeadNodeVMSize = value.HeadNodeVMSize;
+                this.command.Config.ClusterType = value.ClusterType;
+                if (!string.IsNullOrEmpty(value.VirtualNetworkId))
+                {
+                    this.command.Config.VirtualNetworkId = value.VirtualNetworkId;
+                }
+                if (!string.IsNullOrEmpty(value.SubnetName))
+                {
+                    this.command.Config.SubnetName = value.SubnetName;
+                }
             }
         }
 

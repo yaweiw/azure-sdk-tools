@@ -65,7 +65,7 @@ function Wait-NamespaceRemoved
 		try
 		{
 			$namespace = Get-AzureSBNamespace $name
-			Start-Sleep -s 5
+			Wait-Seconds 5
 		}
 		catch
 		{

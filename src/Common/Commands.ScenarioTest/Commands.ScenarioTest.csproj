@@ -252,8 +252,6 @@
     </None>
     <None Include="Resources\CsmTestDummySubscription.json" />
     <None Include="Resources\Scheduler\SchedulerTests.ps1" />
-    <None Include="Resources\TrafficManager\Common.ps1" />
-    <None Include="Resources\TrafficManager\TrafficManagerTests.ps1" />
     <None Include="Resources\Websites\WebsiteJobTestCmd.zip">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
