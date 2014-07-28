@@ -87,7 +87,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 Utilities.ExecuteAndLog(() => { dns = vmPowershellCmdlets.NewAzureDns(dnsName, DNS_IP); }, "Create a new Azure DNS");
                 Utilities.ExecuteAndLog(() =>
                     {
-                         PersistentVM vm = CreateVMObjectWithDataDiskSubnetAndAvailibilitySet(vmName,OS.Windows);
+                         PersistentVM vm = CreateVMObjectWithDataDiskSubnetAndAvailibilitySet(vmName, OS.Windows);
                          vmPowershellCmdlets.NewAzureVM(serviceName, new[] { vm }, vnet, new[] { dns }, location: locationName, reservedIPName: reservedIpName);
                     },"Create a new windows azure vm with reserved ip.");
                 VerifyReservedIpInUse(serviceName,input);
@@ -181,6 +181,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                     ReservedIPName = reservedIpName,
                     State = "Created"
                 };
+                imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Windows" }, false);
 
                 // Reserve a new IP
                 Utilities.ExecuteAndLog(() => vmPowershellCmdlets.NewAzureReservedIP(reservedIpName, locationName, reservedIpLabel), "Reserve a new IP");
@@ -311,7 +312,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             Utilities.VerifyFailure(() => vmPowershellCmdlets.GetAzureReservedIP(reservedIpName), ResourceNotFoundException);
         }
 
-        private PersistentVM CreateVMObjectWithDataDiskSubnetAndAvailibilitySet(string vmName,OS os)
+        private PersistentVM CreateVMObjectWithDataDiskSubnetAndAvailibilitySet(string vmName, OS os)
         {
             string disk1 = "Disk1";
             int diskSize = 30;
@@ -321,7 +322,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             bool isWindowsOs = false;
             if (os == OS.Windows)
             {
-                img = imageName; isWindowsOs = true;
+                img = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Windows" }, false);
+                isWindowsOs = true;
             }
             else
             {
