@@ -21,22 +21,22 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
     using System.Linq;
 
     [TestClass]
-    public class GetWAPackVNetTests : CmdletTestBase
+    public class GetWAPackVNetTests : CmdletTestNetworkingBase
     {
-        public const string cmdletName = "Get-WAPackVNet";
-
         [TestMethod]
         [TestCategory("WAPackIaaS-All")]
         [TestCategory("WAPackIaaS-Functional")]
+        [TestCategory("WAPackIaaS-Networking")]
         public void GetWAPackVNetWithNoParam()
         {
-            var allVNetworks = this.InvokeCmdlet(cmdletName, null);
+            var allVNetworks = this.InvokeCmdlet(Cmdlets.GetWAPackVNet, null);
             Assert.IsTrue(allVNetworks.Any());
         }
 
         [TestMethod]
         [TestCategory("WAPackIaaS-All")]
         [TestCategory("WAPackIaaS-Functional")]
+        [TestCategory("WAPackIaaS-Networking")]
         public void GetWAPackWAPackVNetFromName()
         {
             string expectedVNetworkName = WAPackConfigurationFactory.AvenzVnetName;
@@ -44,7 +44,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
             {
                 {"Name", expectedVNetworkName}
             };
-            var vNetworkFromName = this.InvokeCmdlet(cmdletName, inputParams);
+            var vNetworkFromName = this.InvokeCmdlet(Cmdlets.GetWAPackVNet, inputParams);
 
             Assert.AreEqual(1, vNetworkFromName.Count);
             var actualvNetworkFromName = vNetworkFromName.First().Properties["Name"].Value;
@@ -55,6 +55,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         [TestMethod]
         [TestCategory("WAPackIaaS-All")]
         [TestCategory("WAPackIaaS-Functional")]
+        [TestCategory("WAPackIaaS-Networking")]
         public void GetWAPackWAPackVNetFromIdAndName()
         {
             string expectedVNetworkName = WAPackConfigurationFactory.AvenzVnetName;
@@ -62,7 +63,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
             {
                 {"Name", expectedVNetworkName}
             };
-            var vNetworkFromName = this.InvokeCmdlet(cmdletName, inputParams);
+            var vNetworkFromName = this.InvokeCmdlet(Cmdlets.GetWAPackVNet, inputParams);
 
             Assert.AreEqual(1, vNetworkFromName.Count);
             var expectedvNetworkId = vNetworkFromName.First().Properties["Id"].Value;
@@ -79,9 +80,10 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
 
 
         [TestMethod]
-        [TestCategory("WAPackIaaS-Negative")]
         [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Negative")]        
         [TestCategory("WAPackIaaS-Functional")]
+        [TestCategory("WAPackIaaS-Networking")]
         public void GetWAPackVNetByNameDoesNotExist()
         {
             string expectedVNetworkName = "WAPackWAPackVNetDoesNotExist";
@@ -89,15 +91,16 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
             {
                 {"Name", expectedVNetworkName}
             };
-            var vNetworkFromName = this.InvokeCmdlet(cmdletName, inputParams);
+            var vNetworkFromName = this.InvokeCmdlet(Cmdlets.GetWAPackVNet, inputParams);
 
             Assert.AreEqual(0, vNetworkFromName.Count);
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS-Negative")]
         [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Negative")]        
         [TestCategory("WAPackIaaS-Functional")]
+        [TestCategory("WAPackIaaS-Networking")]
         public void GetWAPackVNetByIdDoesNotExist()
         {
             var expectedVmId = Guid.NewGuid().ToString();
@@ -106,7 +109,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
             {
                 {"Id", expectedVmId}
             };
-            var vmFromName = this.InvokeCmdlet(cmdletName, inputParams, expectedError);
+            var vmFromName = this.InvokeCmdlet(Cmdlets.GetWAPackVNet, inputParams, expectedError);
             Assert.AreEqual(0, vmFromName.Count);
         }
     }

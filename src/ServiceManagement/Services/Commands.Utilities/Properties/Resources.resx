@@ -1536,4 +1536,51 @@ use and privacy statement at &lt;url&gt; and (c) agree to sharing my contact inf
   <data name="SchedulerNoMoreFreeJobCollection" xml:space="preserve">
     <value>The subscription already has a free job collection. Only one free job collection can be created per subscription.</value>
   </data>
+  <data name="ErrorCreatingCloudService" xml:space="preserve">
+    <value>Error creating CloudService</value>
+    <comment>WAPackIaaS</comment>
+  </data>
+  <data name="ErrorCreatingVMRole" xml:space="preserve">
+    <value>Error creating VMRole</value>
+    <comment>WAPackIaaS</comment>
+  </data>
+  <data name="RemoveCloudServiceConfirmationMessage" xml:space="preserve">
+    <value>Are you sure you want to delete the CloudService '{0}'?</value>
+  </data>
+  <data name="RemoveCloudServiceMessage" xml:space="preserve">
+    <value>Deleting CloudService.</value>
+  </data>
+  <data name="RemoveVMRoleConfirmationMessage" xml:space="preserve">
+    <value>Are you sure you want to delete the VMRole '{0}'?</value>
+  </data>
+  <data name="RemoveVMRoleMessage" xml:space="preserve">
+    <value>Deleting VMRole.</value>
+  </data>
+  <data name="RemoveVMNetworkConfirmationMessage" xml:space="preserve">
+    <value>Are you sure you want to delete the VMNetwork '{0}'?</value>
+  </data>
+  <data name="RemoveVMNetworkMessage" xml:space="preserve">
+    <value>Deleting VMNetwork</value>
+  </data>
+  <data name="RemoveVMSubnetConfirmationMessage" xml:space="preserve">
+    <value>Are you sure you want to remove the VMSubnet '{0}'?</value>
+  </data>
+  <data name="RemoveVMSubnetMessage" xml:space="preserve">
+    <value>Deleting VMSubnet.</value>
+  </data>
+  <data name="RemoveStaticIPAddressPoolConfirmationMessage" xml:space="preserve">
+    <value>Are you sure you want to delete the StaticIPAddressPool '{0}'?</value>
+  </data>
+  <data name="RemoveStaticIPAddressPoolMessage" xml:space="preserve">
+    <value>Deleting StaticIPAddressPool.</value>
+  </data>
+  <data name="ErrorCreatingStaticIPAddressPool" xml:space="preserve">
+    <value>Error creating StaticIPAddressPool</value>
+  </data>
+  <data name="ErrorCreatingVMSubnet" xml:space="preserve">
+    <value>Error creating VMSubnet</value>
+  </data>
+  <data name="ErrorCreatingVMNetwork" xml:space="preserve">
+    <value>Error creating VMNetwork</value>
+  </data>
 </root>

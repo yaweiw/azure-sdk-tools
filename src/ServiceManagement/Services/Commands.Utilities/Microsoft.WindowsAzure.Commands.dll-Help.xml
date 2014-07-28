@@ -20307,6 +20307,3090 @@ PS C:\&gt; Remove-WAPackVM -VM $VirtualMachine -Force
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
+      <command:name>Get-WAPackLogicalNetwork</command:name>
+      <maml:description>
+        <maml:para>Gets logical network objects. </maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Get</command:verb>
+      <command:noun>WAPackLogicalNetwork</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>The Get-WAPackLogicalNetwork cmdlet gets logical network objects. </maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-WAPackLogicalNetwork</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of a logical network. </maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="">
+        <maml:name>Name</maml:name>
+        <maml:description>
+          <maml:para>Specifies the name of a logical networks. </maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>
+          </maml:name>
+          <maml:uri>
+          </maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>
+          </maml:name>
+          <maml:uri>
+          </maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <command:examples>
+      <command:example>
+        <maml:title>Example 1: Get a logical network by using a name</maml:title>
+        <maml:introduction>
+          <maml:para>
+          </maml:para>
+        </maml:introduction>
+        <dev:code>
+          PS C:\&gt;Get-WAPackLogicalNetwork -Name "ContosoLogicalNetwork01"
+        </dev:code>
+        <dev:remarks>
+          <maml:para>This command gets a logical network named ContosoLogicalNetwork01. </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>Example 2: Get all logical networks</maml:title>
+        <maml:introduction>
+          <maml:para>
+          </maml:para>
+        </maml:introduction>
+        <dev:code>
+          PS C:\&gt;Get-WAPackLogicalNetwork
+        </dev:code>
+        <dev:remarks>
+          <maml:para>This command gets all logical networks. </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>New-WAPackVNet</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+    <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Get-WAPackStaticIPAddressPool</command:name>
+      <maml:description>
+        <maml:para>Gets static ip address pool objects. </maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Get</command:verb>
+      <command:noun>WAPackStaticIPAddressPool</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>The Get-WAPackStaticIPAddressPool cmdlet gets static ip address pool objects. </maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-WAPackStaticIPAddressPool</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="">
+          <maml:name>VMSubnet</maml:name>
+          <maml:description>
+            <maml:para>Specifies the VMSubnet object associated to the static ip address pool. </maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">VMSubnet</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Get-WAPackStaticIPAddressPool</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of a static ip address pool. </maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="">
+        <maml:name>VMSubnet</maml:name>
+        <maml:description>
+          <maml:para>Specifies the VMSubnet object associated to the static ip address pool. </maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">VMSubnet</command:parameterValue>
+        <dev:type>
+          <maml:name>VMSubnet</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
+        <maml:name>Name</maml:name>
+        <maml:description>
+          <maml:para>Specifies the name of a static ip address pool. </maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>
+          </maml:name>
+          <maml:uri>
+          </maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>
+          </maml:name>
+          <maml:uri>
+          </maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <command:examples>
+      <command:example>
+        <maml:title>Example 1: Get a static ip address pool from a given VMSubnet</maml:title>
+        <maml:introduction>
+          <maml:para>
+          </maml:para>
+        </maml:introduction>
+        <dev:code>PS C:\&gt;$Subnet = Get-WAPackVMSubet –Name “ContosoVMSubnet01”PS C:\&gt;Get-WAPackStaticIPAddressPool –VMSubnet $Subnet -Name "ContosoStaticIPAddressPool01"
+        </dev:code>
+        <dev:remarks>
+          <maml:para>This command gets the static ip address pool named “ContosoStaticIPAddressPool01” from a given VMSubnet. </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>Example 2: Get all static ip address pool from a given VMSubnet</maml:title>
+        <maml:introduction>
+          <maml:para>
+          </maml:para>
+        </maml:introduction>
+        <dev:code>PS C:\&gt;$Subnet = Get-WAPackVMSubet –Name “ContosoVMSubnet01”PS C:\&gt;Get-WAPackStaticIPAddressPool –VMSubnet $Subnet
+        </dev:code>
+        <dev:remarks>
+          <maml:para>This command gets all the static ip pool from a given VMSubet. </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>New-WAPackStaticIPAddressPool</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Remove-WAPackStaticIPAddressPool</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Get-WAPackVMSubnet</command:name>
+      <maml:description>
+        <maml:para>Gets virtual machine subnet objects. </maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Get</command:verb>
+      <command:noun>WAPackVMSubnet</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>The Get-WAPackVMSubnet cmdlet gets virtual machine subnet objects. </maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-WAPackVMSubnet</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="">
+          <maml:name>VNet</maml:name>
+          <maml:description>
+            <maml:para>Specifies the VNet associated with a virtual machine subnet. </maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">VNet</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Get-WAPackVMSubnet</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
+          <maml:name>ID</maml:name>
+          <maml:description>
+            <maml:para>Specifies the unique ID of a virtual machine subnet. </maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Get-WAPackVMSubnet</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of a virtual machine subnet. </maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="">
+        <maml:name>VNet</maml:name>
+        <maml:description>
+          <maml:para>Specifies the VNet associated with a virtual machine subnet. </maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">VNet</command:parameterValue>
+        <dev:type>
+          <maml:name>VNet</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
+        <maml:name>ID</maml:name>
+        <maml:description>
+          <maml:para>Specifies the unique ID of a virtual machine subnet. </maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+        <dev:type>
+          <maml:name>Guid</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
+        <maml:name>Name</maml:name>
+        <maml:description>
+          <maml:para>Specifies the name of a virtual machine subnet. </maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>
+          </maml:name>
+          <maml:uri>
+          </maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>
+          </maml:name>
+          <maml:uri>
+          </maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <command:examples>
+      <command:example>
+        <maml:title>Example 1: Get a virtual machine subnet by using a name</maml:title>
+        <maml:introduction>
+          <maml:para>
+          </maml:para>
+        </maml:introduction>
+        <dev:code>
+          PS C:\&gt;$VNet = Get-WAPackVNet -Name “ContosoVNet01”PS C:\&gt;Get-WAPackVMTemplate –VNet $VNet -Name "ContosoSubnet01"
+        </dev:code>
+        <dev:remarks>
+          <maml:para>This command gets the virtual machine subnet named “ContosoSubnet01”. </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>Example 2: Get a virtual machine subnet by using an ID</maml:title>
+        <maml:introduction>
+          <maml:para>
+          </maml:para>
+        </maml:introduction>
+        <dev:code>
+          PS C:\&gt;$VNet = Get- WAPackVNet -Name “ContosoVNet01”PS C:\&gt;Get-WAPackVMSubnet –VNet $VNet -Id 66242D17-189F-480D-87CF-8E1D749998C8
+        </dev:code>
+        <dev:remarks>
+          <maml:para>This command gets the virtual machine subnet that has the specified ID. </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>Example 3: Get all virtual machine subnets from a given virtualized network</maml:title>
+        <maml:introduction>
+          <maml:para>
+          </maml:para>
+        </maml:introduction>
+        <dev:code>
+          PS C:\&gt;$VNet = Get-WAPackVNet -Name “ContosoVNet01”PS C:\&gt;Get-WAPackVMSubnet –VNet $VNet
+        </dev:code>
+        <dev:remarks>
+          <maml:para>
+            This command gets all the virtual machine subnets from a given virtualized network.
+          </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>New-WAPackVMSubnet</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Remove-WAPackVMSubnet</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Get-WAPackCloudService</command:name>
+      <maml:description>
+        <maml:para>Gets cloud service objects. </maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Get</command:verb>
+      <command:noun>WAPackCloudService</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>The Get-WAPackCloudService cmdlet gets cloud service objects. </maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-WAPackCloudService</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of a cloud service. </maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="">
+        <maml:name>Name</maml:name>
+        <maml:description>
+          <maml:para>Specifies the name of a cloud service. </maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>
+          </maml:name>
+          <maml:uri>
+          </maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>
+          </maml:name>
+          <maml:uri>
+          </maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <command:examples>
+      <command:example>
+        <maml:title>Example 1: Get a cloud services by using a name</maml:title>
+        <maml:introduction>
+          <maml:para>
+          </maml:para>
+        </maml:introduction>
+        <dev:code>
+          PS C:\&gt;Get-WAPackCloudService -Name "ContosoCloudService01"
+        </dev:code>
+        <dev:remarks>
+          <maml:para>This command gets the cloud service named “ContosoCloudService01”. </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>Example 2: Get all cloud services</maml:title>
+        <maml:introduction>
+          <maml:para>
+          </maml:para>
+        </maml:introduction>
+        <dev:code>
+          PS C:\&gt;Get-WAPackCloudService
+        </dev:code>
+        <dev:remarks>
+          <maml:para>This command gets all cloud services. </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>New-WAPackCloudService</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Remove-WAPackCloudService</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Get-WAPackVMRole</command:name>
+      <maml:description>
+        <maml:para>Gets virtual machine role objects. </maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Get</command:verb>
+      <command:noun>WAPackVMRole</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>The Get-WAPackVMRole cmdlet gets virtual machine role objects. </maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-WAPackVMRole</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of a virtual machine role. </maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Get-WAPackVMRole</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
+          <maml:name>CloudServiceName</maml:name>
+          <maml:description>
+            <maml:para>Specifies the cloud service name of virtual machine role. </maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="">
+        <maml:name>Name</maml:name>
+        <maml:description>
+          <maml:para>Specifies the name of a virtual machine role. </maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
+        <maml:name>CloudServiceName</maml:name>
+        <maml:description>
+          <maml:para>Specifies the cloud service name of virtual machine role. </maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>
+          </maml:name>
+          <maml:uri>
+          </maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>
+          </maml:name>
+          <maml:uri>
+          </maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <command:examples>
+      <command:example>
+        <maml:title>Example 1: Get a virtual machine role (created through the portal)</maml:title>
+        <maml:introduction>
+          <maml:para>
+          </maml:para>
+        </maml:introduction>
+        <dev:code>
+          PS C:\&gt;Get-WAPackVMRole –Name “ContosoVMRole01”
+        </dev:code>
+        <dev:remarks>
+          <maml:para>This command gets a virtual machine role which has been created through the portal named “ContosoVMRole01”. </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>Example 2: Get a virtual machine role by using a name and a cloud service name</maml:title>
+        <maml:introduction>
+          <maml:para>
+          </maml:para>
+        </maml:introduction>
+        <dev:code>
+          PS C:\&gt;Get-WAPackVMRole –CloudServiceName “ContosoCloudService01” -Name "ContosoVMRole02"
+        </dev:code>
+        <dev:remarks>
+          <maml:para>This command gets a virtual machine role named ContosoVMRole02 which stand on a cloud service named ContosoCloudService01. </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>Example 3: Get all virtual machine role </maml:title>
+        <maml:introduction>
+          <maml:para>
+          </maml:para>
+        </maml:introduction>
+        <dev:code>
+          PS C:\&gt;Get-WAPackVMRole
+        </dev:code>
+        <dev:remarks>
+          <maml:para>
+            This command gets all existing virtual machine role.
+          </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>New-WAPackVMRole</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Remove-WAPackVMRole</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Set-WAPackVMRole</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+    <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>New-WAPackStaticIPAddressPool</command:name>
+      <maml:description>
+        <maml:para>Creates a static ip address pool.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>New</command:verb>
+      <command:noun>WAPackStaticIPAddressPool</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>The New-WAPackStaticIPAddressPool cmdlet creates a static ip address pool. </maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>New-WAPackStaticIPAddressPool</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="">
+          <maml:name>VMSubnet</maml:name>
+          <maml:description>
+            <maml:para>Specifies a VMSubnet associated with the static ip address pool.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">VMSubnet</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>Specifies a name for the static ip address pool.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
+          <maml:name>IPAddressRangeStart</maml:name>
+          <maml:description>
+            <maml:para>Specifies a ip address range start for the static ip address pool.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
+          <maml:name>IPAddressRangeEnd</maml:name>
+          <maml:description>
+            <maml:para>Specifies a ip address range end for the static ip address pool.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="">
+        <maml:name>VMSubnet</maml:name>
+        <maml:description>
+          <maml:para>Specifies a VMSubnet associated with the static ip address pool.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">VMSubnet</command:parameterValue>
+        <dev:type>
+          <maml:name>VMSubnet</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
+        <maml:name>Name</maml:name>
+        <maml:description>
+          <maml:para>Specifies a name for the static ip address pool.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
+        <maml:name>IPAddressRangeStart</maml:name>
+        <maml:description>
+          <maml:para>Specifies a ip address range start for the static ip address pool.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
+        <maml:name>IPAddressRangeEnd</maml:name>
+        <maml:description>
+          <maml:para>Specifies a ip address range end for the static ip address pool.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>
+          </maml:name>
+          <maml:uri>
+          </maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>
+          </maml:name>
+          <maml:uri>
+          </maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <command:examples>
+      <command:example>
+        <maml:title>Example 1: Create a static ip address pool</maml:title>
+        <maml:introduction>
+          <maml:para>
+          </maml:para>
+        </maml:introduction>
+        <dev:code>PS C:\&gt;$VNet = Get-WAPackVNet -Name "ContosoVNet01"
+          PS C:\&gt;$VMSubnet = Get-WAPackVMSubnet –VNet $VNet -Name "ContosoVMSubnet01"
+          PS C:\&gt;New-WAPackStaticIpAddressPool –VMSubnet $VMSubnet -Name "ContosoStaticIpAddressPool01" -IPAddressRangeStart “192.168.1.0” –IPAddressRangeEnd “192.168.1.10”
+        </dev:code>
+        <dev:remarks>
+          <maml:para>The first command first retrieves the virtual machine network to which we want to add the static ip address pool. This virtual machine network is named “ContosoVNet01”.</maml:para>
+          <maml:para>The second command uses the previously retrieved virtual machine network to get the virtual machine subnet named “ContosoVMSubnet01” to which we want to add the static ip address pool. </maml:para>
+          <maml:para>The third and last command creates a new static ip address pool with a name “ContosoStaticIpAddressPool01” and a range start “192.168.1.0” and a range end “192.168.1.10”.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Get-WAPackStaticIPAddressPool</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Remove-WAPackStaticIPAddressPool</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>New-WAPackVMSubnet</command:name>
+      <maml:description>
+        <maml:para>Creates a virtual machine subnet.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>New</command:verb>
+      <command:noun>WAPackVMSubnet</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>The New-WAPackVMSubnet cmdlet creates a virtual machine subnet. </maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>New-WAPackVMSubnet</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="">
+          <maml:name>VNet</maml:name>
+          <maml:description>
+            <maml:para>Specifies a VNet associated with the virtual machine subnet.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">VNet</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>Specifies a name for the virtual machine subnet.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
+          <maml:name>Subnet</maml:name>
+          <maml:description>
+            <maml:para>Specifies a subnet for the virtual machine subnet.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="">
+        <maml:name>VNet</maml:name>
+        <maml:description>
+          <maml:para>Specifies a VNet associated with the virtual machine subnet.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">VNet</command:parameterValue>
+        <dev:type>
+          <maml:name>VNet</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
+        <maml:name>Name</maml:name>
+        <maml:description>
+          <maml:para>Specifies a name for the virtual machine subnet.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
+        <maml:name>Subnet</maml:name>
+        <maml:description>
+          <maml:para>Specifies a subnet for the virtual machine subnet.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>
+          </maml:name>
+          <maml:uri>
+          </maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>
+          </maml:name>
+          <maml:uri>
+          </maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <command:examples>
+      <command:example>
+        <maml:title>Example 1: Create a virtual machine subnet</maml:title>
+        <maml:introduction>
+          <maml:para>
+          </maml:para>
+        </maml:introduction>
+        <dev:code>
+          PS C:\&gt;$VNet = Get-WAPackVNet -Name "ContosoVNet01"
+          PS C:\&gt;New-WAPackVMSubnet –VNet $VNet -Name "ContosoVMSubnet01" –Subnet “192.168.1.0/24”
+        </dev:code>
+        <dev:remarks>
+          <maml:para>The first command first retrieves the virtual machine network to which we want to add a new virtual machine subnet. This virtual machine network is named “ContosoVNet01”.</maml:para>
+          <maml:para>The second and last command creates a virtual machine subnet using the previously retrieve virtual machine network, a name “ContosoVMSubnet01” and a subnet “192.168.1.0/24”.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Get-WAPackVMSubnet</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Remove-WAPackVMSubnet</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>New-WAPackVNet</command:name>
+      <maml:description>
+        <maml:para>Creates a virtualized network.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>New</command:verb>
+      <command:noun>WAPackVNet</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>The New-WAPackVNet cmdlet creates a virtualized network. </maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>New-WAPackVNet</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="">
+          <maml:name>LogicalNetwork</maml:name>
+          <maml:description>
+            <maml:para>Specifies a LogicalNetwork associated with the virtualized network.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">LogicalNetwork</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>Specifies a name for the virtualized network.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
+          <maml:name>Description</maml:name>
+          <maml:description>
+            <maml:para>Specifies a description for the virtualized network.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="">
+        <maml:name>LogicalNetwork</maml:name>
+        <maml:description>
+          <maml:para>Specifies a LogicalNetwork associated with the virtualized network.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">LogicalNetwork</command:parameterValue>
+        <dev:type>
+          <maml:name>LogicalNetwork</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
+        <maml:name>Name</maml:name>
+        <maml:description>
+          <maml:para>Specifies a name for the virtualized network.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
+        <maml:name>Description</maml:name>
+        <maml:description>
+          <maml:para>Specifies a description for the virtualized network.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>
+          </maml:name>
+          <maml:uri>
+          </maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>
+          </maml:name>
+          <maml:uri>
+          </maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <command:examples>
+      <command:example>
+        <maml:title>Example 1: Create a virtualized network</maml:title>
+        <maml:introduction>
+          <maml:para>
+          </maml:para>
+        </maml:introduction>
+        <dev:code>
+          PS C:\&gt;$LogicalNetwork = Get-WAPackLogicalNetwork -Name "ContosoLogicalNetwork01"
+          PS C:\&gt;New-WAPackVNet –LogicalNetwork $LogicalNetwork -Name "ContosoVNett01" –Description “A description”
+        </dev:code>
+        <dev:remarks>
+          <maml:para>The first command first retrieves the logical network to which we want to add a new virtualized network. This logical network is named “ContosoLogicalNetwork01”.</maml:para>
+          <maml:para>The second and last command creates a virtualized network using the previously retrieve logical network, a name “ContosoVNett01” and a description “A description”.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Get-WAPackVNet</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Remove-WAPackVNet</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>New-WAPackCloudService</command:name>
+      <maml:description>
+        <maml:para>Creates a cloud service.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>New</command:verb>
+      <command:noun>WAPackCloudService</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>The New-WAPackCloudService cmdlet creates a cloud service. </maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>New-WAPackCloudService</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>Specifies a name for the cloudservice.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
+          <maml:name>Label</maml:name>
+          <maml:description>
+            <maml:para>Specifies a label for the cloud service.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
+        <maml:name>Name</maml:name>
+        <maml:description>
+          <maml:para>Specifies a name for the cloud service.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
+        <maml:name>Label</maml:name>
+        <maml:description>
+          <maml:para>Specifies a ip address range start for the static ip address pool.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>
+          </maml:name>
+          <maml:uri>
+          </maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>
+          </maml:name>
+          <maml:uri>
+          </maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <command:examples>
+      <command:example>
+        <maml:title>Example 1: Create a cloud service</maml:title>
+        <maml:introduction>
+          <maml:para>
+          </maml:para>
+        </maml:introduction>
+        <dev:code>
+          PS C:\&gt;New-WAPackCloudService -Name "ContosoCloudService01" -Label “A label”
+        </dev:code>
+        <dev:remarks>
+          <maml:para>The command creates a cloud service named “ContosoCloudService01” with a label. </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Get-WAPackCloudService</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Remove-WAPackCloudService</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>New-WAPackVMRole</command:name>
+      <maml:description>
+        <maml:para>Creates a virtual machine role.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>New</command:verb>
+      <command:noun>WAPackVMRole</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>The New-WAPackVMRole cmdlet creates a virtual machine role. </maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>New-WAPackVMRole</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
+          <maml:name>ResourceDefinition</maml:name>
+          <maml:description>
+            <maml:para>Specifies a resource definition for the virtual machine role.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">ResourceDefinition</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>Specifies a name for the virtual machine role.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
+          <maml:name>Label</maml:name>
+          <maml:description>
+            <maml:para>Specifies a label for the virtual machine role.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
+          <maml:name>CloudService</maml:name>
+          <maml:description>
+            <maml:para>Specifies a cloud service for the virtual machine role.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">CloudService</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="">
+        <maml:name>ResourceDefinition</maml:name>
+        <maml:description>
+          <maml:para>Specifies a resource definition for the virtual machine role.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">ResourceDefinition</command:parameterValue>
+        <dev:type>
+          <maml:name>ResourceDefinition</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
+        <maml:name>Name</maml:name>
+        <maml:description>
+          <maml:para>Specifies a name for the virtual machine role.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
+        <maml:name>Label</maml:name>
+        <maml:description>
+          <maml:para>Specifies a label for the virtual machine role.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
+        <maml:name>CloudService</maml:name>
+        <maml:description>
+          <maml:para>Specifies a cloud service for the virtual machine role.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">CloudService</command:parameterValue>
+        <dev:type>
+          <maml:name>CloudService</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>
+          </maml:name>
+          <maml:uri>
+          </maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>
+          </maml:name>
+          <maml:uri>
+          </maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <command:examples>
+      <command:example>
+        <maml:title>Example 1: Create a virtual machine role (emulating WAP behavior)</maml:title>
+        <maml:introduction>
+          <maml:para>
+          </maml:para>
+        </maml:introduction>
+        <dev:code>
+          PS C:\&gt;New-WAPackVMRole –Name “ContosoVMRole01” -Label "ContosoVMRoleLabel01" –ResourceDefinition $resdef
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Since we do not specify any cloud service (emulating WAP behavior), the command will create a cloud service for us which will have the same name as the virtual machine role. In this case, the following command will create a virtual machine role with the name “ContosoVMRole01”, label “ContosoVMRoleLabel01”. Note that the resource definition being used here has to be manually created though PowerShell.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Get-WAPackVMRole</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Remove-WAPackVMRole</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Set-WAPackVMRole</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Remove-WAPackStaticIPAddressPool</command:name>
+      <maml:description>
+        <maml:para>Removes static ip address pool objects.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Remove</command:verb>
+      <command:noun>WAPackStaticIPAddressPool</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>The Remove-WAPackStaticIPAddressPool cmdlet removes static ip address pool objects. </maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Remove-WAPackStaticIPAddressPool</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="">
+          <maml:name>StaticIPAddressPool</maml:name>
+          <maml:description>
+            <maml:para>Specifies a StaticIPAddressPool. To obtain a static ip address pool, use the Get-WAPackStaticIPAddressPool cmdlet.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">StaticIPAddressPool</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
+          <maml:name>PassThru</maml:name>
+          <maml:description>
+            <maml:para>Indicates that the cmdlet returns a Boolean value. If the operation succeeds, the cmdlet returns a value of $True. Otherwise, it returns a value of $False. By default, this cmdlet does not generate any output.</maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
+          <maml:name>Force</maml:name>
+          <maml:description>
+            <maml:para>Indicates that the cmdlet removes a virtual machine without prompting you for confirmation. </maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
+          <maml:name>Confirm</maml:name>
+          <maml:description>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
+          <maml:name>WhatIf</maml:name>
+          <maml:description>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+          </maml:description>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
+        <maml:name>Force</maml:name>
+        <maml:description>
+          <maml:para>Indicates that the cmdlet removes a virtual machine without prompting you for confirmation. </maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
+        <maml:name>PassThru</maml:name>
+        <maml:description>
+          <maml:para>Indicates that the cmdlet returns a Boolean value. If the operation succeeds, the cmdlet returns a value of $True. Otherwise, it returns a value of $False. By default, this cmdlet does not generate any output.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="">
+        <maml:name>StaticIPAddressPool</maml:name>
+        <maml:description>
+          <maml:para>Specifies a static ip address pool. To obtain a static ip address pool, use the Get-WAPackStaticIPAddressPool cmdlet.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">StaticIPAddressPool</command:parameterValue>
+        <dev:type>
+          <maml:name>StaticIPAddressPool</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
+        <maml:name>Confirm</maml:name>
+        <maml:description>
+          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>false</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
+        <maml:name>WhatIf</maml:name>
+        <maml:description>
+          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>false</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>
+          </maml:name>
+          <maml:uri>
+          </maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>
+          </maml:name>
+          <maml:uri>
+          </maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <command:examples>
+      <command:example>
+        <maml:title>Example 1: Remove a static ip address pool</maml:title>
+        <maml:introduction>
+          <maml:para>
+          </maml:para>
+        </maml:introduction>
+        <dev:code>
+          PS C:\&gt;$StaticIPAddressPool = Get-WAPackStaticIPAddressPool -Name “ContosoStaticIPAddressPool01”
+          PS C:\&gt;Remove-WAPackStaticIPAddressPool -StaticIPAddressPool $StaticIPAddressPool
+        </dev:code>
+        <dev:remarks>
+          <maml:para>The first command gets the static ip address pool named ContosoStaticIPAddressPool01 by using the Get-WAPackStaticIPAddressPool cmdlet, and then stores that object in the $StaticIPAddressPool variable.</maml:para>
+          <maml:para>The second command removes the static ip address pool stored in $StaticIPAddressPool. The command prompts you for confirmation.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>Example 2: Remove a static ip address pool without confirmation</maml:title>
+        <maml:introduction>
+          <maml:para>
+          </maml:para>
+        </maml:introduction>
+        <dev:code>
+          PS C:\&gt;$StaticIPAddressPool = Get-WAPackStaticIPAddressPool -Name "ContosoStaticIPAddressPool02"
+          PS C:\&gt;Remove-WAPackStaticIPAddressPool -StaticIPAddressPool $StaticIPAddressPool -Force
+        </dev:code>
+        <dev:remarks>
+          <maml:para>The first command gets the static ip address pool named ContosoStaticIPAddressPool02 by using the Get- WAPackStaticIPAddressPool cmdlet, and then stores that object in the $ StaticIPAddressPool variable.</maml:para>
+          <maml:para>The second command removes the static ip address pool stored in $StaticIPAddressPool. This command includes the Force parameter. The command does not prompt you for confirmation.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Get-WAPackStaticIPAddressPool</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>New-WAPackStaticIPAddressPool</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Remove-WAPackVMSubnet</command:name>
+      <maml:description>
+        <maml:para>Removes virtual machine subnet objects.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Remove</command:verb>
+      <command:noun>WAPackVMSubnet</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>The Remove-WAPackVMSubnet cmdlet removes virtual machine subnet objects. </maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Remove-WAPackVMSubnet</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="">
+          <maml:name>VMSubnet</maml:name>
+          <maml:description>
+            <maml:para>Specifies a virtual machine subnet. To obtain a virtual machine subnet, use the Get-WAPackVMSubnet cmdlet.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">VMSubnet</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
+          <maml:name>PassThru</maml:name>
+          <maml:description>
+            <maml:para>Indicates that the cmdlet returns a Boolean value. If the operation succeeds, the cmdlet returns a value of $True. Otherwise, it returns a value of $False. By default, this cmdlet does not generate any output.</maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
+          <maml:name>Force</maml:name>
+          <maml:description>
+            <maml:para>Indicates that the cmdlet removes a virtual machine without prompting you for confirmation. </maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
+          <maml:name>Confirm</maml:name>
+          <maml:description>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
+          <maml:name>WhatIf</maml:name>
+          <maml:description>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+          </maml:description>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
+        <maml:name>Force</maml:name>
+        <maml:description>
+          <maml:para>Indicates that the cmdlet removes a virtual machine without prompting you for confirmation. </maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
+        <maml:name>PassThru</maml:name>
+        <maml:description>
+          <maml:para>Indicates that the cmdlet returns a Boolean value. If the operation succeeds, the cmdlet returns a value of $True. Otherwise, it returns a value of $False. By default, this cmdlet does not generate any output.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="">
+        <maml:name>VMSubnet</maml:name>
+        <maml:description>
+          <maml:para>Specifies a virtual machine subnet. To obtain a virtual machine subnet, use the Get-WAPackVMSubnet cmdlet.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">VMSubnet</command:parameterValue>
+        <dev:type>
+          <maml:name>VMSubnet</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
+        <maml:name>Confirm</maml:name>
+        <maml:description>
+          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>false</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
+        <maml:name>WhatIf</maml:name>
+        <maml:description>
+          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>false</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>
+          </maml:name>
+          <maml:uri>
+          </maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>
+          </maml:name>
+          <maml:uri>
+          </maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <command:examples>
+      <command:example>
+        <maml:title>Example 1: Remove a virtual machine subnet</maml:title>
+        <maml:introduction>
+          <maml:para>
+          </maml:para>
+        </maml:introduction>
+        <dev:code>
+          PS C:\&gt;$VMSubnet = Get-WAPackVMSubnet -Name “ContosoVMSubnet01”
+          PS C:\&gt;Remove-WAPackVMSubnet -VMSubnet $VMSubnet
+        </dev:code>
+        <dev:remarks>
+          <maml:para>The first command gets the virtual machine subnet named ContosoVMSubnet01 by using the Get-WAPackVMSubnet cmdlet, and then stores that object in the $VMSubnet variable.</maml:para>
+          <maml:para>The second command removes the virtual machine subnet stored in $VMSubnet. The command prompts you for confirmation.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>Example 2: Remove a virtual machine without confirmation</maml:title>
+        <maml:introduction>
+          <maml:para>
+          </maml:para>
+        </maml:introduction>
+        <dev:code>
+          PS C:\&gt;$VMSubnet = Get-WAPackVMSubnet -Name "ContosoVMSubnet02"
+          PS C:\&gt;Remove-WAPackVMSubnet -VMSubnet $VMSubnet -Force
+        </dev:code>
+        <dev:remarks>
+          <maml:para>The first command gets the cloud service named ContosoVMSubnet02 by using the Get- WAPackVMSubnet cmdlet, and then stores that object in the $VMSubnet variable.</maml:para>
+          <maml:para>The second command removes the virtual machine subnet stored in $VMSubnet. This command includes the Force parameter. The command does not prompt you for confirmation.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Get-WAPackVMSubnet</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>New-WAPackVMSubnet</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Remove-WAPackVNet</command:name>
+      <maml:description>
+        <maml:para>Removes virtualized network.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Remove</command:verb>
+      <command:noun>WAPackVNet</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>The Remove-WAPackVNet cmdlet removes virtualized network objects. </maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Remove-WAPackVNet</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="">
+          <maml:name>VNet</maml:name>
+          <maml:description>
+            <maml:para>Specifies a virtualized network. To obtain a virtualized network, use the Get-WAPackVNet cmdlet.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">VNet</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
+          <maml:name>PassThru</maml:name>
+          <maml:description>
+            <maml:para>Indicates that the cmdlet returns a Boolean value. If the operation succeeds, the cmdlet returns a value of $True. Otherwise, it returns a value of $False. By default, this cmdlet does not generate any output.</maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
+          <maml:name>Force</maml:name>
+          <maml:description>
+            <maml:para>Indicates that the cmdlet removes a virtual machine without prompting you for confirmation. </maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
+          <maml:name>Confirm</maml:name>
+          <maml:description>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
+          <maml:name>WhatIf</maml:name>
+          <maml:description>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+          </maml:description>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
+        <maml:name>Force</maml:name>
+        <maml:description>
+          <maml:para>Indicates that the cmdlet removes a virtual machine without prompting you for confirmation. </maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
+        <maml:name>PassThru</maml:name>
+        <maml:description>
+          <maml:para>Indicates that the cmdlet returns a Boolean value. If the operation succeeds, the cmdlet returns a value of $True. Otherwise, it returns a value of $False. By default, this cmdlet does not generate any output.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="">
+        <maml:name>VNet</maml:name>
+        <maml:description>
+          <maml:para>Specifies a virtualized network. To obtain a virtualized network, use the Get-WAPackVNet cmdlet.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">VNet</command:parameterValue>
+        <dev:type>
+          <maml:name>VNet</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
+        <maml:name>Confirm</maml:name>
+        <maml:description>
+          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>false</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
+        <maml:name>WhatIf</maml:name>
+        <maml:description>
+          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>false</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>
+          </maml:name>
+          <maml:uri>
+          </maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>
+          </maml:name>
+          <maml:uri>
+          </maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <command:examples>
+      <command:example>
+        <maml:title>Example 1: Remove a virtualized network</maml:title>
+        <maml:introduction>
+          <maml:para>
+          </maml:para>
+        </maml:introduction>
+        <dev:code>
+          PS C:\&gt;$VNet = Get-WAPackVNet -Name “ContosoVNet01”
+          PS C:\&gt;Remove-WAPackVM -VNet $VNet
+        </dev:code>
+        <dev:remarks>
+          <maml:para>The first command gets the virtualized network named ContosoVNet01 by using the Get-WAPackVNet cmdlet, and then stores that object in the $VNet variable.</maml:para>
+          <maml:para>The second command removes the virtualized network stored in $VNet. The command prompts you for confirmation.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>Example 2: Remove a virtualized network without confirmation</maml:title>
+        <maml:introduction>
+          <maml:para>
+          </maml:para>
+        </maml:introduction>
+        <dev:code>
+          PS C:\&gt;$VNet = Get-WAPackVNet -Name "ContosoVNet02"
+          PS C:\&gt;Remove-WAPackVNet -VNet $VNet -Force
+        </dev:code>
+        <dev:remarks>
+          <maml:para>The first command gets the cloud service named ContosoVNet02 by using the Get-WAPackVNet cmdlet, and then stores that object in the $VNet variable.</maml:para>
+          <maml:para>The second command removes the virtualized network stored in $VNet. This command includes the Force parameter. The command does not prompt you for confirmation.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Get-WAPackVNet</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>New-WAPackVNet</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Remove-WAPackCloudService</command:name>
+      <maml:description>
+        <maml:para>Removes cloud service objects.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Remove</command:verb>
+      <command:noun>WAPackCloudService</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>The Remove-WAPackCloudService cmdlet removes cloud service objects. </maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Remove-WAPackCloudService</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="">
+          <maml:name>CloudService</maml:name>
+          <maml:description>
+            <maml:para>Specifies a cloud service. To obtain a cloud service, use the Get-WAPackCloudService cmdlet.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">CloudService</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
+          <maml:name>PassThru</maml:name>
+          <maml:description>
+            <maml:para>Indicates that the cmdlet returns a Boolean value. If the operation succeeds, the cmdlet returns a value of $True. Otherwise, it returns a value of $False. By default, this cmdlet does not generate any output.</maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
+          <maml:name>Force</maml:name>
+          <maml:description>
+            <maml:para>Indicates that the cmdlet removes a virtual machine without prompting you for confirmation. </maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
+          <maml:name>Confirm</maml:name>
+          <maml:description>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
+          <maml:name>WhatIf</maml:name>
+          <maml:description>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+          </maml:description>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
+        <maml:name>Force</maml:name>
+        <maml:description>
+          <maml:para>Indicates that the cmdlet removes a virtual machine without prompting you for confirmation. </maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
+        <maml:name>PassThru</maml:name>
+        <maml:description>
+          <maml:para>Indicates that the cmdlet returns a Boolean value. If the operation succeeds, the cmdlet returns a value of $True. Otherwise, it returns a value of $False. By default, this cmdlet does not generate any output.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="">
+        <maml:name>CloudService</maml:name>
+        <maml:description>
+          <maml:para>Specifies a cloud service. To obtain a cloud service, use the Get-WAPackCloudService cmdlet.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">CloudService</command:parameterValue>
+        <dev:type>
+          <maml:name>CloudService</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
+        <maml:name>Confirm</maml:name>
+        <maml:description>
+          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>false</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
+        <maml:name>WhatIf</maml:name>
+        <maml:description>
+          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>false</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>
+          </maml:name>
+          <maml:uri>
+          </maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>
+          </maml:name>
+          <maml:uri>
+          </maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <command:examples>
+      <command:example>
+        <maml:title>Example 1: Remove a cloud service</maml:title>
+        <maml:introduction>
+          <maml:para>
+          </maml:para>
+        </maml:introduction>
+        <dev:code>
+          PS C:\&gt;$CloudService = Get-WAPackCloudService -Name “ContosoCloudService01”
+          PS C:\&gt;Remove-WAPackVM -VM $CloudService
+        </dev:code>
+        <dev:remarks>
+          <maml:para>The first command gets the cloud service named ContosoCloudService01 by using the Get-WAPackCloudService cmdlet, and then stores that object in the $CloudService variable.</maml:para>
+          <maml:para>The second command removes the cloudservice stored in $CloudService. The command prompts you for confirmation.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>Example 2: Remove a cloud service without confirmation</maml:title>
+        <maml:introduction>
+          <maml:para>
+          </maml:para>
+        </maml:introduction>
+        <dev:code>
+          PS C:\&gt;$CloudService = Get-WAPackCloudService -Name "ContosoCloudService02"
+          PS C:\&gt;Remove-WAPackCloudService -VM $CloudService -Force
+        </dev:code>
+        <dev:remarks>
+          <maml:para>The first command gets the cloud service named ContosoCloudService02 by using the Get-WAPackCloudService cmdlet, and then stores that object in the $CloudService variable.</maml:para>
+          <maml:para>The second command removes the cloud service stored in $CloudService. This command includes the Force parameter. The command does not prompt you for confirmation.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Get-WAPackCloudService</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>New-WAPackCloudService</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+    <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Remove-WAPackVMRole</command:name>
+      <maml:description>
+        <maml:para>Removes virtual machine role objects.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Remove</command:verb>
+      <command:noun>WAPackVMRole</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>The Remove-WAPackVMRole cmdlet removes virtual machine role objects. </maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Remove-WAPackVMRole</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="">
+          <maml:name>VMRole</maml:name>
+          <maml:description>
+            <maml:para>Specifies a virtual machine role. To obtain a virtual machine role, use the Get-WAPackVMRole cmdlet.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">VMRole</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
+          <maml:name>PassThru</maml:name>
+          <maml:description>
+            <maml:para>Indicates that the cmdlet returns a Boolean value. If the operation succeeds, the cmdlet returns a value of $True. Otherwise, it returns a value of $False. By default, this cmdlet does not generate any output.</maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
+          <maml:name>Force</maml:name>
+          <maml:description>
+            <maml:para>Indicates that the cmdlet removes a virtual machine without prompting you for confirmation. </maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
+          <maml:name>Confirm</maml:name>
+          <maml:description>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
+          <maml:name>WhatIf</maml:name>
+          <maml:description>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+          </maml:description>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
+        <maml:name>Force</maml:name>
+        <maml:description>
+          <maml:para>Indicates that the cmdlet removes a virtual machine without prompting you for confirmation. </maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
+        <maml:name>PassThru</maml:name>
+        <maml:description>
+          <maml:para>Indicates that the cmdlet returns a Boolean value. If the operation succeeds, the cmdlet returns a value of $True. Otherwise, it returns a value of $False. By default, this cmdlet does not generate any output.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="">
+        <maml:name>VMRole</maml:name>
+        <maml:description>
+          <maml:para>Specifies a virtual machine role. To obtain a virtual machine role, use the Get-WAPackVMRole cmdlet.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">VMRole</command:parameterValue>
+        <dev:type>
+          <maml:name>VMRole</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
+        <maml:name>Confirm</maml:name>
+        <maml:description>
+          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>false</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
+        <maml:name>WhatIf</maml:name>
+        <maml:description>
+          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>false</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>
+          </maml:name>
+          <maml:uri>
+          </maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>
+          </maml:name>
+          <maml:uri>
+          </maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <command:examples>
+      <command:example>
+        <maml:title>Example 1: Remove a virtual machine role (which was created using the WAP portal)</maml:title>
+        <maml:introduction>
+          <maml:para>
+          </maml:para>
+        </maml:introduction>
+        <dev:code>PS C:\&gt;$VMRole = Get-WAPackVMRole -Name “ContosoVMRole01”
+          PS C:\&gt;Remove-WAPackVMRole -VMRole $VMRole
+        </dev:code>
+        <dev:remarks>
+          <maml:para>The first command gets the virtual machine role named ContosoVMRole01 by using the Get-WAPackVMRole cmdlet, and then stores that object in the $VMRole variable.</maml:para>
+          <maml:para>The second command removes the virtual machine role stored in $VMRole. The command prompts you for confirmation.</maml:para>
+          <maml:para>Assuming this virtual machine role was created using the WAP portal, there’s no need to specify the cloud service name.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>Example 2: Remove a virtual machine role which was created after manually creating a cloud service</maml:title>
+        <maml:introduction>
+          <maml:para>
+          </maml:para>
+        </maml:introduction>
+        <dev:code>PS C:\&gt;$VMRole = Get-WAPackVMRole -Name “ContosoVMRole02”
+          PS C:\&gt;Remove-WAPackVMRole -VMRole $VMRole –CloudServiceName “ContosoCloudService02”
+        </dev:code>
+        <dev:remarks>
+          <maml:para>The first command gets the virtual machine role named "ContosoVMRole02" by using the Get-WAPackVMRole cmdlet, and then stores that object in the $VMRole variable.</maml:para>
+          <maml:para>The second command removes the virtual machine role stored in $VMRole. The command prompts you for confirmation.</maml:para>
+          <maml:para>Assuming this virtual machine role was not created using the portal, the user needs to specify the cloud service name. In this case named "ContosoCloudService02".</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>Example 3: Remove a virtual machine role without confirmation</maml:title>
+        <maml:introduction>
+          <maml:para>
+          </maml:para>
+        </maml:introduction>
+        <dev:code>
+          PS C:\&gt;$VMRole = Get-WAPackVMRole -Name "ContosoVMRole03"
+          PS C:\&gt;Remove-WAPackVMRole -VMRole $VMRole -Force
+        </dev:code>
+        <dev:remarks>
+          <maml:para>The first command gets the cloud service named ContosoVMRole03 by using the Get-WAPackVMRole cmdlet, and then stores that object in the $VMRole variable.</maml:para>
+          <maml:para>The second command removes the virtual machine role stored in $VMRole. This command includes the Force parameter. The command does not prompt you for confirmation.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Get-WAPackVMRole</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>New-WAPackVMRole</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Set-WAPackVMRole</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Set-WAPackVMRole</command:name>
+      <maml:description>
+        <maml:para>Changes the instance count property of a virtual machine role. </maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Set</command:verb>
+      <command:noun>WAPackVMRole</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>The Set-WAPackVMRole cmdlet changes the instance count property of a virtual machine role. </maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Set-WAPackVMRole</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="">
+          <maml:name>VMRole</maml:name>
+          <maml:description>
+            <maml:para>Specifies a virtual machine role. To obtain a virtual machine role, use the Get-WAPackVMRole cmdlet. </maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">VMRole</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
+          <maml:name>InstanceCount</maml:name>
+          <maml:description>
+            <maml:para>Specifies the instance count for a virtual machinerole.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="">
+        <maml:name>VMRole</maml:name>
+        <maml:description>
+          <maml:para>Specifies a virtual machine role. To obtain a virtual machine role, use the Get-WAPackVMRole cmdlet. </maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">VMRole</command:parameterValue>
+        <dev:type>
+          <maml:name>VMRole</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
+        <maml:name>InstanceCount</maml:name>
+        <maml:description>
+          <maml:para>Specifies the instance count for a virtual machine role.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Int</command:parameterValue>
+        <dev:type>
+          <maml:name>InstanceCount</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>
+          </maml:name>
+          <maml:uri>
+          </maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>
+          </maml:name>
+          <maml:uri>
+          </maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <command:examples>
+      <command:example>
+        <maml:title>Example 1: Specify the instance count for a virtual machine role</maml:title>
+        <maml:introduction>
+          <maml:para>
+          </maml:para>
+        </maml:introduction>
+        <dev:code>
+          PS C:\&gt;$VMRole = Get-WAPackVMRole -Name "ContosoVMRole01"
+          PS C:\&gt;Set-WAPackVMRole -VMRole $VMRole -InstanceCount 3
+        </dev:code>
+        <dev:remarks>
+          <maml:para>The first command gets the virtual machine role named ContosoVMRole01 by using the Get-WAPackVMRole cmdlet, and then stores that object in the $VMRole variable.</maml:para>
+          <maml:para>The second and final command sets the new instance count of the virtual machine role stored in $VMRole to 3. </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Get-WAPackVMRole</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>New-WAPackVMRole</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Remove-WAPackVMRole</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Invoke-AzureHDInsightHiveJob</command:name>
+      <maml:description>
+        <maml:para>Submits Hive queries to the HDInsight cluster, shows progress of the query execution, and retrieves query results in one operation.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Invoke</command:verb>
+      <command:noun>AzureHDInsightHiveJob</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>Submits Hive queries to the HDInsight cluster, shows progress of the query execution, and retrieves query results in one operation. The Use-AzureHDInsightCluster cmdlet needs to be used before calling Invoke-Hive to specify which HDInsight cluster the query will be submitted to.</maml:para>
+      <maml:para>This topic describes the cmdlet in the .7.2 version of the Microsoft Azure PowerShell module. To find out the version of the module you're using, from the Azure PowerShell console, type (get-module azure).version.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Invoke-AzureHDInsightHiveJob</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="QueryText">
+          <maml:name>Query</maml:name>
+          <maml:description>
+            <maml:para>The Hive query to be executed.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>Arguments</maml:name>
+          <maml:description>
+            <maml:para>Arguments of the Hadoop job. The arguments will be passed as command line arguments to each task.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">String[]</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="Params">
+          <maml:name>Defines</maml:name>
+          <maml:description>
+            <maml:para>Hadoop configuration values to be set during the job execution.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Hashtable</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="QueryFile">
+          <maml:name>File</maml:name>
+          <maml:description>
+            <maml:para>The wasb path to a file in Azure Blob Storage that contains the query to be executed. Use this File parameter in place of a query parameter.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>Files</maml:name>
+          <maml:description>
+            <maml:para>A collection of files required for the Hive job to execute.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">String[]</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="Name">
+          <maml:name>JobName</maml:name>
+          <maml:description>
+            <maml:para>The name of the Hive job being defined. If the name is not specified, it is "Hive: &lt;first 100 characters of Query&gt;" by default.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>StatusFolder</maml:name>
+          <maml:description>
+            <maml:para>Location of the status folder where the standard and error outputs of the job will be stored, including its exit code and task logs.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named" aliases="">
+        <maml:name>Arguments</maml:name>
+        <maml:description>
+          <maml:para>Arguments of the Hadoop job. The arguments will be passed as command line arguments to each task.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="true">String[]</command:parameterValue>
+        <dev:type>
+          <maml:name>String[]</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="Params">
+        <maml:name>Defines</maml:name>
+        <maml:description>
+          <maml:para>Hadoop configuration values to be set during the job execution.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Hashtable</command:parameterValue>
+        <dev:type>
+          <maml:name>Hashtable</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="QueryFile">
+        <maml:name>File</maml:name>
+        <maml:description>
+          <maml:para>The wasb path to a file in Azure Blob Storage that contains the query to be executed. Use this File parameter in place of a query parameter.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named" aliases="">
+        <maml:name>Files</maml:name>
+        <maml:description>
+          <maml:para>A collection of files required for the Hive job to execute.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="true">String[]</command:parameterValue>
+        <dev:type>
+          <maml:name>String[]</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="Name">
+        <maml:name>JobName</maml:name>
+        <maml:description>
+          <maml:para>The name of the Hive job being defined. If the name is not specified, it is "Hive: &lt;first 100 characters of Query&gt;" by default.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="QueryText">
+        <maml:name>Query</maml:name>
+        <maml:description>
+          <maml:para>The Hive query to be executed.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+        <maml:name>StatusFolder</maml:name>
+        <maml:description>
+          <maml:para>Location of the status folder where the standard and error outputs of the job will be stored, including its exit code and task logs.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>
+          </maml:name>
+          <maml:uri>
+          </maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para>
+          </maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>
+          </maml:name>
+          <maml:uri>
+          </maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para>
+          </maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <command:examples>
+      <command:example>
+        <maml:title>Submit a Hive query</maml:title>
+        <maml:introduction>
+          <maml:para>
+          </maml:para>
+        </maml:introduction>
+        <dev:code>PS C:\&gt;Use-AzureHDInsightCluster yourcluster -Subscription (Get-AzureSubscription -Current).SubscriptionId
+Invoke-Hive "select * from hivesampletable limit 10"
+
+</dev:code>
+        <dev:remarks>
+          <maml:para>Submit a Hive queries to the HDInsight cluster.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Online Version:</maml:linkText>
+        <maml:uri>
+        </maml:uri>
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>New-AzureHDInsightSqoopJobDefinition</command:name>
+      <maml:description>
+        <maml:para>Defines a new Sqoop job.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>New</command:verb>
+      <command:noun>AzureHDInsightSqoopJobDefinition</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>Defines a Sqoop job to be run on an HDInsight cluster.</maml:para>
+      <maml:para>This topic describes the cmdlet in the .7.2 version of the Microsoft Azure PowerShell module. To find out the version of the module you're using, from the Azure PowerShell console, type (get-module azure).version.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>New-AzureHDInsightSqoopJobDefinition</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>Command</maml:name>
+          <maml:description>
+            <maml:para>
+            </maml:para>
+            <maml:para>Specifies a Sqoop command and its arguments.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="QueryFile">
+          <maml:name>File</maml:name>
+          <maml:description>
+            <maml:para>The path to a script file that contains the commands to be executed. The script file must be located on wasb.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>Files</maml:name>
+          <maml:description>
+            <maml:para>The collection of files required for the execution of the job. Use wasb file references here.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">String[]</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>StatusFolder</maml:name>
+          <maml:description>
+            <maml:para>Location of the status folder where the standard and error outputs of the Sqoop job will be stored, including its exit code and task logs.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+        <maml:name>Command</maml:name>
+        <maml:description>
+          <maml:para>
+          </maml:para>
+          <maml:para>Specifies a Sqoop command and its arguments.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="QueryFile">
+        <maml:name>File</maml:name>
+        <maml:description>
+          <maml:para>The path to a script file that contains the commands to be executed. The script file must be located on wasb.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named" aliases="">
+        <maml:name>Files</maml:name>
+        <maml:description>
+          <maml:para>The collection of files required for the execution of the job. Use wasb file references here.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="true">String[]</command:parameterValue>
+        <dev:type>
+          <maml:name>String[]</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+        <maml:name>StatusFolder</maml:name>
+        <maml:description>
+          <maml:para>Location of the status folder where the standard and error outputs of the Sqoop job will be stored, including its exit code and task logs.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>
+          </maml:name>
+          <maml:uri>
+          </maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para>
+          </maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>
+          </maml:name>
+          <maml:uri>
+          </maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para>
+          </maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <maml:alertSet>
+      <maml:title />
+      <maml:alert>
+        <maml:para>Sqoop is a tool designed to transfer data between Hadoop clusters and relational databases. You can use Sqoop to import data from a SQL database into an Hadoop Distributed File System (HDFS), transform the data with Hadoop MapReduce, and then export the data from the HDFS back into the SQL database.</maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>Import data</maml:title>
+        <maml:introduction>
+          <maml:para>
+          </maml:para>
+        </maml:introduction>
+        <dev:code>PS C:\&gt;$sqoopJobDef = New-AzureHDInsightSqoopJobDefinition -Command "import --connect jdbc:sqlserver://&lt;SQLDatabaseServerName&gt;.database.windows.net:1433;username=&lt;SQLDatabasUsername&gt;@&lt;SQLDatabaseServerName&gt;; password=&lt;SQLDatabasePassword&gt;; database=&lt;SQLDatabaseDatabaseName&gt; --table &lt;TableName&gt; --target-dir wasb://&lt;ContainerName&gt;@&lt;WindowsAzureStorageAccountName&gt;.blob.core.windows.net/&lt;Path&gt;"
+
+</dev:code>
+        <dev:remarks>
+          <maml:para>Define a Sqoop job that that imports??all the rows of a table from a Windows Azure SQL Database to an HDInsight cluster.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Online Version:</maml:linkText>
+        <maml:uri>
+        </maml:uri>
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
       <command:name>Get-AzureAutomationAccount</command:name>
       <maml:description>
         <maml:para>Gets Azure Automation accounts.</maml:para>

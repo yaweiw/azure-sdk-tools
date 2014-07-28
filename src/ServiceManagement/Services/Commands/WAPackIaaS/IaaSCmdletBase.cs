@@ -16,6 +16,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS
 {
     using Microsoft.WindowsAzure.Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS;
+    using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Operations;
     using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.WebClient;
     using System;
     using System.Collections.Generic;
@@ -128,6 +129,16 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS
             {
                 Marshal.ZeroFreeGlobalAllocUnicode(pointer);
             }
+        }
+
+        internal JobInfo WaitForJobCompletion(Guid? job)
+        {
+            JobInfo jobInfo = new JobOperations(this.WebClientFactory).WaitOnJob(job.Value);
+            if (jobInfo.jobStatus != JobStatusEnum.CompletedSuccessfully)
+            {
+                this.WriteErrorDetails(new Exception(jobInfo.errorMessage));
+            }
+            return jobInfo;
         }
     }
 }

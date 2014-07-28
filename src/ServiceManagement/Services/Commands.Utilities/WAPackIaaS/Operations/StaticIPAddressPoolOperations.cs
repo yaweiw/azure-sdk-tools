@@ -18,28 +18,41 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Operations
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Exceptions;
     using System;
+    using System.Collections.Generic;
     using System.Net;
 
-    internal class VMNetworkOperations : OperationsBase<VMNetwork>
+    internal class StaticIPAddressPoolOperations : OperationsBase<StaticIPAddressPool>
     {
-        public VMNetworkOperations(WebClientFactory webClientFactory)
-            : base(webClientFactory, "/VMNetworks")
+        public StaticIPAddressPoolOperations(WebClientFactory webClientFactory)
+            : base(webClientFactory, "/StaticIPAddressPools")
         {
         }
 
-        public override VMNetwork Create(VMNetwork vmNetwork, out Guid? jobId)
+        public override StaticIPAddressPool Create(StaticIPAddressPool staticIPAddressPool, out Guid? jobId)
         {
             var client = this.webClientFactory.CreateClient(this.uriSuffix);
 
             WebHeaderCollection outHeaders;
-            var resultList = client.Create<VMNetwork>(vmNetwork, out outHeaders);
+            var resultList = client.Create<StaticIPAddressPool>(staticIPAddressPool, out outHeaders);
 
             if (resultList.Count <= 0)
-                throw new WAPackOperationException(Resources.ErrorCreatingVMNetwork);
+                throw new WAPackOperationException(Resources.ErrorCreatingStaticIPAddressPool);
 
             jobId = TryGetJobIdFromHeaders(outHeaders);
 
             return resultList[0];
+        }
+
+        public List<StaticIPAddressPool> Read(VMSubnet vmSubnet)
+        {
+            var filter = new Dictionary<string, string>
+            {
+                {"StampId", vmSubnet.StampId.ToString()},
+                {"VMSubnetId ", vmSubnet.ID.ToString()}
+            };
+
+            var resultList = Read(filter);
+            return resultList;
         }
 
         public override void Delete(Guid id, out Guid? jobId)
@@ -50,7 +63,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Operations
             var client = this.webClientFactory.CreateClient(this.uriSuffix + String.Format("(ID=guid'{0}',StampId=guid'{1}')", id, stampId));
 
             WebHeaderCollection outHeaders;
-            client.Delete<VMNetwork>(out outHeaders);
+            client.Delete<StaticIPAddressPool>(out outHeaders);
 
             jobId = TryGetJobIdFromHeaders(outHeaders);
         }

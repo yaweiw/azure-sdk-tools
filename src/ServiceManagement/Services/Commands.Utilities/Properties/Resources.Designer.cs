@@ -1242,11 +1242,56 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error creating CloudService.
+        /// </summary>
+        public static string ErrorCreatingCloudService {
+            get {
+                return ResourceManager.GetString("ErrorCreatingCloudService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error creating StaticIPAddressPool.
+        /// </summary>
+        public static string ErrorCreatingStaticIPAddressPool {
+            get {
+                return ResourceManager.GetString("ErrorCreatingStaticIPAddressPool", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error creating VirtualMachine.
         /// </summary>
         public static string ErrorCreatingVirtualMachine {
             get {
                 return ResourceManager.GetString("ErrorCreatingVirtualMachine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error creating VMNetwork.
+        /// </summary>
+        public static string ErrorCreatingVMNetwork {
+            get {
+                return ResourceManager.GetString("ErrorCreatingVMNetwork", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error creating VMRole.
+        /// </summary>
+        public static string ErrorCreatingVMRole {
+            get {
+                return ResourceManager.GetString("ErrorCreatingVMRole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error creating VMSubnet.
+        /// </summary>
+        public static string ErrorCreatingVMSubnet {
+            get {
+                return ResourceManager.GetString("ErrorCreatingVMSubnet", resourceCulture);
             }
         }
         
@@ -2866,6 +2911,24 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete the CloudService &apos;{0}&apos;?.
+        /// </summary>
+        public static string RemoveCloudServiceConfirmationMessage {
+            get {
+                return ResourceManager.GetString("RemoveCloudServiceConfirmationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deleting CloudService..
+        /// </summary>
+        public static string RemoveCloudServiceMessage {
+            get {
+                return ResourceManager.GetString("RemoveCloudServiceMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The current subscription is being removed. Use Select-Subscription &lt;subscriptionName&gt; to select a new current subscription..
         /// </summary>
         public static string RemoveCurrentSubscription {
@@ -2992,6 +3055,24 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete the StaticIPAddressPool &apos;{0}&apos;?.
+        /// </summary>
+        public static string RemoveStaticIPAddressPoolConfirmationMessage {
+            get {
+                return ResourceManager.GetString("RemoveStaticIPAddressPoolConfirmationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deleting StaticIPAddressPool..
+        /// </summary>
+        public static string RemoveStaticIPAddressPoolMessage {
+            get {
+                return ResourceManager.GetString("RemoveStaticIPAddressPoolMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to remove subscription &apos;{0}&apos;?.
         /// </summary>
         public static string RemoveSubscriptionConfirmation {
@@ -3024,6 +3105,60 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string RemoveVMMessage {
             get {
                 return ResourceManager.GetString("RemoveVMMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete the VMNetwork &apos;{0}&apos;?.
+        /// </summary>
+        public static string RemoveVMNetworkConfirmationMessage {
+            get {
+                return ResourceManager.GetString("RemoveVMNetworkConfirmationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deleting VMNetwork.
+        /// </summary>
+        public static string RemoveVMNetworkMessage {
+            get {
+                return ResourceManager.GetString("RemoveVMNetworkMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete the VMRole &apos;{0}&apos;?.
+        /// </summary>
+        public static string RemoveVMRoleConfirmationMessage {
+            get {
+                return ResourceManager.GetString("RemoveVMRoleConfirmationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deleting VMRole..
+        /// </summary>
+        public static string RemoveVMRoleMessage {
+            get {
+                return ResourceManager.GetString("RemoveVMRoleMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to remove the VMSubnet &apos;{0}&apos;?.
+        /// </summary>
+        public static string RemoveVMSubnetConfirmationMessage {
+            get {
+                return ResourceManager.GetString("RemoveVMSubnetConfirmationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deleting VMSubnet..
+        /// </summary>
+        public static string RemoveVMSubnetMessage {
+            get {
+                return ResourceManager.GetString("RemoveVMSubnetMessage", resourceCulture);
             }
         }
         

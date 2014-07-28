@@ -18,28 +18,41 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Operations
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Exceptions;
     using System;
+    using System.Collections.Generic;
     using System.Net;
 
-    internal class VMNetworkOperations : OperationsBase<VMNetwork>
+    internal class VMSubnetOperations : OperationsBase<VMSubnet>
     {
-        public VMNetworkOperations(WebClientFactory webClientFactory)
-            : base(webClientFactory, "/VMNetworks")
+        public VMSubnetOperations(WebClientFactory webClientFactory)
+            : base(webClientFactory, "/VMSubnets")
         {
         }
 
-        public override VMNetwork Create(VMNetwork vmNetwork, out Guid? jobId)
+        public override VMSubnet Create(VMSubnet vmSubnet, out Guid? jobId)
         {
             var client = this.webClientFactory.CreateClient(this.uriSuffix);
 
             WebHeaderCollection outHeaders;
-            var resultList = client.Create<VMNetwork>(vmNetwork, out outHeaders);
+            var resultList = client.Create<VMSubnet>(vmSubnet, out outHeaders);
 
             if (resultList.Count <= 0)
-                throw new WAPackOperationException(Resources.ErrorCreatingVMNetwork);
+                throw new WAPackOperationException(Resources.ErrorCreatingVMSubnet);
 
             jobId = TryGetJobIdFromHeaders(outHeaders);
 
             return resultList[0];
+        }
+
+        public List<VMSubnet> Read(VMNetwork vmNetwork)
+        {
+            var filter = new Dictionary<string, string>
+            {
+                {"StampId", vmNetwork.StampId.ToString()},
+                {"VMNetworkId ", vmNetwork.ID.ToString()}
+            };
+            
+            var resultList = Read(filter);
+            return resultList;
         }
 
         public override void Delete(Guid id, out Guid? jobId)
@@ -50,7 +63,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Operations
             var client = this.webClientFactory.CreateClient(this.uriSuffix + String.Format("(ID=guid'{0}',StampId=guid'{1}')", id, stampId));
 
             WebHeaderCollection outHeaders;
-            client.Delete<VMNetwork>(out outHeaders);
+            client.Delete<VMSubnet>(out outHeaders);
 
             jobId = TryGetJobIdFromHeaders(outHeaders);
         }
