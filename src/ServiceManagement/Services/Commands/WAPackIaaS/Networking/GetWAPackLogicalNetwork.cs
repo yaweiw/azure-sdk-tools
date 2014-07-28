@@ -12,26 +12,17 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VirtualMachine
+namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.Networking
 {
     using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.DataContract;
     using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Operations;
-    using System;
     using System.Collections.Generic;
     using System.Management.Automation;
 
-    [Cmdlet(VerbsCommon.Get, "WAPackVNet", DefaultParameterSetName = WAPackCmdletParameterSets.Empty)]
-    public class GetWAPackVNet : IaaSCmdletBase
+    [Cmdlet(VerbsCommon.Get, "WAPackLogicalNetwork", DefaultParameterSetName = WAPackCmdletParameterSets.Empty)]
+    public class GetWAPackLogicalNetwork : IaaSCmdletBase
     {
-        [Parameter(Position = 0, Mandatory = false, ParameterSetName = WAPackCmdletParameterSets.FromId, ValueFromPipelineByPropertyName = true, HelpMessage = "VNetwork ID.")]
-        [ValidateNotNullOrEmpty]
-        public Guid ID
-        {
-            get;
-            set;
-        }
-
-        [Parameter(Position = 0, Mandatory = false, ParameterSetName = WAPackCmdletParameterSets.FromName, ValueFromPipelineByPropertyName = true, HelpMessage = "VNetwork Name.")]
+        [Parameter(Position = 0, Mandatory = false, ParameterSetName = WAPackCmdletParameterSets.FromName, ValueFromPipelineByPropertyName = true, HelpMessage = "LogicalNetwork Name.")]
         [ValidateNotNullOrEmpty]
         public string Name
         {
@@ -41,25 +32,16 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VirtualMachine
 
         public override void ExecuteCmdlet()
         {
-            IEnumerable<VMNetwork> results = null;
-            var vmNetworkOperations = new VMNetworkOperations(this.WebClientFactory);
+            IEnumerable<LogicalNetwork> results = null;
+            var logicalNetworkOperations = new LogicalNetworkOperations(this.WebClientFactory);
 
             if (this.ParameterSetName == WAPackCmdletParameterSets.Empty)
             {
-                results = vmNetworkOperations.Read();
-            }
-            else if (this.ParameterSetName == WAPackCmdletParameterSets.FromId)
-            {
-                VMNetwork vmNetwork = null;
-                vmNetwork = vmNetworkOperations.Read(ID);
-                results = new List<VMNetwork>() { vmNetwork };
+                results = logicalNetworkOperations.Read();
             }
             else if (this.ParameterSetName == WAPackCmdletParameterSets.FromName)
             {
-                results = vmNetworkOperations.Read(new Dictionary<string, string>()
-                {
-                    {"Name", Name}
-                });
+                results = logicalNetworkOperations.Read(Name);
             }
 
             this.GenerateCmdletOutput(results);

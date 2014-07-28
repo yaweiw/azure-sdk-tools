@@ -12,27 +12,27 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS
+namespace Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Operations
 {
+    using DataContract;
+    using System.Collections.Generic;
 
-    public enum JobStatusEnum
+    internal class LogicalNetworkOperations : OperationsBase<LogicalNetwork>
     {
-        CompletedSuccessfully = 0,
-        Failed,
-        JobNotFound,
-        OperationTimedOut
-    }
-
-    internal class JobInfo
-    {
-        public JobStatusEnum jobStatus;
-
-        public string errorMessage;
-        
-        public JobInfo(JobStatusEnum jobStatus, string errorMessage)
+        public LogicalNetworkOperations(WebClientFactory webClientFactory)
+            : base(webClientFactory, "/LogicalNetworks")
         {
-            this.errorMessage = errorMessage;
-            this.jobStatus = jobStatus;
+        }
+
+        public List<LogicalNetwork> Read(string logicalNetworkName)
+        {
+            var filter = new Dictionary<string, string>
+            {
+                {"Name", logicalNetworkName}
+            };
+
+            var resultList = Read(filter);
+            return resultList;
         }
     }
 }
