@@ -14,20 +14,16 @@
 
 namespace Microsoft.WindowsAzure.Commands.Websites.WebHostingPlan
 {
-    using Microsoft.WindowsAzure.Commands.Utilities.Websites;
     using System;
     using System.Collections.Generic;
     using System.Management.Automation;
-    using Utilities.Properties;
     using Utilities.Websites.Common;
-    using Utilities.Websites.Services;
-    using Utilities.Websites.Services.DeploymentEntities;
     using Utilities.Websites.Services.WebEntities;
 
     /// <summary>
     /// Gets an azure website.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureWebHostingPlanMetrics"), OutputType(typeof(MetricResponse))]
+    [Cmdlet(VerbsCommon.Get, "AzureWebHostingPlanMetrics"), OutputType(typeof(IList<MetricResponse>))]
     public class GetAzureWebHostingPlanCommandMetrics : WebHostingPlanContextBaseCmdlet
     {
         [Parameter(Position = 2, Mandatory = false, ValueFromPipelineByPropertyName = true,
@@ -52,7 +48,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites.WebHostingPlan
         {
             base.ExecuteCmdlet();
 
-            var response = WebsitesClient.GetPlanHistoricalUsageMetrics(WebSpaceName, Name, MetricNames, StartDate, EndDate, TimeGrain);
+            var response = WebsitesClient.GetPlanHistoricalUsageMetrics(WebSpace, Name, MetricNames, StartDate, EndDate, TimeGrain);
             foreach (var metricResponse in response)
             {
                 WriteObject(metricResponse, true);

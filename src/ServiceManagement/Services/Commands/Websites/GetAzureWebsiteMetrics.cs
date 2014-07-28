@@ -12,21 +12,18 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Data;
-
 namespace Microsoft.WindowsAzure.Commands.Websites
 {
     using System;
-    using System.Linq;
+    using System.Collections.Generic;
     using System.Management.Automation;
     using Utilities.Websites.Common;
-    using Utilities.Websites.Services;
     using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntities;
 
     /// <summary>
     /// Gets an azure website.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureWebsiteMetrics"), OutputType(typeof(MetricResponse))]
+    [Cmdlet(VerbsCommon.Get, "AzureWebsiteMetrics"), OutputType(typeof(IList<MetricResponse>))]
     public class GetAzureWebsiteMetricsCommand : WebsiteContextBaseCmdlet
     {
         [Parameter(Position = 2, Mandatory = false, ValueFromPipelineByPropertyName = true, 

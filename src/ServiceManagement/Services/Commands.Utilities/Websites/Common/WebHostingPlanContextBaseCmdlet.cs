@@ -12,17 +12,16 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-
 namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Common
 {
+    using System;
     using System.Management.Automation;
 
     public abstract class WebHostingPlanContextBaseCmdlet : WebsiteBaseCmdlet
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The web space name where hosting plan belongs.")]
         [ValidateNotNullOrEmpty]
-        public string WebSpaceName { get; set; }
+        public string WebSpace { get; set; }
 
         [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The web hosting plan name.")]
         [ValidateNotNullOrEmpty]
@@ -32,9 +31,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Common
         {
             base.ExecuteCmdlet();
 
-            if (!string.IsNullOrEmpty(Name) && string.IsNullOrEmpty(WebSpaceName))
+            if (!string.IsNullOrEmpty(Name) && string.IsNullOrEmpty(WebSpace))
             {
-                throw new ArgumentNullException("WebSpaceName", "Please provide webspace name as well.");
+                throw new ArgumentNullException("WebSpace", WebSiteResources.Argument_WebSpaceMissing);
             }
         }
     }

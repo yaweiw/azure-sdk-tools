@@ -402,6 +402,11 @@
     <Compile Include="Websites\Services\WebSitesManagementExtensionMethods.cs" />
     <Compile Include="Websites\UriElements.cs" />
     <Compile Include="Websites\PSWebJob.cs" />
+    <Compile Include="Websites\WebSiteResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WebSiteResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Websites\WebsitesClient.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -732,6 +737,10 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Websites\WebSiteResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>WebSiteResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -32,11 +32,11 @@ namespace Microsoft.WindowsAzure.Commands.Websites.WebHostingPlan
     {  
         public override void ExecuteCmdlet()
         {
-            if (!string.IsNullOrEmpty(Name) && !string.IsNullOrEmpty(WebSpaceName))
+            if (!string.IsNullOrEmpty(Name) && !string.IsNullOrEmpty(WebSpace))
             {
                 GetByName();
             }
-            else if (!string.IsNullOrEmpty(WebSpaceName))
+            else if (!string.IsNullOrEmpty(WebSpace))
             {
                 GetByWebSpace();
             }
@@ -50,7 +50,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites.WebHostingPlan
         {
             Do(() =>
             {
-                var plan = WebsitesClient.GetWebHostingPlan(WebSpaceName, Name);
+                var plan = WebsitesClient.GetWebHostingPlan(WebSpace, Name);
                 WriteObject(plan, true);
             });
         }
@@ -59,7 +59,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites.WebHostingPlan
         {
             Do(() =>
             {
-                var plan = WebsitesClient.ListWebHostingPlans(WebSpaceName);
+                var plan = WebsitesClient.ListWebHostingPlans(WebSpace);
                 WriteObject(plan, true);
             });
         }

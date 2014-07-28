@@ -12,8 +12,6 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.ComponentModel;
-
 namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
 {
     using System;

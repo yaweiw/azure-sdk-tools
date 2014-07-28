@@ -216,7 +216,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="endTime">End date of the requested period</param>
         /// <param name="timeGrain">Time grains for the metrics.</param>
         /// <returns>The list of site metrics for the specified period.</returns>
-        IList<MetricResponse> GetHistoricalUsageMetrics(string siteName, string slot, IList<string> metricNames, DateTime? starTime, DateTime? endTime, string timeGrain);
+        IList<MetricResponse> GetHistoricalUsageMetrics(string siteName, string slot, IList<string> metricNames, DateTime? starTime, 
+            DateTime? endTime, string timeGrain);
         
         /// <summary>
         /// Enables site diagnostic.
@@ -579,7 +580,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="endTime">End date of the requested period</param>
         /// <param name="timeGrain">Time grains for the metrics.</param>
         /// <returns>The list of site metrics for the specified period.</returns>
-        IList<MetricResponse> GetPlanHistoricalUsageMetrics(string webSpaceName, string planName, IList<string> metricNames, DateTime? starTime, DateTime? endTime, string timeGrain);
+        IList<MetricResponse> GetPlanHistoricalUsageMetrics(string webSpaceName, string planName, IList<string> metricNames, 
+            DateTime? starTime, DateTime? endTime, string timeGrain);
     }
 
     public enum WebsiteState
