@@ -19,11 +19,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
     public class RemoveAzureReservedIPCmdletInfo : CmdletsInfo
     {
-        public RemoveAzureReservedIPCmdletInfo(string name)
+        public RemoveAzureReservedIPCmdletInfo(string name, bool force)
         {
             this.cmdletName = Utilities.RemoveAzureReservedIPCmdletName;
 
             this.cmdletParams.Add(new CmdletParam("ReservedIPName", name));
+            if(force)
+            this.cmdletParams.Add(new CmdletParam("Force"));
         }
     }
 }
