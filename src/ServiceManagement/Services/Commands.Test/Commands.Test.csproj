@@ -247,6 +247,7 @@
     <Compile Include="WAPackIaaS\WebClient\GetAbsoluteUriTests.cs" />
     <Compile Include="WAPackIaaS\WebClient\JsonHelperTests.cs" />
     <Compile Include="WAPackIaaS\WebClient\WAPackWebClientTests.cs" />
+    <Compile Include="Websites\GetAzureWebSiteMetricsTests.cs" />
     <Compile Include="Websites\PublishAzureWebsiteProjectTests.cs" />
     <Compile Include="Websites\UpdateAzureWebsiteRepositoryTests.cs" />
     <Compile Include="Websites\SwitchAzureWebSiteSlotTests.cs" />
@@ -269,6 +270,7 @@
     <Compile Include="Websites\Services\CacheTests.cs" />
     <Compile Include="Websites\Services\GithubClientTests.cs" />
     <Compile Include="Websites\Services\GitTests.cs" />
+    <Compile Include="Websites\WebHostingPlans\GetAzureWebHostingPlanTests.cs" />
     <Compile Include="Websites\WebJobs\SaveAzureWebsiteJobLogTests.cs" />
     <Compile Include="Websites\WebJobs\GetAzureWebsiteJobHistoryTests.cs" />
     <Compile Include="Websites\WebJobs\StopAzureWebsiteJobTests.cs" />
@@ -382,6 +384,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <Import Project="..\..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
