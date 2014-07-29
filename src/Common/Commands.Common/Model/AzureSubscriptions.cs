@@ -14,42 +14,15 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Microsoft.WindowsAzure.Commands.Common.Model
 {
-    public class AzureEnvironment
+    public class AzureSubscriptions : List<AzureSubscription>
     {
-        public string Name { get; set; }
-
-        public Dictionary<string, List<Guid>> UserAccountSubscriptionsMap { get; set; }
-
-        public Dictionary<string, List<Guid>> ThumbprintSubscriptionsMap { get; set; }
-
-        public Guid DefaultSubscription { get; set; }
-
-        public Dictionary<Endpoint, string> Endpoints { get; set; }
-
-        public enum Endpoint
+        public AzureSubscription Get(Guid id)
         {
-            ActiveDirectoryServiceEndpointResourceId,
-            
-            AdTenantUrl,
-            
-            GalleryEndpoint,
-            
-            ManagementPortalUrl,
-            
-            ServiceEndpoint,
-            
-            PublishSettingsFileUrl,
-            
-            ResourceManagerEndpoint,
-            
-            SqlDatabaseDnsSuffix,
-            
-            StorageEndpointSuffix,
-            
-            ActiveDirectoryEndpoint
+            return this.FirstOrDefault(s => Guid.Equals(id, s.Id));
         }
     }
 }

@@ -144,5 +144,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public const string AzureSqlDatabaseDnsSuffix = ".database.windows.net";
 
         public const string ChinaSqlDatabaseDnsSuffix = ".database.chinacloudapi.cn";
+
+        public const string AzureActiveDirectoryEndpoint = "https://login.windows.net/";
+
+        public const string ChinaActiveDirectoryEndpoint = "https://login.chinacloudapi.cn/";
     }
 }

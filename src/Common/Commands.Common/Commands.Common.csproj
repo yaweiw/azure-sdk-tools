@@ -142,6 +142,8 @@
     <Compile Include="Authentication\ITokenProvider.cs" />
     <Compile Include="Authentication\LoginType.cs" />
     <Compile Include="Authentication\RegistryBackedDictionary.cs" />
+    <Compile Include="AuthenticationFactory.cs" />
+    <Compile Include="ClientFactory.cs" />
     <Compile Include="Common\AzureException.cs" />
     <Compile Include="Common\AzureModule.cs" />
     <Compile Include="Common\AzureSession.cs" />
@@ -162,8 +164,13 @@
     <Compile Include="Common\SubscriptionCmdletBase.cs" />
     <Compile Include="Common\SubscriptionDataExtended.cs" />
     <Compile Include="Common\TestMockSupport.cs" />
+    <Compile Include="Interfaces\IClientFactory.cs" />
+    <Compile Include="Interfaces\IAuthenticationFactory.cs" />
     <Compile Include="Model\AzureEnvironment.cs" />
+    <Compile Include="Model\AzureEnvironments.cs" />
+    <Compile Include="Model\AzureProfile.cs" />
     <Compile Include="Model\AzureSubscription.cs" />
+    <Compile Include="Model\AzureSubscriptions.cs" />
     <Compile Include="Utilities\ConversionUtilities.cs" />
     <Compile Include="Utilities\GeneralUtilities.cs" />
     <Compile Include="Common\GlobalPathInfo.cs" />
@@ -210,6 +217,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />

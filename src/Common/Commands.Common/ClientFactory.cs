@@ -12,20 +12,61 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Commands.Common.Model;
+using Microsoft.WindowsAzure.Commands.Common.Properties;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
+using Microsoft.WindowsAzure.Common;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
-using Microsoft.WindowsAzure.Commands.Common;
-using Microsoft.WindowsAzure.Commands.Common.Properties;
-using Microsoft.WindowsAzure.Common;
 
-namespace Microsoft.WindowsAzure.Commands.Utilities.Common
+namespace Microsoft.WindowsAzure.Commands.Common
 {
-    public class ManagementClientHelper : IManagementClientHelper
+    public class ClientFactory : IClientFactory
     {
-        public TClient CreateClient<TClient>(bool addRestLogHandler, EventHandler<ClientCreatedArgs> clientCreatedHandler, 
-            params object[] parameters) where TClient : ServiceClient<TClient>
+        private static IClientFactory instance = null;
+
+        /// <summary>
+        /// Event that's trigged when a new client has been created.
+        /// </summary>
+        public static event EventHandler<ClientCreatedArgs> OnClientCreated;
+
+        private readonly char[] uriPathSeparator = { '/' };
+
+        private ClientFactory ()
+        {
+
+        }
+
+        public static IClientFactory Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new ClientFactory();
+                }
+
+                return instance;
+            }
+
+            set
+            {
+                Debug.Assert(value != null, "The client have a value.");
+                instance = value;
+            }
+        }
+
+        public TClient CreateClient<TClient>(AzureSubscription subscription, AzureEnvironment.Endpoint endpoint) where TClient : ServiceClient<TClient>
+        {
+            SubscriptionCloudCredentials creds = AuthenticationFactory.Instance.Authenticate(subscription);
+            Uri endpointUri = AzureProfile.Instance.GetEndpoint(subscription, endpoint);
+            return CreateClient<TClient>(creds, endpointUri);
+        }
+
+        public TClient CreateClient<TClient>(params object[] parameters) where TClient : ServiceClient<TClient>
         {
             List<Type> types = new List<Type>();
             foreach (object obj in parameters)
@@ -42,42 +83,35 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
             TClient client = (TClient)constructor.Invoke(parameters);
             client.UserAgent.Add(ApiConstants.UserAgentValue);
-            if (clientCreatedHandler != null)
+            
+            if (OnClientCreated != null)
             {
                 ClientCreatedArgs args = new ClientCreatedArgs { CreatedClient = client, ClientType = typeof(TClient) };
-                clientCreatedHandler(this, args);
+                OnClientCreated(this, args);
                 client = (TClient)args.CreatedClient;
             }
 
-            if (addRestLogHandler)
-            {
-                // Add the logging handler
-                var withHandlerMethod = typeof(TClient).GetMethod("WithHandler", new[] { typeof(DelegatingHandler) });
-                TClient finalClient =
-                    (TClient)withHandlerMethod.Invoke(client, new object[] { new HttpRestCallLogger() });
-                client.Dispose();
+            // Add the logging handler
+            var withHandlerMethod = typeof(TClient).GetMethod("WithHandler", new[] { typeof(DelegatingHandler) });
+            TClient finalClient = (TClient)withHandlerMethod.Invoke(client, new object[] { new HttpRestCallLogger() });
+            client.Dispose();
 
-                return finalClient;
-            }
-            else
-            {
-                return client;
-            }
+            return finalClient;
         }
 
-        public HttpClient CreateHttpClient(string serviceUrl, ICredentials credentials)
+        public HttpClient CreateClient(string endpoint, ICredentials credentials)
         {
-            return CreateHttpClient(serviceUrl, CreateClientHandler(serviceUrl, credentials));
+            return CreateClient(endpoint, CreateClientHandler(endpoint, credentials));
         }
 
-        public HttpClient CreateHttpClient(string serviceUrl, HttpMessageHandler effectiveHandler)
+        public HttpClient CreateClient(string endpoint, HttpMessageHandler effectiveHandler)
         {
-            if (serviceUrl == null)
+            if (endpoint == null)
             {
-                throw new ArgumentNullException("serviceUrl");
+                throw new ArgumentNullException("endpoint");
             }
 
-            Uri serviceAddr = new Uri(serviceUrl);
+            Uri serviceAddr = new Uri(endpoint);
             HttpClient client = new HttpClient(effectiveHandler)
             {
                 BaseAddress = serviceAddr,
@@ -89,13 +123,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             return client;
         }
 
-        private static readonly char[] uriPathSeparator = { '/' };
-
-        public HttpClientHandler CreateClientHandler(string serviceUrl, ICredentials credentials)
+        public HttpClientHandler CreateClientHandler(string endpoint, ICredentials credentials)
         {
-            if (serviceUrl == null)
+            if (endpoint == null)
             {
-                throw new ArgumentNullException("serviceUrl");
+                throw new ArgumentNullException("endpoint");
             }
 
             // Set up our own HttpClientHandler and configure it
@@ -107,7 +139,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 CredentialCache credentialCache = new CredentialCache();
 
                 // Get base address without terminating slash
-                string credentialAddress = new Uri(serviceUrl).GetLeftPart(UriPartial.Authority).TrimEnd(uriPathSeparator);
+                string credentialAddress = new Uri(endpoint).GetLeftPart(UriPartial.Authority).TrimEnd(uriPathSeparator);
 
                 // Add credentials to cache and associate with handler
                 NetworkCredential networkCredentials = credentials.GetCredential(new Uri(credentialAddress), "Basic");
