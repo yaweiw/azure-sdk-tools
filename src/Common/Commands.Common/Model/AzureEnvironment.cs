@@ -21,9 +21,9 @@ namespace Microsoft.WindowsAzure.Commands.Common.Model
     {
         public string Name { get; set; }
 
-        public Dictionary<string, List<Guid>> UserAccounts { get; set; }
+        public Dictionary<string, List<Guid>> UserAccountSubscriptions { get; set; }
 
-        public Dictionary<string, List<Guid>> CertificateThumbprints { get; set; }
+        public Dictionary<string, List<Guid>> ThumbprintSubscriptions { get; set; }
 
         public Guid DefaultSubscription { get; set; }
 
