@@ -33,7 +33,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Common
 
             if (!string.IsNullOrEmpty(Name) && string.IsNullOrEmpty(WebSpace))
             {
-                throw new ArgumentNullException("WebSpace", WebSiteResources.Argument_WebSpaceMissing);
+                throw new ArgumentNullException("WebSpace", Properties.Resources.Argument_WebSpaceMissing);
             }
         }
     }
