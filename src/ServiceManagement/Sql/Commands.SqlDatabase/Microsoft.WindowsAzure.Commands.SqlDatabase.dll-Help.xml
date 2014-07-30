@@ -677,7 +677,8 @@
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
-        <dev:code>PS C:\&gt;$myDbCopy = Start-AzureSqlDatabaseCopy -ServerName "lpqd0zbr8y" -DatabaseName "Orders" -PartnerServer "bk0b8kf658" -ContinuousCopyPS C:\&gt;Get-AzureSqlDatabaseCopy -ServerName "lpqd0zbr8y" -DatabaseCopy $myDbCopy
+        <dev:code>PS C:\&gt;$myDbCopy = Start-AzureSqlDatabaseCopy -ServerName "lpqd0zbr8y" -DatabaseName "Orders" -PartnerServer "bk0b8kf658" -ContinuousCopy
+PS C:\&gt;Get-AzureSqlDatabaseCopy -ServerName "lpqd0zbr8y" -DatabaseCopy $myDbCopy
 
 </dev:code>
         <dev:remarks>
@@ -2996,7 +2997,9 @@ C:\PS&gt;$cred = New-Object -TypeName 'System.Management.Automation.PSCredential
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
-        <dev:code>C:\PS&gt;$cred = Get-CredentialC:\PS&gt;$ctx = New-AzureSqlDatabaseServerContext -ServerName "lpqd0zbr8y" -credential $credC:\PS&gt;$database1 = New-AzureSqlDatabase -ConnectionContext $ctx -DatabaseName "Database1" -MaxSizeGB 50 -Collation "SQL_Latin1_General_CP1_CI_AS"
+        <dev:code>C:\PS&gt;$cred = Get-Credential
+C:\PS&gt;$ctx = New-AzureSqlDatabaseServerContext -ServerName "lpqd0zbr8y" -credential $cred
+C:\PS&gt;$database1 = New-AzureSqlDatabase -ConnectionContext $ctx -DatabaseName "Database1" -MaxSizeGB 50 -Collation "SQL_Latin1_General_CP1_CI_AS"
 </dev:code>
         <dev:remarks>
           <maml:para>This example uses the SQL Server authentication. 
@@ -3014,7 +3017,12 @@ It prompts the user for server administrator credentials, connects to the specif
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
-        <dev:code>C:\PS&gt;$subId = &lt;Subscription ID&gt;C:\PS&gt;$thumbprint = &lt;Certificate Thumbprint&gt;C:\PS&gt;$myCert = Get-Item Cert:\CurrentUser\My\$thumbprintC:\PS&gt;Set-AzureSubscription -SubscriptionName "mySubscription" -SubscriptionId $subId -Certificate $myCertC:\PS&gt;Select-AzureSubscription -SubscriptionName "mySubscription"C:\PS&gt;$ctx = New-AzureSqlDatabaseServerContext -ServerName "lpqd0zbr8y" -UseSubscription
+        <dev:code>C:\PS&gt;$subId = &lt;Subscription ID&gt;
+C:\PS&gt;$thumbprint = &lt;Certificate Thumbprint&gt;
+C:\PS&gt;$myCert = Get-Item Cert:\CurrentUser\My\$thumbprint
+C:\PS&gt;Set-AzureSubscription -SubscriptionName "mySubscription" -SubscriptionId $subId -Certificate $myCert
+C:\PS&gt;Select-AzureSubscription -SubscriptionName "mySubscription"
+C:\PS&gt;$ctx = New-AzureSqlDatabaseServerContext -ServerName "lpqd0zbr8y" -UseSubscription
 </dev:code>
         <dev:remarks>
           <maml:para>This example uses the certificate-based authentication. 
@@ -3753,7 +3761,8 @@ The rest of the commands select the subscription "mySubscription" to be designat
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
-        <dev:code>C:\PS&gt;$database1 | Remove-AzureSqlDatabase -ConnectionContext $ctxC:\PS&gt;$database1 | Remove-AzureSqlDatabase -ServerName "lpqd0zbr8y"
+        <dev:code>C:\PS&gt;$database1 | Remove-AzureSqlDatabase -ConnectionContext $ctx
+C:\PS&gt;$database1 | Remove-AzureSqlDatabase -ServerName "lpqd0zbr8y"
 </dev:code>
         <dev:remarks>
           <maml:para>This example demonstrates the alternative method of passing the database object through the pipeline.
@@ -4721,7 +4730,8 @@ The rest of the commands select the subscription "mySubscription" to be designat
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
-        <dev:code>C:\PS&gt;$database1 = Get-AzureSqlDatabase -ConnectionContext $ctx -DatabaseName "Database1"C:\PS&gt;Set-AzureSqlDatabase -ConnectionContext $ctx -Database $database1 -MaxSizeGB 20
+        <dev:code>C:\PS&gt;$database1 = Get-AzureSqlDatabase -ConnectionContext $ctx -DatabaseName "Database1"
+C:\PS&gt;Set-AzureSqlDatabase -ConnectionContext $ctx -Database $database1 -MaxSizeGB 20
 </dev:code>
         <dev:remarks>
           <maml:para>This example changes the current size of the database, "Database1", to 20 GB, in the specified SQL Database Server connection context “$ctx”.
@@ -4743,7 +4753,8 @@ The rest of the commands select the subscription "mySubscription" to be designat
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
-        <dev:code>C:\PS&gt;$database1 = Get-AzureSqlDatabase -ServerName "lpqd0zbr8y" -DatabaseName "Database1"C:\PS&gt;Set-AzureSqlDatabase -ServerName "lpqd0zbr8y" -Database $database1 -MaxSizeGB 20
+        <dev:code>C:\PS&gt;$database1 = Get-AzureSqlDatabase -ServerName "lpqd0zbr8y" -DatabaseName "Database1"
+C:\PS&gt;Set-AzureSqlDatabase -ServerName "lpqd0zbr8y" -Database $database1 -MaxSizeGB 20
 </dev:code>
         <dev:remarks>
           <maml:para>This example changes the current size of the database, "Database1", to 20 GB, in the specified SQL Database Server "lpqd0zbr8y".
@@ -5876,7 +5887,11 @@ The rest of the commands select the subscription "mySubscription" to be designat
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
-        <dev:code>C:\PS&gt;$credential = Get-CredentialC:\PS&gt;$SqlCtx = New-AzureSqlDatabaseServerContext -ServerName $ServerName -Credentials $credentialC:\PS&gt;$StorageCtx = New-AzureStorageContext -StorageAccountName $StorageName -StorageAccountKey $StorageKeyC:\PS&gt;$Container = Get-AzureStorageContainer -Name $ContainerName -Context $StorageCtxC:\PS&gt;$exportRequest = Start-AzureSqlDatabaseExport -SqlConnectionContext $SqlCtx -StorageContainer $Container -DatabaseName $DatabaseName -BlobName $BlobName
+        <dev:code>C:\PS&gt;$credential = Get-Credential
+C:\PS&gt;$SqlCtx = New-AzureSqlDatabaseServerContext -ServerName $ServerName -Credentials $credential
+C:\PS&gt;$StorageCtx = New-AzureStorageContext -StorageAccountName $StorageName -StorageAccountKey $StorageKey
+C:\PS&gt;$Container = Get-AzureStorageContainer -Name $ContainerName -Context $StorageCtx
+C:\PS&gt;$exportRequest = Start-AzureSqlDatabaseExport -SqlConnectionContext $SqlCtx -StorageContainer $Container -DatabaseName $DatabaseName -BlobName $BlobName
 
 </dev:code>
         <dev:remarks>
@@ -6173,7 +6188,11 @@ The rest of the commands select the subscription "mySubscription" to be designat
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
-        <dev:code>C:\PS&gt;$credential = Get-CredentialC:\PS&gt;$SqlCtx = New-AzureSqlDatabaseServerContext -ServerName $ServerName -Credentials $credentialC:\PS&gt;$StorageCtx = New-AzureStorageContext -StorageAccountName $StorageName -StorageAccountKey $StorageKeyC:\PS&gt;$Container = Get-AzureStorageContainer -Name $ContainerName -Context $StorageCtxC:\PS&gt;$importRequest = Start-AzureSqlDatabaseImport -SqlConnectionContext $SqlCtx -StorageContainer $Container -DatabaseName $DatabaseName -BlobName $BlobName
+        <dev:code>C:\PS&gt;$credential = Get-Credential
+C:\PS&gt;$SqlCtx = New-AzureSqlDatabaseServerContext -ServerName $ServerName -Credentials $credential
+C:\PS&gt;$StorageCtx = New-AzureStorageContext -StorageAccountName $StorageName -StorageAccountKey $StorageKey
+C:\PS&gt;$Container = Get-AzureStorageContainer -Name $ContainerName -Context $StorageCtx
+C:\PS&gt;$importRequest = Start-AzureSqlDatabaseImport -SqlConnectionContext $SqlCtx -StorageContainer $Container -DatabaseName $DatabaseName -BlobName $BlobName
 
 </dev:code>
         <dev:remarks>
