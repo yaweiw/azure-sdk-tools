@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development.Scaffold
     using Commands.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
     using Commands.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
     using Commands.Utilities.Properties;
+    using Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools;
     using System;
     using System.IO;
     using System.Management.Automation;
@@ -42,6 +43,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development.Scaffold
         [TestInitialize]
         public void SetupTest()
         {
+            AzureTool.IgnoreMissingSDKError = true;
             GlobalPathInfo.GlobalSettingsDirectory = Data.AzureSdkAppDir;
             mockCommandRuntime = new MockCommandRuntime();
 
