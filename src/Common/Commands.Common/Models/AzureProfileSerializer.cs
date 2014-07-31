@@ -15,7 +15,7 @@
 using Microsoft.WindowsAzure.Commands.Common.Interfaces;
 using System;
 
-namespace Microsoft.WindowsAzure.Commands.Common.Model
+namespace Microsoft.WindowsAzure.Commands.Common.Models
 {
     public class AzureProfileSerializer : ISerializer<AzureProfile>
     {

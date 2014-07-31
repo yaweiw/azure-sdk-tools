@@ -12,7 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Commands.Common.Model;
+using Microsoft.WindowsAzure.Commands.Common.Factories;
+using Microsoft.WindowsAzure.Commands.Common.Models;
 using System.Diagnostics;
 
 namespace Microsoft.WindowsAzure.Commands.Common

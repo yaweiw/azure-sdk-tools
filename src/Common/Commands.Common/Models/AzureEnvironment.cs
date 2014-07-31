@@ -15,26 +15,18 @@
 using System;
 using System.Collections.Generic;
 
-namespace Microsoft.WindowsAzure.Commands.Common.Model
+namespace Microsoft.WindowsAzure.Commands.Common.Models
 {
-    public class AzureSubscription
+    public partial class AzureEnvironment
     {
-        public Guid Id { get; set; }
-
         public string Name { get; set; }
 
-        public string Environment { get; set; }
+        public Dictionary<string, List<Guid>> UserAccountSubscriptionsMap { get; set; }
 
-        public Dictionary<Property, string> Properties { get; set; }
+        public Dictionary<string, List<Guid>> ThumbprintSubscriptionsMap { get; set; }
 
-        public enum Property
-        {
-            CloudStorageAccount,
-            
-            /// <summary>
-            /// Comma separated registered resource providers, i.e.: websites,compute,hdinsight
-            /// </summary>
-            RegisteredResourceProviders
-        }
+        public Guid? DefaultSubscriptionId { get; set; }
+
+        public Dictionary<Endpoint, string> Endpoints { get; set; }
     }
 }

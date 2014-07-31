@@ -16,7 +16,7 @@ using Microsoft.WindowsAzure.Commands.Common.Interfaces;
 using System;
 using System.Linq;
 
-namespace Microsoft.WindowsAzure.Commands.Common.Model
+namespace Microsoft.WindowsAzure.Commands.Common.Models
 {
     public partial class AzureProfile
     {

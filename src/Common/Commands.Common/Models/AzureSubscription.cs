@@ -12,21 +12,29 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Commands.Common.Model;
 using System;
+using System.Collections.Generic;
 
-namespace Microsoft.WindowsAzure.Commands.Common.Model
+namespace Microsoft.WindowsAzure.Commands.Common.Models
 {
-    public class AuthenticationFactory : IAuthenticationFactory
+    public class AzureSubscription
     {
-        public AuthenticationFactory()
-        {
+        public Guid Id { get; set; }
 
-        }
+        public string Name { get; set; }
 
-        public SubscriptionCloudCredentials Authenticate(AzureSubscription subscription)
+        public string Environment { get; set; }
+
+        public Dictionary<Property, string> Properties { get; set; }
+
+        public enum Property
         {
-            throw new NotImplementedException();
+            CloudStorageAccount,
+            
+            /// <summary>
+            /// Comma separated registered resource providers, i.e.: websites,compute,hdinsight
+            /// </summary>
+            RegisteredResourceProviders
         }
     }
 }

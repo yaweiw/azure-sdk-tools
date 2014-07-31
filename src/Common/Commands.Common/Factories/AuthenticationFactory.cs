@@ -12,21 +12,21 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Commands.Common.Interfaces;
-using System.IO;
+using Microsoft.WindowsAzure.Commands.Common.Models;
+using System;
 
-namespace Microsoft.WindowsAzure.Commands.Common.Model
+namespace Microsoft.WindowsAzure.Commands.Common.Factories
 {
-    public class DiskFileStore : IFileStore
+    public class AuthenticationFactory : IAuthenticationFactory
     {
-        public void Save(string path, string contents)
+        public AuthenticationFactory()
         {
-            File.WriteAllText(path, contents);
+
         }
 
-        public string Load(string path)
+        public SubscriptionCloudCredentials Authenticate(AzureSubscription subscription)
         {
-            return File.ReadAllText(path);
+            throw new NotImplementedException();
         }
     }
 }
