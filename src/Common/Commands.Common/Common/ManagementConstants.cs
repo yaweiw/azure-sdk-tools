@@ -78,29 +78,6 @@ using System.Net.Http.Headers;
         Null
     }
 
-    public class ManagementConstants
-    {
-        public const string CurrentSubscriptionEnvironmentVariable = "_wappsCmdletsCurrentSubscription";
-
-        public const string ServiceManagementNS = "http://schemas.microsoft.com/windowsazure";
-    }
-
-    public static class StorageServiceStatus
-    {
-        public const string ResolvingDns = "Suspending";
-        public const string Created = "Created";
-        public const string Creating = "Creating";
-    }
-
-    public static class HttpConstants
-    {
-        public static readonly MediaTypeWithQualityHeaderValue JsonMediaType =
-            MediaTypeWithQualityHeaderValue.Parse("application/json");
-
-        public static readonly MediaTypeWithQualityHeaderValue XmlMediaType =
-            MediaTypeWithQualityHeaderValue.Parse("application/xml");
-    }
-
     public static class EnvironmentName
     {
         public const string AzureCloud = "AzureCloud";
