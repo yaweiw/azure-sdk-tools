@@ -56,6 +56,16 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
             return new AdalAccessToken(AcquireToken(config, false, userId, password), this, config);
         }
 
+        public IAccessToken GetNewToken(AdalConfiguration config, string userId, SecureString password)
+        {
+            return new AdalAccessToken(AcquireToken(config, false, userId, password), this, config);
+        }
+
+        public IAccessToken GetCachedToken(AdalConfiguration config, string userId, SecureString password)
+        {
+            return new AdalAccessToken(AcquireToken(config, true, userId, password), this, config);
+        }
+
         public IAccessToken GetCachedToken(WindowsAzureSubscription subscription, string userId)
         {
             var config = new AdalConfiguration(subscription);
@@ -109,7 +119,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
 
         // We have to run this in a separate thread to guarantee that it's STA. This method
         // handles the threading details.
-        private AuthenticationResult AcquireToken(AdalConfiguration config, bool tryRefresh, string userId = null, SecureString password = null)
+        private AuthenticationResult AcquireToken(AdalConfiguration config, bool noPrompt, string userId = null, SecureString password = null)
         {
             AuthenticationResult result = null;
             Exception ex = null;
@@ -118,7 +128,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
             {
                 try
                 {
-                    result = AquireToken(config, tryRefresh, userId, password);
+                    result = AquireToken(config, noPrompt, userId, password);
                 }
                 catch (AdalException adalEx)
                 {
