@@ -15,11 +15,10 @@
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Microsoft.WindowsAzure.Commands.Common.Model
 {
-    public class AzureEnvironments : List<AzureEnvironment>
+    public partial class AzureEnvironment
     {
         /// <summary>
         /// Predefined Microsoft Azure environments
@@ -31,9 +30,9 @@ namespace Microsoft.WindowsAzure.Commands.Common.Model
 
         private const string storageFormatTemplate = "{{0}}://{{1}}.{0}.{1}/";
 
-        private string EndpointFormatFor(string name, string service)
+        private string EndpointFormatFor(string service)
         {
-            string suffix = GetEndpoint(name, AzureEnvironment.Endpoint.StorageEndpointSuffix);
+            string suffix = GetEndpoint(AzureEnvironment.Endpoint.StorageEndpointSuffix);
             string endpoint = null;
 
             if (!string.IsNullOrEmpty(endpoint))
@@ -47,33 +46,33 @@ namespace Microsoft.WindowsAzure.Commands.Common.Model
         /// <summary>
         /// The storage service blob endpoint format.
         /// </summary>
-        private string StorageBlobEndpointFormat(string name)
+        private string StorageBlobEndpointFormat()
         {
-            return EndpointFormatFor(name, "blob");
+            return EndpointFormatFor("blob");
         }
 
         /// <summary>
         /// The storage service queue endpoint format.
         /// </summary>
-        private string StorageQueueEndpointFormat(string name)
+        private string StorageQueueEndpointFormat()
         {
-            return EndpointFormatFor(name, "queue");
+            return EndpointFormatFor("queue");
         }
 
         /// <summary>
         /// The storage service table endpoint format.
         /// </summary>
-        private string StorageTableEndpointFormat(string name)
+        private string StorageTableEndpointFormat()
         {
-            return EndpointFormatFor(name, "table");
+            return EndpointFormatFor("table");
         }
 
         /// <summary>
         /// The storage service file endpoint format.
         /// </summary>
-        private string StorageFileEndpointFormat(string name)
+        private string StorageFileEndpointFormat()
         {
-            return EndpointFormatFor(name, "file");
+            return EndpointFormatFor("file");
         }
 
         private static readonly Dictionary<string, AzureEnvironment> environments =
@@ -119,18 +118,11 @@ namespace Microsoft.WindowsAzure.Commands.Common.Model
             }
         };
 
-        public AzureEnvironment Get(string name)
+        public string GetEndpoint(AzureEnvironment.Endpoint endpoint)
         {
-            return this.FirstOrDefault(e => e.Name.Equals(name, System.StringComparison.OrdinalIgnoreCase));
-        }
-
-        public string GetEndpoint(string name, AzureEnvironment.Endpoint endpoint)
-        {
-            AzureEnvironment environment = Get(name);
-
-            if (environment != null)
+            if (Endpoints.ContainsKey(endpoint))
             {
-                return environment.Endpoints[endpoint];
+                return Endpoints[endpoint];
             }
 
             return null;
@@ -142,9 +134,9 @@ namespace Microsoft.WindowsAzure.Commands.Common.Model
         /// <param name="accountName">The account name</param>
         /// <param name="useHttps">Use Https when creating the URI. Defaults to true.</param>
         /// <returns>The fully qualified uri to the blob service</returns>
-        public Uri GetStorageBlobEndpoint(string name, string accountName, bool useHttps = true)
+        public Uri GetStorageBlobEndpoint(string accountName, bool useHttps = true)
         {
-            return new Uri(string.Format(StorageBlobEndpointFormat(name), useHttps ? "https" : "http", accountName));
+            return new Uri(string.Format(StorageBlobEndpointFormat(), useHttps ? "https" : "http", accountName));
         }
 
         /// <summary>
@@ -153,9 +145,9 @@ namespace Microsoft.WindowsAzure.Commands.Common.Model
         /// <param name="accountName">The account name</param>
         /// <param name="useHttps">Use Https when creating the URI. Defaults to true.</param>
         /// <returns>The fully qualified uri to the queue service</returns>
-        public Uri GetStorageQueueEndpoint(string name, string accountName, bool useHttps = true)
+        public Uri GetStorageQueueEndpoint(string accountName, bool useHttps = true)
         {
-            return new Uri(string.Format(StorageQueueEndpointFormat(name), useHttps ? "https" : "http", accountName));
+            return new Uri(string.Format(StorageQueueEndpointFormat(), useHttps ? "https" : "http", accountName));
         }
 
         /// <summary>
@@ -164,9 +156,9 @@ namespace Microsoft.WindowsAzure.Commands.Common.Model
         /// <param name="accountName">The account name</param>
         /// <param name="useHttps">Use Https when creating the URI. Defaults to true.</param>
         /// <returns>The fully qualified uri to the table service</returns>
-        public Uri GetStorageTableEndpoint(string name, string accountName, bool useHttps = true)
+        public Uri GetStorageTableEndpoint(string accountName, bool useHttps = true)
         {
-            return new Uri(string.Format(StorageTableEndpointFormat(name), useHttps ? "https" : "http", accountName));
+            return new Uri(string.Format(StorageTableEndpointFormat(), useHttps ? "https" : "http", accountName));
         }
 
         /// <summary>
@@ -175,9 +167,32 @@ namespace Microsoft.WindowsAzure.Commands.Common.Model
         /// <param name="accountName">The account name</param>
         /// <param name="useHttps">Use Https when creating the URI. Defaults to true.</param>
         /// <returns>The fully qualified uri to the file service</returns>
-        public Uri GetStorageFileEndpoint(string name, string accountName, bool useHttps = true)
+        public Uri GetStorageFileEndpoint(string accountName, bool useHttps = true)
         {
-            return new Uri(string.Format(StorageFileEndpointFormat(name), useHttps ? "https" : "http", accountName));
+            return new Uri(string.Format(StorageFileEndpointFormat(), useHttps ? "https" : "http", accountName));
+        }
+
+        public enum Endpoint
+        {
+            ActiveDirectoryServiceEndpointResourceId,
+
+            AdTenantUrl,
+
+            GalleryEndpoint,
+
+            ManagementPortalUrl,
+
+            ServiceEndpoint,
+
+            PublishSettingsFileUrl,
+
+            ResourceManagerEndpoint,
+
+            SqlDatabaseDnsSuffix,
+
+            StorageEndpointSuffix,
+
+            ActiveDirectoryEndpoint
         }
     }
 }

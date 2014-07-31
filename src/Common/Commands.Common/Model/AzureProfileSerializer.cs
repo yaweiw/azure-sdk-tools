@@ -12,17 +12,21 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Commands.Common.Interfaces;
 using System;
-using System.Reflection;
-using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("ManagedCache Test Assembly")]
-[assembly: AssemblyCompany(Microsoft.WindowsAzure.Commands.Common.Model.AzurePowerShell.AssemblyCompany)]
-[assembly: AssemblyProduct("ManagedCache Test Assembly")]
-[assembly: AssemblyCopyright(Microsoft.WindowsAzure.Commands.Common.Model.AzurePowerShell.AssemblyCopyright)]
+namespace Microsoft.WindowsAzure.Commands.Common.Model
+{
+    public class AzureProfileSerializer : ISerializer<AzureProfile>
+    {
+        public string Serialize(AzureProfile obj)
+        {
+            throw new NotImplementedException();
+        }
 
-[assembly: ComVisible(false)]
-[assembly: CLSCompliant(false)]
-[assembly: Guid("3E5D3114-DEBB-4DC2-BB9D-CF2A2707F74D")]
-[assembly: AssemblyVersion(Microsoft.WindowsAzure.Commands.Common.Model.AzurePowerShell.AssemblyVersion)]
-[assembly: AssemblyFileVersion(Microsoft.WindowsAzure.Commands.Common.Model.AzurePowerShell.AssemblyFileVersion)]
+        public AzureProfile Deserialize(string contents)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

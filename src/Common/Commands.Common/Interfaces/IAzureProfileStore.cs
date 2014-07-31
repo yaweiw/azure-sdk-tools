@@ -12,17 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Microsoft.WindowsAzure.Commands.Common.Model
+namespace Microsoft.WindowsAzure.Commands.Common.Interfaces
 {
-    public class AzureSubscriptions : List<AzureSubscription>
+    public interface ISerializer<T>
     {
-        public AzureSubscription Get(Guid id)
-        {
-            return this.FirstOrDefault(s => Guid.Equals(id, s.Id));
-        }
+        string Serialize(T obj);
+
+        T Deserialize(string contents);
     }
 }

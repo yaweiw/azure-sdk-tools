@@ -12,17 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Reflection;
-using System.Runtime.InteropServices;
+namespace Microsoft.WindowsAzure.Commands.Common.Interfaces
+{
+    public interface IFileStore
+    {
+        void Save(string path, string contents);
 
-[assembly: AssemblyTitle("ManagedCache Test Assembly")]
-[assembly: AssemblyCompany(Microsoft.WindowsAzure.Commands.Common.Model.AzurePowerShell.AssemblyCompany)]
-[assembly: AssemblyProduct("ManagedCache Test Assembly")]
-[assembly: AssemblyCopyright(Microsoft.WindowsAzure.Commands.Common.Model.AzurePowerShell.AssemblyCopyright)]
-
-[assembly: ComVisible(false)]
-[assembly: CLSCompliant(false)]
-[assembly: Guid("3E5D3114-DEBB-4DC2-BB9D-CF2A2707F74D")]
-[assembly: AssemblyVersion(Microsoft.WindowsAzure.Commands.Common.Model.AzurePowerShell.AssemblyVersion)]
-[assembly: AssemblyFileVersion(Microsoft.WindowsAzure.Commands.Common.Model.AzurePowerShell.AssemblyFileVersion)]
+        string Load(string path);
+    }
+}

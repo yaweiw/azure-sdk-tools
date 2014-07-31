@@ -17,12 +17,12 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("Microsoft Azure Powershell - Common Storage Library")]
-[assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("Microsoft Azure Powershell")]
-[assembly: AssemblyCopyright("Copyright © Microsoft")]
+[assembly: AssemblyCompany(Microsoft.WindowsAzure.Commands.Common.Model.AzurePowerShell.AssemblyCompany)]
+[assembly: AssemblyProduct(Microsoft.WindowsAzure.Commands.Common.Model.AzurePowerShell.AssemblyProduct)]
+[assembly: AssemblyCopyright(Microsoft.WindowsAzure.Commands.Common.Model.AzurePowerShell.AssemblyCopyright)]
 
 [assembly: ComVisible(false)]
 [assembly: CLSCompliant(false)]
 [assembly: Guid("c565107e-98a9-4703-85cd-a7efc3d8da7b")]
-[assembly: AssemblyVersion("0.8.5")]
-[assembly: AssemblyFileVersion("0.8.5")]
+[assembly: AssemblyVersion(Microsoft.WindowsAzure.Commands.Common.Model.AzurePowerShell.AssemblyVersion)]
+[assembly: AssemblyFileVersion(Microsoft.WindowsAzure.Commands.Common.Model.AzurePowerShell.AssemblyFileVersion)]

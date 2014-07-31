@@ -164,13 +164,16 @@
     <Compile Include="Common\SubscriptionCmdletBase.cs" />
     <Compile Include="Common\SubscriptionDataExtended.cs" />
     <Compile Include="Common\TestMockSupport.cs" />
+    <Compile Include="Interfaces\IAzureProfileStore.cs" />
     <Compile Include="Interfaces\IClientFactory.cs" />
     <Compile Include="Interfaces\IAuthenticationFactory.cs" />
+    <Compile Include="Interfaces\IFileStore.cs" />
     <Compile Include="Model\AzureEnvironment.cs" />
-    <Compile Include="Model\AzureEnvironments.cs" />
+    <Compile Include="Model\AzurePowerShell.cs" />
     <Compile Include="Model\AzureProfile.cs" />
+    <Compile Include="Model\AzureProfileSerializer.cs" />
     <Compile Include="Model\AzureSubscription.cs" />
-    <Compile Include="Model\AzureSubscriptions.cs" />
+    <Compile Include="Model\DiskFileStore.cs" />
     <Compile Include="Utilities\ConversionUtilities.cs" />
     <Compile Include="Utilities\GeneralUtilities.cs" />
     <Compile Include="Common\GlobalPathInfo.cs" />
@@ -215,6 +218,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\AzureEnvironment.Methods.cs" />
+    <Compile Include="Model\AzureProfile.Methods.cs" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

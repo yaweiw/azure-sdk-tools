@@ -12,77 +12,67 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Commands.Common.Interfaces;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Microsoft.WindowsAzure.Commands.Common.Model
 {
-    public class AzureProfile
+    public partial class AzureProfile
     {
-        private static AzureProfile instance = null;
+        private Guid? currentSubscriptionId;
 
-        private AzureSubscription current;
-
-        private AzureProfile ()
+        public AzureProfile(IFileStore store)
         {
-            if (Store == null)
+            Load(store);
+
+            foreach (AzureEnvironment env in Environments)
             {
-                // Create the default store which reads from the file
-            }
-            else
-            {
-                // Use the specified store to fill out Environments and Subscriptions.
+                if (env.DefaultSubscriptionId.HasValue)
+                {
+                    currentSubscriptionId = env.DefaultSubscriptionId.Value;
+                    break;
+                }
             }
         }
 
-        public static IProfileStore Store { private get; set; }
-
-        public static AzureProfile Instance
+        public AzureProfile() : this(new DiskFileStore())
         {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = new AzureProfile();
-                }
-
-                return instance;
-            }
+            
         }
 
-        public AzureSubscription CurrentSubscription
+        public Guid? CurrentSubscriptionId
         {
-            get
-            {
-                if (current != null)
-                {
-                    return current;
-                }
-                else
-                {
-                    return Subscriptions.Get(CurrentEnvironment.DefaultSubscription);
-                }
-            }
+            get { return currentSubscriptionId; }
 
             set
             {
-                current = value;
+                if (GetSubscription(currentSubscriptionId) != null)
+                {
+                    currentSubscriptionId = value;
+                }
             }
         }
 
         public AzureEnvironment CurrentEnvironment
         {
-            get { return Environments.Get(EnvironmentName.AzureCloud); }
+            get
+            {
+                if (CurrentSubscriptionId == null)
+                {
+                    return GetEnvironment(EnvironmentName.AzureCloud);
+                }
+                else
+                {
+                    return GetEnvironment(GetSubscription(CurrentSubscriptionId).Environment);
+                }
+            }
         }
 
-        public AzureEnvironments Environments { get; set; }
+        public List<AzureEnvironment> Environments { get; set; }
 
-        public AzureSubscriptions Subscriptions { get; set; }
-
-        public Uri GetEndpoint(AzureSubscription subscription, AzureEnvironment.Endpoint endpoint)
-        {
-            return new Uri(Environments.GetEndpoint(subscription.Environment, endpoint));
-        }
+        public List<AzureSubscription> Subscriptions { get; set; }
     }
 }

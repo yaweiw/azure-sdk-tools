@@ -26,43 +26,22 @@ namespace Microsoft.WindowsAzure.Commands.Common
 {
     public class ClientFactory : IClientFactory
     {
-        private static IClientFactory instance = null;
-
         /// <summary>
         /// Event that's trigged when a new client has been created.
         /// </summary>
         public static event EventHandler<ClientCreatedArgs> OnClientCreated;
 
-        private readonly char[] uriPathSeparator = { '/' };
+        private static readonly char[] uriPathSeparator = { '/' };
 
-        private ClientFactory ()
+        public ClientFactory ()
         {
 
-        }
-
-        public static IClientFactory Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = new ClientFactory();
-                }
-
-                return instance;
-            }
-
-            set
-            {
-                Debug.Assert(value != null, "The client have a value.");
-                instance = value;
-            }
         }
 
         public TClient CreateClient<TClient>(AzureSubscription subscription, AzureEnvironment.Endpoint endpoint) where TClient : ServiceClient<TClient>
         {
-            SubscriptionCloudCredentials creds = AuthenticationFactory.Instance.Authenticate(subscription);
-            Uri endpointUri = AzureProfile.Instance.GetEndpoint(subscription, endpoint);
+            SubscriptionCloudCredentials creds = AzurePowerShell.AuthenticationFactory.Authenticate(subscription);
+            Uri endpointUri = AzurePowerShell.Profile.GetEndpoint(subscription, endpoint);
             return CreateClient<TClient>(creds, endpointUri);
         }
 
@@ -99,12 +78,12 @@ namespace Microsoft.WindowsAzure.Commands.Common
             return finalClient;
         }
 
-        public HttpClient CreateClient(string endpoint, ICredentials credentials)
+        public HttpClient CreateHttpClient(string endpoint, ICredentials credentials)
         {
-            return CreateClient(endpoint, CreateClientHandler(endpoint, credentials));
+            return CreateHttpClient(endpoint, CreateHttpClientHandler(endpoint, credentials));
         }
 
-        public HttpClient CreateClient(string endpoint, HttpMessageHandler effectiveHandler)
+        public HttpClient CreateHttpClient(string endpoint, HttpMessageHandler effectiveHandler)
         {
             if (endpoint == null)
             {
@@ -123,7 +102,7 @@ namespace Microsoft.WindowsAzure.Commands.Common
             return client;
         }
 
-        public HttpClientHandler CreateClientHandler(string endpoint, ICredentials credentials)
+        public static HttpClientHandler CreateHttpClientHandler(string endpoint, ICredentials credentials)
         {
             if (endpoint == null)
             {

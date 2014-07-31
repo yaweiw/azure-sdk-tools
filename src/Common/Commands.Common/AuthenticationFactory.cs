@@ -21,30 +21,9 @@ namespace Microsoft.WindowsAzure.Commands.Common
 {
     public class AuthenticationFactory : IAuthenticationFactory
     {
-        private static IAuthenticationFactory instance = null;
-
-        private AuthenticationFactory()
+        public AuthenticationFactory()
         {
 
-        }
-
-        public static IAuthenticationFactory Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = new AuthenticationFactory();
-                }
-
-                return instance;
-            }
-
-            set
-            {
-                Debug.Assert(value != null, "The client have a value.");
-                instance = value;
-            }
         }
 
         public SubscriptionCloudCredentials Authenticate(AzureSubscription subscription)

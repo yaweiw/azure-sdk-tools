@@ -14,6 +14,8 @@
 
 using Microsoft.WindowsAzure.Commands.Common.Model;
 using Microsoft.WindowsAzure.Common;
+using System.Net;
+using System.Net.Http;
 
 namespace Microsoft.WindowsAzure.Commands.Common
 {
@@ -22,5 +24,9 @@ namespace Microsoft.WindowsAzure.Commands.Common
         TClient CreateClient<TClient>(AzureSubscription subscription, AzureEnvironment.Endpoint endpoint) where TClient : ServiceClient<TClient>;
 
         TClient CreateClient<TClient>(params object[] parameters) where TClient : ServiceClient<TClient>;
+
+        HttpClient CreateHttpClient(string endpoint, ICredentials credentials);
+
+        HttpClient CreateHttpClient(string endpoint, HttpMessageHandler effectiveHandler);
     }
 }

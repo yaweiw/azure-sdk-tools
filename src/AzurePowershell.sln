@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30626.0
+VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8531411A-0137-4E27-9C5E-49E07C245048}"
 	ProjectSection(SolutionItems) = preProject
@@ -40,20 +40,38 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.ServiceManagement.
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sync", "ServiceManagement\Compute\Sync\Sync.csproj", "{73820CBC-F4EB-4C5E-B4F0-CC4A93FBF157}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5EE72C53-1720-4309-B54B-5FB79703195F} = {5EE72C53-1720-4309-B54B-5FB79703195F}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VhdManagement", "ServiceManagement\Compute\VhdManagement\VhdManagement.csproj", "{80496B7B-068A-4A1E-B0BB-4B1FFF3FA616}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5EE72C53-1720-4309-B54B-5FB79703195F} = {5EE72C53-1720-4309-B54B-5FB79703195F}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.Utilities", "ServiceManagement\Services\Commands.Utilities\Commands.Utilities.csproj", "{4900EC4E-8DEB-4412-9108-0BC52F81D457}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.Test.Utilities", "ServiceManagement\Services\Commands.Test.Utilities\Commands.Test.Utilities.csproj", "{BC420543-C04E-4BF3-96E1-CD81B823BDD7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.Storage.MsTestLib", "ServiceManagement\Storage\Commands.Storage.MsTestLib\Commands.Storage.MsTestLib.csproj", "{CE97967B-7479-43B9-9561-776232AC5D47}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5EE72C53-1720-4309-B54B-5FB79703195F} = {5EE72C53-1720-4309-B54B-5FB79703195F}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.Storage.StorageTestLib", "ServiceManagement\Storage\Commands.Storage.StorageTestLib\Commands.Storage.StorageTestLib.csproj", "{0A513849-2690-4D07-8DE7-0ACE39645D12}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5EE72C53-1720-4309-B54B-5FB79703195F} = {5EE72C53-1720-4309-B54B-5FB79703195F}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.Storage.ScenarioTest", "ServiceManagement\Storage\Commands.Storage.ScenarioTest\Commands.Storage.ScenarioTest.csproj", "{4BC0E3D3-6EDD-43AA-8F15-DCFED8ACC93D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5EE72C53-1720-4309-B54B-5FB79703195F} = {5EE72C53-1720-4309-B54B-5FB79703195F}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.Storage.MsTest2", "ServiceManagement\Storage\Commands.Storage.MsTest2\Commands.Storage.MsTest2.csproj", "{9D5A40CA-5594-4F5C-8230-7ADF7CC0558E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5EE72C53-1720-4309-B54B-5FB79703195F} = {5EE72C53-1720-4309-B54B-5FB79703195F}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.ServiceManagement.PlatformImageRepository", "ServiceManagement\Compute\Commands.ServiceManagement.PlatformImageRepository\Commands.ServiceManagement.PlatformImageRepository.csproj", "{6478FA8B-3801-4863-8591-87F0855D5C82}"
 EndProject
