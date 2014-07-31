@@ -16,7 +16,6 @@ using Microsoft.WindowsAzure.Commands.Common.Interfaces;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Microsoft.WindowsAzure.Commands.Common.Model
 {

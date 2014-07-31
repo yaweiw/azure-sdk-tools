@@ -14,7 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
-    using System.Net.Http.Headers;
+    using Microsoft.WindowsAzure.Commands.Common.Model;
+using System.Net.Http.Headers;
 
     public static class ApiConstants
     {
@@ -34,10 +35,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public const string SslSupportSettingsName = "SslSupport";
 
         public const string UserAgentHeaderName = "User-Agent";
-        public const string UserAgentHeaderValue = "WindowsAzurePowershell/v0.8.5";
+        public const string UserAgentHeaderValue = "AzurePowershell/v" + AzurePowerShell.AssemblyVersion;
         public static ProductInfoHeaderValue UserAgentValue = new ProductInfoHeaderValue(
-            "WindowsAzurePowershell",
-            "v0.8.5");
+            "AzurePowershell",
+            string.Format("v{0}", AzurePowerShell.AssemblyVersion));
 
         public const string VSDebuggerCausalityDataHeaderName = "VSDebuggerCausalityData";
         

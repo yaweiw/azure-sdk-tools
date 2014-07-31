@@ -14,12 +14,12 @@
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using Authentication;
-    using System.Management.Automation;
     using Commands.Common.Properties;
     using Subscriptions;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Management.Automation;
 
     [Serializable]
     public class WindowsAzureEnvironment

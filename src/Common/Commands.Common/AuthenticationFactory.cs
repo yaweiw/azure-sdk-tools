@@ -13,9 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 using Microsoft.WindowsAzure.Commands.Common.Model;
-using Microsoft.WindowsAzure.Common;
 using System;
-using System.Diagnostics;
 
 namespace Microsoft.WindowsAzure.Commands.Common
 {
