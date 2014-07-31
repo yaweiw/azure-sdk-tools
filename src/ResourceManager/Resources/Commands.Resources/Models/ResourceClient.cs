@@ -346,26 +346,14 @@ namespace Microsoft.Azure.Commands.Resources.Models
             return deployment;
         }
 
-        private List<ResourceManagementError> CheckBasicDeploymentErrors(string resourceGroup, string deploymentName, BasicDeployment deployment)
+        private TemplateValidationInfo CheckBasicDeploymentErrors(string resourceGroup, string deploymentName, BasicDeployment deployment)
         {
-            List<ResourceManagementError> errors = new List<ResourceManagementError>();
             DeploymentValidateResponse validationResult = ResourceManagementClient.Deployments.Validate(
                 resourceGroup,
                 deploymentName,
                 deployment);
-            if (!validationResult.IsValid)
-            {
-                if (validationResult.Error != null)
-                {
-                    errors.Add(validationResult.Error);
-                    if (validationResult.Error.Details != null && validationResult.Error.Details.Count > 0)
-                    {
-                        errors.AddRange(validationResult.Error.Details);
-                    }
-                }
-            }
 
-            return errors;
+            return new TemplateValidationInfo(validationResult);
         }
     }
 }

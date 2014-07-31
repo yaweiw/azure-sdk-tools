@@ -241,6 +241,33 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             return AzureSession.Current.ManagementClientHelper.CreateClient<TClient>(addRestLogHandlerToAllClients, OnClientCreated, parameters);            
         }
 
+        public void RegisterCustomProviders(IEnumerable<Provider> providers)
+        {
+            var requiredProviders = providers.Select(p => p.Namespace.ToLower())
+                                              .Where(p => !RegisteredResourceProviders.Contains(p))
+                                             .ToList();
+
+            if (requiredProviders.Count > 0)
+            {
+                var credentials = CreateCredentials();
+                using (IResourceManagementClient client = new ResourceManagementClient(credentials, ResourceManagerEndpoint))
+                {
+                    foreach (var provider in requiredProviders)
+                    {
+                        try
+                        {
+                            client.Providers.Register(provider);
+                            RegisteredResourceProviders.Add(provider);
+                        }
+                        catch
+                        {
+                            // Ignore this as the user may not have access to Sparta endpoint or the provider is already registered
+                        }
+                    }
+                }
+            }
+        }
+
         private void RegisterRequiredResourceProviders<T>(SubscriptionCloudCredentials credentials) where T : ServiceClient<T>
         {
             RegisterServiceManagementProviders<T>(credentials);
