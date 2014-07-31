@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 
-namespace Microsoft.WindowsAzure.Commands.Common
+namespace Microsoft.WindowsAzure.Commands.Common.Model
 {
     public class ClientFactory : IClientFactory
     {

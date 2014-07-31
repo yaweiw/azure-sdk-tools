@@ -142,8 +142,8 @@
     <Compile Include="Authentication\ITokenProvider.cs" />
     <Compile Include="Authentication\LoginType.cs" />
     <Compile Include="Authentication\RegistryBackedDictionary.cs" />
-    <Compile Include="AuthenticationFactory.cs" />
-    <Compile Include="ClientFactory.cs" />
+    <Compile Include="Model\AuthenticationFactory.cs" />
+    <Compile Include="Model\ClientFactory.cs" />
     <Compile Include="Common\AzureException.cs" />
     <Compile Include="Common\AzureModule.cs" />
     <Compile Include="Common\AzureSession.cs" />
@@ -169,7 +169,7 @@
     <Compile Include="Interfaces\IAuthenticationFactory.cs" />
     <Compile Include="Interfaces\IFileStore.cs" />
     <Compile Include="Model\AzureEnvironment.cs" />
-    <Compile Include="Model\AzurePowerShell.cs" />
+    <Compile Include="AzurePowerShell.cs" />
     <Compile Include="Model\AzureProfile.cs" />
     <Compile Include="Model\AzureProfileSerializer.cs" />
     <Compile Include="Model\AzureSubscription.cs" />

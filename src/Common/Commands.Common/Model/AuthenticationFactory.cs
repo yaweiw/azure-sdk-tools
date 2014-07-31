@@ -15,7 +15,7 @@
 using Microsoft.WindowsAzure.Commands.Common.Model;
 using System;
 
-namespace Microsoft.WindowsAzure.Commands.Common
+namespace Microsoft.WindowsAzure.Commands.Common.Model
 {
     public class AuthenticationFactory : IAuthenticationFactory
     {
