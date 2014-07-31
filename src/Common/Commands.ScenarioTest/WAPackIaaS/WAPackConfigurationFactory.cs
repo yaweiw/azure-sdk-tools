@@ -26,6 +26,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         public const int TotalTemplateCount = 7;
 
         // --------OSDisk----------
+        // For Get-WAPackVMRole
+        public const string LinuxOSVirtualHardDiskImage = "ubun12v4x64_NA_40G.vhdx:1.0.0.0";
         // For New-WAPackVM
         public const string BlankOSDiskName = "Blank Disk - Small.vhdx";
         // For New-WAPackVM & Get-WAPackVMOSDisk
@@ -44,6 +46,9 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         public const string AvenzVnetName = "AvezLNVMNetwork";
         public const string ExternalVnetName = "EXTERNAL";
         public const int TotalVnetCount = 5;
+
+        // --------LogicalNetwork----------
+        public const string AvezLogicalNetworkName = "AvezLN";
 
         public const string userName = "SomeTestUser";
         public const string password = "SomeTestPassword";

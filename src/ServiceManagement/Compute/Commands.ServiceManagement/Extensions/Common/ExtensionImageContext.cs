@@ -24,17 +24,24 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         public string ExtensionName { get; set; }
         public string Version { get; set; }
         public string Label { get; set; }
-        public string Description { get; set; }
         public string HostingResources { get; set; }
+        public Uri MediaLink { get; set; }
         public string ThumbprintAlgorithm { get; set; }
         public string PublicConfigurationSchema { get; set; }
         public string PrivateConfigurationSchema { get; set; }
+        public string Description { get; set; }
+        public string PublisherName { get; set; }
+        public DateTime? PublishedDate { get; set; }
         public bool? BlockRoleUponFailure { get; set; }
+        public bool IsInternalExtension { get; set; }
         public string SampleConfig { get; set; }
         public bool? ReplicationCompleted { get; set; }
         public Uri Eula { get; set; }
         public Uri PrivacyUri { get; set; }
         public Uri HomepageUri { get; set; }
         public bool IsJsonExtension { get; set; }
+        public bool DisallowMajorVersionUpgrade { get; set; }
+        public string SupportedOS { get; set; }
+        public string CompanyName { get; set; }
     }
 }

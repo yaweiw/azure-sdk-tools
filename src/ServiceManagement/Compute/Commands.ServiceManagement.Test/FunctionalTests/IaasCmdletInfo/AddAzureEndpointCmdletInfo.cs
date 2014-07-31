@@ -71,6 +71,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             {
                 this.cmdletParams.Add(new CmdletParam("DirectServerReturn", endPointConfig.DirectServerReturn));
             }
+
+            if (!string.IsNullOrEmpty(endPointConfig.InternalLoadBalancerName))
+            {
+                this.cmdletParams.Add(new CmdletParam("InternalLoadBalancerName", endPointConfig.InternalLoadBalancerName));
+            }
         }
 
         public AddAzureEndpointCmdletInfo()

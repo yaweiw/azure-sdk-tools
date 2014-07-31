@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS
 
     public enum JobStatusEnum
     {
-        CompletedSuccesfully = 0,
+        CompletedSuccessfully = 0,
         Failed,
         JobNotFound,
         OperationTimedOut

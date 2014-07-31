@@ -24,7 +24,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System.Collections.Generic;
     using System.Linq;
     using System.Net;
-    using System.Net.Http;
     using System.Security.Cryptography.X509Certificates;
     using WindowsAzure.Common;
 
@@ -238,7 +237,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         public TClient CreateClient<TClient>(bool registerProviders, params object[] parameters) where TClient : ServiceClient<TClient>
         {
-            return AzureSession.Current.ManagementClientHelper.CreateClient<TClient>(addRestLogHandlerToAllClients, OnClientCreated, parameters);            
+            return AzureSession.Current.ManagementClientHelper.CreateClient<TClient>(addRestLogHandlerToAllClients, OnClientCreated, parameters);
         }
 
         private void RegisterRequiredResourceProviders<T>(SubscriptionCloudCredentials credentials) where T : ServiceClient<T>

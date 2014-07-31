@@ -22,13 +22,20 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         public string Publisher { get; set; }
         public string ExtensionName { get; set; }
         public string Version { get; set; }
+        public string Label { get; set; }
         public string PublicConfigurationSchema { get; set; }
         public string PrivateConfigurationSchema { get; set; }
+        public string Description { get; set; }
+        public bool IsInternalExtension { get; set; }
         public string SampleConfig { get; set; }
         public bool ReplicationCompleted { get; private set; }
         public Uri Eula { get; private set; }
         public Uri PrivacyUri { get; private set; }
         public Uri HomepageUri { get; private set; }
         public bool IsJsonExtension { get; private set; }
+        public bool DisallowMajorVersionUpgrade { get; set; }
+        public string SupportedOS { get; set; }
+        public DateTime? PublishedDate { get; set; }
+        public string CompanyName { get; set; }
     }
 }

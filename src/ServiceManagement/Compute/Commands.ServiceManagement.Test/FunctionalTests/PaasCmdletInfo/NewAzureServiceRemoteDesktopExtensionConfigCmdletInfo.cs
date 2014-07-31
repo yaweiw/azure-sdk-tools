@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     public class NewAzureServiceRemoteDesktopExtensionConfigCmdletInfo : CmdletsInfo
     {
 
-        public NewAzureServiceRemoteDesktopExtensionConfigCmdletInfo(PSCredential credential, DateTime? expiration, string[] roles)
+        public NewAzureServiceRemoteDesktopExtensionConfigCmdletInfo(PSCredential credential, DateTime? expiration, string[] roles, string version)
         {
             this.cmdletName = Utilities.NewAzureServiceRemoteDesktopExtensionConfigCmdletName;            
             this.cmdletParams.Add(new CmdletParam("Credential", credential));
@@ -34,10 +34,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             {
                 this.cmdletParams.Add(new CmdletParam("Expiration", expiration));
             }
+            if (! string.IsNullOrEmpty(version))
+            {
+                this.cmdletParams.Add(new CmdletParam("Version", version));
+            }
         }
 
-        public NewAzureServiceRemoteDesktopExtensionConfigCmdletInfo(PSCredential credential, X509Certificate2 cert, string algorithm, DateTime? expiration, string[] roles)
-            : this(credential, expiration, roles)
+        public NewAzureServiceRemoteDesktopExtensionConfigCmdletInfo
+            (PSCredential credential, X509Certificate2 cert, string algorithm, DateTime? expiration, string[] roles, string version)
+            : this(credential, expiration, roles, version)
         {
             this.cmdletParams.Add(new CmdletParam("X509Certificate", cert));
             if (!string.IsNullOrEmpty(algorithm))
@@ -46,8 +51,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-        public NewAzureServiceRemoteDesktopExtensionConfigCmdletInfo(PSCredential credential, string thumbprint, string algorithm, DateTime? expiration, string[] roles)
-            : this(credential, expiration, roles)
+        public NewAzureServiceRemoteDesktopExtensionConfigCmdletInfo
+            (PSCredential credential, string thumbprint, string algorithm, DateTime? expiration, string[] roles, string version)
+            : this(credential, expiration, roles, version)
         {
             this.cmdletParams.Add(new CmdletParam("CertificateThumbprint", thumbprint));
             if (!string.IsNullOrEmpty(algorithm))

@@ -14,12 +14,12 @@
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using Authentication;
-    using System.Management.Automation;
     using Azure.Subscriptions;
     using Azure.Subscriptions.Models;
     using Commands.Common.Properties;
     using System;
     using System.Collections.Generic;
+    using System.Management.Automation;
 
     [Serializable]
     public class WindowsAzureEnvironment
@@ -93,7 +93,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// <summary>
         /// The storage service blob endpoint format.
         /// </summary>
-        public string StorageBlobEndpointFormat { 
+        public string StorageBlobEndpointFormat
+        { 
             get { return EndpointFormatFor("blob"); }
         }
 

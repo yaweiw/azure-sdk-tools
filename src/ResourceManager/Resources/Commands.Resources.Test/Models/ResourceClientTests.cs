@@ -78,8 +78,6 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
 
         private string templateFile = @"Resources\sampleTemplateFile.json";
 
-        private string templateParameterFile = @"Resources\sampleTemplateParameterFile.json";
-
         private string storageAccountName = "myStorageAccount";
 
         private string requestId = "1234567890";

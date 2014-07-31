@@ -89,9 +89,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.1.2.0\lib\net40\Microsoft.WindowsAzure.Management.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Management.Compute, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.WindowsAzure.Management.Compute, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.Compute.3.0.0\lib\net40\Microsoft.WindowsAzure.Management.Compute.dll</HintPath>
+      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.Compute.4.0.0\lib\net40\Microsoft.WindowsAzure.Management.Compute.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.Storage, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -182,6 +182,10 @@
     <Compile Include="FunctionalTests\IaasCmdletInfo\AddAzureDiskCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\AddAzureDnsCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\AddAzureVMImageCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\DiskRepository\GetAzureVMImageDiskConfigSetCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\DiskRepository\NewAzureVMImageDiskConfigSetCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\DiskRepository\SetAzureVMImageDataDiskConfigInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\DiskRepository\SetAzureVMImageOSDiskConfigInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\ExportAzureVMCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\Extesnions\BGInfo\GetAzureVMBGInfoExtensionCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\Extesnions\BGInfo\RemoveAzureVMBGInfoExtensionCmdletInfo.cs" />
@@ -234,6 +238,13 @@
     <Compile Include="FunctionalTests\IaasCmdletInfo\GetAzureVNetGateway.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\GetAzureVNetGatewayKey.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\GetAzureVNetSite.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\ILB\AddAzureInternalLoadBalancerCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\ILB\GetAzureInternalLoadBalancerCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\ILB\RemoveAzureInternalLoadBalancerCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\ILB\SetAzureInternalLoadBalancerCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\ILB\GetAzurePublicIPCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\ILB\NewAzureInternalLoadBalancerConfigCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\ILB\SetAzurePublicIPCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\ImportAzureVMCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\MoveAzureDeploymentCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\NewAzureAclConfigCmdletInfo.cs" />
@@ -287,6 +298,7 @@
     <Compile Include="FunctionalTests\IaasCmdletInfo\WindowsAzurePowershellScript.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\WinRMCmdletInfo.cs" />
     <Compile Include="FunctionalTests\LBandEndPointACLsTest.cs" />
+    <Compile Include="FunctionalTests\LocationBasedReservedIPTests.cs" />
     <Compile Include="FunctionalTests\PaasCmdletInfo\GetAzureDeploymentCmdletInfo.cs" />
     <Compile Include="FunctionalTests\PaasCmdletInfo\GetAzureServiceAvailableExtensionCmdletInfo.cs" />
     <Compile Include="FunctionalTests\PaasCmdletInfo\GetAzureServiceDiagnosticsExtensionCmdletInfo.cs" />
@@ -362,6 +374,7 @@
     <Compile Include="FunctionalTests\Utilities.cs" />
     <Compile Include="FunctionalTests\Verifiers.cs" />
     <Compile Include="FunctionalTests\NewAzureVmTests.cs" />
+    <Compile Include="FunctionalTests\InternaloadbalancerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resource.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -373,10 +386,6 @@
     <Compile Include="FunctionalTests\VMTemplateTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\..\packages\AutoMapper.3.1.1\lib\net40\AutoMapper.Net4.dll">
-      <Link>AutoMapper.Net4.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="FunctionalTests\ExtensionTests\MicrosoftAntimalware\AzureVMMicrosoftAntimalwareExtensionFunctionalTests.ps1" />
     <None Include="MSSharedLibKey.snk" />
     <None Include="packages.config" />
@@ -416,6 +425,7 @@
     <None Include="Resources\thread_VHD.csv" />
     <None Include="Resources\upload_VHD.csv" />
     <None Include="Resources\vnetconfig.netcfg" />
+    <None Include="Resources\VnetconfigWithLocation.netcfg" />
     <None Include="Resources\wrongPara_VHD.csv" />
   </ItemGroup>
   <ItemGroup>

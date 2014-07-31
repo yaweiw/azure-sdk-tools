@@ -72,7 +72,29 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
             var result = jobOperations.WaitOnJob(jobId, 6000);
             var diff = (DateTime.Now - start).TotalMilliseconds;
             Assert.IsTrue(diff > 6000);
-            Assert.IsTrue(result.jobStatus == JobStatusEnum.OperationTimedOut);
+            Assert.AreEqual(JobStatusEnum.OperationTimedOut, result.jobStatus);
+        }
+
+        /// <summary>
+        /// Tests WaitOnJob with empty response (no job) from server
+        /// </summary>
+        [TestMethod]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Unit")]
+        [TestCategory("WAPackIaaS-Negative")]
+        public void ShouldReturnJobNotFoundOnNonexistantJob()
+        {
+            Guid jobId = Guid.NewGuid();
+
+            MockRequestChannel mockChannel = MockRequestChannel.Create();
+
+            var jobOperations = new JobOperations(new WebClientFactory(
+                                                     new Subscription(),
+                                                     mockChannel));
+
+            var result = jobOperations.WaitOnJob(jobId);
+
+            Assert.AreEqual(JobStatusEnum.JobNotFound, result.jobStatus);
         }
 
         /// <summary>
@@ -96,7 +118,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
             var result = jobOperations.WaitOnJob(jobId, 50000);
             var diff = (DateTime.Now - start).TotalMilliseconds;
             Assert.IsTrue(diff < 50000);
-            Assert.IsTrue(result.jobStatus == JobStatusEnum.CompletedSuccesfully);
+            Assert.AreEqual(JobStatusEnum.CompletedSuccessfully, result.jobStatus);
         }
     }
 }

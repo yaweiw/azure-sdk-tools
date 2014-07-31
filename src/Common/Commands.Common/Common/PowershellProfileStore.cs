@@ -12,7 +12,6 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Security.Cryptography;
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {

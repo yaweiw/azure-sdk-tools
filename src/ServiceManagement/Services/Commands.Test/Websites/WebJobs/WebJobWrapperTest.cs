@@ -64,12 +64,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
 
             string jobName = "My Job Name";
             WebJobType jobType = WebJobType.Triggered;
-            string detailedStatus = "some details";
             string extraInfoUrl = "an extra info url";
             string historyUrl = "a history url";
             TriggeredWebJobRun latestRun = new TriggeredWebJobRun();
-            string logUrl = "a log url";
-            string status = "my web job status";
             string runCommand = "my run command";
             Uri url = new System.Uri("http://myWebJobUrl");
 
