@@ -12,21 +12,21 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Commands.Common.Interfaces;
-using System.IO;
+using System;
+using System.Collections.Generic;
 
-namespace Microsoft.WindowsAzure.Commands.Common.Model
+namespace Microsoft.WindowsAzure.Commands.Common.Models
 {
-    public class DiskFileStore : IFileStore
+    public partial class AzureEnvironment
     {
-        public void Save(string path, string contents)
-        {
-            File.WriteAllText(path, contents);
-        }
+        public string Name { get; set; }
 
-        public string Load(string path)
-        {
-            return File.ReadAllText(path);
-        }
+        public Dictionary<string, List<Guid>> UserAccountSubscriptionsMap { get; set; }
+
+        public Dictionary<string, List<Guid>> ThumbprintSubscriptionsMap { get; set; }
+
+        public Guid? DefaultSubscriptionId { get; set; }
+
+        public Dictionary<Endpoint, string> Endpoints { get; set; }
     }
 }

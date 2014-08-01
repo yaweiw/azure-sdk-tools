@@ -16,7 +16,7 @@ using Microsoft.WindowsAzure.Commands.Common.Interfaces;
 using System;
 using System.Linq;
 
-namespace Microsoft.WindowsAzure.Commands.Common.Model
+namespace Microsoft.WindowsAzure.Commands.Common.Models
 {
     public partial class AzureProfile
     {
@@ -55,7 +55,6 @@ namespace Microsoft.WindowsAzure.Commands.Common.Model
         private void Load(IFileStore store)
         {
             // Here we need to detect the version of the profile file and parse it appropriately
-            //throw new NotImplementedException();
         }
     }
 }

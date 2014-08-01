@@ -15,7 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.Security;
-using Microsoft.WindowsAzure.Commands.Common.Model;
+using Microsoft.WindowsAzure.Commands.Common.Models;
 
 namespace Microsoft.WindowsAzure.Commands.Common
 {

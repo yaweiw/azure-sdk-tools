@@ -17,16 +17,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security;
 using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Azure.Subscriptions;
 using Microsoft.Azure.Subscriptions.Models;
-using Microsoft.WindowsAzure.Commands.Common.Model;
+using Microsoft.WindowsAzure.Commands.Common.Models;
 using Microsoft.WindowsAzure.Commands.Common.Properties;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication;
 
-namespace Microsoft.WindowsAzure.Commands.Common.Model
+namespace Microsoft.WindowsAzure.Commands.Common.Factories
 {
     public class AuthenticationFactory : IAuthenticationFactory
     {

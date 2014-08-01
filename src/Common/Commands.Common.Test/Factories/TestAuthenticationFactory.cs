@@ -13,11 +13,8 @@
 // ----------------------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.WindowsAzure.Commands.Common.Model;
+using Microsoft.WindowsAzure.Commands.Common.Models;
+using Microsoft.WindowsAzure.Commands.Common.Test.Common;
 using Xunit;
 
 namespace Microsoft.WindowsAzure.Commands.Common.Test.Factories
@@ -28,14 +25,17 @@ namespace Microsoft.WindowsAzure.Commands.Common.Test.Factories
         public void GetCloudCredentialThrowsExceptionForInvalidSubscription()
         {
             AzurePowerShell.Profile = new AzureProfile(new InMemoryFileStore());
-            AzurePowerShell.Profile.Subscriptions = new List<AzureSubscription>();
             AzurePowerShell.Profile.Subscriptions.Add(new AzureSubscription
             {
                 Id = Guid.NewGuid(),
                 Name = "Test",
                 Environment = "Test"
             });
-            AzurePowerShell.AuthenticationFactory.GetSubscriptionCloudCredentials(Guid.NewGuid());
+            AzurePowerShell.Profile.Environments.Add(new AzureEnvironment
+            {
+                Name = "Test"
+            });
+            Assert.Throws<ArgumentException>(() => AzurePowerShell.AuthenticationFactory.GetSubscriptionCloudCredentials(Guid.NewGuid()));
         }
     }
 }

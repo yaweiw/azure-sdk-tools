@@ -17,7 +17,7 @@ using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using System;
 using System.Collections.Generic;
 
-namespace Microsoft.WindowsAzure.Commands.Common.Model
+namespace Microsoft.WindowsAzure.Commands.Common.Models
 {
     public partial class AzureProfile
     {
@@ -25,6 +25,9 @@ namespace Microsoft.WindowsAzure.Commands.Common.Model
 
         public AzureProfile(IFileStore store)
         {
+            Environments = new List<AzureEnvironment>();
+            Subscriptions = new List<AzureSubscription>();
+
             Load(store);
 
             foreach (AzureEnvironment env in Environments)

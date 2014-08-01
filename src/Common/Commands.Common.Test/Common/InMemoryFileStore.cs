@@ -14,9 +14,8 @@
 
 using System.Collections.Generic;
 using Microsoft.WindowsAzure.Commands.Common.Interfaces;
-using System.IO;
 
-namespace Microsoft.WindowsAzure.Commands.Common.Model
+namespace Microsoft.WindowsAzure.Commands.Common.Test.Common
 {
     public class InMemoryFileStore : IFileStore
     {

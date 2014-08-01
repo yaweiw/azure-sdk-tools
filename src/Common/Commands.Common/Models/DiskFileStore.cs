@@ -12,29 +12,21 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
+using Microsoft.WindowsAzure.Commands.Common.Interfaces;
+using System.IO;
 
-namespace Microsoft.WindowsAzure.Commands.Common.Model
+namespace Microsoft.WindowsAzure.Commands.Common.Models
 {
-    public class AzureSubscription
+    public class DiskFileStore : IFileStore
     {
-        public Guid Id { get; set; }
-
-        public string Name { get; set; }
-
-        public string Environment { get; set; }
-
-        public Dictionary<Property, string> Properties { get; set; }
-
-        public enum Property
+        public void Save(string path, string contents)
         {
-            CloudStorageAccount,
-            
-            /// <summary>
-            /// Comma separated registered resource providers, i.e.: websites,compute,hdinsight
-            /// </summary>
-            RegisteredResourceProviders
+            File.WriteAllText(path, contents);
+        }
+
+        public string Load(string path)
+        {
+            return File.ReadAllText(path);
         }
     }
 }
