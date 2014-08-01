@@ -14,17 +14,28 @@
 
 using System;
 using System.Collections.Generic;
-using System.Security;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Commands.Common.Model;
+using Xunit;
 
-namespace Microsoft.WindowsAzure.Commands.Common
+namespace Microsoft.WindowsAzure.Commands.Common.Test.Factories
 {
-    public interface IAuthenticationFactory
+    public class TestAuthenticationFactory
     {
-        IEnumerable<Guid> Authenticate(AzureEnvironment environment, out string userId);
-        IEnumerable<Guid> Authenticate(AzureEnvironment environment, string userId);
-        IEnumerable<Guid> Authenticate(AzureEnvironment environment, string userId, SecureString password);
-        IEnumerable<Guid> RefreshUserToken(AzureEnvironment environment, string userId);
-        SubscriptionCloudCredentials GetSubscriptionCloudCredentials(Guid subscriptionId);
+        [Fact]
+        public void GetCloudCredentialThrowsExceptionForInvalidSubscription()
+        {
+            AzurePowerShell.Profile = new AzureProfile(new InMemoryFileStore());
+            AzurePowerShell.Profile.Subscriptions = new List<AzureSubscription>();
+            AzurePowerShell.Profile.Subscriptions.Add(new AzureSubscription
+            {
+                Id = Guid.NewGuid(),
+                Name = "Test",
+                Environment = "Test"
+            });
+            AzurePowerShell.AuthenticationFactory.GetSubscriptionCloudCredentials(Guid.NewGuid());
+        }
     }
 }

@@ -39,7 +39,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Model
 
         public TClient CreateClient<TClient>(AzureSubscription subscription, AzureEnvironment.Endpoint endpoint) where TClient : ServiceClient<TClient>
         {
-            SubscriptionCloudCredentials creds = AzurePowerShell.AuthenticationFactory.Authenticate(subscription);
+            SubscriptionCloudCredentials creds = AzurePowerShell.AuthenticationFactory.GetSubscriptionCloudCredentials(subscription.Id);
             Uri endpointUri = AzurePowerShell.Profile.GetEndpoint(subscription, endpoint);
             return CreateClient<TClient>(creds, endpointUri);
         }

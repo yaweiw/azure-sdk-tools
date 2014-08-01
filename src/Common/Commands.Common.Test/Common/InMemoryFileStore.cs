@@ -12,19 +12,23 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
 using System.Collections.Generic;
-using System.Security;
-using Microsoft.WindowsAzure.Commands.Common.Model;
+using Microsoft.WindowsAzure.Commands.Common.Interfaces;
+using System.IO;
 
-namespace Microsoft.WindowsAzure.Commands.Common
+namespace Microsoft.WindowsAzure.Commands.Common.Model
 {
-    public interface IAuthenticationFactory
+    public class InMemoryFileStore : IFileStore
     {
-        IEnumerable<Guid> Authenticate(AzureEnvironment environment, out string userId);
-        IEnumerable<Guid> Authenticate(AzureEnvironment environment, string userId);
-        IEnumerable<Guid> Authenticate(AzureEnvironment environment, string userId, SecureString password);
-        IEnumerable<Guid> RefreshUserToken(AzureEnvironment environment, string userId);
-        SubscriptionCloudCredentials GetSubscriptionCloudCredentials(Guid subscriptionId);
+        private Dictionary<string, string> cache = new Dictionary<string,string>();
+        public void Save(string path, string contents)
+        {
+            cache[path] = contents;
+        }
+
+        public string Load(string path)
+        {
+            return cache[path];
+        }
     }
 }

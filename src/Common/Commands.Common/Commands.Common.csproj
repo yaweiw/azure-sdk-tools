@@ -132,7 +132,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AuthenticationFactory.cs" />
+    <Compile Include="Model\AuthenticationFactory.cs" />
     <Compile Include="Authentication\AadAuthenticationException.cs" />
     <Compile Include="Authentication\AccessTokenCredential.cs" />
     <Compile Include="Authentication\AdalConfiguration.cs" />
@@ -143,7 +143,6 @@
     <Compile Include="Authentication\ITokenProvider.cs" />
     <Compile Include="Authentication\LoginType.cs" />
     <Compile Include="Authentication\RegistryBackedDictionary.cs" />
-    <Compile Include="Model\AuthenticationFactory.cs" />
     <Compile Include="Model\ClientFactory.cs" />
     <Compile Include="Common\AzureException.cs" />
     <Compile Include="Common\AzureModule.cs" />
