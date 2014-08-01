@@ -534,7 +534,6 @@
     <None Include="packages.config" />
     <None Include="Performance\Microsoft.ServiceBus.MessagingPerformanceCounters.man" />
     <None Include="PostBuild.ps1" />
-    <None Include="Properties\DataSources\Microsoft.WindowsAzure.Commands.Utilities.MarketplaceServiceReference.CatalogServiceReadOnlyDbContext.datasource" />
     <None Include="Resources\Scaffolding\General\WorkerRole\startup.cmd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
