@@ -59,7 +59,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
                     }}});
             
             // Test
-            var command = new GetAzureWebsiteMetricsCommand
+            var command = new GetAzureWebsiteMetricCommand
             {
                 Name = "website1",
                 CommandRuntime = new MockCommandRuntime(),

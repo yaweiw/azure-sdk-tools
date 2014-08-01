@@ -77,7 +77,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites.WebHostingPlans
             // Test
             var command = new GetAzureWebHostingPlanCommand
             {
-                WebSpace = "webspace1",
+                WebSpaceName = "webspace1",
                 CommandRuntime = new MockCommandRuntime(),
                 CurrentSubscription = new WindowsAzureSubscription { SubscriptionId = subscriptionId },
                 WebsitesClient = clientMock.Object

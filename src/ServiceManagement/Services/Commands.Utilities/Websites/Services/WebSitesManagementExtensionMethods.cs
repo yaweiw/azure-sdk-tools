@@ -103,7 +103,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
                 WebSocketsEnabled = getConfigResponse.WebSocketsEnabled,
                 RemoteDebuggingEnabled = getConfigResponse.RemoteDebuggingEnabled,
                 RemoteDebuggingVersion = getConfigResponse.RemoteDebuggingVersion.GetValueOrDefault(),
-                RoutingRules = getConfigResponse.RoutingRules.Select(r => r.ToRoutingRule()).ToArray()
+                RoutingRules = getConfigResponse.RoutingRules.Select(r => r.ToRoutingRule()).ToList()
             };
             return config;
         }

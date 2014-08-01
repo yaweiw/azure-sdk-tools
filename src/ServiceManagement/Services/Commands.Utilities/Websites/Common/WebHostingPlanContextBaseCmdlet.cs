@@ -19,9 +19,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Common
 
     public abstract class WebHostingPlanContextBaseCmdlet : WebsiteBaseCmdlet
     {
+        [Alias("WebSpace")]
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The web space name where hosting plan belongs.")]
         [ValidateNotNullOrEmpty]
-        public string WebSpace { get; set; }
+        public string WebSpaceName { get; set; }
 
         [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The web hosting plan name.")]
         [ValidateNotNullOrEmpty]
@@ -31,7 +32,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Common
         {
             base.ExecuteCmdlet();
 
-            if (!string.IsNullOrEmpty(Name) && string.IsNullOrEmpty(WebSpace))
+            if (!string.IsNullOrEmpty(Name) && string.IsNullOrEmpty(WebSpaceName))
             {
                 throw new ArgumentNullException("WebSpace", Properties.Resources.Argument_WebSpaceMissing);
             }

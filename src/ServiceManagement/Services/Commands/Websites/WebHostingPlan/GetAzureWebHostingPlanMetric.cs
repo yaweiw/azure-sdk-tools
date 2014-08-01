@@ -12,26 +12,26 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Websites
+namespace Microsoft.WindowsAzure.Commands.Websites.WebHostingPlan
 {
     using System;
     using System.Collections.Generic;
     using System.Management.Automation;
     using Utilities.Websites.Common;
-    using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntities;
+    using Utilities.Websites.Services.WebEntities;
 
     /// <summary>
     /// Gets an azure website.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureWebsiteMetrics"), OutputType(typeof(IList<MetricResponse>))]
-    public class GetAzureWebsiteMetricsCommand : WebsiteContextBaseCmdlet
+    [Cmdlet(VerbsCommon.Get, "AzureWebHostingPlanMetric"), OutputType(typeof(IList<MetricResponse>))]
+    public class GetAzureWebHostingPlanMetricCommand : WebHostingPlanContextBaseCmdlet
     {
-        [Parameter(Position = 2, Mandatory = false, ValueFromPipelineByPropertyName = true, 
+        [Parameter(Position = 2, Mandatory = false, ValueFromPipelineByPropertyName = true,
             HelpMessage = "List of metrics names to retrieve.")]
         [ValidateNotNullOrEmpty]
         public string[] MetricNames { get; set; }
 
-        [Parameter(Position = 3, Mandatory = false, ValueFromPipelineByPropertyName = true, 
+        [Parameter(Position = 3, Mandatory = false, ValueFromPipelineByPropertyName = true,
             HelpMessage = "The start time.")]
         [ValidateNotNullOrEmpty]
         public DateTime? StartDate { get; set; }
@@ -44,16 +44,11 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             HelpMessage = "Time grain for the metrics. Supported values are PT1M (per minute), PT1H (per hour), P1D (per day).")]
         public string TimeGrain { get; set; }
 
-        public GetAzureWebsiteMetricsCommand()
-        {
-            websiteNameDiscovery = false;
-        }
-
         public override void ExecuteCmdlet()
         {
             base.ExecuteCmdlet();
 
-            var response = WebsitesClient.GetHistoricalUsageMetrics(Name, Slot, MetricNames, StartDate, EndDate, TimeGrain);
+            var response = WebsitesClient.GetPlanHistoricalUsageMetrics(WebSpaceName, Name, MetricNames, StartDate, EndDate, TimeGrain);
             foreach (var metricResponse in response)
             {
                 WriteObject(metricResponse, true);

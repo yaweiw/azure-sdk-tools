@@ -61,7 +61,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntitie
 
         RemoteDebuggingVersion RemoteDebuggingVersion { get; set; }
 
-        RoutingRule[] RoutingRules { get; set; }
+        List<RoutingRule> RoutingRules { get; set; }
     }
 
     public class SiteWithConfig : ISite, ISiteConfig
@@ -349,7 +349,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntitie
             set { SiteConfig.RemoteDebuggingVersion = value; }
         }
 
-        public RoutingRule[] RoutingRules
+        public List<RoutingRule> RoutingRules
         {
             get { return SiteConfig.RoutingRules; }
             set { SiteConfig.RoutingRules = value; }
@@ -412,6 +412,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntitie
         public RemoteDebuggingVersion RemoteDebuggingVersion { get; set; }
 
         [DataMember(IsRequired = false)]
-        public RoutingRule[] RoutingRules { get; set; }
+        public List<RoutingRule> RoutingRules { get; set; }
     }
 }
