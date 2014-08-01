@@ -1,4 +1,4 @@
-// ----------------------------------------------------------------------------------
+﻿// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,21 +12,21 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Commands.Common;
+using Microsoft.WindowsAzure.Commands.Common.Models;
 using Microsoft.WindowsAzure.Common;
-using System;
 using System.Net;
 using System.Net.Http;
 
-namespace Microsoft.WindowsAzure.Commands.Utilities.Common
+namespace Microsoft.WindowsAzure.Commands.Common
 {
-    public interface IManagementClientHelper
+    public interface IClientFactory
     {
-        TClient CreateClient<TClient>(bool addRestLogHandler, EventHandler<ClientCreatedArgs> clientCreatedHandler, 
-            object[] parameters) where TClient : ServiceClient<TClient>;
+        TClient CreateClient<TClient>(AzureSubscription subscription, AzureEnvironment.Endpoint endpoint) where TClient : ServiceClient<TClient>;
 
-        HttpClient CreateHttpClient(string serviceUrl, ICredentials credentials);
+        TClient CreateClient<TClient>(params object[] parameters) where TClient : ServiceClient<TClient>;
 
-        HttpClient CreateHttpClient(string serviceUrl, HttpMessageHandler effectiveHandler);
+        HttpClient CreateHttpClient(string endpoint, ICredentials credentials);
+
+        HttpClient CreateHttpClient(string endpoint, HttpMessageHandler effectiveHandler);
     }
 }

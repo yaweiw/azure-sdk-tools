@@ -1,4 +1,4 @@
-// ----------------------------------------------------------------------------------
+﻿// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,21 +12,21 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Commands.Common;
-using Microsoft.WindowsAzure.Common;
+using Microsoft.WindowsAzure.Commands.Common.Models;
 using System;
-using System.Net;
-using System.Net.Http;
 
-namespace Microsoft.WindowsAzure.Commands.Utilities.Common
+namespace Microsoft.WindowsAzure.Commands.Common.Factories
 {
-    public interface IManagementClientHelper
+    public class AuthenticationFactory : IAuthenticationFactory
     {
-        TClient CreateClient<TClient>(bool addRestLogHandler, EventHandler<ClientCreatedArgs> clientCreatedHandler, 
-            object[] parameters) where TClient : ServiceClient<TClient>;
+        public AuthenticationFactory()
+        {
 
-        HttpClient CreateHttpClient(string serviceUrl, ICredentials credentials);
+        }
 
-        HttpClient CreateHttpClient(string serviceUrl, HttpMessageHandler effectiveHandler);
+        public SubscriptionCloudCredentials Authenticate(AzureSubscription subscription)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
