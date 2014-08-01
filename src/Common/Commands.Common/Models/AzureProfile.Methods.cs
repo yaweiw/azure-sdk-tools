@@ -55,6 +55,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
         private void Load(IFileStore store)
         {
             // Here we need to detect the version of the profile file and parse it appropriately
+            Environments.AddRange(AzureEnvironment.PublicEnvironments.Values);
         }
     }
 }

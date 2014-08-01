@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Test.Factories
         [Fact]
         public void GetCloudCredentialThrowsExceptionForInvalidSubscription()
         {
-            AzurePowerShell.Profile = new AzureProfile(new InMemoryFileStore());
+            AzurePowerShell.Profile = new AzureProfile(new MockFileStore());
             AzurePowerShell.Profile.Subscriptions.Add(new AzureSubscription
             {
                 Id = Guid.NewGuid(),
@@ -36,6 +36,16 @@ namespace Microsoft.WindowsAzure.Commands.Common.Test.Factories
                 Name = "Test"
             });
             Assert.Throws<ArgumentException>(() => AzurePowerShell.AuthenticationFactory.GetSubscriptionCloudCredentials(Guid.NewGuid()));
+        }
+
+        [Fact]
+        public void AuthenticateReturnsSubscriptions()
+        {
+            AzurePowerShell.Profile = new AzureProfile(new MockFileStore());
+            string userName = "";
+            var ids = AzurePowerShell.AuthenticationFactory.Authenticate(AzurePowerShell.Profile.CurrentEnvironment, out userName);
+            Assert.NotNull(userName);
+            Assert.NotEmpty(ids);
         }
     }
 }

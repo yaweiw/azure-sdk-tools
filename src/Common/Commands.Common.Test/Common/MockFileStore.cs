@@ -17,7 +17,7 @@ using Microsoft.WindowsAzure.Commands.Common.Interfaces;
 
 namespace Microsoft.WindowsAzure.Commands.Common.Test.Common
 {
-    public class InMemoryFileStore : IFileStore
+    public class MockFileStore : IFileStore
     {
         private Dictionary<string, string> cache = new Dictionary<string,string>();
         public void Save(string path, string contents)

@@ -137,7 +137,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\ClientMocks.cs" />
-    <Compile Include="Common\InMemoryFileStore.cs" />
+    <Compile Include="Common\MockFileStore.cs" />
     <Compile Include="Common\GeneralUtilitiesTests.cs" />
     <Compile Include="Common\Data.cs" />
     <Compile Include="Common\DirStack.cs" />
