@@ -113,7 +113,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         {
             try
             {
-                base.ProcessRecord();
+                // Create a cloud context, only in case of upload.
+                if (this.ParameterSetName == UploadArchiveParameterSetName)
+                {
+                    base.ProcessRecord();
+                }
                 ExecuteCommand();
             }
             finally
