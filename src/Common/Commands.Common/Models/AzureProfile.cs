@@ -25,6 +25,9 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
 
         public AzureProfile(IFileStore store)
         {
+            Environments = new List<AzureEnvironment>();
+            Subscriptions = new List<AzureSubscription>();
+
             Load(store);
 
             foreach (AzureEnvironment env in Environments)
