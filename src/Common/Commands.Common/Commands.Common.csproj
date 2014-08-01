@@ -185,7 +185,7 @@
     <Compile Include="Common\WindowsAzureEnvironment.cs" />
     <Compile Include="Common\WindowsAzureProfile.cs" />
     <Compile Include="Common\WindowsAzureSubscription.cs" />
-    <Compile Include="Interfaces\IAzureProfileStore.cs" />
+    <Compile Include="Interfaces\ISerializer.cs" />
     <Compile Include="Interfaces\IClientFactory.cs" />
     <Compile Include="Interfaces\IAuthenticationFactory.cs" />
     <Compile Include="Interfaces\IFileStore.cs" />

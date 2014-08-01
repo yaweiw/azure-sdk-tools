@@ -15,7 +15,6 @@
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using Microsoft.WindowsAzure.Commands.Common;
-    using Microsoft.WindowsAzure.Commands.Common.Models;
     using System.Net.Http.Headers;
 
     public static class ApiConstants
