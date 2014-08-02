@@ -86,7 +86,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 string newAzureLinuxVMName = Utilities.GetUniqueShortName("PSLinuxVM");
 
                 var key = vmPowershellCmdlets.NewAzureSSHKey(NewAzureSshKeyType.PublicKey, _installedCert.Thumbprint, keyPath);
-                var sshKeysList = new Model.PersistentVMModel.LinuxProvisioningConfigurationSet.SSHPublicKeyList();
+                var sshKeysList = new Model.LinuxProvisioningConfigurationSet.SSHPublicKeyList();
                 sshKeysList.Add(key);
 
                 // Add-AzureProvisioningConfig without password and NoSSHEndpoint

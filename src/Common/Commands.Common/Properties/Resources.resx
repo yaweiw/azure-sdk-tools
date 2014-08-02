@@ -790,10 +790,10 @@ Please follow these steps in the portal:
     <value>uri</value>
   </data>
   <data name="ManifestUri" xml:space="preserve">
-    <value>http://az413943.vo.msecnd.net/node/runtimemanifest_0.7.3.xml</value>
+    <value>http://az413943.vo.msecnd.net/node/runtimemanifest_0.7.4.1.xml</value>
   </data>
   <data name="MaxSupportAzureSdkVersion" xml:space="preserve">
-    <value>v2.3</value>
+    <value>v2.4</value>
   </data>
   <data name="MemcacheEndpointName" xml:space="preserve">
     <value>memcache_default</value>
@@ -802,7 +802,7 @@ Please follow these steps in the portal:
     <value>11211</value>
   </data>
   <data name="MinSupportAzureSdkVersion" xml:space="preserve">
-    <value>v2.3</value>
+    <value>v2.4</value>
   </data>
   <data name="MissingPythonPreReq" xml:space="preserve">
     <value>Python 2.7 is not installed.  Please install it as well as Django 1.4.</value>
@@ -1595,5 +1595,19 @@ use and privacy statement at &lt;url&gt; and (c) agree to sharing my contact inf
   </data>
   <data name="SetTrafficManagerProfileAmbiguous" xml:space="preserve">
     <value>Ambiguous operation: the profile name specified doesn't match the name of the profile object.</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>&lt;NONE&gt;</value>
+  </data>
+  <data name="ServiceManagementClientExceptionStringFormat" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ServiceManagementClientExceptionStringFormat1" xml:space="preserve">
+    <value>"An exception occurred when calling the ServiceManagement API. HTTP Status Code: {0}. Service Management Error Code: {1}. Message: {2}. Operation Tracking ID: {3}."</value>
+    <comment>{0} is the HTTP status code. {1} is the Service Management Error Code. {2} is the Service Management Error message. {3} is the operation tracking ID.</comment>
+  </data>
+  <data name="UnableToDecodeBase64String" xml:space="preserve">
+    <value>Unable to decode string from base 64. Please make sure the string is correctly encoded: {0}.</value>
+    <comment>{0} is the string that is not in a valid base 64 format.</comment>
   </data>
 </root>

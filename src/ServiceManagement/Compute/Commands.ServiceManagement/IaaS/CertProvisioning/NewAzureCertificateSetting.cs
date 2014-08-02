@@ -14,9 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
-    using Model.PersistentVMModel;
     using System;
     using System.Management.Automation;
+    using Model;
 
     [Cmdlet(VerbsCommon.New, "AzureCertificateSetting"), OutputType(typeof(CertificateSetting))]
     public class NewAzureCertificateSettingCommand : Cmdlet

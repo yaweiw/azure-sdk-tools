@@ -21,6 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development.Tests
     using Commands.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
     using Commands.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
     using Commands.Utilities.Properties;
+    using Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools;
     using System;
     using System.IO;
     using System.Linq;
@@ -47,6 +48,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development.Tests
         [TestInitialize]
         public void SetupTest()
         {
+            AzureTool.IgnoreMissingSDKError = true;
             GlobalPathInfo.GlobalSettingsDirectory = Data.AzureSdkAppDir;
             mockCommandRuntime = new MockCommandRuntime();
 
@@ -72,7 +74,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development.Tests
                 addCacheRoleCmdlet.AddAzureCacheWorkerRoleProcess(cacheRoleName, 1, rootPath);
                 mockCommandRuntime.ResetPipelines();
                 enableCacheCmdlet.PassThru = true;
-                enableCacheCmdlet.CacheRuntimeVersion = "2.3.0";
+                enableCacheCmdlet.CacheRuntimeVersion = "2.4.0";
                 enableCacheCmdlet.EnableAzureMemcacheRoleProcess(webRoleName, cacheRoleName, rootPath);
 
                 AssertCachingEnabled(files, serviceName, rootPath, webRoleName, expectedMessage);
@@ -265,7 +267,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development.Tests
                 addCacheRoleCmdlet.AddAzureCacheWorkerRoleProcess(cacheRoleName, 1, rootPath);
                 mockCommandRuntime.ResetPipelines();
                 enableCacheCmdlet.PassThru = true;
-                enableCacheCmdlet.CacheRuntimeVersion = "2.3.0";
+                enableCacheCmdlet.CacheRuntimeVersion = "2.4.0";
                 enableCacheCmdlet.RoleName = string.Empty;
                 enableCacheCmdlet.CacheWorkerRoleName = cacheRoleName;
                 enableCacheCmdlet.ExecuteCmdlet();
@@ -367,7 +369,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development.Tests
                 addCacheRoleCmdlet.AddAzureCacheWorkerRoleProcess(cacheRoleName, 1, rootPath);
                 mockCommandRuntime.ResetPipelines();
                 enableCacheCmdlet.PassThru = true;
-                enableCacheCmdlet.CacheRuntimeVersion = "2.3.0";
+                enableCacheCmdlet.CacheRuntimeVersion = "2.4.0";
                 enableCacheCmdlet.EnableAzureMemcacheRoleProcess(webRoleName, null, rootPath);
 
                 AssertCachingEnabled(files, serviceName, rootPath, webRoleName, expectedMessage);
@@ -392,7 +394,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development.Tests
                 addCacheRoleCmdlet.AddAzureCacheWorkerRoleProcess(cacheRoleName, 1, rootPath);
                 mockCommandRuntime.ResetPipelines();
                 enableCacheCmdlet.PassThru = true;
-                enableCacheCmdlet.CacheRuntimeVersion = "2.3.0";
+                enableCacheCmdlet.CacheRuntimeVersion = "2.4.0";
                 enableCacheCmdlet.EnableAzureMemcacheRoleProcess(webRoleName, null, rootPath);
 
                 AssertCachingEnabled(files, serviceName, rootPath, webRoleName, expectedMessage);
@@ -415,7 +417,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development.Tests
                 addNodeWorkerCmdlet.ExecuteCmdlet();
                 mockCommandRuntime.ResetPipelines();
                 enableCacheCmdlet.PassThru = true;
-                enableCacheCmdlet.CacheRuntimeVersion = "2.3.0";
+                enableCacheCmdlet.CacheRuntimeVersion = "2.4.0";
 
                 Testing.AssertThrows<Exception>(() => enableCacheCmdlet.EnableAzureMemcacheRoleProcess(webRoleName, null, rootPath), expectedMessage);
             }

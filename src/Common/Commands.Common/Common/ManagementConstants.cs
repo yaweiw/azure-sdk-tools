@@ -14,12 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
+    using Microsoft.WindowsAzure.Commands.Common;
     using System.Net.Http.Headers;
 
     public static class ApiConstants
     {
-        public const string LatestApiVersion = ServiceManagement.Constants.VersionHeaderContentLatest;
-        public const string VersionHeaderName = ServiceManagement.Constants.VersionHeaderName;
+        public const string LatestApiVersion = ServiceManagement.Model.Constants.VersionHeaderContentLatest;
+        public const string VersionHeaderName = ServiceManagement.Model.Constants.VersionHeaderName;
 
         public const string AuthorizationHeaderName = "Authorization";
 
@@ -34,10 +35,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public const string SslSupportSettingsName = "SslSupport";
 
         public const string UserAgentHeaderName = "User-Agent";
-        public const string UserAgentHeaderValue = "WindowsAzurePowershell/v0.8.5";
+        public const string UserAgentHeaderValue = "AzurePowershell/v" + AzurePowerShell.AssemblyVersion;
         public static ProductInfoHeaderValue UserAgentValue = new ProductInfoHeaderValue(
-            "WindowsAzurePowershell",
-            "v0.8.5");
+            "AzurePowershell",
+            string.Format("v{0}", AzurePowerShell.AssemblyVersion));
 
         public const string VSDebuggerCausalityDataHeaderName = "VSDebuggerCausalityData";
         
@@ -52,6 +53,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public const string Version220 = "2.2.0";
 
         public const string Version230 = "2.3.0";
+
+        public const string Version240 = "2.4.0";
     }
 
     public enum DevEnv
@@ -73,29 +76,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         PHP,
         Cache,
         Null
-    }
-
-    public class ManagementConstants
-    {
-        public const string CurrentSubscriptionEnvironmentVariable = "_wappsCmdletsCurrentSubscription";
-
-        public const string ServiceManagementNS = "http://schemas.microsoft.com/windowsazure";
-    }
-
-    public static class StorageServiceStatus
-    {
-        public const string ResolvingDns = "Suspending";
-        public const string Created = "Created";
-        public const string Creating = "Creating";
-    }
-
-    public static class HttpConstants
-    {
-        public static readonly MediaTypeWithQualityHeaderValue JsonMediaType =
-            MediaTypeWithQualityHeaderValue.Parse("application/json");
-
-        public static readonly MediaTypeWithQualityHeaderValue XmlMediaType =
-            MediaTypeWithQualityHeaderValue.Parse("application/xml");
     }
 
     public static class EnvironmentName
@@ -142,5 +122,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public const string AzureSqlDatabaseDnsSuffix = ".database.windows.net";
 
         public const string ChinaSqlDatabaseDnsSuffix = ".database.chinacloudapi.cn";
+
+        public const string AzureActiveDirectoryEndpoint = "https://login.windows.net/";
+
+        public const string ChinaActiveDirectoryEndpoint = "https://login.chinacloudapi.cn/";
     }
 }

@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using System.Linq;
     using System.Xml.Linq;
     using VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.ServiceManagement;
+    using WindowsAzure.Commands.ServiceManagement;
 
     [TestClass]
     public class ServiceManagementTest
