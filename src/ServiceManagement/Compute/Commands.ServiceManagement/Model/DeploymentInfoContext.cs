@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
     using System.Linq;
     using System.Xml;
     using System.Xml.Linq;
-    using PVM = PersistentVMModel;
+    using PVM = Model;
 
     public class DeploymentInfoContext : ServiceOperationContext
     {
@@ -119,7 +119,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
             protected set;
         }
 
-        public Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DnsSettings DnsSettings
+        public Microsoft.WindowsAzure.Commands.ServiceManagement.Model.DnsSettings DnsSettings
         {
             get;
             protected set;
@@ -207,14 +207,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
             // DNS
             if (deployment.DnsSettings != null)
             {
-                this.DnsSettings = new Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DnsSettings
+                this.DnsSettings = new Microsoft.WindowsAzure.Commands.ServiceManagement.Model.DnsSettings
                 {
-                    DnsServers = new Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DnsServerList()
+                    DnsServers = new Microsoft.WindowsAzure.Commands.ServiceManagement.Model.DnsServerList()
                 };
 
                 foreach (var dns in deployment.DnsSettings.DnsServers)
                 {
-                    var newDns = new Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DnsServer
+                    var newDns = new Microsoft.WindowsAzure.Commands.ServiceManagement.Model.DnsServer
                     {
                         Name = dns.Name,
                         Address = dns.Address.ToString()

@@ -123,10 +123,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.WebSites.3.0.2-prerelease\lib\net40\Microsoft.WindowsAzure.Management.WebSites.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.ServiceManagement.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\lib\Microsoft.WindowsAzure.ServiceManagement.Client.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.WindowsAzure.Storage, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\WindowsAzure.Storage.4.0.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
@@ -347,6 +343,10 @@
     <None Include="Performance\Microsoft.ServiceBus.MessagingPerformanceCounters.man" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Compute\Commands.ServiceManagement\Commands.ServiceManagement.csproj">
+      <Project>{e1ca72ba-8374-45f6-904d-fd34ecdf5b6f}</Project>
+      <Name>Commands.ServiceManagement</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\ExpressRoute\Commands.ExpressRoute\Commands.ExpressRoute.csproj">
       <Project>{45c2d687-e0ce-4c97-b731-335834dc2bf2}</Project>
       <Name>Commands.ExpressRoute</Name>
