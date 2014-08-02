@@ -161,10 +161,6 @@
     <Compile Include="Resources\ResourceLocator.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ServiceManagement\Compute\Commands.ServiceManagement\Commands.ServiceManagement.csproj">
-      <Project>{e1ca72ba-8374-45f6-904d-fd34ecdf5b6f}</Project>
-      <Name>Commands.ServiceManagement</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Commands.Common.Storage\Commands.Common.Storage.csproj">
       <Project>{65c3a86a-716d-4e7d-ab67-1db00b3bf72d}</Project>
       <Name>Commands.Common.Storage</Name>
