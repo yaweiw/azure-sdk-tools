@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using Commands.Utilities.Common;
     using Helpers;
     using Management.Compute.Models;
-    using Model;
+    using Management.Models;
     using Properties;
     using System;
     using System.Globalization;
@@ -34,7 +34,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The Virtual Machine to restart.", ParameterSetName = "Input")]
         [ValidateNotNullOrEmpty]
         [Alias("InputObject")]
-        public PersistentVM VM { get; set; }
+        public Model.PersistentVM VM { get; set; }
 
         [Parameter(Position = 2, HelpMessage = "Keeps the VM provisioned")]
         public SwitchParameter StayProvisioned { get; set; }

@@ -14,7 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    using Model.PersistentVMModel;
+    using Model;
     using PowershellCore;
 
     public class GetAzureDnsCmdletInfo : CmdletsInfo

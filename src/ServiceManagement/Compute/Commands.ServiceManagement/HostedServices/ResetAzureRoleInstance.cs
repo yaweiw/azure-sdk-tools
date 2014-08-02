@@ -16,7 +16,7 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 {
     using Management.Compute.Models;
-    using Model.PersistentVMModel;
+    using Model;
     using Properties;
     using System;
     using System.Management.Automation;

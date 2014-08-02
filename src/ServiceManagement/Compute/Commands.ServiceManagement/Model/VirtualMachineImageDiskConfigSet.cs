@@ -14,7 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
-    using Model.PersistentVMModel;
+    using Model;
 
     public class VirtualMachineImageDiskConfigSet
     {

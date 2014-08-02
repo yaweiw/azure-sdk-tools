@@ -14,7 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Disks
 {
-    using Model.PersistentVMModel;
+    using Model;
     using System.Linq;
     using System.Management.Automation;
 

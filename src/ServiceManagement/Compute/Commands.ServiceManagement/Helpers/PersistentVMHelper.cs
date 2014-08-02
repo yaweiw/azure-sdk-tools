@@ -18,7 +18,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
     using AutoMapper;
     using Management.Compute.Models;
     using Model;
-    using Model.PersistentVMModel;
     using Properties;
     using System;
     using System.Collections.Generic;
@@ -27,13 +26,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
     using System.Linq;
     using System.Management.Automation;
     using System.Xml.Serialization;
-    using ConfigurationSet = Model.PersistentVMModel.ConfigurationSet;
-    using DataVirtualHardDisk = Model.PersistentVMModel.DataVirtualHardDisk;
-    using LinuxProvisioningConfigurationSet = Model.PersistentVMModel.LinuxProvisioningConfigurationSet;
-    using NetworkConfigurationSet = Model.PersistentVMModel.NetworkConfigurationSet;
-    using OSVirtualHardDisk = Model.PersistentVMModel.OSVirtualHardDisk;
+    using ConfigurationSet = Model.ConfigurationSet;
+    using DataVirtualHardDisk = Model.DataVirtualHardDisk;
+    using LinuxProvisioningConfigurationSet = Model.LinuxProvisioningConfigurationSet;
+    using NetworkConfigurationSet = Model.NetworkConfigurationSet;
+    using OSVirtualHardDisk = Model.OSVirtualHardDisk;
     using RoleInstance = Management.Compute.Models.RoleInstance;
-    using WindowsProvisioningConfigurationSet = Model.PersistentVMModel.WindowsProvisioningConfigurationSet;
+    using WindowsProvisioningConfigurationSet = Model.WindowsProvisioningConfigurationSet;
 
     public static class PersistentVMHelper
     {
@@ -122,7 +121,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
         public static Collection<ConfigurationSet> MapConfigurationSets(IList<Management.Compute.Models.ConfigurationSet> configurationSets)
         {
             var result = new Collection<ConfigurationSet>();
-            var n = configurationSets.Where(c => c.ConfigurationSetType == "NetworkConfiguration").Select(Mapper.Map<Model.PersistentVMModel.NetworkConfigurationSet>).ToList();
+            var n = configurationSets.Where(c => c.ConfigurationSetType == "NetworkConfiguration").Select(Mapper.Map<Model.NetworkConfigurationSet>).ToList();
             var w = configurationSets.Where(c => c.ConfigurationSetType == ConfigurationSetTypes.WindowsProvisioningConfiguration).Select(Mapper.Map<WindowsProvisioningConfigurationSet>).ToList();
             var l = configurationSets.Where(c => c.ConfigurationSetType == ConfigurationSetTypes.LinuxProvisioningConfiguration).Select(Mapper.Map<LinuxProvisioningConfigurationSet>).ToList();
             n.ForEach(result.Add);
