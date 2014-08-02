@@ -46,7 +46,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         private const string ReadyState = "ReadyRole";
         private string serviceName;
 
-        string perfFile;
+        //string perfFile;
 
         [TestInitialize]
         public void Initialize()
@@ -669,21 +669,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         {
 
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
-            perfFile = @"..\deploymentUpgradeResult.csv";
+            //perfFile = @"..\deploymentUpgradeResult.csv";
 
             // Choose the package and config files from local machine
             string path = Convert.ToString(TestContext.DataRow["path"]);
             string packageName = Convert.ToString(TestContext.DataRow["packageName"]);
             string configName = Convert.ToString(TestContext.DataRow["configName"]);
-            string upgradePackageName = Convert.ToString(TestContext.DataRow["upgradePackage"]);
-            string upgradeConfigName = Convert.ToString(TestContext.DataRow["upgradeConfig"]);
-            string upgradeConfigName2 = Convert.ToString(TestContext.DataRow["upgradeConfig2"]);
 
             var packagePath1 = new FileInfo(@path + packageName); // package with two roles
-            var packagePath2 = new FileInfo(@path + upgradePackageName); // package with one role
             var configPath1 = new FileInfo(@path + configName); // config with 2 roles, 4 instances each
-            var configPath2 = new FileInfo(@path + upgradeConfigName); // config with 1 role, 2 instances
-            var configPath3 = new FileInfo(@path + upgradeConfigName2); // config with 1 role, 4 instances
 
             Assert.IsTrue(File.Exists(packagePath1.FullName), "VHD file not exist={0}", packagePath1);
             Assert.IsTrue(File.Exists(configPath1.FullName), "VHD file not exist={0}", configPath1);
@@ -703,11 +697,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
                 TimeSpan duration = DateTime.Now - start;
 
-                Uri site = Utilities.GetDeploymentAndWaitForReady(serviceName, DeploymentSlotType.Production, 10, 1000);
+                //Uri site = Utilities.GetDeploymentAndWaitForReady(serviceName, DeploymentSlotType.Production, 10, 1000);
+                //System.IO.File.AppendAllLines(perfFile, new string[] { String.Format("Deployment, {0}, {1}", duration, DateTime.Now - start) });
 
-                System.IO.File.AppendAllLines(perfFile, new string[] { String.Format("Deployment, {0}, {1}", duration, DateTime.Now - start) });
-
-                Console.WriteLine("site: {0}", site.ToString());
+                //Console.WriteLine("site: {0}", site.ToString());
                 Console.WriteLine("Time for all instances to become in ready state: {0}", DateTime.Now - start);
 
                 // Auto-Upgrade the deployment
@@ -717,11 +710,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 Console.WriteLine("Auto upgrade took {0}.", duration);
 
                 result = vmPowershellCmdlets.GetAzureDeployment(serviceName, DeploymentSlotType.Production);
-                Utilities.PrintAndCompareDeployment(result, serviceName, deploymentName, serviceName, DeploymentSlotType.Production, null, 8);
+                Utilities.PrintAndCompareDeployment(result, serviceName, deploymentName, serviceName, DeploymentSlotType.Production, null, 4);
                 Console.WriteLine("successfully updated the deployment");
 
-                site = Utilities.GetDeploymentAndWaitForReady(serviceName, DeploymentSlotType.Production, 10, 600);
-                System.IO.File.AppendAllLines(perfFile, new string[] { String.Format("Auto Upgrade, {0}, {1}", duration, DateTime.Now - start) });
+                //site = Utilities.GetDeploymentAndWaitForReady(serviceName, DeploymentSlotType.Production, 10, 600);
+                //System.IO.File.AppendAllLines(perfFile, new string[] { String.Format("Auto Upgrade, {0}, {1}", duration, DateTime.Now - start) });
 
                 // Manual-Upgrade the deployment
                 start = DateTime.Now;
@@ -729,17 +722,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 vmPowershellCmdlets.SetAzureWalkUpgradeDomain(serviceName, DeploymentSlotType.Production, 0);
                 vmPowershellCmdlets.SetAzureWalkUpgradeDomain(serviceName, DeploymentSlotType.Production, 1);
                 vmPowershellCmdlets.SetAzureWalkUpgradeDomain(serviceName, DeploymentSlotType.Production, 2);
-                vmPowershellCmdlets.SetAzureWalkUpgradeDomain(serviceName, DeploymentSlotType.Production, 3);
-                vmPowershellCmdlets.SetAzureWalkUpgradeDomain(serviceName, DeploymentSlotType.Production, 4);
                 duration = DateTime.Now - start;
                 Console.WriteLine("Manual upgrade took {0}.", duration);
 
                 result = vmPowershellCmdlets.GetAzureDeployment(serviceName, DeploymentSlotType.Production);
-                Utilities.PrintAndCompareDeployment(result, serviceName, deploymentName, serviceName, DeploymentSlotType.Production, null, 8);
+                Utilities.PrintAndCompareDeployment(result, serviceName, deploymentName, serviceName, DeploymentSlotType.Production, null, 4);
                 Console.WriteLine("successfully updated the deployment");
 
-                site = Utilities.GetDeploymentAndWaitForReady(serviceName, DeploymentSlotType.Production, 10, 600);
-                System.IO.File.AppendAllLines(perfFile, new string[] { String.Format("Manual Upgrade, {0}, {1}", duration, DateTime.Now - start) });
+                //site = Utilities.GetDeploymentAndWaitForReady(serviceName, DeploymentSlotType.Production, 10, 600);
+                //System.IO.File.AppendAllLines(perfFile, new string[] { String.Format("Manual Upgrade, {0}, {1}", duration, DateTime.Now - start) });
 
                 // Simulatenous-Upgrade the deployment
                 start = DateTime.Now;
@@ -748,11 +739,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 Console.WriteLine("Simulatenous upgrade took {0}.", duration);
 
                 result = vmPowershellCmdlets.GetAzureDeployment(serviceName, DeploymentSlotType.Production);
-                Utilities.PrintAndCompareDeployment(result, serviceName, deploymentName, serviceName, DeploymentSlotType.Production, null, 8);
+                Utilities.PrintAndCompareDeployment(result, serviceName, deploymentName, serviceName, DeploymentSlotType.Production, null, 4);
                 Console.WriteLine("successfully updated the deployment");
 
-                site = Utilities.GetDeploymentAndWaitForReady(serviceName, DeploymentSlotType.Production, 10, 600);
-                System.IO.File.AppendAllLines(perfFile, new string[] { String.Format("Simulatenous Upgrade, {0}, {1}", duration, DateTime.Now - start) });
+                //site = Utilities.GetDeploymentAndWaitForReady(serviceName, DeploymentSlotType.Production, 10, 600);
+                //System.IO.File.AppendAllLines(perfFile, new string[] { String.Format("Simulatenous Upgrade, {0}, {1}", duration, DateTime.Now - start) });
 
                 vmPowershellCmdlets.RemoveAzureDeployment(serviceName, DeploymentSlotType.Production, true);
                 pass = Utilities.CheckRemove(vmPowershellCmdlets.GetAzureDeployment, serviceName);
