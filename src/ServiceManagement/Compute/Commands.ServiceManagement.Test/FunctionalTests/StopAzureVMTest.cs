@@ -84,7 +84,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <summary>
         /// This test covers Stop-AzureVM -StayProvisioned with both parameter sets.
         /// </summary>
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Stop-AzureVM)")]
+        [TestMethod(), TestCategory(Category.Functional), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Stop-AzureVM)")]
         public void StopAzureVMStayProvisionedTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -147,7 +147,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <summary>
         /// 
         /// </summary>
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Stop-AzureVM) using wildcard syntax")]
+        [TestMethod(), TestCategory(Category.Functional), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Stop-AzureVM) using wildcard syntax")]
         public void StopAzureVMsStayProvisionedTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -200,7 +200,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <summary>
         /// This test covers Stop-AzureVM with both parameter sets.
         /// </summary>
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Stop-AzureVM)")]
+        [TestMethod(), TestCategory(Category.Functional), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Stop-AzureVM)")]
         public void StopAzureVMDeprovisionedTest()
         {
 
@@ -276,7 +276,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <summary>
         ///
         /// </summary>
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Stop-AzureVM) using wildcard syntax")]
+        [TestMethod(), TestCategory(Category.Functional), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Stop-AzureVM) using wildcard syntax")]
         public void StopAzureVMsDeprovisionedTest()
         {
 
@@ -370,7 +370,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <summary>
         /// This test covers Stop-AzureVM -Force with both parameter sets
         /// </summary>
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Stop-AzureVM)")]
+        [TestMethod(), TestCategory(Category.Functional), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Stop-AzureVM)")]
         public void StopAzureVMOnStoppedVMTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -439,7 +439,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <summary>
         /// 
         /// </summary>
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Stop-AzureVM) using wildcard syntax")]
+        [TestMethod(), TestCategory(Category.Functional), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Stop-AzureVM) using wildcard syntax")]
         public void StopAzureVMsOnStoppedVMTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -528,7 +528,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <summary>
         ///
         /// </summary>
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Stop-AzureVM)")]
+        [TestMethod(), TestCategory(Category.Functional), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Stop-AzureVM)")]
         public void StopAzureVMOnDeallocatedVMTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -612,7 +612,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <summary>
         ///
         /// </summary>
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Stop-AzureVM) using wildcard syntax")]
+        [TestMethod(), TestCategory(Category.Functional), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Stop-AzureVM) using wildcard syntax")]
         public void StopAzureVMsOnDeallocatedVMTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -717,7 +717,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <summary>
         ///
         /// </summary>
-        [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Stop-AzureVM)")]
+        [TestMethod(), TestCategory(Category.Scenario), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Stop-AzureVM)")]
         public void RestartAzureVMTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -777,7 +777,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <summary>
         ///
         /// </summary>
-        [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Stop-AzureVM) using wildcard syntax")]
+        [TestMethod(), TestCategory(Category.Scenario), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Stop-AzureVM) using wildcard syntax")]
         public void RestartAzureVMsTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -876,7 +876,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <summary>
         ///
         /// </summary>
-        [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Stop-AzureVM)")]
+        [TestMethod(), TestCategory(Category.Scenario), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Stop-AzureVM)")]
         public void RestartAzureVMAfterDeallocateTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -959,7 +959,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <summary>
         ///
         /// </summary>
-        [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Stop-AzureVM) using wildcard syntax")]
+        [TestMethod(), TestCategory(Category.Scenario), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Stop-AzureVM) using wildcard syntax")]
         public void RestartAzureVMsAfterDeallocateTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);

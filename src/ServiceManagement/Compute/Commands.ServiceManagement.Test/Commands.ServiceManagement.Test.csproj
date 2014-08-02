@@ -170,6 +170,7 @@
     <Compile Include="FunctionalTests\ConfigDataInfo\SetACLConfig.cs" />
     <Compile Include="FunctionalTests\ConfigDataInfo\SSHKey.cs" />
     <Compile Include="FunctionalTests\ConfigDataInfo\VMPowerState.cs" />
+    <Compile Include="FunctionalTests\Constants.cs" />
     <Compile Include="FunctionalTests\CredentialHelper.cs" />
     <Compile Include="FunctionalTests\ExtensionTests\AzureVMAccessExtensionTests.cs" />
     <Compile Include="FunctionalTests\ExtensionTests\AzureVMBGInfoExtensionTests.cs" />

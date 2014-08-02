@@ -43,7 +43,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <summary>
         /// BVT test for IaaS cmdlets.
         /// </summary>
-        [TestMethod(), TestCategory("BVT"), TestCategory("Scenario"), TestProperty("Feature", "IaaS"), Priority(1), Owner("hylee"), Description("BVT Test for IaaS")]
+        [TestMethod(), TestCategory(Category.BVT), TestCategory(Category.Scenario), TestProperty("Feature", "IaaS"), Priority(1), Owner("hylee"), Description("BVT Test for IaaS")]
         public void AzureIaaSBVT()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
