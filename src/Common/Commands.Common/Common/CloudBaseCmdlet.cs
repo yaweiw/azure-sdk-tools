@@ -15,7 +15,7 @@
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using Microsoft.WindowsAzure.Commands.Common.Properties;
-    using ServiceManagement;
+    using ServiceManagement.Model;
     using System;
     using System.Globalization;
     using System.Linq;
@@ -277,69 +277,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             }
         }
 
-        protected virtual Operation WaitForOperation(string opdesc)
-        {
-            return WaitForOperation(opdesc, false);
-        }
-
-        protected virtual Operation WaitForOperation(string opdesc, bool silent)
-        {
-            string operationId = RetrieveOperationId();
-            Operation operation = null;
-
-            if (!string.IsNullOrEmpty(operationId))
-            {
-                try
-                {
-                    WindowsAzureSubscription currentSubscription = Profile.CurrentSubscription;
-
-                    operation = RetryCall(s => GetOperationStatus(currentSubscription.SubscriptionId, operationId));
-
-                    var activityId = new Random().Next(1, 999999);
-                    var progress = new ProgressRecord(activityId, opdesc, "Operation Status: " + operation.Status);
-
-                    while (string.Compare(operation.Status, OperationState.Succeeded, StringComparison.OrdinalIgnoreCase) != 0 &&
-                            string.Compare(operation.Status, OperationState.Failed, StringComparison.OrdinalIgnoreCase) != 0)
-                    {
-                        if (silent == false)
-                        {
-                            WriteProgress(progress);
-                        }
-
-                        Thread.Sleep(1 * 1000);
-                        operation = RetryCall(s => GetOperationStatus(currentSubscription.SubscriptionId, operationId));
-                    }
-                    
-                    if (string.Compare(operation.Status, OperationState.Failed, StringComparison.OrdinalIgnoreCase) == 0)
-                    {
-                        var errorMessage = string.Format(CultureInfo.InvariantCulture, "{0}: {1}", operation.Status, operation.Error.Message);
-                        var exception = new Exception(errorMessage);
-                        WriteError(new ErrorRecord(exception, string.Empty, ErrorCategory.CloseError, null));
-                    }
-
-                    if (silent == false)
-                    {
-                        progress = new ProgressRecord(activityId, opdesc, "Operation Status: " + operation.Status);
-                        WriteProgress(progress);
-                    }
-                }
-                catch (CommunicationException ex)
-                {
-                    WriteErrorDetails(ex);
-                }
-            }
-            else
-            {
-                operation = new Operation
-                {
-                    OperationTrackingId = string.Empty,
-                    Status = OperationState.Failed
-                };
-            }
-
-            return operation;
-        }
-
         /// <summary>
         /// Invoke the given operation within an OperationContextScope if the
         /// channel supports it.
@@ -359,12 +296,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             {
                 action();
             }
-        }
-
-        protected virtual Operation GetOperationStatus(string subscriptionId, string operationId)
-        {
-            var channel = (IServiceManagement)Channel;
-            return channel.GetOperationStatus(subscriptionId, operationId);
         }
 
         protected virtual void WriteErrorDetails(CommunicationException exception)
@@ -418,7 +349,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
             if ((WebOperationContext.Current != null) && (WebOperationContext.Current.IncomingResponse != null))
             {
-                operationId = WebOperationContext.Current.IncomingResponse.Headers[ServiceManagement.Constants.OperationTrackingIdHeader];
+                operationId = WebOperationContext.Current.IncomingResponse.Headers[ServiceManagement.Model.Constants.OperationTrackingIdHeader];
             }
 
             return operationId;

@@ -18,12 +18,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
     using Extensions;
     using Helpers;
     using Management.Compute.Models;
-    using Model.PersistentVMModel;
     using Properties;
     using System;
     using System.Management.Automation;
     using System.Net;
     using Utilities.Common;
+    using PVM = Model;
 
     /// <summary>
     /// Create a new deployment. Note that there shouldn't be a deployment 
@@ -57,7 +57,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
         }
 
         [Parameter(Position = 3, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Deployment slot [Staging | Production].")]
-        [ValidateSet(Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DeploymentSlotType.Staging, Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DeploymentSlotType.Production, IgnoreCase = true)]
+        [ValidateSet(Microsoft.WindowsAzure.Commands.ServiceManagement.Model.DeploymentSlotType.Staging, Microsoft.WindowsAzure.Commands.ServiceManagement.Model.DeploymentSlotType.Production, IgnoreCase = true)]
         public string Slot
         {
             get;
@@ -106,8 +106,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
         {
             bool removePackage = false;
 
-            AssertNoPersistenVmRoleExistsInDeployment(DeploymentSlotType.Production);
-            AssertNoPersistenVmRoleExistsInDeployment(DeploymentSlotType.Staging);
+            AssertNoPersistenVmRoleExistsInDeployment(PVM.DeploymentSlotType.Production);
+            AssertNoPersistenVmRoleExistsInDeployment(PVM.DeploymentSlotType.Staging);
 
             var storageName = CurrentSubscription.CurrentStorageAccountName;
 
@@ -249,7 +249,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
         {
             if (string.IsNullOrEmpty(this.Slot))
             {
-                this.Slot = DeploymentSlotType.Production;
+                this.Slot = PVM.DeploymentSlotType.Production;
             }
 
             if (string.IsNullOrEmpty(this.Name))

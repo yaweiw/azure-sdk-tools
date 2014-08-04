@@ -31,11 +31,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
             set;
         }
 
-        protected override void InitChannelCurrentSubscription(bool force)
-        {
-            DoInitChannelCurrentSubscription(force);
-        }
-
         protected override void OnProcessRecord()
         {
             ServiceManagementProfile.Initialize();

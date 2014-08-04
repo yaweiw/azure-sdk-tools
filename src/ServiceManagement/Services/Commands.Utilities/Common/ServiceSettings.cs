@@ -16,7 +16,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 {
     using Commands.Common.Properties;
     using Common;
-    using Microsoft.WindowsAzure.ServiceManagement;
+    using ServiceManagement.Model;
     using System;
     using System.Diagnostics;
     using System.IO;

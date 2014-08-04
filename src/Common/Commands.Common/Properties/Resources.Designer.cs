@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Common.Properties {
-    using System;
-    
-    
+namespace Microsoft.WindowsAzure.Commands.Common.Properties
+{
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -2342,6 +2342,15 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;NONE&gt;.
+        /// </summary>
+        public static string None {
+            get {
+                return ResourceManager.GetString("None", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No publish settings files with extension *.publishsettings are found in the directory &quot;{0}&quot;..
         /// </summary>
         public static string NoPublishSettingsFilesFoundMessage {
@@ -3577,6 +3586,24 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string ServiceManagementClientExceptionStringFormat {
+            get {
+                return ResourceManager.GetString("ServiceManagementClientExceptionStringFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &quot;An exception occurred when calling the ServiceManagement API. HTTP Status Code: {0}. Service Management Error Code: {1}. Message: {2}. Operation Tracking ID: {3}.&quot;.
+        /// </summary>
+        public static string ServiceManagementClientExceptionStringFormat1 {
+            get {
+                return ResourceManager.GetString("ServiceManagementClientExceptionStringFormat1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Begin Operation: {0}.
         /// </summary>
         public static string ServiceManagementExecuteClientActionBeginOperation {
@@ -4105,6 +4132,15 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties {
         public static string UnableToCreateDjangoAppFix {
             get {
                 return ResourceManager.GetString("UnableToCreateDjangoAppFix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to decode string from base 64. Please make sure the string is correctly encoded: {0}..
+        /// </summary>
+        public static string UnableToDecodeBase64String {
+            get {
+                return ResourceManager.GetString("UnableToDecodeBase64String", resourceCulture);
             }
         }
         

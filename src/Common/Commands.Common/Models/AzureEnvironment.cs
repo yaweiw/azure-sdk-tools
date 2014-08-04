@@ -15,41 +15,18 @@
 using System;
 using System.Collections.Generic;
 
-namespace Microsoft.WindowsAzure.Commands.Common.Model
+namespace Microsoft.WindowsAzure.Commands.Common.Models
 {
-    public class AzureEnvironment
+    public partial class AzureEnvironment
     {
         public string Name { get; set; }
 
-        public Dictionary<string, List<Guid>> UserAccounts { get; set; }
+        public Dictionary<string, List<Guid>> UserAccountSubscriptionsMap { get; set; }
 
-        public Dictionary<string, List<Guid>> CertificateThumbprints { get; set; }
+        public Dictionary<string, List<Guid>> ThumbprintSubscriptionsMap { get; set; }
 
-        public Guid DefaultSubscription { get; set; }
+        public Guid? DefaultSubscriptionId { get; set; }
 
         public Dictionary<Endpoint, string> Endpoints { get; set; }
-
-        public enum Endpoint
-        {
-            ActiveDirectoryServiceEndpointResourceId,
-            
-            AdTenantUrl,
-            
-            GalleryEndpoint,
-            
-            ManagementPortalUrl,
-            
-            ServiceEndpoint,
-            
-            PublishSettingsFileUrl,
-            
-            ResourceManagerEndpoint,
-            
-            SqlDatabaseDnsSuffix,
-            
-            StorageEndpointSuffix,
-            
-            ActiveDirectoryEndpoint
-        }
     }
 }

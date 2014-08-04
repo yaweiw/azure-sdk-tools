@@ -28,11 +28,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
         [ValidateNotNullOrEmpty]
         public string ImageName { get; set; }
 
-        protected override void InitChannelCurrentSubscription(bool force)
-        {
-            DoInitChannelCurrentSubscription(force);
-        }
-
         protected override void OnProcessRecord()
         {
             ServiceManagementProfile.Initialize();

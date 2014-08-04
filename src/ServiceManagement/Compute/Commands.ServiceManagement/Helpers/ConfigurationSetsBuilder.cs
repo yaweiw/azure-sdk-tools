@@ -16,7 +16,7 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
 {
     using IaaS;
-    using Model.PersistentVMModel;
+    using Model;
     using System;
     using System.Collections.ObjectModel;
     using System.Linq;

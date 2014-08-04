@@ -734,4 +734,15 @@ The file needs to be a PowerShell script (.ps1 or .psm1).</value>
     <value>Cannot delete '{0}': {1}</value>
     <comment>{0} is the path of a file, {1} is an error message</comment>
   </data>
+  <data name="UnableToDecodeBase64String" xml:space="preserve">
+    <value>Unable to decode string from base 64. Please make sure the string is correctly encoded: {0}.</value>
+    <comment>{0} is the string that is not in a valid base 64 format.</comment>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>&lt;NONE&gt;</value>
+  </data>
+  <data name="ServiceManagementClientExceptionStringFormat" xml:space="preserve">
+    <value>"An exception occurred when calling the ServiceManagement API. HTTP Status Code: {0}. Service Management Error Code: {1}. Message: {2}. Operation Tracking ID: {3}."</value>
+    <comment>{0} is the HTTP status code. {1} is the Service Management Error Code. {2} is the Service Management Error message. {3} is the operation tracking ID.</comment>
+  </data>
 </root>

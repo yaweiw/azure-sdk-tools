@@ -12,13 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services;
 using Microsoft.WindowsAzure.Management.MediaServices;
 using Microsoft.WindowsAzure.Management.MediaServices.Models;
 using Microsoft.WindowsAzure.Management.Storage;
 using Microsoft.WindowsAzure.Management.Storage.Models;
-using Microsoft.WindowsAzure.ServiceManagement;
 using Newtonsoft.Json;
 using System;
 using System.IO;

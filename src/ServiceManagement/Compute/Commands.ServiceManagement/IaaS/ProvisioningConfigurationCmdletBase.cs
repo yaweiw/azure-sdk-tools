@@ -16,7 +16,7 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using Helpers;
-    using Model.PersistentVMModel;
+    using Model;
     using System;
     using System.Management.Automation;
     using System.Security.Cryptography.X509Certificates;
