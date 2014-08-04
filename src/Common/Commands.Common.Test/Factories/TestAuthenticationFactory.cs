@@ -22,12 +22,6 @@ namespace Microsoft.WindowsAzure.Commands.Common.Test.Factories
 {
     public class TestAuthenticationFactory
     {
-        private MockCmdlt cmdlt = new MockCmdlt();
-        public TestAuthenticationFactory()
-        {
-            HttpRestCallLogger.CurrentCmdlet = cmdlt;
-        }
-
         [Fact]
         public void GetCloudCredentialThrowsExceptionForInvalidSubscription()
         {
