@@ -59,6 +59,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 {
                     this.cmdletParams.Add(new CmdletParam("NoSSHPassword"));
                 }
+                
+                if (provConfig.customData != null)
+                {
+                    this.cmdletParams.Add(new CmdletParam("CustomData", provConfig.customData));
+                }
             }
 
             // For Windows/WindowsDomain parameter set

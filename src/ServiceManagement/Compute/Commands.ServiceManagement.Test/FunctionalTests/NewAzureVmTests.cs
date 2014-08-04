@@ -148,7 +148,42 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 Console.WriteLine(ex.Message);
                 throw;
             }
+        }
 
+        [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "Iaas"), Priority(1), Owner("hylee"), Description("Test the cmdlets (New-AzureVMConfig,Add-AzureProvisioningConfig,New-AzureVM)")] 
+        public void NewAzureVMWithLinuxAndCustomData()
+        {
+            try
+            {
+                _serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
+ 
+                string newAzureLinuxVMName = Utilities.GetUniqueShortName("PSLinuxVM");
+                string linuxImageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Linux" }, false);
+ 
+                // Add-AzureProvisioningConfig without NoSSHEndpoint or DisableSSH option
+                var azureVMConfigInfo = new AzureVMConfigInfo(newAzureLinuxVMName, InstanceSize.Small.ToString(), linuxImageName);
+                var azureProvisioningConfig = new AzureProvisioningConfigInfo(username, password, false, false, null, null, false, @".\cloudinittest.sh");
+                var persistentVMConfigInfo = new PersistentVMConfigInfo(azureVMConfigInfo, azureProvisioningConfig, null, null);
+                PersistentVM vm = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo);
+ 
+                // New-AzureVM
+                vmPowershellCmdlets.NewAzureVM(_serviceName, new[] { vm }, locationName);
+                Console.WriteLine("New Azure service with name:{0} created successfully.", _serviceName);
+                Collection<InputEndpointContext> endpoints = vmPowershellCmdlets.GetAzureEndPoint(vmPowershellCmdlets.GetAzureVM(newAzureLinuxVMName, _serviceName));
+ 
+                Console.WriteLine("The number of endpoints: {0}", endpoints.Count);
+                foreach (var ep in endpoints)
+                {
+                    Utilities.PrintContext(ep);
+                }
+                Assert.AreEqual(1, endpoints.Count);
+                pass = true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            } 
         }
 
         [TestMethod(), TestCategory(Category.Scenario), TestProperty("Feature", "Iaas"), Priority(1), Owner("hylee"), Description("Test the cmdlets (New-AzureVMConfig,Add-AzureProvisioningConfig,New-AzureVM)")]

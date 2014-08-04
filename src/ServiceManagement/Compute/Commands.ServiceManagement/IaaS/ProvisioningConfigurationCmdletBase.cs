@@ -78,6 +78,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             set;
         }
 
+        [Parameter(Mandatory = false, ParameterSetName = LinuxParameterSetName, HelpMessage = "Custom Data file")]
+        public string CustomDataFile
+        {
+            get;
+            set;
+        }
+
         [Parameter(Mandatory = true, ParameterSetName = WindowsParameterSetName, HelpMessage = "Set configuration to Windows.")]
         public SwitchParameter Windows
         {
@@ -271,6 +278,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             if (SSHKeyPairs != null && SSHKeyPairs.Count > 0 || SSHPublicKeys != null && SSHPublicKeys.Count > 0)
             {
                 provisioningConfiguration.SSH = new LinuxProvisioningConfigurationSet.SSHSettings { PublicKeys = SSHPublicKeys, KeyPairs = SSHKeyPairs };
+            }
+
+            if (CustomDataFile != null)
+            {
+                string fileName = this.TryResolvePath(this.CustomDataFile);
+                provisioningConfiguration.CustomData = PersistentVMHelper.ConvertCustomDataFileToBase64(fileName);
             }
         }
 

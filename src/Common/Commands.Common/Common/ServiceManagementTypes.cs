@@ -465,6 +465,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
     [DataContract(Namespace = Constants.ServiceManagementNS)]
     public abstract class ProvisioningConfigurationSet : ConfigurationSet
     {
+        public string CustomData { get; set; }
     }
 
     [DataContract(Namespace = Constants.ServiceManagementNS)]
