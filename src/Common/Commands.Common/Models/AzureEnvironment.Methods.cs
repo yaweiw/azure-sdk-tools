@@ -33,14 +33,13 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
         private string EndpointFormatFor(string service)
         {
             string suffix = GetEndpoint(AzureEnvironment.Endpoint.StorageEndpointSuffix);
-            string endpoint = null;
 
-            if (!string.IsNullOrEmpty(endpoint))
+            if (!string.IsNullOrEmpty(suffix))
             {
-                endpoint = string.Format(storageFormatTemplate, service, suffix);
+                suffix = string.Format(storageFormatTemplate, service, suffix);
             }
 
-            return endpoint;
+            return suffix;
         }
 
         /// <summary>
