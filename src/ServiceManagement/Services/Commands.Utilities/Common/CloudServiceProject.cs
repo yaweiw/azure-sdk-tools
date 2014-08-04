@@ -294,7 +294,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 
         private void VerifyCloudServiceProjectComponents()
         {
-            const string CacheVersion = "2.3.0";
+            const string CacheVersion = "2.4.0";
 
             // Verify caching version is 2.2
             foreach (string roleName in Components.GetRoles())

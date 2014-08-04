@@ -14,12 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Websites
 {
+    using System.Management.Automation;
     using Commands.Utilities.Websites;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Commands.Websites.WebJobs;
     using Microsoft.WindowsAzure.WebSitesExtensions.Models;
     using Moq;
-    using System.Management.Automation;
     using Utilities.Websites;
 
     [TestClass]
@@ -31,7 +31,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
 
         private Mock<IWebsitesClient> websitesClientMock;
 
-        private NewAzureWebsiteJobCommand cmdlet; 
+        private NewAzureWebsiteJobCommand cmdlet;
 
         private Mock<ICommandRuntime> commandRuntimeMock;
 
@@ -56,7 +56,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             string jobName = "myWebJob";
             string jobFile = "job.bat";
             WebJobType jobType = WebJobType.Triggered;
-            PSWebJob output = new PSWebJob() { JobName = jobName, JobType = jobType };
+            PSTriggeredWebJob output = new PSTriggeredWebJob() { JobName = jobName, JobType = jobType };
             websitesClientMock.Setup(f => f.CreateWebJob(websiteName, slot, jobName, jobType, jobFile)).Returns(output);
             cmdlet.JobName = jobName;
             cmdlet.JobType = jobType;

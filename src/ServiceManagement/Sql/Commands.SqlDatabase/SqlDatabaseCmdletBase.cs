@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase
     using System.Globalization;
 
     /// <summary>
-    /// The base class for all Windows Azure Sql Database Management Cmdlets
+    /// The base class for all Microsoft Azure Sql Database Management Cmdlets
     /// </summary>
     public abstract class SqlDatabaseCmdletBase : CmdletBase
     {

@@ -61,13 +61,12 @@
     <Reference Include="Microsoft.Data.Services.Client, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Data.Services.Client.5.6.0\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.1.0.3\lib\net40\Microsoft.IdentityModel.Clients.ActiveDirectory.dll</HintPath>
+    <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory">
+      <HintPath>..\..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.2.7.10707.1513-rc\lib\net45\Microsoft.IdentityModel.Clients.ActiveDirectory.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms, Version=2.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.1.0.3\lib\net40\Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.2.7.10707.1513-rc\lib\net45\Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -117,6 +116,7 @@
     </Reference>
     <Reference Include="System.Net.Http.WebRequest" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Channels" />
     <Reference Include="System.ServiceModel.Web" />
@@ -135,9 +135,8 @@
     <Compile Include="Authentication\AadAuthenticationException.cs" />
     <Compile Include="Authentication\AccessTokenCredential.cs" />
     <Compile Include="Authentication\AdalConfiguration.cs" />
-    <Compile Include="Authentication\AdalRegistryTokenCache.cs" />
+    <Compile Include="Authentication\ProtectedFileTokenCache.cs" />
     <Compile Include="Authentication\AdalTokenProvider.cs" />
-    <Compile Include="Authentication\CacheKeyStringifier.cs" />
     <Compile Include="Authentication\ConsoleParentWindow.cs" />
     <Compile Include="Authentication\IAccessToken.cs" />
     <Compile Include="Authentication\ITokenProvider.cs" />
@@ -145,6 +144,7 @@
     <Compile Include="Authentication\RegistryBackedDictionary.cs" />
     <Compile Include="Common\AzureException.cs" />
     <Compile Include="Common\AzureModule.cs" />
+    <Compile Include="Common\AzureSession.cs" />
     <Compile Include="Common\ChannelHelper.cs" />
     <Compile Include="Common\ClientCreatedArgs.cs" />
     <Compile Include="Common\CloudBaseCmdlet.cs" />
@@ -153,12 +153,17 @@
     <Compile Include="Common\CmdletWithSubscriptionBase.cs" />
     <Compile Include="Common\ConfigurationConstants.cs" />
     <Compile Include="Common\ErrorHelper.cs" />
+    <Compile Include="Common\IManagementClientHelper.cs" />
+    <Compile Include="Common\ManagementClientHelper.cs" />
+    <Compile Include="Common\IdnHelper.cs" />
     <Compile Include="Common\ManagementOperationContext.cs" />
     <Compile Include="Common\Parameters.cs" />
     <Compile Include="Common\ServiceManagementClientExtensions.cs" />
     <Compile Include="Common\SubscriptionCmdletBase.cs" />
     <Compile Include="Common\SubscriptionDataExtended.cs" />
     <Compile Include="Common\TestMockSupport.cs" />
+    <Compile Include="Model\AzureEnvironment.cs" />
+    <Compile Include="Model\AzureSubscription.cs" />
     <Compile Include="Utilities\ConversionUtilities.cs" />
     <Compile Include="Utilities\GeneralUtilities.cs" />
     <Compile Include="Common\GlobalPathInfo.cs" />

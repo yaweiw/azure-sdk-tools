@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
     using System.Security.Permissions;
 
     /// <summary>
-    /// Removes a Windows Azure environment.
+    /// Removes a Microsoft Azure environment.
     /// </summary>
     [Cmdlet(VerbsCommon.Remove, "AzureEnvironment"), OutputType(typeof(bool))]
     public class RemoveAzureEnvironmentCommand : CmdletBase

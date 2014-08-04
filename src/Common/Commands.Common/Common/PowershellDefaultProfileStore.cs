@@ -32,16 +32,34 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             newStore.Save(profile);
         }
 
+        public void SaveTokenCache(byte[] data)
+        {
+            EnsureNewStore();
+            newStore.SaveTokenCache(data);
+        }
+
         public ProfileData Load()
         {
             IProfileStore store = NewStoreExists() ? EnsureNewStore() : new PowershellOldSettingsProfileStore();
             return store.Load();
         }
 
+        public byte[] LoadTokenCache()
+        {
+            EnsureNewStore();
+            return newStore.LoadTokenCache();
+        }
+
         public void DestroyData()
         {
             EnsureNewStore();
             newStore.DestroyData();
+        }
+
+        public void DestroyTokenCache()
+        {
+            EnsureNewStore();
+            newStore.DestroyTokenCache();
         }
 
         private bool NewStoreExists()

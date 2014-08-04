@@ -19,19 +19,19 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     using System.Management.Automation;
 
     /// <summary>
-    /// Get Windows Azure Service Extension.
+    /// Get Microsoft Azure Service Extension.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureServiceExtension"), OutputType(typeof(ExtensionContext))]
     public class GetAzureServiceExtensionCommand : BaseAzureServiceExtensionCmdlet
     {
-        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, HelpMessage = "Service Name")]
+        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, HelpMessage = ExtensionParameterPropertyHelper.ServiceNameHelpMessage)]
         public override string ServiceName
         {
             get;
             set;
         }
 
-        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, HelpMessage = "Deployment Slot: Production (default) or Staging")]
+        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, HelpMessage = ExtensionParameterPropertyHelper.SlotHelpMessage)]
         [ValidateSet(DeploymentSlotType.Production, DeploymentSlotType.Staging, IgnoreCase = true)]
         public override string Slot
         {
@@ -39,7 +39,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 2, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Extension Name")]
+        [Parameter(Position = 2, ValueFromPipelineByPropertyName = true, HelpMessage = ExtensionParameterPropertyHelper.ExtensionNameHelpMessage)]
         [ValidateNotNullOrEmptyAttribute]
         public override string ExtensionName
         {
@@ -47,7 +47,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 3, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Extension Provider Namespace")]
+        [Parameter(Position = 3, ValueFromPipelineByPropertyName = true, HelpMessage = ExtensionParameterPropertyHelper.ProviderNamespaceHelpMessage)]
         [ValidateNotNullOrEmptyAttribute]
         public override string ProviderNamespace
         {
@@ -86,7 +86,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
                                ProviderNameSpace = extension.ProviderNamespace,
                                Id = extension.Id,
                                Role = role,
-                               PublicConfiguration = extension.PublicConfiguration
+                               PublicConfiguration = extension.PublicConfiguration,
+                               Version = extension.Version
                            };
                 });
         }

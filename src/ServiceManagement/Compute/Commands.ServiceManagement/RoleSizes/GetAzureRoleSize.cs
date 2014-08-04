@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
     using Utilities.Common;
 
     /// <summary>
-    /// Retrieve a Windows Azure Role Size.
+    /// Retrieve a Microsoft Azure Role Size.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureRoleSize"), OutputType(typeof(RoleSizeContext))]
     public class AzureRoleSizeCommand : ServiceManagementBaseCmdlet

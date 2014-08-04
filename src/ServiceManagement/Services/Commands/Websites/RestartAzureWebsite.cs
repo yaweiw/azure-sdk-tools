@@ -17,7 +17,6 @@ namespace Microsoft.WindowsAzure.Commands.Websites
     using System.Management.Automation;
     using Utilities.Websites.Common;
 
-
     [Cmdlet(VerbsLifecycle.Restart, "AzureWebsite"), OutputType(typeof(bool))]
     public class RestartAzureWebsiteCommand : WebsiteContextBaseCmdlet
     {

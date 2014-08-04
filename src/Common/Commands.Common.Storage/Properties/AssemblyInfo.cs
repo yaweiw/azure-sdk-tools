@@ -16,13 +16,13 @@ using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("Windows Azure Powershell - Common Storage Library")]
+[assembly: AssemblyTitle("Microsoft Azure Powershell - Common Storage Library")]
 [assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("Windows Azure Powershell")]
+[assembly: AssemblyProduct("Microsoft Azure Powershell")]
 [assembly: AssemblyCopyright("Copyright © Microsoft")]
 
 [assembly: ComVisible(false)]
 [assembly: CLSCompliant(false)]
 [assembly: Guid("c565107e-98a9-4703-85cd-a7efc3d8da7b")]
-[assembly: AssemblyVersion("0.8.5")]
-[assembly: AssemblyFileVersion("0.8.5")]
+[assembly: AssemblyVersion("0.8.6")]
+[assembly: AssemblyFileVersion("0.8.6")]

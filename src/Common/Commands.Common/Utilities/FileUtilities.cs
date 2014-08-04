@@ -27,7 +27,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     {
         public static string GetAssemblyDirectory()
         {
-            return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var assemblyPath = Uri.UnescapeDataString(new Uri(Assembly.GetExecutingAssembly().CodeBase).AbsolutePath);
+            return Path.GetDirectoryName(assemblyPath);
         }
 
         public static string GetContentFilePath(string fileName)

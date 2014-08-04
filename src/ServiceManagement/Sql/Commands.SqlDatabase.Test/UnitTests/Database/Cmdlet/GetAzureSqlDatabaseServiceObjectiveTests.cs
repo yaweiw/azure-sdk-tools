@@ -98,7 +98,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                         objective1 = powershell.InvokeBatchScript(
                             @"Get-AzureSqlDatabaseServiceObjective " +
                             @"-Context $context " +
-                            @"-ServiceObjectiveName ""Reserved P1""");
+                            @"-ServiceObjectiveName ""P1""");
                     }
 
                     Assert.AreEqual(0, powershell.Streams.Error.Count, "Errors during run!");
@@ -112,7 +112,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                         "Expecting a ServiceObjective object");
                     Services.Server.ServiceObjective objective1Obj =
                         (Services.Server.ServiceObjective)objective1.Single().BaseObject;
-                    Assert.AreEqual("Reserved P1", objective1Obj.Name, "Expected objective name to be 'Reserved P1'");
+                    Assert.AreEqual("P1", objective1Obj.Name, "Expected objective name to be 'Reserved P1'");
                 }
             }
         }

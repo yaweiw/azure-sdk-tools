@@ -49,5 +49,13 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandInt
         NodeVMSize HeadNodeSize { get; set; }
 
         ClusterType ClusterType { get; set; }
+
+        string VirtualNetworkId { get; set; }
+
+        string SubnetName { get; set; }
+
+        ConfigValuesCollection StormConfiguration { get; set; }
+
+        HBaseConfiguration HBaseConfiguration { get; set; }
     }
 }

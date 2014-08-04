@@ -19,6 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
     using Commands.Utilities.CloudService;
     using Commands.Utilities.Common;
     using Commands.Utilities.Properties;
+    using Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools;
     using System;
     using System.IO;
     using System.Linq;
@@ -190,6 +191,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         [TestInitialize]
         public void SetupTest()
         {
+            AzureTool.IgnoreMissingSDKError = true;
             GlobalPathInfo.GlobalSettingsDirectory = Data.AzureSdkAppDir;
             mockCommandRuntime = new MockCommandRuntime();
 

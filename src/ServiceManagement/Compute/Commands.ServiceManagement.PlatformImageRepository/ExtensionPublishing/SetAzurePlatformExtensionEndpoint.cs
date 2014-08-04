@@ -36,6 +36,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
         [Parameter(
             Mandatory = true,
             Position = 0,
+            ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Endpoint Config Object.")]
         public ExtensionEndpointConfigSet EndpointConfig { get; set; }

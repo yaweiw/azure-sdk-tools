@@ -83,7 +83,7 @@ namespace Commands.Storage.ScenarioTest.BVT.HTTP
         private static void CsRun(string cmd)
         {
             //azure storage emulator settings
-            string AzureEmulatorRegistryKey = @"SOFTWARE\Microsoft\Windows Azure Emulator";
+            string AzureEmulatorRegistryKey = @"SOFTWARE\Microsoft\Microsoft Azure Emulator";
             string AzureSdkInstallPathRegistryKeyValue = "InstallPath";
             string AzureEmulatorDirectoryName = "Emulator";
             string CsRunExe = "csrun.exe";

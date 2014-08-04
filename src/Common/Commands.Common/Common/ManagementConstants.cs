@@ -34,10 +34,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public const string SslSupportSettingsName = "SslSupport";
 
         public const string UserAgentHeaderName = "User-Agent";
-        public const string UserAgentHeaderValue = "WindowsAzurePowershell/v0.8.5";
+        public const string UserAgentHeaderValue = "WindowsAzurePowershell/v0.8.6";
         public static ProductInfoHeaderValue UserAgentValue = new ProductInfoHeaderValue(
             "WindowsAzurePowershell",
-            "v0.8.5");
+            "v0.8.6");
 
         public const string VSDebuggerCausalityDataHeaderName = "VSDebuggerCausalityData";
         
@@ -52,6 +52,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public const string Version220 = "2.2.0";
 
         public const string Version230 = "2.3.0";
+
+        public const string Version240 = "2.4.0";
     }
 
     public enum DevEnv

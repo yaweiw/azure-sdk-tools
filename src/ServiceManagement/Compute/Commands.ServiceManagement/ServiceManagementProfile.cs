@@ -86,7 +86,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
                   .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
 
-            Mapper.CreateMap<HostedServiceListAvailableExtensionsResponse.ExtensionImage, ExtensionImageContext>()
+            Mapper.CreateMap<ExtensionImage, ExtensionImageContext>()
+                  .ForMember(c => c.ThumbprintAlgorithm, o => o.MapFrom(r => r.Certificate.ThumbprintAlgorithm))
                   .ForMember(c => c.ExtensionName, o => o.MapFrom(r => r.Type));
 
             // VM Extension Image

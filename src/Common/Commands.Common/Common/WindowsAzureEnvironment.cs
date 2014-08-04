@@ -14,6 +14,7 @@
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using Authentication;
+    using System.Management.Automation;
     using Commands.Common.Properties;
     using Subscriptions;
     using System;
@@ -24,7 +25,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     public class WindowsAzureEnvironment
     {
         /// <summary>
-        /// The Windows Azure environment name.
+        /// The Microsoft Azure environment name.
         /// </summary>
         public string Name { get; set; }
 
@@ -44,7 +45,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public string ResourceManagerEndpoint { get; set; }
 
         /// <summary>
-        /// Url to the Windows Azure management portal.
+        /// Url to the Microsoft Azure management portal.
         /// </summary>
         public string ManagementPortalUrl { get; set; }
 
@@ -200,14 +201,22 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             return baseUrl;
         }
 
-        public IEnumerable<WindowsAzureSubscription> AddAccount(ITokenProvider tokenProvider)
+        public IEnumerable<WindowsAzureSubscription> AddAccount(ITokenProvider tokenProvider, PSCredential credential)
         {
             if (ActiveDirectoryEndpoint == null || ActiveDirectoryServiceEndpointResourceId == null)
             {
                 throw new Exception(string.Format(Resources.EnvironmentDoesNotSupportActiveDirectory, Name));
             }
 
-            IAccessToken mainToken = tokenProvider.GetNewToken(this);
+            IAccessToken mainToken;
+            if (credential != null)
+            {
+                mainToken = tokenProvider.GetNewToken(this, credential.UserName, credential.Password);
+            }
+            else
+            {
+                mainToken = tokenProvider.GetNewToken(this);
+            }
             var credentials = new TokenCloudCredentials(mainToken.AccessToken);
 
             using (var subscriptionClient = new SubscriptionClient(credentials, new Uri(ServiceEndpoint)))
@@ -245,7 +254,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         }
 
         /// <summary>
-        /// Predefined Windows Azure environments
+        /// Predefined Microsoft Azure environments
         /// </summary>
         public static Dictionary<string, WindowsAzureEnvironment> PublicEnvironments
         {

@@ -66,6 +66,24 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
             set { command.ClusterType = value; }
         }
 
+        /// <inheritdoc />
+        [Parameter(Position = 3, Mandatory = false, HelpMessage = "GUID of virtual network to deploy HDInsight cluster.",
+            ParameterSetName = AzureHdInsightPowerShellConstants.ParameterSetConfigClusterSizeInNodesOnly)]
+        public string VirtualNetworkId
+        {
+            get { return command.VirtualNetworkId; }
+            set { command.VirtualNetworkId = value; }
+        }
+
+        /// <inheritdoc />
+        [Parameter(Position = 4, Mandatory = false, HelpMessage = "Name of subnet to deploy HDInsight cluster.",
+            ParameterSetName = AzureHdInsightPowerShellConstants.ParameterSetConfigClusterSizeInNodesOnly)]
+        public string SubnetName
+        {
+            get { return command.SubnetName; }
+            set { command.SubnetName = value; }
+        }
+
         /// <summary>
         ///     Finishes the execution of the cmdlet by listing the clusters.
         /// </summary>

@@ -13,6 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 using System.Collections;
+using Microsoft.Azure.Commands.Tags.Model;
 using Microsoft.Azure.Gallery;
 using Microsoft.Azure.Management.Resources.Models;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
@@ -247,6 +248,11 @@ namespace Microsoft.Azure.Commands.Resources.Models
                     PSTagValuePair tagValuePair = TagsConversionHelper.Create(tag);
                     if (tagValuePair != null)
                     {
+                        if (tagValuePair.Name.StartsWith(TagsClient.ExecludedTagPrefix))
+                        {
+                            continue;
+                        }
+
                         if (tagValuePair.Value == null)
                         {
                             tagValuePair.Value = string.Empty;

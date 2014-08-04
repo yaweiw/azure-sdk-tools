@@ -605,12 +605,14 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         /// <param name="partnerServer">The name for the partner server.</param>
         /// <param name="partnerDatabaseName">The name of the database on the partner server.</param>
         /// <param name="continuousCopy"><c>true</c> to make this a continuous copy.</param>
+        /// <param name="isOfflineSecondary"><c>true</c> to make this an offline secondary copy.</param>
         /// <returns>The new instance of database copy operation.</returns>
         public DatabaseCopyModel StartDatabaseCopy(
             string databaseName,
             string partnerServer,
             string partnerDatabaseName,
-            bool continuousCopy)
+            bool continuousCopy,
+            bool isOfflineSecondary)
         {
             // Create a new request Id for this operation
             this.clientRequestId = SqlDatabaseCmdletBase.GenerateClientTracingId();
@@ -627,6 +629,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                         PartnerServer = partnerServer,
                         PartnerDatabase = partnerDatabaseName,
                         IsContinuous = continuousCopy,
+                        IsOfflineSecondary = isOfflineSecondary,
                     });
 
             return CreateDatabaseCopyFromResponse(response.DatabaseCopy);
@@ -977,7 +980,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                 response.Database.ServiceObjectiveAssignmentSuccessDate,
                 response.Database.ServiceObjectiveId,
                 response.Database.AssignedServiceObjectiveId,
-                response.Database.RecoveryPeriodStartDate);
+                response.Database.RecoveryPeriodStartDate,
+                response.Database.State);
         }
 
         /// <summary>
@@ -1006,7 +1010,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                 db.ServiceObjectiveAssignmentSuccessDate,
                 db.ServiceObjectiveId,
                 db.AssignedServiceObjectiveId,
-                db.RecoveryPeriodStartDate)).ToArray();
+                db.RecoveryPeriodStartDate,
+                db.State)).ToArray();
         }
 
         /// <summary>
@@ -1035,7 +1040,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                response.Database.ServiceObjectiveAssignmentSuccessDate,
                response.Database.ServiceObjectiveId,
                response.Database.AssignedServiceObjectiveId,
-               response.Database.RecoveryPeriodStartDate);
+               response.Database.RecoveryPeriodStartDate,
+               response.Database.State);
         }
 
         /// <summary>
@@ -1064,7 +1070,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                 response.Database.ServiceObjectiveAssignmentSuccessDate,
                 response.Database.ServiceObjectiveId,
                 response.Database.AssignedServiceObjectiveId,
-                response.Database.RecoveryPeriodStartDate);
+                response.Database.RecoveryPeriodStartDate,
+                response.Database.State);
         }
 
         /// <summary>
@@ -1118,7 +1125,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             string serviceObjectiveAssignmentSuccessDate,
             string serviceObjectiveId,
             string assignedServiceObjectiveId,
-            DateTime? recoveryPeriodStartDate)
+            DateTime? recoveryPeriodStartDate,
+            string state)
         {
             Database result = new Database()
             {
@@ -1182,6 +1190,14 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                     }
                 }
             }
+            if(!string.IsNullOrEmpty(state))
+            {
+                DatabaseStatus status;
+                if (Enum.TryParse<DatabaseStatus>(state, true, out status))
+                {
+                    result.Status = (int)status;
+                }
+            }
 
             this.LoadExtraProperties(result);
 
@@ -1209,7 +1225,9 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                     IsInterlinkConnected = response.IsInterlinkConnected,
                     StartDate = startDate,
                     ModifyDate = modifyDate,
-                    PercentComplete = response.PercentComplete
+                    PercentComplete = response.PercentComplete,
+                    IsOfflineSecondary = response.IsOfflineSecondary,
+                    IsTerminationAllowed = response.IsTerminationAllowed
                 };
         }
 

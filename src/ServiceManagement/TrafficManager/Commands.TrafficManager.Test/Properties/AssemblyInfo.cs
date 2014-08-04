@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 [assembly: AssemblyTitle("Commands.TrafficManager.Test")]
 [assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("Windows Azure Powershell")]
+[assembly: AssemblyProduct("Microsoft Azure Powershell")]
 [assembly: AssemblyCopyright("Copyright (c) 2014")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
@@ -40,5 +40,5 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
-[assembly: AssemblyVersion("0.8.5")]
-[assembly: AssemblyFileVersion("0.8.5")]
+[assembly: AssemblyVersion("0.8.6")]
+[assembly: AssemblyFileVersion("0.8.6")]

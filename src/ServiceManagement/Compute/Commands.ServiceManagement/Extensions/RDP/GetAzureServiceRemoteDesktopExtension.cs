@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     using System.Management.Automation;
 
     /// <summary>
-    /// Get Windows Azure Service Remote Desktop Extension.
+    /// Get Microsoft Azure Service Remote Desktop Extension.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureServiceRemoteDesktopExtension"), OutputType(typeof(RemoteDesktopExtensionContext))]
     public class GetAzureServiceRemoteDesktopExtensionCommand : BaseAzureServiceRemoteDesktopExtensionCmdlet
@@ -72,7 +72,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
                                Id = extension.Id,
                                Role = role,
                                UserName = GetPublicConfigValue(extension, UserNameElemStr),
-                               Expiration = GetPublicConfigValue(extension, ExpirationElemStr)
+                               Expiration = GetPublicConfigValue(extension, ExpirationElemStr),
+                               Version = extension.Version
                            };
                 });
         }
