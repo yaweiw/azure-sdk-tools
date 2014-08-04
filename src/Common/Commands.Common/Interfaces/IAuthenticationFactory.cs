@@ -16,15 +16,16 @@ using System;
 using System.Collections.Generic;
 using System.Security;
 using Microsoft.WindowsAzure.Commands.Common.Models;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
 
 namespace Microsoft.WindowsAzure.Commands.Common
 {
     public interface IAuthenticationFactory
     {
-        IEnumerable<Guid> Authenticate(AzureEnvironment environment, out string userId);
-        IEnumerable<Guid> Authenticate(AzureEnvironment environment, string userId);
-        IEnumerable<Guid> Authenticate(AzureEnvironment environment, string userId, SecureString password);
-        IEnumerable<Guid> RefreshUserToken(AzureEnvironment environment, string userId);
+        IEnumerable<AzureSubscription> Authenticate(AzureEnvironment environment, AzureModule currentMode, out string userId);
+        IEnumerable<AzureSubscription> Authenticate(AzureEnvironment environment, AzureModule currentMode, string userId);
+        IEnumerable<AzureSubscription> Authenticate(AzureEnvironment environment, AzureModule currentMode, string userId, SecureString password);
+        IEnumerable<AzureSubscription> RefreshUserToken(AzureEnvironment environment, AzureModule currentMode, string userId);
         SubscriptionCloudCredentials GetSubscriptionCloudCredentials(Guid subscriptionId);
     }
 }

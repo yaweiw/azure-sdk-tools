@@ -36,5 +36,23 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
             /// </summary>
             RegisteredResourceProviders
         }
+
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            var anotherSubscription = obj as AzureSubscription;
+            if (anotherSubscription == null)
+            {
+                return false;
+            }
+            else
+            {
+                return anotherSubscription.Id == Id;
+            }
+        }
     }
 }

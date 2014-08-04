@@ -19,6 +19,7 @@ using System.Security;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.Azure.Subscriptions;
 using Microsoft.Azure.Subscriptions.Models;
+using Microsoft.WindowsAzure.Subscriptions;
 using Microsoft.WindowsAzure.Commands.Common.Models;
 using Microsoft.WindowsAzure.Commands.Common.Properties;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
@@ -39,33 +40,34 @@ namespace Microsoft.WindowsAzure.Commands.Common.Factories
 
         public ITokenProvider TokenProvider { get; set; }
 
-        public IEnumerable<Guid> Authenticate(AzureEnvironment environment, out string userId)
+        public IEnumerable<AzureSubscription> Authenticate(AzureEnvironment environment, AzureModule currentMode, out string userId)
         {
             string newUserId = null;
-            var subscriptions = AuthenticateAndGetSubscriptions(environment, ref newUserId, null, false);
+            var subscriptions = AuthenticateAndGetSubscriptions(environment, currentMode, ref newUserId, null, false);
             userId = newUserId;
             return subscriptions;
         }
 
-        public IEnumerable<Guid> Authenticate(AzureEnvironment environment, string userId)
+        public IEnumerable<AzureSubscription> Authenticate(AzureEnvironment environment, AzureModule currentMode, string userId)
         {
-            return AuthenticateAndGetSubscriptions(environment, ref userId, null, false);
+            return AuthenticateAndGetSubscriptions(environment, currentMode, ref userId, null, false);
         }
 
-        public IEnumerable<Guid> Authenticate(AzureEnvironment environment, string userId, SecureString password)
+        public IEnumerable<AzureSubscription> Authenticate(AzureEnvironment environment, AzureModule currentMode, string userId, SecureString password)
         {
-            return AuthenticateAndGetSubscriptions(environment, ref userId, password, false);
+            return AuthenticateAndGetSubscriptions(environment, currentMode, ref userId, password, false);
         }
 
-        public IEnumerable<Guid> RefreshUserToken(AzureEnvironment environment, string userId)
+        public IEnumerable<AzureSubscription> RefreshUserToken(AzureEnvironment environment, AzureModule currentMode, string userId)
         {
-            return AuthenticateAndGetSubscriptions(environment, ref userId, null, true);
+            return AuthenticateAndGetSubscriptions(environment, currentMode, ref userId, null, true);
         }
 
-        private IList<Guid> AuthenticateAndGetSubscriptions(AzureEnvironment environment, ref string userId, SecureString password, bool noPrompt)
+        private IList<AzureSubscription> AuthenticateAndGetSubscriptions(AzureEnvironment environment, AzureModule currentMode, 
+            ref string userId, SecureString password, bool noPrompt)
         {
             Func<AdalConfiguration, string, SecureString, IAccessToken> getTokenFunction = TokenProvider.GetNewToken;
-            List<Guid> result = new List<Guid>();
+            List<AzureSubscription> result;
 
             if (noPrompt)
             {
@@ -75,10 +77,29 @@ namespace Microsoft.WindowsAzure.Commands.Common.Factories
             // Get common token and list all tenants
             var commonTenantToken = getTokenFunction(GetAdalConfiguration(environment, CommonAdTenant), userId, password);
             userId = commonTenantToken.UserId;
+
+            if (currentMode == AzureModule.AzureResourceManager)
+            {
+                result = GetResourceManagerSubscriptions(environment, password, commonTenantToken, getTokenFunction)
+                    .Union(GetServiceManagementSubscriptions(environment, password, commonTenantToken, getTokenFunction))
+                    .ToList();
+            }
+            else
+            {
+                result = GetServiceManagementSubscriptions(environment, password, commonTenantToken, getTokenFunction)
+                    .ToList();
+            }
+
+            return result;
+        }
+
+        private IEnumerable<AzureSubscription> GetResourceManagerSubscriptions(AzureEnvironment environment, SecureString password,
+            IAccessToken commonTenantToken, Func<AdalConfiguration, string, SecureString, IAccessToken> getTokenFunction)
+        {
             TenantListResult tenants;
-            using (var subscriptionClient = AzurePowerShell.ClientFactory.CreateClient<SubscriptionClient>(
-                    new TokenCloudCredentials(commonTenantToken.AccessToken),
-                    new Uri(environment.GetEndpoint(AzureEnvironment.Endpoint.ResourceManagerEndpoint))))
+            using (var subscriptionClient = AzurePowerShell.ClientFactory.CreateClient<Azure.Subscriptions.SubscriptionClient>(
+                new TokenCloudCredentials(commonTenantToken.AccessToken),
+                new Uri(environment.GetEndpoint(AzureEnvironment.Endpoint.ResourceManagerEndpoint))))
             {
                 tenants = subscriptionClient.Tenants.List();
             }
@@ -87,31 +108,67 @@ namespace Microsoft.WindowsAzure.Commands.Common.Factories
             foreach (var tenant in tenants.TenantIds)
             {
                 // Generate tenant specific token to query list of subscriptions
-                var tenantToken = getTokenFunction(GetAdalConfiguration(environment, tenant.TenantId), commonTenantToken.UserId, password);
+                var tenantToken = getTokenFunction(GetAdalConfiguration(environment, tenant.TenantId), commonTenantToken.UserId,
+                    password);
 
-                using (var subscriptionClient = AzurePowerShell.ClientFactory.CreateClient<SubscriptionClient>(
-                    new TokenCloudCredentials(tenantToken.AccessToken), 
-                    new Uri(environment.GetEndpoint(AzureEnvironment.Endpoint.ResourceManagerEndpoint))))
+                using (var subscriptionClient = AzurePowerShell.ClientFactory.CreateClient<Azure.Subscriptions.SubscriptionClient>(
+                        new TokenCloudCredentials(tenantToken.AccessToken),
+                        new Uri(environment.GetEndpoint(AzureEnvironment.Endpoint.ResourceManagerEndpoint))))
                 {
                     var subscriptionListResult = subscriptionClient.Subscriptions.List();
                     foreach (var subscription in subscriptionListResult.Subscriptions)
                     {
-                        var subscriptionId = new Guid(subscription.Id);
+                        AzureSubscription psSubscription = new AzureSubscription
+                        {
+                            Id = new Guid(subscription.SubscriptionId),
+                            Name = subscription.DisplayName,
+                            Environment = environment.Name
+                        };
                         if (commonTenantToken.LoginType == LoginType.LiveId)
                         {
-                            subscriptionTokenCache[subscriptionId] = tenantToken;
+                            subscriptionTokenCache[psSubscription.Id] = tenantToken;
                         }
                         else
                         {
-                            subscriptionTokenCache[subscriptionId] = commonTenantToken;
+                            subscriptionTokenCache[psSubscription.Id] = commonTenantToken;
                         }
 
-                        result.Add(subscriptionId);
+                        yield return psSubscription;
                     }
                 }
             }
+        }
 
-            return result;
+        private IEnumerable<AzureSubscription> GetServiceManagementSubscriptions(AzureEnvironment environment, SecureString password,
+            IAccessToken commonTenantToken, Func<AdalConfiguration, string, SecureString, IAccessToken> getTokenFunction)
+        {
+            using (var subscriptionClient = AzurePowerShell.ClientFactory.CreateClient<WindowsAzure.Subscriptions.SubscriptionClient>(
+                        new TokenCloudCredentials(commonTenantToken.AccessToken),
+                        new Uri(environment.GetEndpoint(AzureEnvironment.Endpoint.ServiceEndpoint))))
+            {
+                var subscriptionListResult = subscriptionClient.Subscriptions.List();
+                foreach (var subscription in subscriptionListResult.Subscriptions)
+                {
+                    AzureSubscription psSubscription = new AzureSubscription
+                    {
+                        Id = new Guid(subscription.SubscriptionId),
+                        Name = subscription.SubscriptionName,
+                        Environment = environment.Name
+                    };
+                    if (commonTenantToken.LoginType == LoginType.LiveId)
+                    {
+                        subscriptionTokenCache[psSubscription.Id] = getTokenFunction(
+                            GetAdalConfiguration(environment, subscription.ActiveDirectoryTenantId),
+                            commonTenantToken.UserId, password);
+                    }
+                    else
+                    {
+                        subscriptionTokenCache[psSubscription.Id] = commonTenantToken;
+                    }
+
+                    yield return psSubscription;
+                }
+            }
         }
 
         public SubscriptionCloudCredentials GetSubscriptionCloudCredentials(Guid subscriptionId)
@@ -132,7 +189,8 @@ namespace Microsoft.WindowsAzure.Commands.Common.Factories
             }
             else if (userId != null)
             {
-                AuthenticateAndGetSubscriptions(environment, ref userId, null, true);
+                // Try to authenticate using AzureResourceManager (to get as many subscriptions as possible)
+                AuthenticateAndGetSubscriptions(environment, AzureModule.AzureResourceManager, ref userId, null, true);
                 if (!subscriptionTokenCache.ContainsKey(subscriptionId))
                 {
                     throw new ArgumentException(Resources.InvalidSubscriptionState);

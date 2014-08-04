@@ -70,13 +70,6 @@ namespace Microsoft.WindowsAzure.Commands.Common.Factories
             }
 
             return client;
-
-            // Add the logging handler
-            //var withHandlerMethod = typeof(TClient).GetMethod("WithHandler", new[] { typeof(DelegatingHandler) });
-            //TClient finalClient = (TClient)withHandlerMethod.Invoke(client, new object[] { new HttpRestCallLogger() });
-            //client.Dispose();
-
-            //return finalClient;
         }
 
         public HttpClient CreateHttpClient(string endpoint, ICredentials credentials)
