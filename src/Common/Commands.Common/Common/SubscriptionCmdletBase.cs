@@ -14,6 +14,8 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.WindowsAzure.Commands.Common;
+using Microsoft.WindowsAzure.Commands.Common.Models;
 using Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication;
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Profile
@@ -80,17 +82,27 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Profile
             return new WindowsAzureProfile(new PowershellProfileStore(path));
         }
 
-        protected IEnumerable<WindowsAzureSubscription> LoadSubscriptionsFromServer()
+        protected IEnumerable<AzureSubscription> LoadSubscriptionsFromServer()
         {
-            var currentSubscription = WindowsAzureProfile.Instance.CurrentSubscription;
-            if (currentSubscription.ActiveDirectoryUserId != null)
+            var currentMode = PowerShellUtilities.GetCurrentMode();
+            var currentSubscription = AzurePowerShell.Profile.CurrentSubscription;
+            var currentEnvironment = AzurePowerShell.Profile.CurrentEnvironment;
+            string userId = null;
+            if (currentSubscription == null)
             {
-                return WindowsAzureProfile.Instance.CurrentEnvironment.ListSubscriptions(currentSubscription.TokenProvider, false);
+                return AzurePowerShell.AuthenticationFactory.Authenticate(currentEnvironment, currentMode, out userId);
             }
             else
             {
-                //throw new ApplicationException(Resources.InvalidSubscriptionState);
-                return new WindowsAzureSubscription[0];
+                userId = currentEnvironment.GetAdUserId(currentSubscription.Id);
+                if (userId != null)
+                {
+                    return AzurePowerShell.AuthenticationFactory.RefreshUserToken(currentEnvironment, currentMode, userId);
+                }
+                else
+                {
+                    return new AzureSubscription[0];
+                }
             }
         }
     }

@@ -58,6 +58,11 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
             }
         }
 
+        public AzureSubscription CurrentSubscription
+        {
+            get { return GetSubscription(CurrentSubscriptionId); }
+        }
+
         public AzureEnvironment CurrentEnvironment
         {
             get

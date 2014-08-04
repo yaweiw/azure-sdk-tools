@@ -180,8 +180,8 @@ namespace Microsoft.WindowsAzure.Commands.Common.Factories
             }
 
             var environment = AzurePowerShell.Profile.GetEnvironment(subscription.Environment);
-            var userId = GetUserId(subscriptionId, environment);
-            var certificate = GetCertificate(subscriptionId, environment);
+            var userId = environment.GetAdUserId(subscriptionId);
+            var certificate = environment.GetCertificate(subscriptionId);
 
             if (subscriptionTokenCache.ContainsKey(subscriptionId))
             {
@@ -205,30 +205,6 @@ namespace Microsoft.WindowsAzure.Commands.Common.Factories
             {
                 throw new ArgumentException(Resources.InvalidSubscriptionState);
             }
-        }
-
-        private string GetUserId(Guid subscriptionId, AzureEnvironment environment)
-        {
-            foreach (var userAccount in environment.UserAccountSubscriptionsMap.Keys)
-            {
-                if (environment.UserAccountSubscriptionsMap[userAccount].Any(id => id == subscriptionId))
-                {
-                    return userAccount;
-                }
-            }
-            return null;
-        }
-
-        private X509Certificate2 GetCertificate(Guid subscriptionId, AzureEnvironment environment)
-        {
-            foreach (var thumbprint in environment.ThumbprintSubscriptionsMap.Keys)
-            {
-                if (environment.ThumbprintSubscriptionsMap[thumbprint].Any(id => id == subscriptionId))
-                {
-                    return WindowsAzureCertificate.FromThumbprint(thumbprint);
-                }
-            }
-            return null;
         }
 
         private AdalConfiguration GetAdalConfiguration(AzureEnvironment environment, string tenantId)

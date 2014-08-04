@@ -24,6 +24,28 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     {
         public const string PSModulePathName = "PSModulePath";
 
+        public static AzureModule GetCurrentMode()
+        {
+            string psModulePath = Environment.GetEnvironmentVariable(PSModulePathName, EnvironmentVariableTarget.Process);
+            IEnumerable<string> paths = psModulePath.Split(';');
+
+            bool isResourceManagerMode = paths.Any(path => path.EndsWith("PowerShell\\ResourceManager"));
+            bool isServiceManagementMode = paths.Any(path => path.EndsWith("PowerShell\\ServiceManagement"));
+
+            if (isResourceManagerMode)
+            {
+                return AzureModule.AzureResourceManager;
+            }
+            else if (isServiceManagementMode)
+            {
+                return AzureModule.AzureServiceManagement;
+            }
+            else
+            {
+                return AzureModule.AzureProfile;
+            }
+        }
+
         private static void EditPSModulePath(Func<IEnumerable<string>, IEnumerable<string>> job, EnvironmentVariableTarget target)
         {
             ChangeForTargetEnvironment(job, target);

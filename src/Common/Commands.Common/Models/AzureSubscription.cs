@@ -42,6 +42,16 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
             return Id.GetHashCode();
         }
 
+        public string GetProperty(Property property)
+        {
+            if (Properties.ContainsKey(property))
+            {
+                return Properties[property];
+            }
+
+            return null;
+        }
+
         public override bool Equals(object obj)
         {
             var anotherSubscription = obj as AzureSubscription;

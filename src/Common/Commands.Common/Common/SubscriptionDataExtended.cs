@@ -12,10 +12,17 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System;
+using System.Security.Cryptography.X509Certificates;
+using Microsoft.WindowsAzure.Commands.Common.Models;
+
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
-    public class SubscriptionDataExtended : WindowsAzureSubscription
+    public class SubscriptionDataExtended : AzureSubscription
     {
+        public bool IsDefault { get; set; }
+        public string ActiveDirectoryUserId { get; set; }
+        public X509Certificate2 Certificate { get; set; }
         public string AccountAdminLiveEmailId { get; set; }
         public int CurrentCoreCount { get; set; }
         public int CurrentHostedServices { get; set; }
@@ -35,5 +42,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public string OperationDescription { get; set; }
         public string OperationId { get; set; }
         public string OperationStatus { get; set; }
+        public string ServiceEndpoint { get; set; }
+        public string ResourceManagerEndpoint { get; set; }
+        public string GalleryEndpoint { get; set; }
+        public string CurrentStorageAccountName { get; set; }
     }
 }
