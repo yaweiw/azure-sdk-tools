@@ -166,10 +166,10 @@
     <value>A role name '{0}' already exists</value>
   </data>
   <data name="AzureDirectory" xml:space="preserve">
-    <value>Azure Powershell\</value>
+    <value>Windows Azure Powershell\</value>
   </data>
   <data name="AzureDirectoryName" xml:space="preserve">
-    <value>Azure Powershell</value>
+    <value>Windows Azure Powershell</value>
   </data>
   <data name="AzureEmulatorDirectory" xml:space="preserve">
     <value>Emulator</value>
@@ -191,9 +191,6 @@
   </data>
   <data name="AzureSdkDirectory" xml:space="preserve">
     <value>Azure SDK\{0}\</value>
-  </data>
-  <data name="AzureSdkDirectoryName" xml:space="preserve">
-    <value>Azure SDK Deployment Cmdlets</value>
   </data>
   <data name="AzureSdkInstallPathRegistryKeyValue" xml:space="preserve">
     <value>InstallPath</value>
