@@ -28,7 +28,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Factories
         /// <summary>
         /// Event that's trigged when a new client has been created.
         /// </summary>
-        public static event EventHandler<ClientCreatedArgs> OnClientCreated;
+        public event EventHandler<ClientCreatedArgs> OnClientCreated;
 
         private static readonly char[] uriPathSeparator = { '/' };
 
@@ -69,12 +69,14 @@ namespace Microsoft.WindowsAzure.Commands.Common.Factories
                 client = (TClient)args.CreatedClient;
             }
 
-            // Add the logging handler
-            var withHandlerMethod = typeof(TClient).GetMethod("WithHandler", new[] { typeof(DelegatingHandler) });
-            TClient finalClient = (TClient)withHandlerMethod.Invoke(client, new object[] { new HttpRestCallLogger() });
-            client.Dispose();
+            return client;
 
-            return finalClient;
+            // Add the logging handler
+            //var withHandlerMethod = typeof(TClient).GetMethod("WithHandler", new[] { typeof(DelegatingHandler) });
+            //TClient finalClient = (TClient)withHandlerMethod.Invoke(client, new object[] { new HttpRestCallLogger() });
+            //client.Dispose();
+
+            //return finalClient;
         }
 
         public HttpClient CreateHttpClient(string endpoint, ICredentials credentials)

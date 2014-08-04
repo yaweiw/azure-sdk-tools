@@ -83,11 +83,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// </summary>
         internal Action Save { get; set; }
 
-        /// <summary>
-        /// Event that's trigged when a new client has been created.
-        /// </summary>
-        public static event EventHandler<ClientCreatedArgs> OnClientCreated;
-
         public string CurrentStorageAccountName
         {
             get { return currentStorageAccountName; }
@@ -237,7 +232,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         public TClient CreateClient<TClient>(bool registerProviders, params object[] parameters) where TClient : ServiceClient<TClient>
         {
-            return AzureSession.Current.ManagementClientHelper.CreateClient<TClient>(addRestLogHandlerToAllClients, OnClientCreated, parameters);
+            return AzurePowerShell.ClientFactory.CreateClient<TClient>(parameters);
         }
 
         private void RegisterRequiredResourceProviders<T>(SubscriptionCloudCredentials credentials) where T : ServiceClient<T>

@@ -12,30 +12,15 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Utilities.Common
+using System;
+using System.Net.Http;
+
+namespace Microsoft.WindowsAzure.Commands.Common.Models
 {
-    public class AzureSession
+    public class ClientTraceEventArgs : EventArgs
     {
-        private AzureSession()
-        {
-            ManagementClientHelper = new ManagementClientHelper();
-        }
+        public string Message { get; set; }
 
-        private static AzureSession currentSession;
-
-        public static AzureSession Current
-        {
-            get
-            {
-                if (currentSession == null)
-                {
-                    currentSession = new AzureSession();
-                }
-                return currentSession;
-            }
-            set { currentSession = value; }
-        }
-
-        public IManagementClientHelper ManagementClientHelper { get; set; }
+        public string ClientName { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-// ----------------------------------------------------------------------------------
+﻿// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,21 +12,18 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Commands.Common;
-using Microsoft.WindowsAzure.Common;
 using System;
-using System.Net;
-using System.Net.Http;
+using System.Diagnostics;
+using System.Management.Automation;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
 
-namespace Microsoft.WindowsAzure.Commands.Utilities.Common
+namespace Microsoft.WindowsAzure.Commands.Common.Test.Common
 {
-    public interface IManagementClientHelper
+    public class MockCmdlt : PSCmdlet
     {
-        TClient CreateClient<TClient>(bool addRestLogHandler, EventHandler<ClientCreatedArgs> clientCreatedHandler, 
-            object[] parameters) where TClient : ServiceClient<TClient>;
-
-        HttpClient CreateHttpClient(string serviceUrl, ICredentials credentials);
-
-        HttpClient CreateHttpClient(string serviceUrl, HttpMessageHandler effectiveHandler);
+        public MockCmdlt()
+        {
+            HttpRestCallLogger.CurrentCmdlet = this;
+        }
     }
 }

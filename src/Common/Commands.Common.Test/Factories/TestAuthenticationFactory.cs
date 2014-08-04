@@ -15,12 +15,19 @@
 using System;
 using Microsoft.WindowsAzure.Commands.Common.Models;
 using Microsoft.WindowsAzure.Commands.Common.Test.Common;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Xunit;
 
 namespace Microsoft.WindowsAzure.Commands.Common.Test.Factories
 {
     public class TestAuthenticationFactory
     {
+        private MockCmdlt cmdlt = new MockCmdlt();
+        public TestAuthenticationFactory()
+        {
+            HttpRestCallLogger.CurrentCmdlet = cmdlt;
+        }
+
         [Fact]
         public void GetCloudCredentialThrowsExceptionForInvalidSubscription()
         {

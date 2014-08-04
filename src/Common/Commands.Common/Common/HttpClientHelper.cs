@@ -16,6 +16,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using System.Net;
     using System.Net.Http;
+    using Commands.Common;
 
     public static class HttpClientHelper
     {
@@ -23,11 +24,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         {
             if (credentials != null)
             {
-                return AzureSession.Current.ManagementClientHelper.CreateHttpClient(serviceUrl, credentials);
+                return AzurePowerShell.ClientFactory.CreateHttpClient(serviceUrl, credentials);
             }
             else
             {
-                return AzureSession.Current.ManagementClientHelper.CreateHttpClient(serviceUrl, handler);
+                return AzurePowerShell.ClientFactory.CreateHttpClient(serviceUrl, handler);
             }
         }
     }

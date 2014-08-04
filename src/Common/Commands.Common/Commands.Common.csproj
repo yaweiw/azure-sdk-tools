@@ -146,7 +146,6 @@
     <Compile Include="Factories\ClientFactory.cs" />
     <Compile Include="Common\AzureException.cs" />
     <Compile Include="Common\AzureModule.cs" />
-    <Compile Include="Common\AzureSession.cs" />
     <Compile Include="Common\ChannelHelper.cs" />
     <Compile Include="Common\ClientCreatedArgs.cs" />
     <Compile Include="Common\CloudBaseCmdlet.cs" />
@@ -155,8 +154,6 @@
     <Compile Include="Common\CmdletWithSubscriptionBase.cs" />
     <Compile Include="Common\ConfigurationConstants.cs" />
     <Compile Include="Common\ErrorHelper.cs" />
-    <Compile Include="Common\IManagementClientHelper.cs" />
-    <Compile Include="Common\ManagementClientHelper.cs" />
     <Compile Include="Common\IdnHelper.cs" />
     <Compile Include="Common\ManagementOperationContext.cs" />
     <Compile Include="Common\Parameters.cs" />
@@ -193,9 +190,11 @@
     <Compile Include="Models\AzureProfile.cs" />
     <Compile Include="Models\AzureProfileSerializer.cs" />
     <Compile Include="Models\AzureSubscription.cs" />
+    <Compile Include="Models\ClientTraceEventArgs.cs" />
     <Compile Include="Models\DiskFileStore.cs" />
     <Compile Include="Models\AzureEnvironment.Methods.cs" />
     <Compile Include="Models\AzureProfile.Methods.cs" />
+    <Compile Include="Models\RecordingTracingInterceptor.cs" />
     <Compile Include="Utilities\ConversionUtilities.cs" />
     <Compile Include="Utilities\GeneralUtilities.cs" />
     <Compile Include="Utilities\XmlUtilities.cs" />

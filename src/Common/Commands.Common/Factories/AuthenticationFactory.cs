@@ -78,7 +78,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Factories
             TenantListResult tenants;
             using (var subscriptionClient = AzurePowerShell.ClientFactory.CreateClient<SubscriptionClient>(
                     new TokenCloudCredentials(commonTenantToken.AccessToken),
-                    environment.GetEndpoint(AzureEnvironment.Endpoint.ResourceManagerEndpoint)))
+                    new Uri(environment.GetEndpoint(AzureEnvironment.Endpoint.ResourceManagerEndpoint))))
             {
                 tenants = subscriptionClient.Tenants.List();
             }
@@ -91,7 +91,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Factories
 
                 using (var subscriptionClient = AzurePowerShell.ClientFactory.CreateClient<SubscriptionClient>(
                     new TokenCloudCredentials(tenantToken.AccessToken), 
-                    environment.GetEndpoint(AzureEnvironment.Endpoint.ResourceManagerEndpoint)))
+                    new Uri(environment.GetEndpoint(AzureEnvironment.Endpoint.ResourceManagerEndpoint))))
                 {
                     var subscriptionListResult = subscriptionClient.Subscriptions.List();
                     foreach (var subscription in subscriptionListResult.Subscriptions)
