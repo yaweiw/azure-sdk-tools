@@ -863,16 +863,11 @@ PS C:\&gt;Get-AzureSqlDatabaseCopy -ServerName "lpqd0zbr8y" -DatabaseCopy $myDbC
     <command:nonTerminatingErrors />
     <command:examples>
       <command:example>
-        <maml:title>    
-
-    
-
--------------------------- EXAMPLE 1 --------------------------     
-
-    
-
-    
-
+        <maml:title>     
+     
+-------------------------- EXAMPLE 1 --------------------------      
+     
+     
                       </maml:title>
         <maml:introduction>
           <maml:para></maml:para>
@@ -1664,7 +1659,14 @@ C:\PS&gt;Get-AzureSqlDatabaseImportExportStatus -Request $exportRequest
           </maml:description>
           <command:parameterValue required="true" variableLength="false">IServerDataServiceContext</command:parameterValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="">
+          <maml:name>ServiceObjective</maml:name>
+          <maml:description>
+            <maml:para>An object representing the service objective to return. If not specified, then all the service objectives for the SQL Database Server are returned.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">ServiceObjective</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>ServiceObjectiveName</maml:name>
           <maml:description>
             <maml:para>The name of the service objective to return. If not specified, then all the service objectives for the SQL Database Server are returned.</maml:para>
@@ -1674,19 +1676,26 @@ C:\PS&gt;Get-AzureSqlDatabaseImportExportStatus -Request $exportRequest
       </command:syntaxItem>
       <command:syntaxItem>
         <maml:name>Get-AzureSqlDatabaseServiceObjective</maml:name>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue, ByPropertyName)" position="1" aliases="">
-          <maml:name>Context</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
+          <maml:name>ServerName</maml:name>
           <maml:description>
-            <maml:para>The connection context to the specified SQL Database Server.</maml:para>
+            <maml:para></maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">IServerDataServiceContext</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="2" aliases="">
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="">
           <maml:name>ServiceObjective</maml:name>
           <maml:description>
             <maml:para>An object representing the service objective to return. If not specified, then all the service objectives for the SQL Database Server are returned.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">ServiceObjective</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>ServiceObjectiveName</maml:name>
+          <maml:description>
+            <maml:para>The name of the service objective to return. If not specified, then all the service objectives for the SQL Database Server are returned.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
@@ -1703,7 +1712,19 @@ C:\PS&gt;Get-AzureSqlDatabaseImportExportStatus -Request $exportRequest
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="2" aliases="">
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
+        <maml:name>ServerName</maml:name>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="">
         <maml:name>ServiceObjective</maml:name>
         <maml:description>
           <maml:para>An object representing the service objective to return. If not specified, then all the service objectives for the SQL Database Server are returned.</maml:para>
@@ -1715,7 +1736,7 @@ C:\PS&gt;Get-AzureSqlDatabaseImportExportStatus -Request $exportRequest
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
         <maml:name>ServiceObjectiveName</maml:name>
         <maml:description>
           <maml:para>The name of the service objective to return. If not specified, then all the service objectives for the SQL Database Server are returned.</maml:para>
@@ -1781,7 +1802,6 @@ C:\PS&gt;Get-AzureSqlDatabaseImportExportStatus -Request $exportRequest
           <maml:para></maml:para>
         </maml:introduction>
         <dev:code>C:\PS&gt;Get-AzureSqlDatabaseServiceObjective -ServerName "server1"
-
 </dev:code>
         <dev:remarks>
           <maml:para>This example displays all the service objectives for the SQL Database Server "server1", using certificate authentication.</maml:para>
@@ -2151,13 +2171,13 @@ PS C:\&gt;$mydb = $mydb | Get-AzureSqlRecoverableDatabase
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>Confirm</maml:name>
           <maml:description>
-            <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
           </maml:description>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>WhatIf</maml:name>
           <maml:description>
-            <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
           </maml:description>
         </command:parameter>
       </command:syntaxItem>
@@ -2235,13 +2255,13 @@ PS C:\&gt;$mydb = $mydb | Get-AzureSqlRecoverableDatabase
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>Confirm</maml:name>
           <maml:description>
-            <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
           </maml:description>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>WhatIf</maml:name>
           <maml:description>
-            <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
           </maml:description>
         </command:parameter>
       </command:syntaxItem>
@@ -2373,7 +2393,7 @@ PS C:\&gt;$mydb = $mydb | Get-AzureSqlRecoverableDatabase
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
         <maml:name>Confirm</maml:name>
         <maml:description>
-          <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -2385,7 +2405,7 @@ PS C:\&gt;$mydb = $mydb | Get-AzureSqlRecoverableDatabase
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
         <maml:name>WhatIf</maml:name>
         <maml:description>
-          <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -2559,13 +2579,13 @@ PS C:\&gt;$mydb = $mydb | Get-AzureSqlRecoverableDatabase
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>Confirm</maml:name>
           <maml:description>
-            <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
           </maml:description>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>WhatIf</maml:name>
           <maml:description>
-            <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
           </maml:description>
         </command:parameter>
       </command:syntaxItem>
@@ -2634,7 +2654,7 @@ PS C:\&gt;$mydb = $mydb | Get-AzureSqlRecoverableDatabase
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
         <maml:name>Confirm</maml:name>
         <maml:description>
-          <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -2646,7 +2666,7 @@ PS C:\&gt;$mydb = $mydb | Get-AzureSqlRecoverableDatabase
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
         <maml:name>WhatIf</maml:name>
         <maml:description>
-          <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -3101,13 +3121,13 @@ The rest of the commands select the subscription "mySubscription" to be designat
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>Confirm</maml:name>
           <maml:description>
-            <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
           </maml:description>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>WhatIf</maml:name>
           <maml:description>
-            <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
           </maml:description>
         </command:parameter>
       </command:syntaxItem>
@@ -3146,13 +3166,13 @@ The rest of the commands select the subscription "mySubscription" to be designat
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>Confirm</maml:name>
           <maml:description>
-            <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
           </maml:description>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>WhatIf</maml:name>
           <maml:description>
-            <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
           </maml:description>
         </command:parameter>
       </command:syntaxItem>
@@ -3239,7 +3259,7 @@ The rest of the commands select the subscription "mySubscription" to be designat
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
         <maml:name>Confirm</maml:name>
         <maml:description>
-          <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -3251,7 +3271,7 @@ The rest of the commands select the subscription "mySubscription" to be designat
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
         <maml:name>WhatIf</maml:name>
         <maml:description>
-          <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -3421,13 +3441,13 @@ The rest of the commands select the subscription "mySubscription" to be designat
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>Confirm</maml:name>
           <maml:description>
-            <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
           </maml:description>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>WhatIf</maml:name>
           <maml:description>
-            <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
           </maml:description>
         </command:parameter>
       </command:syntaxItem>
@@ -3459,13 +3479,13 @@ The rest of the commands select the subscription "mySubscription" to be designat
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>Confirm</maml:name>
           <maml:description>
-            <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
           </maml:description>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>WhatIf</maml:name>
           <maml:description>
-            <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
           </maml:description>
         </command:parameter>
       </command:syntaxItem>
@@ -3497,13 +3517,13 @@ The rest of the commands select the subscription "mySubscription" to be designat
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>Confirm</maml:name>
           <maml:description>
-            <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
           </maml:description>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>WhatIf</maml:name>
           <maml:description>
-            <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
           </maml:description>
         </command:parameter>
       </command:syntaxItem>
@@ -3535,13 +3555,13 @@ The rest of the commands select the subscription "mySubscription" to be designat
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>Confirm</maml:name>
           <maml:description>
-            <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
           </maml:description>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>WhatIf</maml:name>
           <maml:description>
-            <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
           </maml:description>
         </command:parameter>
       </command:syntaxItem>
@@ -3615,7 +3635,7 @@ The rest of the commands select the subscription "mySubscription" to be designat
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
         <maml:name>Confirm</maml:name>
         <maml:description>
-          <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -3627,7 +3647,7 @@ The rest of the commands select the subscription "mySubscription" to be designat
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
         <maml:name>WhatIf</maml:name>
         <maml:description>
-          <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -3812,13 +3832,13 @@ C:\PS&gt;$database1 | Remove-AzureSqlDatabase -ServerName "lpqd0zbr8y"
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>Confirm</maml:name>
           <maml:description>
-            <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
           </maml:description>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>WhatIf</maml:name>
           <maml:description>
-            <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
           </maml:description>
         </command:parameter>
       </command:syntaxItem>
@@ -3853,7 +3873,7 @@ C:\PS&gt;$database1 | Remove-AzureSqlDatabase -ServerName "lpqd0zbr8y"
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
         <maml:name>Confirm</maml:name>
         <maml:description>
-          <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -3865,7 +3885,7 @@ C:\PS&gt;$database1 | Remove-AzureSqlDatabase -ServerName "lpqd0zbr8y"
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
         <maml:name>WhatIf</maml:name>
         <maml:description>
-          <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -3988,13 +4008,13 @@ C:\PS&gt;$database1 | Remove-AzureSqlDatabase -ServerName "lpqd0zbr8y"
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>Confirm</maml:name>
           <maml:description>
-            <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
           </maml:description>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>WhatIf</maml:name>
           <maml:description>
-            <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
           </maml:description>
         </command:parameter>
       </command:syntaxItem>
@@ -4042,7 +4062,7 @@ C:\PS&gt;$database1 | Remove-AzureSqlDatabase -ServerName "lpqd0zbr8y"
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
         <maml:name>Confirm</maml:name>
         <maml:description>
-          <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -4054,7 +4074,7 @@ C:\PS&gt;$database1 | Remove-AzureSqlDatabase -ServerName "lpqd0zbr8y"
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
         <maml:name>WhatIf</maml:name>
         <maml:description>
-          <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -4158,13 +4178,13 @@ C:\PS&gt;$database1 | Remove-AzureSqlDatabase -ServerName "lpqd0zbr8y"
           </maml:description>
           <command:parameterValue required="true" variableLength="false">IServerDataServiceContext</command:parameterValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="2" aliases="">
-          <maml:name>Database</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
+          <maml:name>DatabaseName</maml:name>
           <maml:description>
-            <maml:para>A database object representing the SQL Database to modify.
+            <maml:para>The name of the SQL Database to modify.
 </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">Database</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>Edition</maml:name>
@@ -4172,14 +4192,7 @@ C:\PS&gt;$database1 | Remove-AzureSqlDatabase -ServerName "lpqd0zbr8y"
             <maml:para>If specified, the new edition for the SQL Database. Acceptable values are Web, Business, Basic, Standard, and Premium.
 </maml:para>
           </maml:description>
-          <command:parameterValueGroup>
-            <command:parameterValue required="true" variableLength="false">None</command:parameterValue>
-            <command:parameterValue required="true" variableLength="false">Business</command:parameterValue>
-            <command:parameterValue required="true" variableLength="false">Web</command:parameterValue>
-            <command:parameterValue required="true" variableLength="false">Premium</command:parameterValue>
-            <command:parameterValue required="true" variableLength="false">Basic</command:parameterValue>
-            <command:parameterValue required="true" variableLength="false">Standard</command:parameterValue>
-          </command:parameterValueGroup>
+          <command:parameterValue required="true" variableLength="false">DatabaseEdition</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>Force</maml:name>
@@ -4234,13 +4247,13 @@ C:\PS&gt;$database1 | Remove-AzureSqlDatabase -ServerName "lpqd0zbr8y"
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>Confirm</maml:name>
           <maml:description>
-            <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
           </maml:description>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>WhatIf</maml:name>
           <maml:description>
-            <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
           </maml:description>
         </command:parameter>
       </command:syntaxItem>
@@ -4253,13 +4266,13 @@ C:\PS&gt;$database1 | Remove-AzureSqlDatabase -ServerName "lpqd0zbr8y"
           </maml:description>
           <command:parameterValue required="true" variableLength="false">IServerDataServiceContext</command:parameterValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
-          <maml:name>DatabaseName</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="2" aliases="">
+          <maml:name>Database</maml:name>
           <maml:description>
-            <maml:para>The name of the SQL Database to modify.
+            <maml:para>A database object representing the SQL Database to modify.
 </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">Database</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>Edition</maml:name>
@@ -4267,14 +4280,7 @@ C:\PS&gt;$database1 | Remove-AzureSqlDatabase -ServerName "lpqd0zbr8y"
             <maml:para>If specified, the new edition for the SQL Database. Acceptable values are Web, Business, Basic, Standard, and Premium.
 </maml:para>
           </maml:description>
-          <command:parameterValueGroup>
-            <command:parameterValue required="true" variableLength="false">None</command:parameterValue>
-            <command:parameterValue required="true" variableLength="false">Business</command:parameterValue>
-            <command:parameterValue required="true" variableLength="false">Web</command:parameterValue>
-            <command:parameterValue required="true" variableLength="false">Premium</command:parameterValue>
-            <command:parameterValue required="true" variableLength="false">Basic</command:parameterValue>
-            <command:parameterValue required="true" variableLength="false">Standard</command:parameterValue>
-          </command:parameterValueGroup>
+          <command:parameterValue required="true" variableLength="false">DatabaseEdition</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>Force</maml:name>
@@ -4329,13 +4335,13 @@ C:\PS&gt;$database1 | Remove-AzureSqlDatabase -ServerName "lpqd0zbr8y"
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>Confirm</maml:name>
           <maml:description>
-            <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
           </maml:description>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>WhatIf</maml:name>
           <maml:description>
-            <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
           </maml:description>
         </command:parameter>
       </command:syntaxItem>
@@ -4362,14 +4368,7 @@ C:\PS&gt;$database1 | Remove-AzureSqlDatabase -ServerName "lpqd0zbr8y"
             <maml:para>If specified, the new edition for the SQL Database. Acceptable values are Web, Business, Basic, Standard, and Premium.
 </maml:para>
           </maml:description>
-          <command:parameterValueGroup>
-            <command:parameterValue required="true" variableLength="false">None</command:parameterValue>
-            <command:parameterValue required="true" variableLength="false">Business</command:parameterValue>
-            <command:parameterValue required="true" variableLength="false">Web</command:parameterValue>
-            <command:parameterValue required="true" variableLength="false">Premium</command:parameterValue>
-            <command:parameterValue required="true" variableLength="false">Basic</command:parameterValue>
-            <command:parameterValue required="true" variableLength="false">Standard</command:parameterValue>
-          </command:parameterValueGroup>
+          <command:parameterValue required="true" variableLength="false">DatabaseEdition</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>Force</maml:name>
@@ -4424,13 +4423,13 @@ C:\PS&gt;$database1 | Remove-AzureSqlDatabase -ServerName "lpqd0zbr8y"
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>Confirm</maml:name>
           <maml:description>
-            <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
           </maml:description>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>WhatIf</maml:name>
           <maml:description>
-            <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
           </maml:description>
         </command:parameter>
       </command:syntaxItem>
@@ -4457,14 +4456,7 @@ C:\PS&gt;$database1 | Remove-AzureSqlDatabase -ServerName "lpqd0zbr8y"
             <maml:para>If specified, the new edition for the SQL Database. Acceptable values are Web, Business, Basic, Standard, and Premium.
 </maml:para>
           </maml:description>
-          <command:parameterValueGroup>
-            <command:parameterValue required="true" variableLength="false">None</command:parameterValue>
-            <command:parameterValue required="true" variableLength="false">Business</command:parameterValue>
-            <command:parameterValue required="true" variableLength="false">Web</command:parameterValue>
-            <command:parameterValue required="true" variableLength="false">Premium</command:parameterValue>
-            <command:parameterValue required="true" variableLength="false">Basic</command:parameterValue>
-            <command:parameterValue required="true" variableLength="false">Standard</command:parameterValue>
-          </command:parameterValueGroup>
+          <command:parameterValue required="true" variableLength="false">DatabaseEdition</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>Force</maml:name>
@@ -4519,13 +4511,13 @@ C:\PS&gt;$database1 | Remove-AzureSqlDatabase -ServerName "lpqd0zbr8y"
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>Confirm</maml:name>
           <maml:description>
-            <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
           </maml:description>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>WhatIf</maml:name>
           <maml:description>
-            <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
           </maml:description>
         </command:parameter>
       </command:syntaxItem>
@@ -4679,7 +4671,7 @@ C:\PS&gt;$database1 | Remove-AzureSqlDatabase -ServerName "lpqd0zbr8y"
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
         <maml:name>Confirm</maml:name>
         <maml:description>
-          <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -4691,7 +4683,7 @@ C:\PS&gt;$database1 | Remove-AzureSqlDatabase -ServerName "lpqd0zbr8y"
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
         <maml:name>WhatIf</maml:name>
         <maml:description>
-          <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -4738,7 +4730,8 @@ C:\PS&gt;$database1 | Remove-AzureSqlDatabase -ServerName "lpqd0zbr8y"
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
-        <dev:code>C:\PS&gt;$database1 = Get-AzureSqlDatabase -ConnectionContext $ctx -DatabaseName "Database1"C:\PS&gt;Set-AzureSqlDatabase -ConnectionContext $ctx -Database $database1 -MaxSizeGB 20
+        <dev:code>C:\PS&gt;$database1 = Get-AzureSqlDatabase -ConnectionContext $ctx -DatabaseName "Database1"
+C:\PS&gt;Set-AzureSqlDatabase -ConnectionContext $ctx -Database $database1 -MaxSizeGB 20
 </dev:code>
         <dev:remarks>
           <maml:para>This example changes the current size of the database, "Database1", to 20 GB, in the specified SQL Database Server connection context “$ctx”.
@@ -4760,7 +4753,8 @@ C:\PS&gt;$database1 | Remove-AzureSqlDatabase -ServerName "lpqd0zbr8y"
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
-        <dev:code>C:\PS&gt;$database1 = Get-AzureSqlDatabase -ServerName "lpqd0zbr8y" -DatabaseName "Database1"C:\PS&gt;Set-AzureSqlDatabase -ServerName "lpqd0zbr8y" -Database $database1 -MaxSizeGB 20
+        <dev:code>C:\PS&gt;$database1 = Get-AzureSqlDatabase -ServerName "lpqd0zbr8y" -DatabaseName "Database1"
+C:\PS&gt;Set-AzureSqlDatabase -ServerName "lpqd0zbr8y" -Database $database1 -MaxSizeGB 20
 </dev:code>
         <dev:remarks>
           <maml:para>This example changes the current size of the database, "Database1", to 20 GB, in the specified SQL Database Server "lpqd0zbr8y".
@@ -4834,13 +4828,13 @@ C:\PS&gt;$database1 | Remove-AzureSqlDatabase -ServerName "lpqd0zbr8y"
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>Confirm</maml:name>
           <maml:description>
-            <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
           </maml:description>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>WhatIf</maml:name>
           <maml:description>
-            <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
           </maml:description>
         </command:parameter>
       </command:syntaxItem>
@@ -4885,7 +4879,7 @@ C:\PS&gt;$database1 | Remove-AzureSqlDatabase -ServerName "lpqd0zbr8y"
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
         <maml:name>Confirm</maml:name>
         <maml:description>
-          <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -4897,7 +4891,7 @@ C:\PS&gt;$database1 | Remove-AzureSqlDatabase -ServerName "lpqd0zbr8y"
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
         <maml:name>WhatIf</maml:name>
         <maml:description>
-          <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -5033,13 +5027,13 @@ C:\PS&gt;$database1 | Remove-AzureSqlDatabase -ServerName "lpqd0zbr8y"
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>Confirm</maml:name>
           <maml:description>
-            <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
           </maml:description>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>WhatIf</maml:name>
           <maml:description>
-            <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
           </maml:description>
         </command:parameter>
       </command:syntaxItem>
@@ -5113,7 +5107,7 @@ C:\PS&gt;$database1 | Remove-AzureSqlDatabase -ServerName "lpqd0zbr8y"
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
         <maml:name>Confirm</maml:name>
         <maml:description>
-          <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -5125,7 +5119,7 @@ C:\PS&gt;$database1 | Remove-AzureSqlDatabase -ServerName "lpqd0zbr8y"
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
         <maml:name>WhatIf</maml:name>
         <maml:description>
-          <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -5247,63 +5241,9 @@ C:\PS&gt;$database1 | Remove-AzureSqlDatabase -ServerName "lpqd0zbr8y"
           </maml:description>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>PartnerDatabase</maml:name>
+          <maml:name>OfflineSecondary</maml:name>
           <maml:description>
-            <maml:para>Specifies name of the partner database. If ContinuousCopy is specified, this parameter is optional and, if specified, the name must match the name of the source database. If ContinuousCopy is not specified, then this parameter is not optional and it must be different from the source database name.
-</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>ContinuousCopy</maml:name>
-          <maml:description>
-            <maml:para>Specifies that the database copy will be a continuous-copy (a replica database). Continuous copy is not supported within the same server. If this parameter is not specified, then a one-time copy is performed. For a one-time copy, the source and partner databases must be on the same server.
-</maml:para>
-          </maml:description>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>PartnerServer</maml:name>
-          <maml:description>
-            <maml:para>The name of the server that will host the partner database. If ContinuousCopy is not specified, then the partner server must be the same as the source server.
-</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
-          <maml:name>Confirm</maml:name>
-          <maml:description>
-            <maml:para>Prompts you for confirmation before executing the command.</maml:para>
-          </maml:description>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
-          <maml:name>WhatIf</maml:name>
-          <maml:description>
-            <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
-          </maml:description>
-        </command:parameter>
-      </command:syntaxItem>
-      <command:syntaxItem>
-        <maml:name>Start-AzureSqlDatabaseCopy</maml:name>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue, ByPropertyName)" position="1" aliases="">
-          <maml:name>ServerName</maml:name>
-          <maml:description>
-            <maml:para>The name of the server on which the source database to be copied resides.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="2" aliases="">
-          <maml:name>Database</maml:name>
-          <maml:description>
-            <maml:para>An object representing the SQL database to be copied. -Database can accept an array that is passed via a pipe. 
-</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Database</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>Force</maml:name>
-          <maml:description>
-            <maml:para>Allows the action to complete without prompting you for confirmation.
-</maml:para>
+            <maml:para>Specifies that a continuous copy is a passive copy rather than an active copy. If the source database is a Standard edition database, then this parameter is required. If this parameter is specified then ContinuousCopy must also be specified.</maml:para>
           </maml:description>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
@@ -5332,13 +5272,79 @@ C:\PS&gt;$database1 | Remove-AzureSqlDatabase -ServerName "lpqd0zbr8y"
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>Confirm</maml:name>
           <maml:description>
-            <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
           </maml:description>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>WhatIf</maml:name>
           <maml:description>
-            <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+          </maml:description>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Start-AzureSqlDatabaseCopy</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue, ByPropertyName)" position="1" aliases="">
+          <maml:name>ServerName</maml:name>
+          <maml:description>
+            <maml:para>The name of the server on which the source database to be copied resides.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="2" aliases="">
+          <maml:name>Database</maml:name>
+          <maml:description>
+            <maml:para>An object representing the SQL database to be copied. -Database can accept an array that is passed via a pipe. 
+</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Database</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>Force</maml:name>
+          <maml:description>
+            <maml:para>Allows the action to complete without prompting you for confirmation.
+</maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>OfflineSecondary</maml:name>
+          <maml:description>
+            <maml:para>Specifies that a continuous copy is a passive copy rather than an active copy. If the source database is a Standard edition database, then this parameter is required. If this parameter is specified then ContinuousCopy must also be specified.</maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>PartnerDatabase</maml:name>
+          <maml:description>
+            <maml:para>Specifies name of the partner database. If ContinuousCopy is specified, this parameter is optional and, if specified, the name must match the name of the source database. If ContinuousCopy is not specified, then this parameter is not optional and it must be different from the source database name.
+</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>ContinuousCopy</maml:name>
+          <maml:description>
+            <maml:para>Specifies that the database copy will be a continuous-copy (a replica database). Continuous copy is not supported within the same server. If this parameter is not specified, then a one-time copy is performed. For a one-time copy, the source and partner databases must be on the same server.
+</maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>PartnerServer</maml:name>
+          <maml:description>
+            <maml:para>The name of the server that will host the partner database. If ContinuousCopy is not specified, then the partner server must be the same as the source server.
+</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
+          <maml:name>Confirm</maml:name>
+          <maml:description>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
+          <maml:name>WhatIf</maml:name>
+          <maml:description>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
           </maml:description>
         </command:parameter>
       </command:syntaxItem>
@@ -5385,13 +5391,13 @@ C:\PS&gt;$database1 | Remove-AzureSqlDatabase -ServerName "lpqd0zbr8y"
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>Confirm</maml:name>
           <maml:description>
-            <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
           </maml:description>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>WhatIf</maml:name>
           <maml:description>
-            <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
           </maml:description>
         </command:parameter>
       </command:syntaxItem>
@@ -5438,13 +5444,13 @@ C:\PS&gt;$database1 | Remove-AzureSqlDatabase -ServerName "lpqd0zbr8y"
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>Confirm</maml:name>
           <maml:description>
-            <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
           </maml:description>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>WhatIf</maml:name>
           <maml:description>
-            <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
           </maml:description>
         </command:parameter>
       </command:syntaxItem>
@@ -5503,6 +5509,18 @@ C:\PS&gt;$database1 | Remove-AzureSqlDatabase -ServerName "lpqd0zbr8y"
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+        <maml:name>OfflineSecondary</maml:name>
+        <maml:description>
+          <maml:para>Specifies that a continuous copy is a passive copy rather than an active copy. If the source database is a Standard edition database, then this parameter is required. If this parameter is specified then ContinuousCopy must also be specified.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
         <maml:name>PartnerDatabase</maml:name>
         <maml:description>
           <maml:para>Specifies name of the partner database. If ContinuousCopy is specified, this parameter is optional and, if specified, the name must match the name of the source database. If ContinuousCopy is not specified, then this parameter is not optional and it must be different from the source database name.
@@ -5543,7 +5561,7 @@ C:\PS&gt;$database1 | Remove-AzureSqlDatabase -ServerName "lpqd0zbr8y"
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
         <maml:name>Confirm</maml:name>
         <maml:description>
-          <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -5555,7 +5573,7 @@ C:\PS&gt;$database1 | Remove-AzureSqlDatabase -ServerName "lpqd0zbr8y"
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
         <maml:name>WhatIf</maml:name>
         <maml:description>
-          <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -5684,41 +5702,6 @@ C:\PS&gt;$database1 | Remove-AzureSqlDatabase -ServerName "lpqd0zbr8y"
           <command:parameterValue required="true" variableLength="false">ServerDataServiceSqlAuth</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
-          <maml:name>StorageContainer</maml:name>
-          <maml:description>
-            <maml:para>The Blob storage container object into which the data is exported.
-</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">AzureStorageContainer</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
-          <maml:name>DatabaseName</maml:name>
-          <maml:description>
-            <maml:para>The name of the database from which the data is exported.
-</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="4" aliases="">
-          <maml:name>BlobName</maml:name>
-          <maml:description>
-            <maml:para>The name of the Blob storage into which to export the database.
-</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-      </command:syntaxItem>
-      <command:syntaxItem>
-        <maml:name>Start-AzureSqlDatabaseExport</maml:name>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1" aliases="">
-          <maml:name>SqlConnectionContext</maml:name>
-          <maml:description>
-            <maml:para>The connection context to a SQL Database Server containing the SQL Database.
-</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">ServerDataServiceSqlAuth</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
           <maml:name>StorageContext</maml:name>
           <maml:description>
             <maml:para>The context of the Blob storage.
@@ -5751,9 +5734,44 @@ C:\PS&gt;$database1 | Remove-AzureSqlDatabase -ServerName "lpqd0zbr8y"
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
       </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Start-AzureSqlDatabaseExport</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1" aliases="">
+          <maml:name>SqlConnectionContext</maml:name>
+          <maml:description>
+            <maml:para>The connection context to a SQL Database Server containing the SQL Database.
+</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">ServerDataServiceSqlAuth</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
+          <maml:name>StorageContainer</maml:name>
+          <maml:description>
+            <maml:para>The Blob storage container object into which the data is exported.
+</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">AzureStorageContainer</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
+          <maml:name>DatabaseName</maml:name>
+          <maml:description>
+            <maml:para>The name of the database from which the data is exported.
+</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="4" aliases="">
+          <maml:name>BlobName</maml:name>
+          <maml:description>
+            <maml:para>The name of the Blob storage into which to export the database.
+</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="4" aliases="">
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="5" aliases="">
         <maml:name>BlobName</maml:name>
         <maml:description>
           <maml:para>The name of the Blob storage into which to export the database.
@@ -5972,14 +5990,7 @@ C:\PS&gt;$exportRequest = Start-AzureSqlDatabaseExport -SqlConnectionContext $Sq
             <maml:para>If the database does not exist, it is created as this edition. Acceptable values are Web and Business. The default is Web.
 </maml:para>
           </maml:description>
-          <command:parameterValueGroup>
-            <command:parameterValue required="true" variableLength="false">None</command:parameterValue>
-            <command:parameterValue required="true" variableLength="false">Business</command:parameterValue>
-            <command:parameterValue required="true" variableLength="false">Web</command:parameterValue>
-            <command:parameterValue required="true" variableLength="false">Premium</command:parameterValue>
-            <command:parameterValue required="true" variableLength="false">Basic</command:parameterValue>
-            <command:parameterValue required="true" variableLength="false">Standard</command:parameterValue>
-          </command:parameterValueGroup>
+          <command:parameterValue required="true" variableLength="false">DatabaseEdition</command:parameterValue>
         </command:parameter>
       </command:syntaxItem>
       <command:syntaxItem>
@@ -6030,14 +6041,7 @@ C:\PS&gt;$exportRequest = Start-AzureSqlDatabaseExport -SqlConnectionContext $Sq
             <maml:para>If the database does not exist, it is created as this edition. Acceptable values are Web and Business. The default is Web.
 </maml:para>
           </maml:description>
-          <command:parameterValueGroup>
-            <command:parameterValue required="true" variableLength="false">None</command:parameterValue>
-            <command:parameterValue required="true" variableLength="false">Business</command:parameterValue>
-            <command:parameterValue required="true" variableLength="false">Web</command:parameterValue>
-            <command:parameterValue required="true" variableLength="false">Premium</command:parameterValue>
-            <command:parameterValue required="true" variableLength="false">Basic</command:parameterValue>
-            <command:parameterValue required="true" variableLength="false">Standard</command:parameterValue>
-          </command:parameterValueGroup>
+          <command:parameterValue required="true" variableLength="false">DatabaseEdition</command:parameterValue>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
@@ -6475,6 +6479,58 @@ PS C:\&gt;$operation = Start-AzureSqlDatabaseRecovery –TargetServerName "a234b
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Start-AzureSqlDatabaseRestore</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1" aliases="">
+          <maml:name>SourceServerName</maml:name>
+          <maml:description>
+            <maml:para>The name of the server where the source database is live and running, or the name of the server where the source database was running before it was deleted.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
+          <maml:name>SourceDatabaseName</maml:name>
+          <maml:description>
+            <maml:para>The name of the live database you want to restore</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
+          <maml:name>SourceDatabaseDeletionDate</maml:name>
+          <maml:description>
+            <maml:para>The date and time when the database was deleted. You must include milliseconds when specifying the time to match the actual database deletion time.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>PointInTime</maml:name>
+          <maml:description>
+            <maml:para>The restore point for the database to be restored to. When the restore operation has completed, the database is restored to the state it was at the specific date and time specified using this parameter. By default, for a live database this set to the current time, and for a dropped database, it is set to the time when the database was dropped.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>TargetServerName</maml:name>
+          <maml:description>
+            <maml:para>The name of the server that you want to restore the database to.  This can be the same server as the source database or a different server.</maml:para>
+            <maml:para>NOTE: For this release the source server must be live. The source server name and the target server name should be the same.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>RestorableDropped</maml:name>
+          <maml:description>
+            <maml:para></maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>TargetDatabaseName</maml:name>
+          <maml:description>
+            <maml:para>The name of the new database that will be created as a result of the restore operation.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Start-AzureSqlDatabaseRestore</maml:name>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1" aliases="">
           <maml:name>SourceServerName</maml:name>
           <maml:description>
@@ -6488,6 +6544,45 @@ PS C:\&gt;$operation = Start-AzureSqlDatabaseRecovery –TargetServerName "a234b
             <maml:para>A single object that represents the live database that you want to restore. </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">Database</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>PointInTime</maml:name>
+          <maml:description>
+            <maml:para>The restore point for the database to be restored to. When the restore operation has completed, the database is restored to the state it was at the specific date and time specified using this parameter. By default, for a live database this set to the current time, and for a dropped database, it is set to the time when the database was dropped.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>TargetServerName</maml:name>
+          <maml:description>
+            <maml:para>The name of the server that you want to restore the database to.  This can be the same server as the source database or a different server.</maml:para>
+            <maml:para>NOTE: For this release the source server must be live. The source server name and the target server name should be the same.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>TargetDatabaseName</maml:name>
+          <maml:description>
+            <maml:para>The name of the new database that will be created as a result of the restore operation.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Start-AzureSqlDatabaseRestore</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1" aliases="">
+          <maml:name>SourceServerName</maml:name>
+          <maml:description>
+            <maml:para>The name of the server where the source database is live and running, or the name of the server where the source database was running before it was deleted.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
+          <maml:name>SourceDatabaseName</maml:name>
+          <maml:description>
+            <maml:para>The name of the live database you want to restore</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>PointInTime</maml:name>
@@ -6551,52 +6646,6 @@ PS C:\&gt;$operation = Start-AzureSqlDatabaseRecovery –TargetServerName "a234b
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
       </command:syntaxItem>
-      <command:syntaxItem>
-        <maml:name>Start-AzureSqlDatabaseRestore</maml:name>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1" aliases="">
-          <maml:name>SourceServerName</maml:name>
-          <maml:description>
-            <maml:para>The name of the server where the source database is live and running, or the name of the server where the source database was running before it was deleted.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
-          <maml:name>SourceDatabaseName</maml:name>
-          <maml:description>
-            <maml:para>The name of the live database you want to restore</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
-          <maml:name>SourceDatabaseDeletionDate</maml:name>
-          <maml:description>
-            <maml:para>The date and time when the database was deleted. You must include milliseconds when specifying the time to match the actual database deletion time.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>PointInTime</maml:name>
-          <maml:description>
-            <maml:para>The restore point for the database to be restored to. When the restore operation has completed, the database is restored to the state it was at the specific date and time specified using this parameter. By default, for a live database this set to the current time, and for a dropped database, it is set to the time when the database was dropped.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>TargetServerName</maml:name>
-          <maml:description>
-            <maml:para>The name of the server that you want to restore the database to.  This can be the same server as the source database or a different server.</maml:para>
-            <maml:para>NOTE: For this release the source server must be live. The source server name and the target server name should be the same.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>TargetDatabaseName</maml:name>
-          <maml:description>
-            <maml:para>The name of the new database that will be created as a result of the restore operation.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-      </command:syntaxItem>
     </command:syntax>
     <command:parameters>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
@@ -6607,6 +6656,18 @@ PS C:\&gt;$operation = Start-AzureSqlDatabaseRecovery –TargetServerName "a234b
         <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
         <dev:type>
           <maml:name>DateTime</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+        <maml:name>RestorableDropped</maml:name>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
@@ -6635,7 +6696,7 @@ PS C:\&gt;$operation = Start-AzureSqlDatabaseRecovery –TargetServerName "a234b
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
         <maml:name>SourceDatabaseDeletionDate</maml:name>
         <maml:description>
           <maml:para>The date and time when the database was deleted. You must include milliseconds when specifying the time to match the actual database deletion time.</maml:para>
@@ -6733,6 +6794,7 @@ PS C:\&gt;$operation = Start-AzureSqlDatabaseRecovery –TargetServerName "a234b
         <maml:para>You must use certificate based authentication to run this cmdlet. The following commands need to be run on the machine you are using to run the cmdlet: 
 C:\PS&gt;$subId = &lt;Subscription ID&gt;
 
+                        
 C:\PS&gt;$thumbprint = &lt;Certificate Thumbprint&gt;
 C:\PS&gt;$myCert = Get-Item Cert:\CurrentUser\My\$thumbprint
 C:\PS&gt;Set-AzureSubscription -SubscriptionName "mySubscription" -SubscriptionId $subId -Certificate $myCert
@@ -6750,9 +6812,7 @@ C:\PS&gt;Select-AzureSubscription -SubscriptionName "mySubscription"</maml:para>
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
-        <dev:code>PS C:\&gt;$mydb = Get-AzureSqlDatabase –ServerName "a234b56" –DatabaseName "mydatabase" 
-# Restore the database using database object 
-PS C:\&gt;$operation = Start-AzureSqlDatabaseRestore –SourceDatabase $mydb –TargetDatabaseName "mydatabaserestored" –PointInTime "2013-01-01 06:00:00"
+        <dev:code>PS C:\&gt;$mydb = Get-AzureSqlDatabase –ServerName "a234b56" –DatabaseName "mydatabase" # Restore the database using database object PS C:\&gt;$operation = Start-AzureSqlDatabaseRestore –SourceDatabase $mydb –TargetDatabaseName "mydatabaserestored" –PointInTime "2013-01-01 06:00:00"
 
 </dev:code>
         <dev:remarks>
@@ -6775,7 +6835,6 @@ PS C:\&gt;$operation = Start-AzureSqlDatabaseRestore –SourceDatabase $mydb –
           <maml:para></maml:para>
         </maml:introduction>
         <dev:code>PS C:\&gt;$operation = Start-AzureSqlDatabaseRestore –SourceServerName "a234b56" –SourceDatabaseName "mydatabase" –TargetDatabaseName "mydatabaserestored" –PointInTime "2013-01-01 06:00:00" 
-
 </dev:code>
         <dev:remarks>
           <maml:para>This example lists the databases on the server, specifies the database properties for a database and restores the database to a specific point in time.</maml:para>
@@ -6796,9 +6855,7 @@ PS C:\&gt;$operation = Start-AzureSqlDatabaseRestore –SourceDatabase $mydb –
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
-        <dev:code>PS C:\&gt;$mydb = Get-AzureSqlDatabase –RestorableDropped –ServerName "server1" –DatabaseName "mydb" –DatabaseDeletionDate "2013-01-01 06:00:00"
-# Restore the dropped database using database object 
-PS C:\&gt;$operation = Start-AzureSqlDatabaseRestore –SourceRestorableDroppedDatabase $mydb –TargetDatabaseName "mydroppeddatabaserestored" 
+        <dev:code>PS C:\&gt;$mydb = Get-AzureSqlDatabase –RestorableDropped –ServerName "server1" –DatabaseName "mydb" –DatabaseDeletionDate "2013-01-01 06:00:00"# Restore the dropped database using database object PS C:\&gt;$operation = Start-AzureSqlDatabaseRestore –SourceRestorableDroppedDatabase $mydb –TargetDatabaseName "mydroppeddatabaserestored" 
 </dev:code>
         <dev:remarks>
           <maml:para>This example restores a dropped database.</maml:para>
@@ -6889,13 +6946,13 @@ PS C:\&gt;$operation = Start-AzureSqlDatabaseRestore –SourceRestorableDroppedD
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>Confirm</maml:name>
           <maml:description>
-            <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
           </maml:description>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>WhatIf</maml:name>
           <maml:description>
-            <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
           </maml:description>
         </command:parameter>
       </command:syntaxItem>
@@ -6933,13 +6990,13 @@ PS C:\&gt;$operation = Start-AzureSqlDatabaseRestore –SourceRestorableDroppedD
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>Confirm</maml:name>
           <maml:description>
-            <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
           </maml:description>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>WhatIf</maml:name>
           <maml:description>
-            <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
           </maml:description>
         </command:parameter>
       </command:syntaxItem>
@@ -6993,13 +7050,13 @@ PS C:\&gt;$operation = Start-AzureSqlDatabaseRestore –SourceRestorableDroppedD
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>Confirm</maml:name>
           <maml:description>
-            <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
           </maml:description>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>WhatIf</maml:name>
           <maml:description>
-            <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
           </maml:description>
         </command:parameter>
       </command:syntaxItem>
@@ -7111,7 +7168,7 @@ PS C:\&gt;$operation = Start-AzureSqlDatabaseRestore –SourceRestorableDroppedD
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
         <maml:name>Confirm</maml:name>
         <maml:description>
-          <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -7123,7 +7180,7 @@ PS C:\&gt;$operation = Start-AzureSqlDatabaseRestore –SourceRestorableDroppedD
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
         <maml:name>WhatIf</maml:name>
         <maml:description>
-          <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -7228,7 +7285,8 @@ PS C:\&gt;$operation = Start-AzureSqlDatabaseRestore –SourceRestorableDroppedD
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
-        <dev:code>PS C:\&gt;$myDbCopy = Get-AzureSqlDatabaseCopy -ServerName "lpqd0zbr8y" -DatabaseName "Orders"PS C:\&gt;$myDbCopy | Stop-AzureSqlDatabaseCopy -ServerName "lpqd0zbr8y" -ForcedTermination
+        <dev:code>PS C:\&gt;$myDbCopy = Get-AzureSqlDatabaseCopy -ServerName "lpqd0zbr8y" -DatabaseName "Orders"
+PS C:\&gt;$myDbCopy | Stop-AzureSqlDatabaseCopy -ServerName "lpqd0zbr8y" -ForcedTermination
 
 </dev:code>
         <dev:remarks>
