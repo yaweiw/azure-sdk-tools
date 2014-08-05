@@ -318,35 +318,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             else
             {
                 archive = Path.Combine(Path.GetTempPath(), configurationName + ZipFileExtension);
-
-                if (File.Exists(archive))
-                {
-                    File.Delete(archive);
-                }
-
                 this._temporaryFilesToDelete.Add(archive);
             }
 
-            // azure-sdk-tools uses .net framework 4.0
-            // System.IO.Compression.ZipFile was added in .net 4.5
-            // Since support for DSC require powershell 4.0+, which require .net 4.5+
-            // we assume that created powershell session will have access to System.IO.Compression.FileSystem assembly
-            // from version 4.5. We load it to create a zip archive from a directory.
-            using (var powershell = System.Management.Automation.PowerShell.Create())
+            if (File.Exists(archive))
             {
-				var script = 
-					@"Add-Type -AssemblyName System.IO.Compression.FileSystem > $null;" +
-                    @"[void] [System.IO.Compression.ZipFile]::CreateFromDirectory('" + tempZipFolder + "', '" + archive + "');";
-
-                powershell.AddScript(script);
-                WriteVerbose(String.Format(
-                        CultureInfo.CurrentUICulture,
-                        Resources.PublishVMDscExtensionCreateZipVerbose,
-                        archive,
-                        tempZipFolder));
-                powershell.Invoke();
+                File.Delete(archive);
             }
 
+            System.IO.Compression.ZipFile.CreateFromDirectory(tempZipFolder, archive);
             return archive;
         }
 
