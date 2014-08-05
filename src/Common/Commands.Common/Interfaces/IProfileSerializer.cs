@@ -12,12 +12,15 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Commands.Common.Models;
 namespace Microsoft.WindowsAzure.Commands.Common.Interfaces
 {
-    public interface ISerializer<T>
+    public interface IProfileSerializer
     {
-        string Serialize(T obj);
+        string Serialize(AzureProfile obj);
 
-        T Deserialize(string contents);
+        AzureProfile Deserialize(string contents);
+
+        string ProfileFile { get; }
     }
 }

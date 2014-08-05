@@ -12,38 +12,23 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Commands.Common.Interfaces;
 using System;
-using System.Collections.Generic;
 
 namespace Microsoft.WindowsAzure.Commands.Common.Models
 {
-    public class AzureSubscription
+    public class JsonProfileSerializer : IProfileSerializer
     {
-        public Guid Id { get; set; }
-
-        public string Name { get; set; }
-
-        public string Environment { get; set; }
-
-        public Dictionary<Property, string> Properties { get; set; }
-
-        public enum Property
+        public string Serialize(AzureProfile obj)
         {
-            /// <summary>
-            /// Comma separated registered resource providers, i.e.: websites,compute,hdinsight
-            /// </summary>
-            RegisteredResourceProviders,
-
-            /// <summary>
-            /// Comma separated mode names that this subscription supports, i.e.: AzureResourceManager,AzureServiceManagement
-            /// </summary>
-            AzureMode,
-
-            CloudStorageAccount,
-
-            UserAccount,
-
-            Thumbprint
+            throw new NotImplementedException();
         }
+
+        public AzureProfile Deserialize(string contents)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string ProfileFile { get { return "AzureProfile.json"; } }
     }
 }

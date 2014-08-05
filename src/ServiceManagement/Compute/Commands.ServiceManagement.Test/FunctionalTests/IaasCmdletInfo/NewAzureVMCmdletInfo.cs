@@ -15,7 +15,6 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
     using Model;
-    using Model;
     using PowershellCore;
 
     public class NewAzureVMCmdletInfo : CmdletsInfo

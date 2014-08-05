@@ -18,7 +18,6 @@
       <maml:para>An Azure "tag" is a name-value pair that you can use to categorize your Azure resources and resource groups, such as by department or cost center, or to track notes or comments about the resources and groups. </maml:para>
       <maml:para>You can define and apply tags in a single step, but predefined tags let you establish standard, consistent, predictable names and values for the tags in your subscription. If the subscription includes any predefined tags, you cannot apply undefined tags or values to any resource or resource group in the subscription.</maml:para>
       <maml:para>To create a predefined tag, use the New-AzureTag cmdlet. To apply a predefined tag to a resource or resource group. use the Tag parameters of the New and Set cmdlets in the AzureResourceManager module. To search for resources or resource groups with a specified tag name or name and value, use the Tag parameters of the Get-AzureResource and Get-AzureResourceGroup cmdlets.</maml:para>
-      <maml:para>The Get-AzureTag cmdlet is introduced in the 0.8.5 version of the AzureResourceManager module.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -101,12 +100,6 @@
     </command:returnValues>
     <command:terminatingErrors />
     <command:nonTerminatingErrors />
-    <maml:alertSet>
-      <maml:title />
-      <maml:alert>
-        <maml:para>The Get-AzureTag cmdlet is introduced in the 0.8.5 version of the AzureResourceManager module.</maml:para>
-      </maml:alert>
-    </maml:alertSet>
     <command:examples>
       <command:example>
         <maml:title>Example 1: Get all predefined tags</maml:title>
@@ -254,7 +247,6 @@ Values:
       <maml:para>You can define and apply tags in a single step, but predefined tags let you establish standard, consistent, predictable names and values for the tags in your subscription. If the subscription includes any predefined tags, you cannot apply undefined tags or values to any resource or resource group in the subscription.</maml:para>
       <maml:para>To apply a predefined tag to a resource or resource group. use the Tag parameters of the New and Set cmdlets in the AzureResourceManager module. To search for resources or resource groups with a specified tag name or name and value, use the Tag parameters of the Get-AzureResource and Get-AzureResourceGroup cmdlets.</maml:para>
       <maml:para>Every tag has a name. The values are optional. A predefined Azure tag can have multiple values, but when you apply the tag to a resource or resource group, you apply the tag name and only one of its values. For example, you can create a predefined Department tag with a value for each department, such as Finance, Human Resources, and IT. When you apply the Department tag to a resource, you apply only one predefined value, such as Finance.</maml:para>
-      <maml:para>The New-AzureTag cmdlet is introduced in the 0.8.5 version of the AzureResourceManager module.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -338,12 +330,6 @@ Values:
     </command:returnValues>
     <command:terminatingErrors />
     <command:nonTerminatingErrors />
-    <maml:alertSet>
-      <maml:title />
-      <maml:alert>
-        <maml:para>The New-AzureTag cmdlet is introduced in the 0.8.5 version of the AzureResourceManager module.</maml:para>
-      </maml:alert>
-    </maml:alertSet>
     <command:examples>
       <command:example>
         <maml:title>Example 1: Create a predefined tag</maml:title>
@@ -549,7 +535,6 @@ Tags:
       <maml:para>You cannot delete a tag or value that is currently applied to a resource or resource group. Before using Remove-AzureTag, use the Tag parameter of the Set-AzureResource or Set-AzureResourceGroup cmdlets to delete the tag or values from the resource or resource group. The Remove-AzureTag cmdlet is part of a set of cmdlets (New/Get/Remove) that help you to manage your predefined Azure tags.</maml:para>
       <maml:para>An Azure "tag" is a name-value pair that you can use to categorize your Azure resources and resource groups, such as by department or cost center, or to track notes or comments about the resources and groups.</maml:para>
       <maml:para>You can define and apply tags in a single step, but predefined tags let you establish standard, consistent, predictable names and values for the tags in your subscription. If the subscription includes any predefined tags, you cannot apply undefined tags or values to any resource or resource group in the subscription.</maml:para>
-      <maml:para>Remove-AzureTag is introduced in version 0.8.5 of the AzureResourceManager module.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -668,12 +653,6 @@ Tags:
     </command:returnValues>
     <command:terminatingErrors />
     <command:nonTerminatingErrors />
-    <maml:alertSet>
-      <maml:title />
-      <maml:alert>
-        <maml:para>Remove-AzureTag is introduced in version 0.8.5 of the AzureResourceManager module.</maml:para>
-      </maml:alert>
-    </maml:alertSet>
     <command:examples>
       <command:example>
         <maml:title>Example 1: Delete a predefined tag</maml:title>
