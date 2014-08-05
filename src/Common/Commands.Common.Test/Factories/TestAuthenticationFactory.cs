@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Test.Factories
         [Fact]
         public void GetCloudCredentialThrowsExceptionForInvalidSubscription()
         {
-            AzurePowerShell.Profile = new AzureProfile(new MockFileStore());
+            AzurePowerShell.Profile = new AzureProfile(new VirtualDiskDataStore());
             AzurePowerShell.Profile.Subscriptions.Add(new AzureSubscription
             {
                 Id = Guid.NewGuid(),
@@ -42,9 +42,9 @@ namespace Microsoft.WindowsAzure.Commands.Common.Test.Factories
         [Fact (Skip = "TODO: Implement mocks to test logic without interactive flow.")]
         public void AuthenticateReturnsSubscriptions()
         {
-            AzurePowerShell.Profile = new AzureProfile(new MockFileStore());
+            AzurePowerShell.Profile = new AzureProfile(new VirtualDiskDataStore());
             string userName = "";
-            var ids = AzurePowerShell.AuthenticationFactory.Authenticate(AzurePowerShell.Profile.CurrentEnvironment, AzureModule.AzureResourceManager, out userName);
+            var ids = AzurePowerShell.AuthenticationFactory.Authenticate(AzurePowerShell.Profile.CurrentEnvironment, AzureModule.AzureResourceManager, true, out userName);
             Assert.NotNull(userName);
             Assert.NotEmpty(ids);
         }

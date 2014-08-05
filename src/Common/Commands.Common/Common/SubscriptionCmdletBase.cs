@@ -100,7 +100,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Profile
             {
                 // Get all AD accounts and iterate
 
-                userId = currentEnvironment.GetAdUserId(currentSubscription.Id);
+                userId = currentSubscription.GetProperty(AzureSubscription.Property.UserAccount);
                 if (userId != null)
                 {
                     return AzurePowerShell.AuthenticationFactory.Authenticate(currentEnvironment, currentMode, true, userId);

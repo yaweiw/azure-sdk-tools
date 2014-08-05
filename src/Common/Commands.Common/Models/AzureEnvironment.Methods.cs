@@ -173,30 +173,6 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
             return new Uri(string.Format(StorageFileEndpointFormat(), useHttps ? "https" : "http", accountName));
         }
 
-        public string GetAdUserId(Guid subscriptionId)
-        {
-            foreach (var userAccount in this.UserAccountSubscriptionsMap.Keys)
-            {
-                if (this.UserAccountSubscriptionsMap[userAccount].Any(id => id == subscriptionId))
-                {
-                    return userAccount;
-                }
-            }
-            return null;
-        }
-
-        public X509Certificate2 GetCertificate(Guid subscriptionId)
-        {
-            foreach (var thumbprint in this.ThumbprintSubscriptionsMap.Keys)
-            {
-                if (this.ThumbprintSubscriptionsMap[thumbprint].Any(id => id == subscriptionId))
-                {
-                    return WindowsAzureCertificate.FromThumbprint(thumbprint);
-                }
-            }
-            return null;
-        }
-
         public enum Endpoint
         {
             ActiveDirectoryServiceEndpointResourceId,

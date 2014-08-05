@@ -92,9 +92,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Microsoft.WindowsAzure.Management.1.2.0\lib\net40\Microsoft.WindowsAzure.Management.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.ServiceManagement.Client">
-      <HintPath>..\..\lib\Microsoft.WindowsAzure.ServiceManagement.Client.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -157,6 +154,7 @@
     <Compile Include="Common\IdnHelper.cs" />
     <Compile Include="Common\ManagementOperationContext.cs" />
     <Compile Include="Common\Parameters.cs" />
+    <Compile Include="Common\ServiceManagementTypes.cs" />
     <Compile Include="Common\ServiceManagementClientExtensions.cs" />
     <Compile Include="Common\SubscriptionCmdletBase.cs" />
     <Compile Include="Common\SubscriptionDataExtended.cs" />
@@ -182,18 +180,19 @@
     <Compile Include="Common\WindowsAzureEnvironment.cs" />
     <Compile Include="Common\WindowsAzureProfile.cs" />
     <Compile Include="Common\WindowsAzureSubscription.cs" />
-    <Compile Include="Interfaces\ISerializer.cs" />
+    <Compile Include="Interfaces\IProfileSerializer.cs" />
     <Compile Include="Interfaces\IClientFactory.cs" />
     <Compile Include="Interfaces\IAuthenticationFactory.cs" />
-    <Compile Include="Interfaces\IFileStore.cs" />
+    <Compile Include="Interfaces\IDataStore.cs" />
     <Compile Include="Models\AzureEnvironment.cs" />
     <Compile Include="Models\AzureProfile.cs" />
-    <Compile Include="Models\AzureProfileSerializer.cs" />
+    <Compile Include="Models\VirtualDiskDataStore.cs" />
+    <Compile Include="Models\JsonProfileSerializer.cs" />
+    <Compile Include="Models\XmlProfileSerializer.cs" />
     <Compile Include="Models\AzureSubscription.cs" />
     <Compile Include="Models\ClientTraceEventArgs.cs" />
-    <Compile Include="Models\DiskFileStore.cs" />
+    <Compile Include="Models\DiskDataStore.cs" />
     <Compile Include="Models\AzureEnvironment.Methods.cs" />
-    <Compile Include="Models\AzureProfile.Methods.cs" />
     <Compile Include="Models\RecordingTracingInterceptor.cs" />
     <Compile Include="Utilities\ConversionUtilities.cs" />
     <Compile Include="Utilities\GeneralUtilities.cs" />

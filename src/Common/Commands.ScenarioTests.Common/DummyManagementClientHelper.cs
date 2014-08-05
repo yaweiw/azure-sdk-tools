@@ -47,7 +47,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest
                 creds = AzurePowerShell.AuthenticationFactory.GetSubscriptionCloudCredentials(subscription.Id);    
             }
             
-            Uri endpointUri = AzurePowerShell.Profile.GetEndpoint(subscription, endpoint);
+            Uri endpointUri = AzurePowerShell.Profile.GetEndpoint(subscription.Environment, endpoint);
             return CreateClient<TClient>(creds, endpointUri);
         }
 

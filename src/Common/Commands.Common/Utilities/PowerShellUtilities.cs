@@ -24,28 +24,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     {
         public const string PSModulePathName = "PSModulePath";
 
-        public static AzureModule GetCurrentMode()
-        {
-            string psModulePath = Environment.GetEnvironmentVariable(PSModulePathName, EnvironmentVariableTarget.Process);
-            IEnumerable<string> paths = psModulePath.Split(';');
-
-            bool isResourceManagerMode = paths.Any(path => path.EndsWith("PowerShell\\ResourceManager"));
-            bool isServiceManagementMode = paths.Any(path => path.EndsWith("PowerShell\\ServiceManagement"));
-
-            if (isResourceManagerMode)
-            {
-                return AzureModule.AzureResourceManager;
-            }
-            else if (isServiceManagementMode)
-            {
-                return AzureModule.AzureServiceManagement;
-            }
-            else
-            {
-                return AzureModule.AzureProfile;
-            }
-        }
-
         private static void EditPSModulePath(Func<IEnumerable<string>, IEnumerable<string>> job, EnvironmentVariableTarget target)
         {
             ChangeForTargetEnvironment(job, target);
@@ -114,6 +92,25 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public static IEnumerable<RuntimeDefinedParameter> GetUsedDynamicParameters(RuntimeDefinedParameterDictionary dynamicParameters, InvocationInfo MyInvocation)
         {
             return dynamicParameters.Values.Where(dp => MyInvocation.BoundParameters.Keys.Any(bp => bp.Equals(dp.Name)));
+        }
+
+        /// <summary>
+        /// Gets the current AzureMode valid values are AzureServiceManagement and AzureResourceManager only.
+        /// </summary>
+        /// <returns>Returns AzureServiceManagement if in RDFE and AzureResourceManager if in CSM</returns>
+        public static AzureModule GetCurrentMode()
+        {
+            string PSModulePathEnv = Environment.GetEnvironmentVariable(PSModulePathName);
+
+            if (string.IsNullOrEmpty(PSModulePathEnv) || PSModulePathEnv.Contains(FileUtilities.GetModuleFolderName(AzureModule.AzureServiceManagement)))
+            {
+                return AzureModule.AzureServiceManagement;
+            }
+            else
+            {
+                Debug.Assert(PSModulePathEnv.Contains(FileUtilities.GetModuleFolderName(AzureModule.AzureResourceManager)));
+                return AzureModule.AzureResourceManager;
+            }
         }
     }
 }

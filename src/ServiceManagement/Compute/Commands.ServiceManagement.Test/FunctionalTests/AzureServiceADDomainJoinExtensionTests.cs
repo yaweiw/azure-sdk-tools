@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using System.Reflection;
     using System.Security.Cryptography.X509Certificates;
     using VisualStudio.TestTools.UnitTesting;
-    using WindowsAzure.ServiceManagement;
+    using WindowsAzure.Commands.ServiceManagement.Model;
 
     [TestClass]
     public class AzureServiceADDomainJoinExtensionTests:ServiceManagementTest

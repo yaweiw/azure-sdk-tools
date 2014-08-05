@@ -176,8 +176,8 @@ namespace Microsoft.WindowsAzure.Commands.Common.Factories
             }
 
             var environment = AzurePowerShell.Profile.GetEnvironment(subscription.Environment);
-            var userId = environment.GetAdUserId(subscriptionId);
-            var certificate = environment.GetCertificate(subscriptionId);
+            var userId = subscription.GetProperty(AzureSubscription.Property.UserAccount);
+            var certificate = WindowsAzureCertificate.FromThumbprint(subscription.GetProperty(AzureSubscription.Property.Thumbprint));
 
             if (subscriptionTokenCache.ContainsKey(subscriptionId))
             {

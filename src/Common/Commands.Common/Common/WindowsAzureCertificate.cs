@@ -34,6 +34,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         public static X509Certificate2 FromThumbprint(string thumbprint)
         {
+            if (thumbprint == null)
+            {
+                return null;
+            }
             var certificate = LoadCertificateByThumbprint(thumbprint);
             return certificate;
         }

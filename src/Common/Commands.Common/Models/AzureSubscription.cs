@@ -29,12 +29,21 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
 
         public enum Property
         {
-            CloudStorageAccount,
-            
             /// <summary>
             /// Comma separated registered resource providers, i.e.: websites,compute,hdinsight
             /// </summary>
-            RegisteredResourceProviders
+            RegisteredResourceProviders,
+
+            /// <summary>
+            /// Comma separated mode names that this subscription supports, i.e.: AzureResourceManager,AzureServiceManagement
+            /// </summary>
+            AzureMode,
+
+            CloudStorageAccount,
+
+            UserAccount,
+
+            Thumbprint
         }
 
         public override int GetHashCode()

@@ -12,22 +12,23 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Collections.Generic;
 using Microsoft.WindowsAzure.Commands.Common.Interfaces;
+using System;
 
-namespace Microsoft.WindowsAzure.Commands.Common.Test.Common
+namespace Microsoft.WindowsAzure.Commands.Common.Models
 {
-    public class MockFileStore : IFileStore
+    public class JsonProfileSerializer : IProfileSerializer
     {
-        private Dictionary<string, string> cache = new Dictionary<string,string>();
-        public void Save(string path, string contents)
+        public string Serialize(AzureProfile obj)
         {
-            cache[path] = contents;
+            throw new NotImplementedException();
         }
 
-        public string Load(string path)
+        public AzureProfile Deserialize(string contents)
         {
-            return cache[path];
+            throw new NotImplementedException();
         }
+
+        public string ProfileFile { get { return "AzureProfile.json"; } }
     }
 }
