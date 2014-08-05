@@ -22,10 +22,9 @@ namespace Microsoft.WindowsAzure.Commands.Common
 {
     public interface IAuthenticationFactory
     {
-        IEnumerable<AzureSubscription> Authenticate(AzureEnvironment environment, AzureModule currentMode, out string userId);
-        IEnumerable<AzureSubscription> Authenticate(AzureEnvironment environment, AzureModule currentMode, string userId);
-        IEnumerable<AzureSubscription> Authenticate(AzureEnvironment environment, AzureModule currentMode, string userId, SecureString password);
-        IEnumerable<AzureSubscription> RefreshUserToken(AzureEnvironment environment, AzureModule currentMode, string userId);
+        IEnumerable<AzureSubscription> Authenticate(AzureEnvironment environment, AzureModule currentMode, bool noPrompt, out string userId);
+        IEnumerable<AzureSubscription> Authenticate(AzureEnvironment environment, AzureModule currentMode, bool noPrompt, string userId);
+        IEnumerable<AzureSubscription> Authenticate(AzureEnvironment environment, AzureModule currentMode, bool noPrompt, string userId, SecureString password);
         SubscriptionCloudCredentials GetSubscriptionCloudCredentials(Guid subscriptionId);
     }
 }

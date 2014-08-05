@@ -90,14 +90,24 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Profile
             string userId = null;
             if (currentSubscription == null)
             {
-                return AzurePowerShell.AuthenticationFactory.Authenticate(currentEnvironment, currentMode, out userId);
+                return AzurePowerShell.AuthenticationFactory.Authenticate(currentEnvironment, currentMode, true, out userId);
+
+                // Save userId into environment
+                // Save subscriptions into profile
+                // Save profile
             }
             else
             {
+                // Get all AD accounts and iterate
+
                 userId = currentEnvironment.GetAdUserId(currentSubscription.Id);
                 if (userId != null)
                 {
-                    return AzurePowerShell.AuthenticationFactory.RefreshUserToken(currentEnvironment, currentMode, userId);
+                    return AzurePowerShell.AuthenticationFactory.Authenticate(currentEnvironment, currentMode, true, userId);
+
+                    // Save userId into environment
+                    // Save subscriptions into profile
+                    // Save profile
                 }
                 else
                 {

@@ -40,29 +40,25 @@ namespace Microsoft.WindowsAzure.Commands.Common.Factories
 
         public ITokenProvider TokenProvider { get; set; }
 
-        public IEnumerable<AzureSubscription> Authenticate(AzureEnvironment environment, AzureModule currentMode, out string userId)
+        public IEnumerable<AzureSubscription> Authenticate(AzureEnvironment environment, AzureModule currentMode, bool noPrompt, out string userId)
         {
             string newUserId = null;
-            var subscriptions = AuthenticateAndGetSubscriptions(environment, currentMode, ref newUserId, null, false);
+            var subscriptions = AuthenticateAndGetSubscriptions(environment, currentMode, ref newUserId, null, noPrompt);
             userId = newUserId;
             return subscriptions;
         }
 
-        public IEnumerable<AzureSubscription> Authenticate(AzureEnvironment environment, AzureModule currentMode, string userId)
+        public IEnumerable<AzureSubscription> Authenticate(AzureEnvironment environment, AzureModule currentMode, bool noPrompt, string userId)
         {
-            return AuthenticateAndGetSubscriptions(environment, currentMode, ref userId, null, false);
+            return AuthenticateAndGetSubscriptions(environment, currentMode, ref userId, null, noPrompt);
         }
 
-        public IEnumerable<AzureSubscription> Authenticate(AzureEnvironment environment, AzureModule currentMode, string userId, SecureString password)
+        public IEnumerable<AzureSubscription> Authenticate(AzureEnvironment environment, AzureModule currentMode, bool noPrompt, string userId, SecureString password)
         {
-            return AuthenticateAndGetSubscriptions(environment, currentMode, ref userId, password, false);
+            return AuthenticateAndGetSubscriptions(environment, currentMode, ref userId, password, noPrompt);
         }
 
-        public IEnumerable<AzureSubscription> RefreshUserToken(AzureEnvironment environment, AzureModule currentMode, string userId)
-        {
-            return AuthenticateAndGetSubscriptions(environment, currentMode, ref userId, null, true);
-        }
-
+        
         private IList<AzureSubscription> AuthenticateAndGetSubscriptions(AzureEnvironment environment, AzureModule currentMode, 
             ref string userId, SecureString password, bool noPrompt)
         {
