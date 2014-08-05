@@ -14,7 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdlets.IaaS.Extensions
 {
-    using System;
     using System.Linq;
     using Commands.Test.Utilities.Common;
     using ServiceManagement.IaaS.Extensions.DSC;
@@ -50,6 +49,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
         private const string ModuleImportListOutsideNodeConfigurationPath = @"DSC\Configurations\Dummy\ModuleImportListOutsideNode.ps1";
         private const string ModuleImportSingleInsideNodeConfigurationPath = @"DSC\Configurations\Dummy\ModuleImportSingleInsideNode.ps1";
         private const string ModuleImportSingleOutsideNodeConfigurationPath = @"DSC\Configurations\Dummy\ModuleImportSingleOutsideNode.ps1";
+        private const string IEEScGoodConfigurationPath = @"DSC\Configurations\IEEScGood.ps1";
+        private const string IEEScBadConfigurationPath = @"DSC\Configurations\IEEScBad.ps1";
 
         [TestMethod]
         [TestCategory("Scenario")]
@@ -215,6 +216,28 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
             Assert.AreEqual(0, results.Errors.Count());
             Assert.AreEqual(1, results.RequiredModules.Count);
             Assert.AreEqual("xNetworking", results.RequiredModules[0]);
+        }
+
+        [TestMethod]
+        [TestCategory("Scenario")]
+        [DeploymentItem(IEEScGoodConfigurationPath)]
+        public void TestIEEScGood()
+        {
+            ConfigurationParseResult results = ConfigurationParsingHelper.ParseConfiguration(IEEScGoodConfigurationPath);
+            Assert.AreEqual(0, results.Errors.Count());
+            Assert.AreEqual(1, results.RequiredModules.Count);
+            Assert.AreEqual("xSystemSecurity", results.RequiredModules[0]);
+        }
+
+        [TestMethod]
+        [TestCategory("Scenario")]
+        [DeploymentItem(IEEScBadConfigurationPath)]
+        public void TestIEEScBad()
+        {
+            ConfigurationParseResult results = ConfigurationParsingHelper.ParseConfiguration(IEEScBadConfigurationPath);
+            Assert.AreEqual(0, results.Errors.Count());
+            Assert.AreEqual(1, results.RequiredModules.Count);
+            Assert.AreEqual("xSystemSecurity", results.RequiredModules[0]);
         }
     }
 }
