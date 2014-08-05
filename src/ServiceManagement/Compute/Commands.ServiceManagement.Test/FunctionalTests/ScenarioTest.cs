@@ -182,7 +182,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
                 foreach (InputEndpointContext inputEndpointCtxt in vmPowershellCmdlets.GetAzureEndPoint(vmRoleCtxt))
                 {
-                    if (inputEndpointCtxt.Name.Equals("WinRmHTTPs"))
+                    if (inputEndpointCtxt.Name.Equals("PowerShell"))
                     {
                         winRMEndpoint = inputEndpointCtxt;
                     }
