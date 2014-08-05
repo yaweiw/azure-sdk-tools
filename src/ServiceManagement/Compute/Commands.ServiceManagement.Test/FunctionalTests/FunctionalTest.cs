@@ -18,7 +18,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using ConfigDataInfo;
     using Extensions;
     using Model;
-    using Model;
     using Properties;
     using System;
     using System.Collections.Generic;

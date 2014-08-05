@@ -404,7 +404,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         {
             if (data.Environments != null)
             {
-                foreach (var e in data.Environments.Select(e => e.ToAzureEnvironment()))
+                foreach (var e in data.Environments.Select(e => e.ToWindowsAzureEnvironment()))
                 {
                     environments[e.Name] = e;
                     MigrateExistingEnvironments(e.Name);
@@ -427,7 +427,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             {
                 foreach (var s in data.Subscriptions)
                 {
-                    var newSub = s.ToAzureSubscription();
+                    var newSub = s.ToWindowsAzureSubscription();
                     AddSubscriptionInternal(newSub);
                 }
             }

@@ -25,7 +25,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System.ServiceModel.Channels;
     using System.ServiceModel.Security;
     using System.ServiceModel.Web;
-    using System.Threading;
 
     public abstract class CloudBaseCmdlet<T> : CmdletWithSubscriptionBase
         where T : class
