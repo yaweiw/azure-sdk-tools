@@ -41,7 +41,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
         private const string DomainControllerConfigurationPath = @"DSC\Configurations\DomainControllerConfiguration.ps1";
         private const string SHMulptiConfigurationsPath = @"DSC\Configurations\SHMulptiConfigurations.ps1";
         private const string VisualStudioPath = @"DSC\Configurations\VisualStudio.ps1";
-        private const string VisualStudio2Path = @"DSC\Configurations\VisualStudio2.ps1";
+        private const string NameImportListInsideNodeConfigurationPath = @"DSC\Configurations\Dummy\NameImportListInsideNode.ps1";
+        private const string NameImportListOutsideNodeConfigurationPath = @"DSC\Configurations\Dummy\NameImportListOutsideNode.ps1";
+        private const string NameImportSingleInsideNodeConfigurationPath = @"DSC\Configurations\Dummy\NameImportSingleInsideNode.ps1";
+        private const string NameImportSingleOutsideNodeConfigurationPath = @"DSC\Configurations\Dummy\NameImportSingleOutsideNode.ps1";
+        private const string NameModuleImportSingleInsideNodeConfigurationPath = @"DSC\Configurations\Dummy\NameModuleImportSingleInsideNode.ps1";
+        private const string ModuleImportListInsideNodeConfigurationPath = @"DSC\Configurations\Dummy\ModuleImportListInsideNode.ps1";
+        private const string ModuleImportListOutsideNodeConfigurationPath = @"DSC\Configurations\Dummy\ModuleImportListOutsideNode.ps1";
+        private const string ModuleImportSingleInsideNodeConfigurationPath = @"DSC\Configurations\Dummy\ModuleImportSingleInsideNode.ps1";
+        private const string ModuleImportSingleOutsideNodeConfigurationPath = @"DSC\Configurations\Dummy\ModuleImportSingleOutsideNode.ps1";
 
         [TestMethod]
         [TestCategory("Scenario")]
@@ -95,17 +103,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
 
         [TestMethod]
         [TestCategory("Scenario")]
-        [DeploymentItem(VisualStudio2Path)]
-        public void TestExtractConfigurationNames4()
-        {
-            ConfigurationParseResult results = ConfigurationParsingHelper.ExtractConfigurationNames(VisualStudio2Path);
-            Assert.AreEqual(0, results.Errors.Count());
-            Assert.AreEqual(1, results.RequiredModules.Count);
-            Assert.AreEqual("xPSDesiredStateConfiguration", results.RequiredModules[0]);
-        }
-
-        [TestMethod]
-        [TestCategory("Scenario")]
         [DeploymentItem(SHMulptiConfigurationsPath)]
         public void TestExtractConfigurationNamesMulti()
         {
@@ -115,6 +112,109 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
             Assert.AreEqual("xComputerManagement", results.RequiredModules[0]);
             Assert.AreEqual("xNetworking", results.RequiredModules[1]);
             Assert.AreEqual("xPSDesiredStateConfiguration", results.RequiredModules[2]);
+        }
+
+        [TestMethod]
+        [TestCategory("Scenario")]
+        [DeploymentItem(NameImportListInsideNodeConfigurationPath)]
+        public void TestNameImportListInsideNode()
+        {
+            ConfigurationParseResult results = ConfigurationParsingHelper.ExtractConfigurationNames(NameImportListInsideNodeConfigurationPath);
+            Assert.AreEqual(0, results.Errors.Count());
+            Assert.AreEqual(2, results.RequiredModules.Count);
+            Assert.AreEqual("xComputerManagement", results.RequiredModules[0]);
+            Assert.AreEqual("xActiveDirectory", results.RequiredModules[1]);
+        }
+
+        [TestMethod]
+        [TestCategory("Scenario")]
+        [DeploymentItem(NameImportListOutsideNodeConfigurationPath)]
+        public void TestNameImportListOutsideNode()
+        {
+            ConfigurationParseResult results = ConfigurationParsingHelper.ExtractConfigurationNames(NameImportListOutsideNodeConfigurationPath);
+            Assert.AreEqual(0, results.Errors.Count());
+            Assert.AreEqual(2, results.RequiredModules.Count);
+            Assert.AreEqual("xComputerManagement", results.RequiredModules[0]);
+            Assert.AreEqual("xActiveDirectory", results.RequiredModules[1]);
+        }
+
+        [TestMethod]
+        [TestCategory("Scenario")]
+        [DeploymentItem(NameImportSingleInsideNodeConfigurationPath)]
+        public void TestNameImportSingleInsideNode()
+        {
+            ConfigurationParseResult results = ConfigurationParsingHelper.ExtractConfigurationNames(NameImportSingleInsideNodeConfigurationPath);
+            Assert.AreEqual(0, results.Errors.Count());
+            Assert.AreEqual(1, results.RequiredModules.Count);
+            Assert.AreEqual("xComputerManagement", results.RequiredModules[0]);
+        }
+
+        [TestMethod]
+        [TestCategory("Scenario")]
+        [DeploymentItem(NameImportSingleOutsideNodeConfigurationPath)]
+        public void TestNameImportSingleOutsideNode()
+        {
+            ConfigurationParseResult results = ConfigurationParsingHelper.ExtractConfigurationNames(NameImportSingleOutsideNodeConfigurationPath);
+            Assert.AreEqual(0, results.Errors.Count());
+            Assert.AreEqual(1, results.RequiredModules.Count);
+            Assert.AreEqual("xComputerManagement", results.RequiredModules[0]);
+        }
+
+        [TestMethod]
+        [TestCategory("Scenario")]
+        [DeploymentItem(NameModuleImportSingleInsideNodeConfigurationPath)]
+        public void TestNameModuleImportSingleInsideNode()
+        {
+            ConfigurationParseResult results = ConfigurationParsingHelper.ExtractConfigurationNames(NameModuleImportSingleInsideNodeConfigurationPath);
+            Assert.AreEqual(0, results.Errors.Count());
+            Assert.AreEqual(1, results.RequiredModules.Count);
+            Assert.AreEqual("xComputerManagement", results.RequiredModules[0]);
+        }
+
+        [TestMethod]
+        [TestCategory("Scenario")]
+        [DeploymentItem(ModuleImportListInsideNodeConfigurationPath)]
+        public void TestModuleImportListInsideNode()
+        {
+            ConfigurationParseResult results = ConfigurationParsingHelper.ExtractConfigurationNames(ModuleImportListInsideNodeConfigurationPath);
+            Assert.AreEqual(0, results.Errors.Count());
+            Assert.AreEqual(2, results.RequiredModules.Count);
+            Assert.AreEqual("xPSDesiredStateConfiguration", results.RequiredModules[0]);
+            Assert.AreEqual("xNetworking", results.RequiredModules[1]);
+        }
+
+        [TestMethod]
+        [TestCategory("Scenario")]
+        [DeploymentItem(ModuleImportListOutsideNodeConfigurationPath)]
+        public void TestModuleImportListOutsideNode()
+        {
+            ConfigurationParseResult results = ConfigurationParsingHelper.ExtractConfigurationNames(ModuleImportListOutsideNodeConfigurationPath);
+            Assert.AreEqual(0, results.Errors.Count());
+            Assert.AreEqual(2, results.RequiredModules.Count);
+            Assert.AreEqual("xPSDesiredStateConfiguration", results.RequiredModules[0]);
+            Assert.AreEqual("xNetworking", results.RequiredModules[1]);
+        }
+
+        [TestMethod]
+        [TestCategory("Scenario")]
+        [DeploymentItem(ModuleImportSingleInsideNodeConfigurationPath)]
+        public void TestModuleImportSingleInsideNode()
+        {
+            ConfigurationParseResult results = ConfigurationParsingHelper.ExtractConfigurationNames(ModuleImportSingleInsideNodeConfigurationPath);
+            Assert.AreEqual(0, results.Errors.Count());
+            Assert.AreEqual(1, results.RequiredModules.Count);
+            Assert.AreEqual("xNetworking", results.RequiredModules[0]);
+        }
+
+        [TestMethod]
+        [TestCategory("Scenario")]
+        [DeploymentItem(ModuleImportSingleOutsideNodeConfigurationPath)]
+        public void TestModuleImportSingleOutsideNode()
+        {
+            ConfigurationParseResult results = ConfigurationParsingHelper.ExtractConfigurationNames(ModuleImportSingleOutsideNodeConfigurationPath);
+            Assert.AreEqual(0, results.Errors.Count());
+            Assert.AreEqual(1, results.RequiredModules.Count);
+            Assert.AreEqual("xNetworking", results.RequiredModules[0]);
         }
     }
 }

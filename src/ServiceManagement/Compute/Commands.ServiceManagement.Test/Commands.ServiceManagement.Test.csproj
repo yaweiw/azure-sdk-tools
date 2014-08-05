@@ -387,7 +387,15 @@
     <None Include="packages.config" />
     <None Include="Resources\affinityGroupData.csv" />
     <None Include="Resources\certificateData.csv" />
-    <None Include="Resources\DSC\Configurations\VisualStudio2.ps1" />
+    <None Include="Resources\DSC\Configurations\Dummy\ModuleImportSingleInsideNode.ps1" />
+    <None Include="Resources\DSC\Configurations\Dummy\ModuleImportSingleOutsideNode.ps1" />
+    <None Include="Resources\DSC\Configurations\Dummy\ModuleImportListOutsideNode.ps1" />
+    <None Include="Resources\DSC\Configurations\Dummy\ModuleImportListInsideNode.ps1" />
+    <None Include="Resources\DSC\Configurations\Dummy\NameImportListOutsideNode.ps1" />
+    <None Include="Resources\DSC\Configurations\Dummy\NameImportListInsideNode.ps1" />
+    <None Include="Resources\DSC\Configurations\Dummy\NameModuleImportSingleInsideNode.ps1" />
+    <None Include="Resources\DSC\Configurations\Dummy\NameImportSingleOutsideNode.ps1" />
+    <None Include="Resources\DSC\Configurations\Dummy\NameImportSingleInsideNode.ps1" />
     <None Include="Resources\DSC\Configurations\VisualStudio.ps1" />
     <None Include="Resources\DSC\Configurations\CorporateClientConfiguration.ps1" />
     <None Include="Resources\DSC\Configurations\DomainControllerConfiguration.ps1" />

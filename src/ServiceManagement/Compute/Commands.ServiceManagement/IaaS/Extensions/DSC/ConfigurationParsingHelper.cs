@@ -89,11 +89,35 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions.DSC
                     powerShell.AddScript(
                      @"function BindArguments($ast, $out) 
                         {
+                            function GetListFromBinding($binding) 
+                            {
+                                if ($binding.Value.Value.Elements)
+                                # ArrayAst case
+                                { 
+                                    foreach ($x in $binding.Value.Value.Elements) { Write-Output $x } 
+                                }
+                                else 
+                                { 
+                                    Write-Output $binding.Value.Value.Value
+                                }
+                            }
+
                             $dic = ([System.Management.Automation.Language.StaticParameterBinder]::BindCommand($ast)).BoundParameters 
                             foreach ($binding in $dic.GetEnumerator()) 
                             {
-                                if ($binding.Key -like ""[N]*"") { $out.Add( (Get-DscResource $binding.Value.Value.Value).Module.Name ) }
-                                else {if ($binding.Key -like ""[M]*"") { $out.Add( $binding.Value.Value.Value ) }}
+                                # Name case
+                                if ($binding.Key -like ""[N]*"") 
+                                { 
+                                    GetListFromBinding($binding) | %{$out.Add( (Get-DscResource $_).Module.Name )}
+                                }
+                                else 
+                                { 
+                                    # ModuleName case
+                                    if ($binding.Key -like ""[M]*"") 
+                                    { 
+                                        GetListFromBinding($binding) | %{$out.Add( $_ )}
+                                    } 
+                                }
                             }
                         }");
                     powerShell.Invoke();
