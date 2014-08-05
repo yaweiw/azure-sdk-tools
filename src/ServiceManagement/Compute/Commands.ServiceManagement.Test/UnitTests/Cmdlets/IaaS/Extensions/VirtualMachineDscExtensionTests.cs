@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
     /// Tests for DSC ConfigurationParsingHelper class.
     /// </summary>
     /// <remarks>
-    /// ConfigurationParsingHelper.ExtractConfigurationNames() API requires tests to be run in x64 host.
+    /// ConfigurationParsingHelper.ParseConfiguration() API requires tests to be run in x64 host.
     /// These tests also require presents of some DSC resource modules on the test machine.
     /// That cannot be ommit, because the language Parser need to load each module on parsing, so additional
     /// dynamic keywords that descrite Configuration can be handled appropriately.
@@ -72,7 +72,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
         [DeploymentItem(CorporateClientConfigurationPath)]
         public void TestExtractConfigurationNames1()
         {
-            ConfigurationParseResult results = ConfigurationParsingHelper.ExtractConfigurationNames(CorporateClientConfigurationPath);
+            ConfigurationParseResult results = ConfigurationParsingHelper.ParseConfiguration(CorporateClientConfigurationPath);
             Assert.AreEqual(0, results.Errors.Count());
             Assert.AreEqual(1, results.RequiredModules.Count);
             Assert.AreEqual("xComputerManagement", results.RequiredModules[0]);
@@ -83,7 +83,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
         [DeploymentItem(DomainControllerConfigurationPath)]
         public void TestExtractConfigurationNames2()
         {
-            ConfigurationParseResult results = ConfigurationParsingHelper.ExtractConfigurationNames(DomainControllerConfigurationPath);
+            ConfigurationParseResult results = ConfigurationParsingHelper.ParseConfiguration(DomainControllerConfigurationPath);
             Assert.AreEqual(0, results.Errors.Count());
             Assert.AreEqual(2, results.RequiredModules.Count);
             Assert.AreEqual("xComputerManagement", results.RequiredModules[0]);
@@ -95,7 +95,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
         [DeploymentItem(VisualStudioPath)]
         public void TestExtractConfigurationNames3()
         {
-            ConfigurationParseResult results = ConfigurationParsingHelper.ExtractConfigurationNames(VisualStudioPath);
+            ConfigurationParseResult results = ConfigurationParsingHelper.ParseConfiguration(VisualStudioPath);
             Assert.AreEqual(0, results.Errors.Count());
             Assert.AreEqual(1, results.RequiredModules.Count);
             Assert.AreEqual("xPSDesiredStateConfiguration", results.RequiredModules[0]);
@@ -106,7 +106,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
         [DeploymentItem(SHMulptiConfigurationsPath)]
         public void TestExtractConfigurationNamesMulti()
         {
-            ConfigurationParseResult results = ConfigurationParsingHelper.ExtractConfigurationNames(SHMulptiConfigurationsPath);
+            ConfigurationParseResult results = ConfigurationParsingHelper.ParseConfiguration(SHMulptiConfigurationsPath);
             Assert.AreEqual(0, results.Errors.Count());
             Assert.AreEqual(3, results.RequiredModules.Count);
             Assert.AreEqual("xComputerManagement", results.RequiredModules[0]);
@@ -119,7 +119,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
         [DeploymentItem(NameImportListInsideNodeConfigurationPath)]
         public void TestNameImportListInsideNode()
         {
-            ConfigurationParseResult results = ConfigurationParsingHelper.ExtractConfigurationNames(NameImportListInsideNodeConfigurationPath);
+            ConfigurationParseResult results = ConfigurationParsingHelper.ParseConfiguration(NameImportListInsideNodeConfigurationPath);
             Assert.AreEqual(0, results.Errors.Count());
             Assert.AreEqual(2, results.RequiredModules.Count);
             Assert.AreEqual("xComputerManagement", results.RequiredModules[0]);
@@ -131,7 +131,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
         [DeploymentItem(NameImportListOutsideNodeConfigurationPath)]
         public void TestNameImportListOutsideNode()
         {
-            ConfigurationParseResult results = ConfigurationParsingHelper.ExtractConfigurationNames(NameImportListOutsideNodeConfigurationPath);
+            ConfigurationParseResult results = ConfigurationParsingHelper.ParseConfiguration(NameImportListOutsideNodeConfigurationPath);
             Assert.AreEqual(0, results.Errors.Count());
             Assert.AreEqual(2, results.RequiredModules.Count);
             Assert.AreEqual("xComputerManagement", results.RequiredModules[0]);
@@ -143,7 +143,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
         [DeploymentItem(NameImportSingleInsideNodeConfigurationPath)]
         public void TestNameImportSingleInsideNode()
         {
-            ConfigurationParseResult results = ConfigurationParsingHelper.ExtractConfigurationNames(NameImportSingleInsideNodeConfigurationPath);
+            ConfigurationParseResult results = ConfigurationParsingHelper.ParseConfiguration(NameImportSingleInsideNodeConfigurationPath);
             Assert.AreEqual(0, results.Errors.Count());
             Assert.AreEqual(1, results.RequiredModules.Count);
             Assert.AreEqual("xComputerManagement", results.RequiredModules[0]);
@@ -154,7 +154,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
         [DeploymentItem(NameImportSingleOutsideNodeConfigurationPath)]
         public void TestNameImportSingleOutsideNode()
         {
-            ConfigurationParseResult results = ConfigurationParsingHelper.ExtractConfigurationNames(NameImportSingleOutsideNodeConfigurationPath);
+            ConfigurationParseResult results = ConfigurationParsingHelper.ParseConfiguration(NameImportSingleOutsideNodeConfigurationPath);
             Assert.AreEqual(0, results.Errors.Count());
             Assert.AreEqual(1, results.RequiredModules.Count);
             Assert.AreEqual("xComputerManagement", results.RequiredModules[0]);
@@ -165,7 +165,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
         [DeploymentItem(NameModuleImportSingleInsideNodeConfigurationPath)]
         public void TestNameModuleImportSingleInsideNode()
         {
-            ConfigurationParseResult results = ConfigurationParsingHelper.ExtractConfigurationNames(NameModuleImportSingleInsideNodeConfigurationPath);
+            ConfigurationParseResult results = ConfigurationParsingHelper.ParseConfiguration(NameModuleImportSingleInsideNodeConfigurationPath);
             Assert.AreEqual(0, results.Errors.Count());
             Assert.AreEqual(1, results.RequiredModules.Count);
             Assert.AreEqual("xComputerManagement", results.RequiredModules[0]);
@@ -176,7 +176,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
         [DeploymentItem(ModuleImportListInsideNodeConfigurationPath)]
         public void TestModuleImportListInsideNode()
         {
-            ConfigurationParseResult results = ConfigurationParsingHelper.ExtractConfigurationNames(ModuleImportListInsideNodeConfigurationPath);
+            ConfigurationParseResult results = ConfigurationParsingHelper.ParseConfiguration(ModuleImportListInsideNodeConfigurationPath);
             Assert.AreEqual(0, results.Errors.Count());
             Assert.AreEqual(2, results.RequiredModules.Count);
             Assert.AreEqual("xPSDesiredStateConfiguration", results.RequiredModules[0]);
@@ -188,7 +188,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
         [DeploymentItem(ModuleImportListOutsideNodeConfigurationPath)]
         public void TestModuleImportListOutsideNode()
         {
-            ConfigurationParseResult results = ConfigurationParsingHelper.ExtractConfigurationNames(ModuleImportListOutsideNodeConfigurationPath);
+            ConfigurationParseResult results = ConfigurationParsingHelper.ParseConfiguration(ModuleImportListOutsideNodeConfigurationPath);
             Assert.AreEqual(0, results.Errors.Count());
             Assert.AreEqual(2, results.RequiredModules.Count);
             Assert.AreEqual("xPSDesiredStateConfiguration", results.RequiredModules[0]);
@@ -200,7 +200,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
         [DeploymentItem(ModuleImportSingleInsideNodeConfigurationPath)]
         public void TestModuleImportSingleInsideNode()
         {
-            ConfigurationParseResult results = ConfigurationParsingHelper.ExtractConfigurationNames(ModuleImportSingleInsideNodeConfigurationPath);
+            ConfigurationParseResult results = ConfigurationParsingHelper.ParseConfiguration(ModuleImportSingleInsideNodeConfigurationPath);
             Assert.AreEqual(0, results.Errors.Count());
             Assert.AreEqual(1, results.RequiredModules.Count);
             Assert.AreEqual("xNetworking", results.RequiredModules[0]);
@@ -211,7 +211,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
         [DeploymentItem(ModuleImportSingleOutsideNodeConfigurationPath)]
         public void TestModuleImportSingleOutsideNode()
         {
-            ConfigurationParseResult results = ConfigurationParsingHelper.ExtractConfigurationNames(ModuleImportSingleOutsideNodeConfigurationPath);
+            ConfigurationParseResult results = ConfigurationParsingHelper.ParseConfiguration(ModuleImportSingleOutsideNodeConfigurationPath);
             Assert.AreEqual(0, results.Errors.Count());
             Assert.AreEqual(1, results.RequiredModules.Count);
             Assert.AreEqual("xNetworking", results.RequiredModules[0]);

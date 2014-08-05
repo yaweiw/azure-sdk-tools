@@ -234,7 +234,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         private string CreateConfigurationArchive()
         {
             WriteVerbose(String.Format(CultureInfo.CurrentUICulture, Resources.AzureVMDscParsingConfiguration, this.ConfigurationPath));
-            ConfigurationParseResult parseResult = ConfigurationParsingHelper.ExtractConfigurationNames(this.ConfigurationPath);
+            ConfigurationParseResult parseResult = ConfigurationParsingHelper.ParseConfiguration(this.ConfigurationPath);
             if (parseResult.Errors.Any())
             {
                 ThrowTerminatingError(
