@@ -16,6 +16,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
+    using Microsoft.WindowsAzure.Commands.Common.Properties;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -29,7 +30,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
     using System.ServiceModel.Web;
     using System.Text;
     using System.Xml;
-    using Microsoft.WindowsAzure.Commands.Common.Properties;
 
     #region Constants
     public static class Constants
