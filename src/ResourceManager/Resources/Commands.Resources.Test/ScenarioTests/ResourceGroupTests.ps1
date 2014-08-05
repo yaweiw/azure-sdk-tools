@@ -184,3 +184,40 @@ function Test-AzureTagsEndToEnd
 
     Clean-Tags
 }
+
+<#
+.SYNOPSIS
+Tests registration of required template provider
+#>
+function Test-NewDeploymentAndProviderRegistration
+{
+	# Setup
+	$rgname = Get-ResourceGroupName
+	$rname = Get-ResourceName
+	$location = Get-ProviderLocation ResourceManagement
+	$template = "Microsoft.Cache.0.4.0-preview"
+	$provider = "microsoft.cache"
+
+	try 
+	{
+		# Unregistering microsoft.cache to have clean state
+		$subscription = [Microsoft.WindowsAzure.Commands.Utilities.Common.WindowsAzureProfile]::Instance.CurrentSubscription
+		$client = New-Object Microsoft.Azure.Commands.Resources.Models.ResourcesClient $subscription
+		$client.UnregisterProvider($provider)
+
+		# Test
+		$deployment = New-AzureResourceGroup -Name $rgname -Location $location -GalleryTemplateIdentity $template -cacheName $rname -cacheLocation $location
+
+		# Assert
+		$client = New-Object Microsoft.Azure.Commands.Resources.Models.ResourcesClient $subscription
+		$providers = [Microsoft.WindowsAzure.Commands.Utilities.Common.WindowsAzureProfile]::Instance.CurrentSubscription.RegisteredResourceProvidersList
+		
+		Assert-True { $providers -Contains $provider }
+
+	}
+	finally
+	{
+		# Cleanup
+		Clean-ResourceGroup $rgname
+	}
+}

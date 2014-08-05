@@ -133,6 +133,11 @@ namespace Microsoft.Azure.Commands.Resources.Models
                 });
         }
 
+        public virtual void UnregisterProvider(string RPName)
+        {
+            ResourceManagementClient.Providers.Unregister(RPName);
+        }
+        
         private Uri GetTemplateUri(string templateFile, string galleryTemplateName, string storageAccountName)
         {
             Uri templateFileUri;

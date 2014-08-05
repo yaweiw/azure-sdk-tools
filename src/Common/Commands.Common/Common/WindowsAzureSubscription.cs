@@ -88,6 +88,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// </summary>
         public static event EventHandler<ClientCreatedArgs> OnClientCreated;
 
+        public IReadOnlyCollection<string> RegisteredResourceProvidersList
+        {
+            get { return RegisteredResourceProviders.AsReadOnly(); }
+        }
+
         public string CurrentStorageAccountName
         {
             get { return currentStorageAccountName; }
