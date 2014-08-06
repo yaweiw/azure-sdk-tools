@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Commands.Common.Models;
+
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using System;
@@ -28,19 +30,26 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     /// </summary>
     public static class PublishSettingsImporter
     {
-        public static IEnumerable<WindowsAzureSubscription> Import(string filename)
+        public static IEnumerable<WindowsAzureSubscription> ImportWindowsAzureSubscription(string filename)
         {
             using (var s = new FileStream(filename, FileMode.Open, FileAccess.Read))
             {
-                return Import(s);
+                return ImportWindowsAzureSubscription(s);
             }
         }
 
-        public static IEnumerable<WindowsAzureSubscription> Import(Stream stream)
+        public static IEnumerable<WindowsAzureSubscription> ImportWindowsAzureSubscription(Stream stream)
         {
             var publishData = DeserializePublishData(stream);
             PublishDataPublishProfile profile = publishData.Items.Single();
-            return profile.Subscription.Select(s => PublishSubscriptionToAzureSubscription(profile, s));
+            return profile.Subscription.Select(s => PublishSubscriptionToWindowsAzureSubscription(profile, s));
+        }
+
+        public static IEnumerable<AzureSubscription> ImportAzureSubscription(Stream stream, string environment)
+        {
+            var publishData = DeserializePublishData(stream);
+            PublishDataPublishProfile profile = publishData.Items.Single();
+            return profile.Subscription.Select(s => PublishSubscriptionToAzureSubscription(profile, s, environment));
         }
 
         private static PublishData DeserializePublishData(Stream stream)
@@ -49,7 +58,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             return (PublishData)serializer.Deserialize(stream);
         }
 
-        private static WindowsAzureSubscription PublishSubscriptionToAzureSubscription(
+        private static WindowsAzureSubscription PublishSubscriptionToWindowsAzureSubscription(
             PublishDataPublishProfile profile,
             PublishDataPublishProfileSubscription s)
         {
@@ -61,6 +70,25 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 ResourceManagerEndpoint = null,
                 SubscriptionId = s.Id,
                 SqlDatabaseDnsSuffix = WindowsAzureEnvironmentConstants.AzureSqlDatabaseDnsSuffix,
+            };
+        }
+
+        private static AzureSubscription PublishSubscriptionToAzureSubscription(
+            PublishDataPublishProfile profile,
+            PublishDataPublishProfileSubscription s,
+            string environment)
+        {
+            var certificate = GetCertificate(profile, s);
+            
+            return new AzureSubscription
+            {
+                Id = new Guid(s.Id),
+                Name = s.Name,
+                Environment = environment,
+                Properties = new Dictionary<AzureSubscription.Property,string>
+                {
+                    { AzureSubscription.Property.Thumbprint, certificate.Thumbprint },
+                }
             };
         }
 

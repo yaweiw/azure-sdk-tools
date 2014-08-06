@@ -31,11 +31,16 @@ namespace Microsoft.WindowsAzure.Commands.Common.Factories
     {
         private const string CommonAdTenant = "Common";
 
-        private IDictionary<Guid, IAccessToken> subscriptionTokenCache = new Dictionary<Guid, IAccessToken>();
+        private readonly IDictionary<Guid, IAccessToken> subscriptionTokenCache = new Dictionary<Guid, IAccessToken>();
+        private readonly AzureProfile profile;
 
-        public AuthenticationFactory()
+        public AuthenticationFactory() : this(AzurePowerShell.Profile)
+        { }
+
+        public AuthenticationFactory(AzureProfile azureProfile)
         {
             TokenProvider = new AdalTokenProvider();
+            profile = azureProfile;
         }
 
         public ITokenProvider TokenProvider { get; set; }
@@ -84,6 +89,12 @@ namespace Microsoft.WindowsAzure.Commands.Common.Factories
             {
                 result = GetServiceManagementSubscriptions(environment, password, commonTenantToken, getTokenFunction)
                     .ToList();
+            }
+
+            // Set user ID
+            foreach (var subscription in result)
+            {
+                subscription.Properties[AzureSubscription.Property.UserAccount] = userId;
             }
 
             return result;
@@ -169,13 +180,13 @@ namespace Microsoft.WindowsAzure.Commands.Common.Factories
 
         public SubscriptionCloudCredentials GetSubscriptionCloudCredentials(Guid subscriptionId)
         {
-            var subscription = AzurePowerShell.Profile.GetSubscription(subscriptionId);
+            var subscription = profile.GetSubscription(subscriptionId);
             if (subscription == null)
             {
                 throw new ArgumentException("Specified subscription has not been loaded.");
             }
 
-            var environment = AzurePowerShell.Profile.GetEnvironment(subscription.Environment);
+            var environment = profile.GetEnvironment(subscription.Environment);
             var userId = subscription.GetProperty(AzureSubscription.Property.UserAccount);
             var certificate = WindowsAzureCertificate.FromThumbprint(subscription.GetProperty(AzureSubscription.Property.Thumbprint));
 

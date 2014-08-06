@@ -34,7 +34,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Profile
     /// </summary>
     public abstract class SubscriptionCmdletBase : CmdletWithSubscriptionBase
     {
-        [Parameter(Mandatory = false, HelpMessage = "File storing subscription data, it not set uses default.")]
+        [Parameter(Mandatory = false, HelpMessage = "File storing subscription data, if not set uses default.")]
         public string SubscriptionDataFile { get; set; }
 
         private WindowsAzureProfile loadedProfile;
@@ -81,6 +81,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Profile
             }
             return new WindowsAzureProfile(new PowershellProfileStore(path));
         }
+
 
         protected IEnumerable<AzureSubscription> LoadSubscriptionsFromServer()
         {

@@ -309,7 +309,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         public void ImportPublishSettings(Stream stream)
         {
-            List<WindowsAzureSubscription> newSubscriptions = PublishSettingsImporter.Import(stream).ToList();
+            List<WindowsAzureSubscription> newSubscriptions = PublishSettingsImporter.ImportWindowsAzureSubscription(stream).ToList();
             AddSubscriptions(newSubscriptions);
             Save();
         }
