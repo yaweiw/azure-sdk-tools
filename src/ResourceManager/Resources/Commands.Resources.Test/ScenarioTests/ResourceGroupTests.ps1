@@ -203,7 +203,13 @@ function Test-NewDeploymentAndProviderRegistration
 		# Unregistering microsoft.cache to have clean state
 		$subscription = [Microsoft.WindowsAzure.Commands.Utilities.Common.WindowsAzureProfile]::Instance.CurrentSubscription
 		$client = New-Object Microsoft.Azure.Commands.Resources.Models.ResourcesClient $subscription
-		$client.UnregisterProvider($provider)
+	     
+		# Verify provider is registered
+		$providers = [Microsoft.WindowsAzure.Commands.Utilities.Common.WindowsAzureProfile]::Instance.CurrentSubscription.RegisteredResourceProvidersList
+		if( $providers -Contains $provider )
+		{
+			$client.UnregisterProvider($provider) 
+		}
 
 		# Test
 		$deployment = New-AzureResourceGroup -Name $rgname -Location $location -GalleryTemplateIdentity $template -cacheName $rname -cacheLocation $location
