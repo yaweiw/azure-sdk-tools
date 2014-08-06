@@ -27,12 +27,6 @@ namespace Microsoft.WindowsAzure.Commands.Common
 
         // TODO: Token Cache static property
 
-        static AzurePowerShell()
-        {
-            ClientFactoryInitializer = (p, a) => { return new ClientFactory(p, a); };
-            AuthenticationFactoryInitializer = p => { return new AuthenticationFactory(p); };
-        }
-
         public const string AssemblyCompany = "Microsoft";
 
         public const string AssemblyProduct = "Microsoft Azure Powershell";
@@ -52,6 +46,29 @@ namespace Microsoft.WindowsAzure.Commands.Common
         public static string ProfileDirectory = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
             Resources.AzureDirectoryName);
+
+        static AzurePowerShell()
+        {
+            ClientFactoryInitializer = (p, a) => { return new ClientFactory(p, a); };
+            AuthenticationFactoryInitializer = p => { return new AuthenticationFactory(p); };
+
+            if (File.Exists(Path.Combine(ProfileDirectory, OldProfileFile)))
+            {
+                UpgradeProfile();
+            }
+        }
+
+        private static void UpgradeProfile()
+        {
+            string oldProfilePath = Path.Combine(ProfileDirectory, OldProfileFile);
+            AzureProfile profile = new AzureProfile(new DiskDataStore(oldProfilePath));
+            
+            // Save the profile to the disk
+            profile.Dispose();
+
+            // Rename WindowsAzureProfile.xml to AzureProfile.json
+            File.Move(oldProfilePath, Path.Combine(ProfileDirectory, ProfileFile));
+        }
 
         public AzurePowerShell(string profilePath)
         {

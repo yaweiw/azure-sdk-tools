@@ -24,22 +24,10 @@ namespace Microsoft.WindowsAzure.Commands.Common.Interfaces
 
         string ReadProfile();
 
-        string ReadOldProfile();
-
         byte[] ReadTokenCache();
-
-        bool ProfileFileExists();
-
-        bool OldProfileFileExists();
-
-        void DeleteOldProfile();
 
         X509Certificate2 GetCertificate(string thumbprint);
 
         void AddCertificate(X509Certificate2 cert);
-
-        string ProfilePath { get; }
-
-        string OldProfilePath { get; }
     }
 }

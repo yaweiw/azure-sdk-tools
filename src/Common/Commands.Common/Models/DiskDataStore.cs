@@ -43,32 +43,22 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
 
         public string ReadProfile()
         {
-            return File.ReadAllText(profilePath);
-        }
+            if (File.Exists(profilePath))
+            {
+                return File.ReadAllText(profilePath);
+            }
 
-        public string ReadOldProfile()
-        {
-            return File.ReadAllText(OldProfilePath);
+            return null;
         }
 
         public byte[] ReadTokenCache()
         {
-            return File.ReadAllBytes(tokenCachePath);
-        }
+            if (File.Exists(tokenCachePath))
+            {
+                return File.ReadAllBytes(tokenCachePath);                
+            }
 
-        public bool ProfileFileExists()
-        {
-            return File.Exists(profilePath);
-        }
-
-        public bool OldProfileFileExists()
-        {
-            return File.Exists(OldProfilePath);
-        }
-
-        public void DeleteOldProfile()
-        {
-            File.Delete(OldProfilePath);
+            return null;
         }
 
         public X509Certificate2 GetCertificate(string thumbprint)
@@ -79,18 +69,6 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
         public void AddCertificate(X509Certificate2 cert)
         {
             GeneralUtilities.AddCertificateToStore(cert);
-        }
-
-        public string ProfilePath { get { return profilePath; } }
-
-        public string OldProfilePath
-        {
-            get
-            {
-                return Path.Combine(
-                    AzurePowerShell.ProfileDirectory,
-                    AzurePowerShell.OldProfileFile);
-            }
         }
     }
 }

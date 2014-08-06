@@ -13,6 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 using Microsoft.WindowsAzure.Commands.Common.Interfaces;
+using Microsoft.WindowsAzure.Common.Internals;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -27,23 +28,30 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
 
         private AzureSubscription defaultSubscription;
 
-        private void LoadProfile()
+        private void Load()
         {
-            JsonProfileSerializer jsonSerializer = new JsonProfileSerializer();
+            IProfileSerializer serializer;
+            string contents = store.ReadProfile();
 
-            if (store.ProfileFileExists())
+            if (ParserHelper.IsXml(contents))
             {
-                jsonSerializer.Deserialize(store.ReadProfile(), this);
+                serializer = new XmlProfileSerializer();
+                serializer.Deserialize(contents, this);
+            }
+            else if (ParserHelper.IsJson(contents))
+            {
+                serializer = new JsonProfileSerializer();
+                serializer.Deserialize(contents, this);
             }
 
             // Adding predefined environments
             foreach (AzureEnvironment env in AzureEnvironment.PublicEnvironments.Values)
             {
-                Environments.Add(env.Name, env);
+                Environments[env.Name] = env;
             }
         }
 
-        private void SaveProfile()
+        private void Save()
         {
             // Removing predefined environments
             foreach (string env in AzureEnvironment.PublicEnvironments.Keys)
@@ -52,23 +60,11 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
             }
 
             JsonProfileSerializer jsonSerializer = new JsonProfileSerializer();
+            string diskContents = store.ReadProfile();
             string contents = jsonSerializer.Serialize(this);
-            store.WriteProfile(contents);
-        }
 
-        private void UpgradeProfileFormat()
-        {
-            XmlProfileSerializer xmlSerializer = new XmlProfileSerializer();
-
-            if (store.ProfileFileExists())
+            if (diskContents != contents)
             {
-                // Deserialize the old profile format and delete it.
-                xmlSerializer.Deserialize(store.ReadOldProfile(), this);
-                store.DeleteOldProfile();
-
-                // Save the profile in the new format
-                JsonProfileSerializer jsonSerializer = new JsonProfileSerializer();
-                string contents = jsonSerializer.Serialize(this);
                 store.WriteProfile(contents);
             }
         }
@@ -76,8 +72,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
         public AzureProfile(IDataStore store)
         {
             this.store = store;
-            UpgradeProfileFormat();
-            LoadProfile();
+            Load();
             defaultSubscription = Subscriptions.FirstOrDefault(
                 s => s.Value.Properties.ContainsKey(AzureSubscription.Property.Default)).Value;
         }
@@ -120,7 +115,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
 
         public void Dispose()
         {
-            SaveProfile();
+            Save();
         }
 
         public Uri GetEndpoint(string enviornment, AzureEnvironment.Endpoint endpoint)
