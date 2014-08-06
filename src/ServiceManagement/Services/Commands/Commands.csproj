@@ -146,7 +146,7 @@
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.WebSites, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.WebSites.3.0.2-prerelease\lib\net40\Microsoft.WindowsAzure.Management.WebSites.dll</HintPath>
+      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.WebSites.3.0.7-prerelease\lib\net40\Microsoft.WindowsAzure.Management.WebSites.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Storage, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -277,6 +277,7 @@
     <Compile Include="WAPackIaaS\VirtualMachine\VMOperationsCmdlet.cs" />
     <Compile Include="WAPackIaaS\VMOperationsEnum.cs" />
     <Compile Include="WAPackIaaS\WAPackCmdletParameterSets.cs" />
+    <Compile Include="Websites\GetAzureWebsiteMetric.cs" />
     <Compile Include="Websites\PublishAzureWebsiteProject.cs" />
     <Compile Include="Websites\UpdateAzureWebsiteRepository.cs" />
     <Compile Include="Websites\SwitchAzureWebSiteSlot.cs" />
@@ -298,6 +299,8 @@
     <Compile Include="Websites\ShowAzureWebsite.cs" />
     <Compile Include="Websites\StartAzureWebSite.cs" />
     <Compile Include="Websites\StopAzureWebSite.cs" />
+    <Compile Include="Websites\WebHostingPlan\GetAzureWebHostingPlanMetric.cs" />
+    <Compile Include="Websites\WebHostingPlan\GetAzureWebHostingPlan.cs" />
     <Compile Include="Websites\WebJobs\SaveAzureWebsiteJobLog.cs" />
     <Compile Include="Websites\WebJobs\GetAzureWebsiteJobHistory.cs" />
     <Compile Include="Websites\WebJobs\StopAzureWebsiteJob.cs" />

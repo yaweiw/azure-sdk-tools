@@ -60,6 +60,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntitie
         bool? RemoteDebuggingEnabled { get; set; }
 
         RemoteDebuggingVersion RemoteDebuggingVersion { get; set; }
+
+        List<RoutingRule> RoutingRules { get; set; }
     }
 
     public class SiteWithConfig : ISite, ISiteConfig
@@ -71,6 +73,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntitie
         private DiagnosticsSettings DiagnosticsSettings { get; set; }
 
         public WebsiteInstance[] Instances { get; set; }
+
 
         public SiteWithConfig()
         {
@@ -88,7 +91,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntitie
             AppSettings = new Hashtable();
             DiagnosticsSettings = new DiagnosticsSettings();
             Instances = new WebsiteInstance[0];
-
+        
             if (SiteConfig.AppSettings != null)
             {
                 foreach (var setting in SiteConfig.AppSettings)
@@ -345,6 +348,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntitie
             get { return SiteConfig.RemoteDebuggingVersion; }
             set { SiteConfig.RemoteDebuggingVersion = value; }
         }
+
+        public List<RoutingRule> RoutingRules
+        {
+            get { return SiteConfig.RoutingRules; }
+            set { SiteConfig.RoutingRules = value; }
+        }
     }
 
     [DataContract(Namespace = UriElements.ServiceNamespace)]
@@ -401,5 +410,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntitie
 
         [DataMember(IsRequired = false)]
         public RemoteDebuggingVersion RemoteDebuggingVersion { get; set; }
+
+        [DataMember(IsRequired = false)]
+        public List<RoutingRule> RoutingRules { get; set; }
     }
 }
