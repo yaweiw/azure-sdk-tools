@@ -19,9 +19,11 @@ namespace Microsoft.WindowsAzure.Commands.Common.Factories
 {
     public class AuthenticationFactory : IAuthenticationFactory
     {
-        public AuthenticationFactory()
-        {
+        AzureProfile profile;
 
+        public AuthenticationFactory(AzureProfile profile)
+        {
+            this.profile = profile;
         }
 
         public SubscriptionCloudCredentials Authenticate(AzureSubscription subscription)

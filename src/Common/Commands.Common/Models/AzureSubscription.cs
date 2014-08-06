@@ -39,6 +39,11 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
             /// </summary>
             AzureMode,
 
+            /// <summary>
+            /// If this property existed on the subscription indicates that it's default one.
+            /// </summary>
+            Default,
+
             CloudStorageAccount,
 
             UserAccount,

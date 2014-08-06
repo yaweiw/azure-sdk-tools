@@ -13,20 +13,35 @@
 // ----------------------------------------------------------------------------------
 
 using Microsoft.WindowsAzure.Commands.Common.Interfaces;
-using System;
+using Newtonsoft.Json;
+using System.Linq;
 
 namespace Microsoft.WindowsAzure.Commands.Common.Models
 {
     public class JsonProfileSerializer : IProfileSerializer
     {
-        public string Serialize(AzureProfile obj)
+        public string Serialize(AzureProfile profile)
         {
-            throw new NotImplementedException();
+            return JsonConvert.SerializeObject(new
+            {
+                Environments = profile.Environments.Values.ToList(),
+                Subscriptions = profile.Subscriptions.Values.ToList()
+            });
         }
 
-        public AzureProfile Deserialize(string contents)
+        public void Deserialize(string contents, AzureProfile profile)
         {
-            throw new NotImplementedException();
+            dynamic obj = JsonConvert.DeserializeObject(contents);
+
+            foreach (AzureEnvironment env in obj.Environments)
+            {
+                profile.Environments[env.Name] = env;
+            }
+
+            foreach (AzureSubscription subscription in obj.Subscriptions)
+            {
+                profile.Subscriptions[subscription.Id] = subscription;
+            }
         }
 
         public string ProfileFile { get { return "AzureProfile.json"; } }

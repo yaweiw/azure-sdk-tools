@@ -27,14 +27,24 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
             virtualDisk = new Dictionary<string, object>();
         }
 
-        public void WriteFile(string path, string contents)
+        public void WriteAllText(string path, string contents)
         {
             virtualDisk[path] = contents;
         }
 
-        public string ReadFile(string path)
+        public void WriteAllBytes(string path, byte[] contents)
+        {
+            virtualDisk[path] = contents;
+        }
+
+        public string ReadAllText(string path)
         {
             return (string)virtualDisk[path];
+        }
+
+        public byte[] ReadAllBytes(string path)
+        {
+            return (byte[])virtualDisk[path];
         }
 
         public bool FileExists(string path)
@@ -51,5 +61,12 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
         {
             virtualDisk.Add(cert.Thumbprint, cert);
         }
+
+        public void DeleteFile(string path)
+        {
+            virtualDisk.Remove(path);
+        }
+
+        public string ProfileDirectory { get { return null; } }
     }
 }

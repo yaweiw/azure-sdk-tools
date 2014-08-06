@@ -17,9 +17,9 @@ namespace Microsoft.WindowsAzure.Commands.Common.Interfaces
 {
     public interface IProfileSerializer
     {
-        string Serialize(AzureProfile obj);
+        string Serialize(AzureProfile profile);
 
-        AzureProfile Deserialize(string contents);
+        void Deserialize(string contents, AzureProfile profile);
 
         string ProfileFile { get; }
     }

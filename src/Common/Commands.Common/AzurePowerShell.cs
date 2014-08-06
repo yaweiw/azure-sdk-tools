@@ -14,17 +14,28 @@
 
 using Microsoft.WindowsAzure.Commands.Common.Factories;
 using Microsoft.WindowsAzure.Commands.Common.Models;
-using System.Diagnostics;
+using Microsoft.WindowsAzure.Commands.Common.Properties;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
+using System;
+using System.IO;
 
 namespace Microsoft.WindowsAzure.Commands.Common
 {
-    public static class AzurePowerShell
+    public class AzurePowerShell
     {
-        private static IClientFactory clientFactory = null;
-        
-        private static AzureProfile profile = null;
+        private static string defaultProfilePath = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            Resources.AzureDirectoryName);
 
-        private static IAuthenticationFactory authenticationFactory = null;
+        private static AzureSubscription currentSubscription;
+
+        // TODO: Token Cache static property
+
+        static AzurePowerShell()
+        {
+            ClientFactoryInitializer = (p, a) => { return new ClientFactory(p, a); };
+            AuthenticationFactoryInitializer = p => { return new AuthenticationFactory(p); };
+        }
 
         public const string AssemblyCompany = "Microsoft";
 
@@ -36,61 +47,48 @@ namespace Microsoft.WindowsAzure.Commands.Common
 
         public const string AssemblyFileVersion = "0.8.6";
 
-        public static AzureProfile Profile
+        public AzurePowerShell(string profilePath)
+        {
+            Profile = new AzureProfile(new DiskDataStore(profilePath));
+            AuthenticationFactory = AuthenticationFactoryInitializer(Profile);
+            ClientFactory = ClientFactoryInitializer(Profile, AuthenticationFactory);
+        }
+
+        public AzurePowerShell() : this(defaultProfilePath)
+        {
+
+        }
+
+        public static Func<AzureProfile, IAuthenticationFactory, IClientFactory> ClientFactoryInitializer { get; set; }
+
+        public static Func<AzureProfile, IAuthenticationFactory> AuthenticationFactoryInitializer { get; set; }
+
+        public AzureSubscription CurrentSubscription
         {
             get
             {
-                if (profile == null)
-                {
-                    profile = new AzureProfile();
-                }
-
-                return profile;
+                return currentSubscription ?? Profile.DefaultSubscription;
             }
 
             set
             {
-                Debug.Assert(value != null, "The profile must have a value.");
-                profile = value;
+                currentSubscription = value;
             }
         }
 
-        public static IClientFactory ClientFactory
+        public AzureEnvironment CurrentEnvironment
         {
             get
             {
-                if (clientFactory == null)
-                {
-                    clientFactory = new ClientFactory();
-                }
-
-                return clientFactory;
-            }
-
-            set
-            {
-                Debug.Assert(value != null, "The client factory must have a value.");
-                clientFactory = value;
+                string env = CurrentSubscription == null ? EnvironmentName.AzureCloud : CurrentSubscription.Environment;
+                return Profile.Environments[env];
             }
         }
 
-        public static IAuthenticationFactory AuthenticationFactory
-        {
-            get
-            {
-                if (authenticationFactory == null)
-                {
-                    authenticationFactory = new AuthenticationFactory();
-                }
+        public AzureProfile Profile { get; set; }
 
-                return authenticationFactory;
-            }
+        public IClientFactory ClientFactory { get; set; }
 
-            set
-            {
-                Debug.Assert(value != null, "The authentication factory must have a value.");
-                authenticationFactory = value;
-            }
-        }
+        public IAuthenticationFactory AuthenticationFactory { get; set; }
     }
 }

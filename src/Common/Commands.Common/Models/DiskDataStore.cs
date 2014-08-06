@@ -21,19 +21,36 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
 {
     public class DiskDataStore : IDataStore
     {
-        public void WriteFile(string path, string contents)
+        private string profileDirectory;
+
+        public DiskDataStore(string profileDirectory)
         {
-            File.WriteAllText(path, contents);
+            this.profileDirectory = profileDirectory;
         }
 
-        public string ReadFile(string path)
+        public void WriteAllText(string file, string contents)
         {
-            return File.ReadAllText(path);
+            File.WriteAllText(Path.Combine(profileDirectory, file), contents);
         }
 
-        public bool FileExists(string path)
+        public void WriteAllBytes(string file, byte[] contents)
         {
-            return File.Exists(path);
+            File.WriteAllBytes(Path.Combine(profileDirectory, file), contents);
+        }
+
+        public string ReadAllText(string file)
+        {
+            return File.ReadAllText(Path.Combine(profileDirectory, file));
+        }
+
+        public byte[] ReadAllBytes(string file)
+        {
+            return File.ReadAllBytes(Path.Combine(profileDirectory, file));
+        }
+
+        public bool FileExists(string file)
+        {
+            return File.Exists(Path.Combine(profileDirectory, file));
         }
 
         public X509Certificate2 GetCertificate(string thumbprint)
@@ -45,5 +62,12 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
         {
             GeneralUtilities.AddCertificateToStore(cert);
         }
+
+        public void DeleteFile(string file)
+        {
+            File.Delete(Path.Combine(profileDirectory, file));
+        }
+
+        public string ProfileDirectory { get { return profileDirectory; } }
     }
 }
