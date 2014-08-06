@@ -15,41 +15,35 @@
 using System;
 using System.Collections.Generic;
 
-namespace Microsoft.WindowsAzure.Commands.Common.Model
+namespace Microsoft.WindowsAzure.Commands.Common.Models
 {
-    public class AzureEnvironment
+    public class AzureSubscription
     {
+        public Guid Id { get; set; }
+
         public string Name { get; set; }
 
-        public Dictionary<string, List<Guid>> UserAccounts { get; set; }
+        public string Environment { get; set; }
 
-        public Dictionary<string, List<Guid>> CertificateThumbprints { get; set; }
+        public Dictionary<Property, string> Properties { get; set; }
 
-        public Guid DefaultSubscription { get; set; }
-
-        public Dictionary<Endpoint, string> Endpoints { get; set; }
-
-        public enum Endpoint
+        public enum Property
         {
-            ActiveDirectoryServiceEndpointResourceId,
-            
-            AdTenantUrl,
-            
-            GalleryEndpoint,
-            
-            ManagementPortalUrl,
-            
-            ServiceEndpoint,
-            
-            PublishSettingsFileUrl,
-            
-            ResourceManagerEndpoint,
-            
-            SqlDatabaseDnsSuffix,
-            
-            StorageEndpointSuffix,
-            
-            ActiveDirectoryEndpoint
+            /// <summary>
+            /// Comma separated registered resource providers, i.e.: websites,compute,hdinsight
+            /// </summary>
+            RegisteredResourceProviders,
+
+            /// <summary>
+            /// Comma separated mode names that this subscription supports, i.e.: AzureResourceManager,AzureServiceManagement
+            /// </summary>
+            AzureMode,
+
+            CloudStorageAccount,
+
+            UserAccount,
+
+            Thumbprint
         }
     }
 }

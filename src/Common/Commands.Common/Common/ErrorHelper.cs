@@ -14,7 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
-    using ServiceManagement;
+    using ServiceManagement.Model;
     using System.IO;
     using System.Net;
     using System.ServiceModel;

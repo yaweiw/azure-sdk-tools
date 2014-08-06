@@ -15,7 +15,6 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ConfigDataInfo
 {
     using Model;
-    using Model.PersistentVMModel;
     using System;
     using System.Security.Cryptography.X509Certificates;
 

@@ -30,8 +30,6 @@ namespace Microsoft.Azure.Commands.ManagedCache
 
         [Parameter(Position = 1, Mandatory = true)]
         [ValidateNotNullOrEmpty]
-        [ValidateSet("East Asia", "East US", "East US 2", "North Central US", "North Europe",
-            "Southeast Asia", "West Europe", "West US", "South Central US", IgnoreCase = false)]
         public string Location { get; set;}
 
         [Parameter]

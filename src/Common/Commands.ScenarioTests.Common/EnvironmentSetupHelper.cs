@@ -252,7 +252,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest
 
         public void Dispose()
         {
-            if (!WindowsAzureProfile.Instance.Environments.ContainsKey(testEnvironmentName))
+            if (WindowsAzureProfile.Instance.Environments.ContainsKey(testEnvironmentName))
             {
                 WindowsAzureProfile.Instance.RemoveEnvironment(testEnvironmentName);
             }

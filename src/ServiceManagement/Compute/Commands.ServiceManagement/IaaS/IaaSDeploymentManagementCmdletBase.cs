@@ -116,7 +116,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
                 if (d == null)
                 {
-                    throw new ApplicationException(String.Format(Resources.CouldNotFindDeployment, ServiceName, Model.PersistentVMModel.DeploymentSlotType.Production));
+                    throw new ApplicationException(String.Format(Resources.CouldNotFindDeployment, ServiceName, Model.DeploymentSlotType.Production));
                 }
 
                 durableRoleInstance = d.RoleInstances == null || !d.RoleInstances.Any() ? null : d.RoleInstances.First(ri => ri.RoleName == roleName);

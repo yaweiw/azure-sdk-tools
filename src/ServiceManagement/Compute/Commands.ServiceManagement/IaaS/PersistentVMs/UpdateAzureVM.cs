@@ -18,7 +18,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using Helpers;
     using Management.Compute.Models;
     using Microsoft.WindowsAzure.Storage;
-    using Model;
     using Properties;
     using System;
     using System.Collections.Generic;
@@ -40,7 +39,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         [Parameter(Mandatory = true, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Virtual Machine to update.")]
         [ValidateNotNullOrEmpty]
         [Alias("InputObject")]
-        public PersistentVM VM
+        public Model.PersistentVM VM
         {
             get;
             set;
@@ -55,7 +54,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             WindowsAzureSubscription currentSubscription = CurrentSubscription;
             if (CurrentDeploymentNewSM == null)
             {
-                throw new ApplicationException(String.Format(Resources.CouldNotFindDeployment, ServiceName, Model.PersistentVMModel.DeploymentSlotType.Production));
+                throw new ApplicationException(String.Format(Resources.CouldNotFindDeployment, ServiceName, Model.DeploymentSlotType.Production));
             }
 
             // Auto generate disk names based off of default storage account 
