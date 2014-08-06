@@ -13,20 +13,37 @@
 // ----------------------------------------------------------------------------------
 
 using Microsoft.WindowsAzure.Commands.Common.Interfaces;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using System.IO;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Microsoft.WindowsAzure.Commands.Common.Models
 {
-    public class DiskFileStore : IFileStore
+    public class DiskDataStore : IDataStore
     {
-        public void Save(string path, string contents)
+        public void WriteFile(string path, string contents)
         {
             File.WriteAllText(path, contents);
         }
 
-        public string Load(string path)
+        public string ReadFile(string path)
         {
             return File.ReadAllText(path);
+        }
+
+        public bool FileExists(string path)
+        {
+            return File.Exists(path);
+        }
+
+        public X509Certificate2 GetCertificate(string thumbprint)
+        {
+            return GeneralUtilities.GetCertificateFromStore(thumbprint);
+        }
+
+        public void AddCertificate(X509Certificate2 cert)
+        {
+            GeneralUtilities.AddCertificateToStore(cert);
         }
     }
 }

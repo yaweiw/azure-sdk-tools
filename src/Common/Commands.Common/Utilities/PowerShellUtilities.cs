@@ -93,5 +93,24 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         {
             return dynamicParameters.Values.Where(dp => MyInvocation.BoundParameters.Keys.Any(bp => bp.Equals(dp.Name)));
         }
+
+        /// <summary>
+        /// Gets the current AzureMode valid values are AzureServiceManagement and AzureResourceManager only.
+        /// </summary>
+        /// <returns>Returns AzureServiceManagement if in RDFE and AzureResourceManager if in CSM</returns>
+        public static AzureModule GetCurrentMode()
+        {
+            string PSModulePathEnv = Environment.GetEnvironmentVariable(PSModulePathName);
+
+            if (string.IsNullOrEmpty(PSModulePathEnv) || PSModulePathEnv.Contains(FileUtilities.GetModuleFolderName(AzureModule.AzureServiceManagement)))
+            {
+                return AzureModule.AzureServiceManagement;
+            }
+            else
+            {
+                Debug.Assert(PSModulePathEnv.Contains(FileUtilities.GetModuleFolderName(AzureModule.AzureResourceManager)));
+                return AzureModule.AzureResourceManager;
+            }
+        }
     }
 }

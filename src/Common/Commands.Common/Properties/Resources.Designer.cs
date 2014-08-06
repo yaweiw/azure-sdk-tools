@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Common.Properties
-{
-
-
+namespace Microsoft.WindowsAzure.Commands.Common.Properties {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -796,6 +796,15 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties
         public static string CreatingPackageMessage {
             get {
                 return ResourceManager.GetString("CreatingPackageMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to -Credential parameter can only be used with Organization ID credentials. For more information, please refer to http://go.microsoft.com/fwlink/?linkid=331007&amp;clcid=0x409 for more information about the difference between an organizational account and a Microsoft account..
+        /// </summary>
+        public static string CredentialOrganizationIdMessage {
+            get {
+                return ResourceManager.GetString("CredentialOrganizationIdMessage", resourceCulture);
             }
         }
         
