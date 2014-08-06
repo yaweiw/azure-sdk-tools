@@ -1607,4 +1607,7 @@ use and privacy statement at &lt;url&gt; and (c) agree to sharing my contact inf
     <value>Unable to decode string from base 64. Please make sure the string is correctly encoded: {0}.</value>
     <comment>{0} is the string that is not in a valid base 64 format.</comment>
   </data>
+  <data name="CredentialOrganizationIdMessage" xml:space="preserve">
+    <value>-Credential parameter can only be used with Organization ID credentials. For more information, please refer to http://go.microsoft.com/fwlink/?linkid=331007&amp;clcid=0x409 for more information about the difference between an organizational account and a Microsoft account.</value>
+  </data>
 </root>

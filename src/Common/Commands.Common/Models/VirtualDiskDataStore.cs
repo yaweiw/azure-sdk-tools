@@ -13,20 +13,43 @@
 // ----------------------------------------------------------------------------------
 
 using Microsoft.WindowsAzure.Commands.Common.Interfaces;
-using System;
+using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Microsoft.WindowsAzure.Commands.Common.Models
 {
-    public class AzureProfileSerializer : ISerializer<AzureProfile>
+    public class VirtualDiskDataStore : IDataStore
     {
-        public string Serialize(AzureProfile obj)
+        Dictionary<string, object> virtualDisk;
+
+        public VirtualDiskDataStore()
         {
-            throw new NotImplementedException();
+            virtualDisk = new Dictionary<string, object>();
         }
 
-        public AzureProfile Deserialize(string contents)
+        public void WriteFile(string path, string contents)
         {
-            throw new NotImplementedException();
+            virtualDisk[path] = contents;
+        }
+
+        public string ReadFile(string path)
+        {
+            return (string)virtualDisk[path];
+        }
+
+        public bool FileExists(string path)
+        {
+            return virtualDisk.ContainsKey(path);
+        }
+
+        public X509Certificate2 GetCertificate(string thumbprint)
+        {
+            return (X509Certificate2)virtualDisk[thumbprint];
+        }
+
+        public void AddCertificate(X509Certificate2 cert)
+        {
+            virtualDisk.Add(cert.Thumbprint, cert);
         }
     }
 }
