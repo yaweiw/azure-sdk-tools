@@ -27,7 +27,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public CmdletBase()
         {
             HttpRestCallLogger.CurrentCmdlet = this;
-            AzurePowerShell = new AzurePowerShell();
+            //AzurePowerShell = new AzurePowerShell();
         }
 
         protected string CurrentPath()

@@ -30,11 +30,10 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
         private void LoadProfile()
         {
             JsonProfileSerializer jsonSerializer = new JsonProfileSerializer();
-            string jsonProfilePath = Path.Combine(store.ProfileDirectory, jsonSerializer.ProfileFile);
 
-            if (store.FileExists(jsonProfilePath))
+            if (store.ProfileFileExists())
             {
-                jsonSerializer.Deserialize(store.ReadAllText(jsonProfilePath), this);
+                jsonSerializer.Deserialize(store.ReadProfile(), this);
             }
 
             // Adding predefined environments
@@ -53,27 +52,24 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
             }
 
             JsonProfileSerializer jsonSerializer = new JsonProfileSerializer();
-            string path = Path.Combine(store.ProfileDirectory, jsonSerializer.ProfileFile);
             string contents = jsonSerializer.Serialize(this);
-            store.WriteAllText(path, contents);
+            store.WriteProfile(contents);
         }
 
         private void UpgradeProfileFormat()
         {
             XmlProfileSerializer xmlSerializer = new XmlProfileSerializer();
-            string xmlProfilePath = Path.Combine(store.ProfileDirectory, xmlSerializer.ProfileFile);
 
-            if (store.FileExists(xmlProfilePath))
+            if (store.ProfileFileExists())
             {
                 // Deserialize the old profile format and delete it.
-                xmlSerializer.Deserialize(store.ReadAllText(xmlProfilePath), this);
-                store.DeleteFile(xmlProfilePath);
+                xmlSerializer.Deserialize(store.ReadOldProfile(), this);
+                store.DeleteOldProfile();
 
                 // Save the profile in the new format
                 JsonProfileSerializer jsonSerializer = new JsonProfileSerializer();
-                string jsonProfilePath = Path.Combine(store.ProfileDirectory, jsonSerializer.ProfileFile);
                 string contents = jsonSerializer.Serialize(this);
-                store.WriteAllText(jsonProfilePath, contents);
+                store.WriteProfile(contents);
             }
         }
 
@@ -104,22 +100,22 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
 
         public X509Certificate2 GetCertificate(string thumbprint)
         {
-            throw new NotImplementedException();
+            return store.GetCertificate(thumbprint);
         }
 
         public void AddCertificate(X509Certificate2 cert)
         {
-            throw new NotImplementedException();
+            store.AddCertificate(cert);
         }
 
         public void SaveTokenCache(byte[] data)
         {
-
+            store.WriteTokenCache(data);
         }
 
         public byte[] LoadTokenCache()
         {
-            throw new NotImplementedException();
+            return store.ReadTokenCache();
         }
 
         public void Dispose()

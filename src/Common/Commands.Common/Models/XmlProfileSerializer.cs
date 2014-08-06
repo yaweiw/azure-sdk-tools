@@ -68,7 +68,5 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
             }
             catch (XmlException) { /* The profile XML was malformed ignore parsing the file */ }
         }
-
-        public string ProfileFile { get { return "WindowsAzureProfile.xml"; } }
     }
 }

@@ -21,36 +21,54 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
 {
     public class DiskDataStore : IDataStore
     {
-        private string profileDirectory;
+        private string profilePath;
 
-        public DiskDataStore(string profileDirectory)
+        private string tokenCachePath;
+
+        public DiskDataStore(string profilePath)
         {
-            this.profileDirectory = profileDirectory;
+            this.profilePath = profilePath;
+            this.tokenCachePath = Path.Combine(AzurePowerShell.ProfileDirectory, AzurePowerShell.TokenCacheFile);
         }
 
-        public void WriteAllText(string file, string contents)
+        public void WriteProfile(string contents)
         {
-            File.WriteAllText(Path.Combine(profileDirectory, file), contents);
+            File.WriteAllText(profilePath, contents);
         }
 
-        public void WriteAllBytes(string file, byte[] contents)
+        public void WriteTokenCache(byte[] contents)
         {
-            File.WriteAllBytes(Path.Combine(profileDirectory, file), contents);
+            File.WriteAllBytes(tokenCachePath, contents);
         }
 
-        public string ReadAllText(string file)
+        public string ReadProfile()
         {
-            return File.ReadAllText(Path.Combine(profileDirectory, file));
+            return File.ReadAllText(profilePath);
         }
 
-        public byte[] ReadAllBytes(string file)
+        public string ReadOldProfile()
         {
-            return File.ReadAllBytes(Path.Combine(profileDirectory, file));
+            return File.ReadAllText(OldProfilePath);
         }
 
-        public bool FileExists(string file)
+        public byte[] ReadTokenCache()
         {
-            return File.Exists(Path.Combine(profileDirectory, file));
+            return File.ReadAllBytes(tokenCachePath);
+        }
+
+        public bool ProfileFileExists()
+        {
+            return File.Exists(profilePath);
+        }
+
+        public bool OldProfileFileExists()
+        {
+            return File.Exists(OldProfilePath);
+        }
+
+        public void DeleteOldProfile()
+        {
+            File.Delete(OldProfilePath);
         }
 
         public X509Certificate2 GetCertificate(string thumbprint)
@@ -63,11 +81,16 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
             GeneralUtilities.AddCertificateToStore(cert);
         }
 
-        public void DeleteFile(string file)
-        {
-            File.Delete(Path.Combine(profileDirectory, file));
-        }
+        public string ProfilePath { get { return profilePath; } }
 
-        public string ProfileDirectory { get { return profileDirectory; } }
+        public string OldProfilePath
+        {
+            get
+            {
+                return Path.Combine(
+                    AzurePowerShell.ProfileDirectory,
+                    AzurePowerShell.OldProfileFile);
+            }
+        }
     }
 }

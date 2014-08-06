@@ -23,10 +23,6 @@ namespace Microsoft.WindowsAzure.Commands.Common
 {
     public class AzurePowerShell
     {
-        private static string defaultProfilePath = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-            Resources.AzureDirectoryName);
-
         private static AzureSubscription currentSubscription;
 
         // TODO: Token Cache static property
@@ -47,6 +43,16 @@ namespace Microsoft.WindowsAzure.Commands.Common
 
         public const string AssemblyFileVersion = "0.8.6";
 
+        public const string ProfileFile = "AzureProfile.json";
+
+        public const string OldProfileFile = "WindowsAzureProfile.xml";
+
+        public const string TokenCacheFile = "TokenCache.dat";
+
+        public static string ProfileDirectory = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            Resources.AzureDirectoryName);
+
         public AzurePowerShell(string profilePath)
         {
             Profile = new AzureProfile(new DiskDataStore(profilePath));
@@ -54,7 +60,7 @@ namespace Microsoft.WindowsAzure.Commands.Common
             ClientFactory = ClientFactoryInitializer(Profile, AuthenticationFactory);
         }
 
-        public AzurePowerShell() : this(defaultProfilePath)
+        public AzurePowerShell() : this(Path.Combine(ProfileDirectory, ProfileFile))
         {
 
         }

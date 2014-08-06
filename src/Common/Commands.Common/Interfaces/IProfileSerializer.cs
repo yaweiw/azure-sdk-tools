@@ -13,6 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 using Microsoft.WindowsAzure.Commands.Common.Models;
+
 namespace Microsoft.WindowsAzure.Commands.Common.Interfaces
 {
     public interface IProfileSerializer
@@ -20,7 +21,5 @@ namespace Microsoft.WindowsAzure.Commands.Common.Interfaces
         string Serialize(AzureProfile profile);
 
         void Deserialize(string contents, AzureProfile profile);
-
-        string ProfileFile { get; }
     }
 }

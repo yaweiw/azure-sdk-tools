@@ -43,7 +43,5 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
                 profile.Subscriptions[subscription.Id] = subscription;
             }
         }
-
-        public string ProfileFile { get { return "AzureProfile.json"; } }
     }
 }

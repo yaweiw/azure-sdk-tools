@@ -18,22 +18,28 @@ namespace Microsoft.WindowsAzure.Commands.Common.Interfaces
 {
     public interface IDataStore
     {
-        void WriteAllText(string file, string contents);
+        void WriteProfile(string contents);
 
-        void WriteAllBytes(string file, byte[] contents);
+        void WriteTokenCache(byte[] contents);
 
-        string ReadAllText(string file);
+        string ReadProfile();
 
-        byte[] ReadAllBytes(string file);
+        string ReadOldProfile();
 
-        void DeleteFile(string file);
+        byte[] ReadTokenCache();
 
-        bool FileExists(string file);
+        bool ProfileFileExists();
+
+        bool OldProfileFileExists();
+
+        void DeleteOldProfile();
 
         X509Certificate2 GetCertificate(string thumbprint);
 
         void AddCertificate(X509Certificate2 cert);
 
-        string ProfileDirectory { get; }
+        string ProfilePath { get; }
+
+        string OldProfilePath { get; }
     }
 }
