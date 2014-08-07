@@ -32,7 +32,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Profile
     /// azure subscription, provides common support
     /// for the SubscriptionDataFile parameter.
     /// </summary>
-    public abstract class SubscriptionCmdletBase : CmdletWithSubscriptionBase
+    public abstract class SubscriptionCmdletBase : AzurePSCmdlet
     {
         [Parameter(Mandatory = false, HelpMessage = "File storing subscription data, if not set uses default.")]
         public string SubscriptionDataFile { get; set; }
@@ -82,10 +82,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Profile
             return new WindowsAzureProfile(new PowershellProfileStore(path));
         }
 
-
         protected IEnumerable<AzureSubscription> LoadSubscriptionsFromServer()
         {
-            var subscriptionClient = new AzureSubscriptionsClient(this.AzureSession);
+            var subscriptionClient = new ProfileClient(CurrentAzureSession);
             return subscriptionClient.LoadSubscriptionsFromServer();
         }
     }

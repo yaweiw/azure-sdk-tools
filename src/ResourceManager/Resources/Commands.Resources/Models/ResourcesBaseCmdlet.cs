@@ -17,7 +17,7 @@ using Microsoft.WindowsAzure.Commands.Utilities.Common;
 
 namespace Microsoft.Azure.Commands.Resources
 {
-    public abstract class ResourcesBaseCmdlet : CmdletWithSubscriptionBase
+    public abstract class ResourcesBaseCmdlet : AzurePSCmdlet
     {
         private ResourcesClient resourcesClient;
 

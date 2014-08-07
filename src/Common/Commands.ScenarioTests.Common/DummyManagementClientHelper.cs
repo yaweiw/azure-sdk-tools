@@ -39,6 +39,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest
         }
 
         private readonly bool throwWhenNotAvailable;
+
         public event EventHandler<ClientCreatedArgs> OnClientCreated;
 
         public List<object> ManagementClients { get; private set; }

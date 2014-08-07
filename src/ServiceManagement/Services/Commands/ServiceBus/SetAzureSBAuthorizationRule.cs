@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceBus
     /// Updates new service bus authorization rule.
     /// </summary>
     [Cmdlet(VerbsCommon.Set, "AzureSBAuthorizationRule"), OutputType(typeof(ExtendedAuthorizationRule))]
-    public class SetAzureSBAuthorizationRuleCommand : CmdletWithSubscriptionBase
+    public class SetAzureSBAuthorizationRuleCommand : AzurePSCmdlet
     {
         public const string EntitySASParameterSet = "EntitySAS";
 

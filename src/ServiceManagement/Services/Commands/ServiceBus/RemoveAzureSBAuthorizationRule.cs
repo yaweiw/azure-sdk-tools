@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceBus
     /// Removes new service bus authorization rule.
     /// </summary>
     [Cmdlet(VerbsCommon.Remove, "AzureSBAuthorizationRule"), OutputType(typeof(bool))]
-    public class RemoveAzureSBAuthorizationRuleCommand : CmdletWithSubscriptionBase
+    public class RemoveAzureSBAuthorizationRuleCommand : AzurePSCmdlet
     {
         public const string EntitySASParameterSet = "EntitySAS";
 

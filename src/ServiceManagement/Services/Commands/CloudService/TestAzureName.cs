@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.CloudService
     using System.Management.Automation;
 
     [Cmdlet(VerbsDiagnostic.Test, "AzureName"), OutputType(typeof(bool))]
-    public class TestAzureNameCommand : CmdletWithSubscriptionBase, IModuleAssemblyInitializer
+    public class TestAzureNameCommand : AzurePSCmdlet, IModuleAssemblyInitializer
     {
         internal ServiceBusClientExtensions ServiceBusClient { get; set; }
         internal ICloudServiceClient CloudServiceClient { get; set; }

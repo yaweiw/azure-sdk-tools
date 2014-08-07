@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceBus
     /// Lists all service bus namespaces associated with a subscription
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureSBNamespace"), OutputType(typeof(List<ExtendedServiceBusNamespace>), typeof(ExtendedServiceBusNamespace))]
-    public class GetAzureSBNamespaceCommand : CmdletWithSubscriptionBase
+    public class GetAzureSBNamespaceCommand : AzurePSCmdlet
     {
         internal ServiceBusClientExtensions Client { get; set; }
 

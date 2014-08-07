@@ -66,17 +66,17 @@ namespace Microsoft.WindowsAzure.Commands.Common.Factories
             var userId = subscription.GetProperty(AzureSubscription.Property.UserAccount);
             var certificate = WindowsAzureCertificate.FromThumbprint(subscription.GetProperty(AzureSubscription.Property.Thumbprint));
 
-            if (AzurePowerShell.SubscriptionTokenCache.ContainsKey(subscriptionId))
+            if (AzureSession.SubscriptionTokenCache.ContainsKey(subscriptionId))
             {
-                return new AccessTokenCredential(subscriptionId.ToString(), AzurePowerShell.SubscriptionTokenCache[subscriptionId]);
+                return new AccessTokenCredential(subscriptionId.ToString(), AzureSession.SubscriptionTokenCache[subscriptionId]);
             }
             else if (userId != null)
             {
-                if (!AzurePowerShell.SubscriptionTokenCache.ContainsKey(subscriptionId))
+                if (!AzureSession.SubscriptionTokenCache.ContainsKey(subscriptionId))
                 {
                     throw new ArgumentException(Resources.InvalidSubscriptionState);
                 }
-                return new AccessTokenCredential(subscriptionId.ToString(), AzurePowerShell.SubscriptionTokenCache[subscriptionId]);
+                return new AccessTokenCredential(subscriptionId.ToString(), AzureSession.SubscriptionTokenCache[subscriptionId]);
             }
             else if (certificate != null)
             {

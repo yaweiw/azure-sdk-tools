@@ -24,7 +24,7 @@ using Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication;
 
 namespace Microsoft.WindowsAzure.Commands.Common
 {
-    public class AzurePowerShell
+    public class AzureSession
     {
         private static AzureSubscription currentSubscription;
 
@@ -50,7 +50,7 @@ namespace Microsoft.WindowsAzure.Commands.Common
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
             Resources.AzureDirectoryName);
 
-        static AzurePowerShell()
+        static AzureSession()
         {
             DataStoreInitializer = (p) => { return new DiskDataStore(p); };
             ClientFactoryInitializer = (p, a) => { return new ClientFactory(p, a); };
@@ -75,14 +75,14 @@ namespace Microsoft.WindowsAzure.Commands.Common
             File.Move(oldProfilePath, Path.Combine(ProfileDirectory, ProfileFile));
         }
 
-        public AzurePowerShell(string profilePath)
+        public AzureSession(string profilePath)
         {
             Profile = new AzureProfile(DataStoreInitializer(profilePath));
             AuthenticationFactory = AuthenticationFactoryInitializer(Profile);
             ClientFactory = ClientFactoryInitializer(Profile, AuthenticationFactory);
         }
 
-        public AzurePowerShell() : this(Path.Combine(ProfileDirectory, ProfileFile))
+        public AzureSession() : this(Path.Combine(ProfileDirectory, ProfileFile))
         {
             
         }
@@ -97,15 +97,9 @@ namespace Microsoft.WindowsAzure.Commands.Common
 
         public AzureSubscription CurrentSubscription
         {
-            get
-            {
-                return currentSubscription ?? Profile.DefaultSubscription;
-            }
+            get { return currentSubscription ?? Profile.DefaultSubscription; }
 
-            set
-            {
-                currentSubscription = value;
-            }
+            set { currentSubscription = value; }
         }
 
         public AzureEnvironment CurrentEnvironment

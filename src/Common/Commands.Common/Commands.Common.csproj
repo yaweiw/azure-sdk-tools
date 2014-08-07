@@ -140,7 +140,7 @@
     <Compile Include="Authentication\ITokenProvider.cs" />
     <Compile Include="Authentication\LoginType.cs" />
     <Compile Include="Authentication\RegistryBackedDictionary.cs" />
-    <Compile Include="Common\AzureSubscriptionsClient.cs" />
+    <Compile Include="Common\ProfileClient.cs" />
     <Compile Include="Factories\AuthenticationFactory.cs" />
     <Compile Include="Factories\ClientFactory.cs" />
     <Compile Include="Common\AzureException.cs" />
@@ -150,7 +150,7 @@
     <Compile Include="Common\CloudBaseCmdlet.cs" />
     <Compile Include="Common\CmdletBase.cs" />
     <Compile Include="Common\CmdletExtensions.cs" />
-    <Compile Include="Common\CmdletWithSubscriptionBase.cs" />
+    <Compile Include="Common\AzurePSCmdlet.cs" />
     <Compile Include="Common\ConfigurationConstants.cs" />
     <Compile Include="Common\ErrorHelper.cs" />
     <Compile Include="Common\IdnHelper.cs" />
@@ -201,7 +201,7 @@
     <Compile Include="Utilities\FileUtilities.cs" />
     <Compile Include="Utilities\JsonUtilities.cs" />
     <Compile Include="Utilities\PowerShellUtilities.cs" />
-    <Compile Include="AzurePowerShell.cs" />
+    <Compile Include="AzureSession.cs" />
     <Compile Include="XmlSchema\PublishProfile.cs" />
     <Compile Include="XmlSchema\ServiceConfigurationSchema.cs" />
     <Compile Include="XmlSchema\ServiceDefinitionSchema.cs" />

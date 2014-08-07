@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System.ServiceModel.Security;
     using System.ServiceModel.Web;
 
-    public abstract class CloudBaseCmdlet<T> : CmdletWithSubscriptionBase
+    public abstract class CloudBaseCmdlet<T> : AzurePSCmdlet
         where T : class
     {
         private Binding _serviceBinding;
