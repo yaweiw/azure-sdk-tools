@@ -24,11 +24,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     public abstract class CmdletBase : PSCmdlet
     {
         private readonly RecordingTracingInterceptor httpTracingInterceptor = new RecordingTracingInterceptor();
-        protected AzurePowerShell AzureSession { get; set; }
+        
+        protected AzureSession CurrentAzureSession { get; set; }
 
         public CmdletBase()
         {
-            AzureSession = new AzurePowerShell();
+            CurrentAzureSession = new AzureSession();
         }
 
         protected string CurrentPath()

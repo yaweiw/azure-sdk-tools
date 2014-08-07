@@ -25,20 +25,20 @@ using Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication;
 namespace Microsoft.WindowsAzure.Commands.Common
 {
     /// <summary>
-    /// Convenience client for azure subscriptions.
+    /// Convenience client for azure profile and subscriptions.
     /// </summary>
-    public class AzureSubscriptionsClient
+    public class ProfileClient
     {
-        private AzurePowerShell azurePowerShell;
+        private AzureSession azureSession;
 
-        public AzureSubscriptionsClient(AzurePowerShell azurePowerShell)
+        public ProfileClient(AzureSession azureSession)
         {
-            this.azurePowerShell = azurePowerShell;
+            this.azureSession = azureSession;
         }
 
         public IEnumerable<AzureSubscription> LoadSubscriptionsFromPublishSettingsFile(string filePath)
         {
-            var currentEnvironment = azurePowerShell.CurrentEnvironment;
+            var currentEnvironment = azureSession.CurrentEnvironment;
 
             if (string.IsNullOrEmpty(filePath) || !File.Exists(filePath))
             {
@@ -50,8 +50,8 @@ namespace Microsoft.WindowsAzure.Commands.Common
         public IEnumerable<AzureSubscription> LoadSubscriptionsFromServer()
         {
             var currentMode = PowerShellUtilities.GetCurrentMode();
-            var currentSubscription = azurePowerShell.CurrentSubscription;
-            var currentEnvironment = azurePowerShell.CurrentEnvironment;
+            var currentSubscription = azureSession.CurrentSubscription;
+            var currentEnvironment = azureSession.CurrentEnvironment;
             if (currentSubscription == null)
             {
                 UserCredentials credentials = new UserCredentials {NoPrompt = true};
@@ -60,7 +60,7 @@ namespace Microsoft.WindowsAzure.Commands.Common
             else
             {
                 // Get all AD accounts and iterate
-                var userIds = azurePowerShell.Profile.Subscriptions.Values
+                var userIds = azureSession.Profile.Subscriptions.Values
                     .Select(s => s.Properties[AzureSubscription.Property.UserAccount]).Distinct();
 
                 List<AzureSubscription> subscriptions = new List<AzureSubscription>();
@@ -109,11 +109,11 @@ namespace Microsoft.WindowsAzure.Commands.Common
 
         private IEnumerable<AzureSubscription> GetResourceManagerSubscriptions(AzureEnvironment environment, ref UserCredentials credentials)
         {
-            IAccessToken commonTenantToken = azurePowerShell.AuthenticationFactory.Authenticate(environment, ref credentials);
+            IAccessToken commonTenantToken = azureSession.AuthenticationFactory.Authenticate(environment, ref credentials);
 
             List<AzureSubscription> result = new List<AzureSubscription>();
             TenantListResult tenants;
-            using (var subscriptionClient = azurePowerShell.ClientFactory.CreateClient<Azure.Subscriptions.SubscriptionClient>(
+            using (var subscriptionClient = azureSession.ClientFactory.CreateClient<Azure.Subscriptions.SubscriptionClient>(
                 new TokenCloudCredentials(commonTenantToken.AccessToken),
                 new Uri(environment.GetEndpoint(AzureEnvironment.Endpoint.ResourceManagerEndpoint))))
             {
@@ -124,9 +124,9 @@ namespace Microsoft.WindowsAzure.Commands.Common
             foreach (var tenant in tenants.TenantIds)
             {
                 // Generate tenant specific token to query list of subscriptions
-                IAccessToken tenantToken = azurePowerShell.AuthenticationFactory.Authenticate(environment, tenant.TenantId, ref credentials);
+                IAccessToken tenantToken = azureSession.AuthenticationFactory.Authenticate(environment, tenant.TenantId, ref credentials);
 
-                using (var subscriptionClient = azurePowerShell.ClientFactory.CreateClient<Azure.Subscriptions.SubscriptionClient>(
+                using (var subscriptionClient = azureSession.ClientFactory.CreateClient<Azure.Subscriptions.SubscriptionClient>(
                         new TokenCloudCredentials(tenantToken.AccessToken),
                         new Uri(environment.GetEndpoint(AzureEnvironment.Endpoint.ResourceManagerEndpoint))))
                 {
@@ -141,11 +141,11 @@ namespace Microsoft.WindowsAzure.Commands.Common
                         };
                         if (commonTenantToken.LoginType == LoginType.LiveId)
                         {
-                            AzurePowerShell.SubscriptionTokenCache[psSubscription.Id] = tenantToken;
+                            AzureSession.SubscriptionTokenCache[psSubscription.Id] = tenantToken;
                         }
                         else
                         {
-                            AzurePowerShell.SubscriptionTokenCache[psSubscription.Id] = commonTenantToken;
+                            AzureSession.SubscriptionTokenCache[psSubscription.Id] = commonTenantToken;
                         }
 
                         result.Add(psSubscription);
@@ -158,10 +158,10 @@ namespace Microsoft.WindowsAzure.Commands.Common
 
         private IEnumerable<AzureSubscription> GetServiceManagementSubscriptions(AzureEnvironment environment, ref UserCredentials credentials)
         {
-            IAccessToken commonTenantToken = azurePowerShell.AuthenticationFactory.Authenticate(environment, ref credentials);
+            IAccessToken commonTenantToken = azureSession.AuthenticationFactory.Authenticate(environment, ref credentials);
 
             List<AzureSubscription> result = new List<AzureSubscription>();
-            using (var subscriptionClient = azurePowerShell.ClientFactory.CreateClient<WindowsAzure.Subscriptions.SubscriptionClient>(
+            using (var subscriptionClient = azureSession.ClientFactory.CreateClient<WindowsAzure.Subscriptions.SubscriptionClient>(
                         new TokenCloudCredentials(commonTenantToken.AccessToken),
                         new Uri(environment.GetEndpoint(AzureEnvironment.Endpoint.ServiceEndpoint))))
             {
@@ -176,13 +176,13 @@ namespace Microsoft.WindowsAzure.Commands.Common
                     };
                     if (commonTenantToken.LoginType == LoginType.LiveId)
                     {
-                        AzurePowerShell.SubscriptionTokenCache[psSubscription.Id] = 
-                            azurePowerShell.AuthenticationFactory.Authenticate(environment, 
+                        AzureSession.SubscriptionTokenCache[psSubscription.Id] = 
+                            azureSession.AuthenticationFactory.Authenticate(environment, 
                             subscription.ActiveDirectoryTenantId, ref credentials);
                     }
                     else
                     {
-                        AzurePowerShell.SubscriptionTokenCache[psSubscription.Id] = commonTenantToken;
+                        AzureSession.SubscriptionTokenCache[psSubscription.Id] = commonTenantToken;
                     }
 
                     result.Add(psSubscription);
@@ -196,7 +196,7 @@ namespace Microsoft.WindowsAzure.Commands.Common
         {
             foreach (var subscription in subscriptions)
             {
-                azurePowerShell.Profile.Subscriptions[subscription.Id] = subscription;
+                azureSession.Profile.Subscriptions[subscription.Id] = subscription;
             }
         }
     }

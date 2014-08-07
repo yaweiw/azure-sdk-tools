@@ -82,10 +82,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Profile
             return new WindowsAzureProfile(new PowershellProfileStore(path));
         }
 
-
         protected IEnumerable<AzureSubscription> LoadSubscriptionsFromServer()
         {
-            var subscriptionClient = new AzureSubscriptionsClient(this.AzureSession);
+            var subscriptionClient = new ProfileClient(CurrentAzureSession);
             return subscriptionClient.LoadSubscriptionsFromServer();
         }
     }

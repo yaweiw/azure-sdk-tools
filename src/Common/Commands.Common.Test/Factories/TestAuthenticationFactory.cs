@@ -26,8 +26,8 @@ namespace Microsoft.WindowsAzure.Commands.Common.Test.Factories
         [Fact]
         public void GetCloudCredentialThrowsExceptionForInvalidSubscription()
         {
-            AzurePowerShell.DataStoreInitializer = (p) => { return new MockDataStore(); };
-            AzurePowerShell powershell = new AzurePowerShell();
+            AzureSession.DataStoreInitializer = (p) => { return new MockDataStore(); };
+            AzureSession powershell = new AzureSession();
             var id = Guid.NewGuid();
             powershell.Profile.Subscriptions[id] = new AzureSubscription
             {
@@ -45,8 +45,8 @@ namespace Microsoft.WindowsAzure.Commands.Common.Test.Factories
         [Fact (Skip = "TODO: Implement mocks to test logic without interactive flow.")]
         public void AuthenticateReturnsSubscriptions()
         {
-            AzurePowerShell.DataStoreInitializer = (p) => { return new MockDataStore(); };
-            AzurePowerShell powershell = new AzurePowerShell();
+            AzureSession.DataStoreInitializer = (p) => { return new MockDataStore(); };
+            AzureSession powershell = new AzureSession();
             UserCredentials creds = new UserCredentials();
             powershell.AuthenticationFactory.Authenticate(powershell.CurrentEnvironment, ref creds);
             Assert.NotNull(creds.UserName);

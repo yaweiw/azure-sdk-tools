@@ -69,7 +69,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
 
         public void GetByName()
         {
-            IEnumerable<AzureSubscription> subscriptions = AzureSession.Profile
+            IEnumerable<AzureSubscription> subscriptions = CurrentAzureSession.Profile
                 .Subscriptions.Values.Union(LoadSubscriptionsFromServer());
             if (!string.IsNullOrEmpty(SubscriptionName))
             {
@@ -80,7 +80,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
 
         public void GetDefault()
         {
-            var defaultSubscription = AzureSession.Profile.DefaultSubscription;
+            var defaultSubscription = CurrentAzureSession.Profile.DefaultSubscription;
 
             if (defaultSubscription == null)
             {
@@ -112,7 +112,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
             }
             else
             {
-                WriteSubscriptions(AzureSession.CurrentSubscription);
+                WriteSubscriptions(CurrentAzureSession.CurrentSubscription);
             }
         }
 
@@ -127,7 +127,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
 
             if (ExtendedDetails.IsPresent)
             {
-                subscriptionOutput = subscriptions.Select(s => s.ToExtendedData(AzureSession.ClientFactory, AzureSession.Profile));
+                subscriptionOutput = subscriptions.Select(s => s.ToExtendedData(CurrentAzureSession.ClientFactory, CurrentAzureSession.Profile));
             }
             else
             {
