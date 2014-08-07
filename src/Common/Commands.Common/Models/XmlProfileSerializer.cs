@@ -16,7 +16,9 @@ using Microsoft.WindowsAzure.Commands.Common.Interfaces;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Xml;
@@ -27,13 +29,14 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
     {
         public string Serialize(AzureProfile obj)
         {
+            // We do not use the serialize for xml serializer anymore and rely solely on the JSON serializer.
             throw new NotImplementedException();
         }
 
-        public AzureProfile Deserialize(string contents)
+        public void Deserialize(string contents, AzureProfile profile)
         {
             ProfileData data = null;
-            AzureProfile profile = new AzureProfile(new VirtualDiskDataStore());
+            Debug.Assert(profile != null);
 
             try
             {
@@ -42,31 +45,28 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
                 {
                     data = (ProfileData)serializer.ReadObject(s);
                 }
-            }
-            catch (XmlException) { }
 
-            if (data != null)
-            {
-                foreach (AzureEnvironmentData oldEnv in data.Environments)
+                if (data != null)
                 {
-                    profile.AddEnvironment(oldEnv.ToAzureEnvironment());
-                }
-
-                List<AzureEnvironment> envs = profile.Environments;
-                foreach (AzureSubscriptionData oldSubscription in data.Subscriptions)
-                {
-                    profile.AddSubscription(oldSubscription.ToAzureSubscription(envs));
-
-                    if (!string.IsNullOrEmpty(oldSubscription.ManagementCertificate))
+                    foreach (AzureEnvironmentData oldEnv in data.Environments)
                     {
-                        profile.AddCertificate(GeneralUtilities.GetCertificateFromStore(oldSubscription.ManagementCertificate));
+                        profile.Environments[oldEnv.Name] = oldEnv.ToAzureEnvironment();
+                    }
+
+                    List<AzureEnvironment> envs = profile.Environments.Values.ToList();
+                    foreach (AzureSubscriptionData oldSubscription in data.Subscriptions)
+                    {
+                        AzureSubscription newSubscription = oldSubscription.ToAzureSubscription(envs);
+                        profile.Subscriptions[newSubscription.Id] = newSubscription;
+
+                        if (!string.IsNullOrEmpty(oldSubscription.ManagementCertificate))
+                        {
+                            profile.AddCertificate(GeneralUtilities.GetCertificateFromStore(oldSubscription.ManagementCertificate));
+                        }
                     }
                 }
             }
-
-            return profile;
+            catch (XmlException) { /* The profile XML was malformed ignore parsing the file */ }
         }
-
-        public string ProfileFile { get { return "WindowsAzureProfile.xml"; } }
     }
 }

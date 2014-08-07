@@ -15,15 +15,19 @@
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using Commands.Common.Properties;
+    using Microsoft.WindowsAzure.Commands.Common;
     using System;
     using System.Diagnostics;
     using System.Management.Automation;
 
     public abstract class CmdletBase : PSCmdlet
     {
+        AzurePowerShell AzurePowerShell { get; set; }
+
         public CmdletBase()
         {
             HttpRestCallLogger.CurrentCmdlet = this;
+            //AzurePowerShell = new AzurePowerShell();
         }
 
         protected string CurrentPath()

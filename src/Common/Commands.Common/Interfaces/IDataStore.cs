@@ -18,11 +18,13 @@ namespace Microsoft.WindowsAzure.Commands.Common.Interfaces
 {
     public interface IDataStore
     {
-        void WriteFile(string path, string contents);
+        void WriteProfile(string contents);
 
-        string ReadFile(string path);
+        void WriteTokenCache(byte[] contents);
 
-        bool FileExists(string path);
+        string ReadProfile();
+
+        byte[] ReadTokenCache();
 
         X509Certificate2 GetCertificate(string thumbprint);
 

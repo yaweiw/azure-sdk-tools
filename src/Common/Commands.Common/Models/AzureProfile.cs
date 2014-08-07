@@ -13,8 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 using Microsoft.WindowsAzure.Commands.Common.Interfaces;
-using Microsoft.WindowsAzure.Commands.Common.Properties;
-using Microsoft.WindowsAzure.Commands.Utilities.Common;
+using Microsoft.WindowsAzure.Common.Internals;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,152 +22,105 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace Microsoft.WindowsAzure.Commands.Common.Models
 {
-    public class AzureProfile
+    public sealed class AzureProfile : IDisposable
     {
         private IDataStore store;
 
-        private static string DefaultProfilePath = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-            Resources.AzureDirectoryName);
+        private AzureSubscription defaultSubscription;
 
-        private void Copy(AzureProfile other)
+        private void Load()
         {
-            // Copy environments
+            IProfileSerializer serializer;
+            string contents = store.ReadProfile();
 
-            // Copy subscriptions
+            if (ParserHelper.IsXml(contents))
+            {
+                serializer = new XmlProfileSerializer();
+                serializer.Deserialize(contents, this);
+            }
+            else if (ParserHelper.IsJson(contents))
+            {
+                serializer = new JsonProfileSerializer();
+                serializer.Deserialize(contents, this);
+            }
 
-            // Copy certificates
-
-            // Ignore copying the cached tokens as we require users to login again
+            // Adding predefined environments
+            foreach (AzureEnvironment env in AzureEnvironment.PublicEnvironments.Values)
+            {
+                Environments[env.Name] = env;
+            }
         }
 
-        private void LoadProfile()
+        private void Save()
         {
+            // Removing predefined environments
+            foreach (string env in AzureEnvironment.PublicEnvironments.Keys)
+            {
+                Environments.Remove(env);
+            }
+
             JsonProfileSerializer jsonSerializer = new JsonProfileSerializer();
-            XmlProfileSerializer xmlSerializer = new XmlProfileSerializer();
-            string xmlProfilePath = Path.Combine(DefaultProfilePath, xmlSerializer.ProfileFile);
-            string jsonProfilePath = Path.Combine(DefaultProfilePath, jsonSerializer.ProfileFile);
+            string diskContents = store.ReadProfile();
+            string contents = jsonSerializer.Serialize(this);
 
-            if (store.FileExists(xmlProfilePath))
+            if (diskContents != contents)
             {
-                AzureProfile profile = xmlSerializer.Deserialize(store.ReadFile(xmlProfilePath));
-                Copy(profile);
-                SaveProfile();
+                store.WriteProfile(contents);
             }
-            else if (store.FileExists(jsonProfilePath))
-            {
-                // Do JSON parsing
-            }
-        }
-
-        private void SaveProfile()
-        {
-            throw new NotImplementedException();
         }
 
         public AzureProfile(IDataStore store)
         {
             this.store = store;
+            Load();
+            defaultSubscription = Subscriptions.FirstOrDefault(
+                s => s.Value.Properties.ContainsKey(AzureSubscription.Property.Default)).Value;
+        }
 
-            LoadProfile();
+        public Dictionary<string, AzureEnvironment> Environments { get; set; }
 
-            foreach (AzureEnvironment env in Environments)
+        public Dictionary<Guid, AzureSubscription> Subscriptions { get; set; }
+
+        public AzureSubscription DefaultSubscription
+        {
+            get { return defaultSubscription; }
+
+            set
             {
-                if (env.DefaultSubscriptionId.HasValue)
-                {
-                    CurrentSubscription = GetSubscription(env.DefaultSubscriptionId.Value);
-                    break;
-                }
+                defaultSubscription.Properties.Remove(AzureSubscription.Property.Default);
+                defaultSubscription = value;
+                defaultSubscription.Properties.Add(AzureSubscription.Property.Default, null);
             }
         }
-
-        public AzureProfile() : this(new DiskDataStore())
-        {
-            
-        }
-
-        public List<AzureEnvironment> Environments
-        {
-            // Parse whatever environments saved on the disk and append to AzureEnvironment.PublicEnvironments
-            get { throw new NotImplementedException(); }
-        }
-
-        public List<AzureSubscription> Subscriptions
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public AzureSubscription CurrentSubscription { get; set; }
-
-        public AzureEnvironment CurrentEnvironment
-        {
-            get
-            {
-                if (CurrentSubscription == null)
-                {
-                    return GetEnvironment(EnvironmentName.AzureCloud);
-                }
-                else
-                {
-                    return GetEnvironment(CurrentSubscription.Environment);
-                }
-            }
-        }
-
-        #region General Methods
 
         public X509Certificate2 GetCertificate(string thumbprint)
         {
-            throw new NotImplementedException();
+            return store.GetCertificate(thumbprint);
         }
 
         public void AddCertificate(X509Certificate2 cert)
         {
-            throw new NotImplementedException();
+            store.AddCertificate(cert);
         }
 
         public void SaveTokenCache(byte[] data)
         {
-
+            store.WriteTokenCache(data);
         }
 
         public byte[] LoadTokenCache()
         {
-            throw new NotImplementedException();
+            return store.ReadTokenCache();
         }
 
-        public void UpdateDefaultSubscritpion(Guid subscriptionId)
+        public void Dispose()
         {
-            throw new NotImplementedException();
-        }
-
-        #endregion
-
-        #region Environment Methods
-
-        public void AddEnvironment(AzureEnvironment environment)
-        {
-            throw new NotImplementedException();
-        }
-
-        public AzureEnvironment GetEnvironment(string name)
-        {
-            return Environments.FirstOrDefault(e => e.Name.Equals(name, System.StringComparison.OrdinalIgnoreCase));
-        }
-
-        public void RemoveEnvironment(string name)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateEnvironment(AzureEnvironment environment)
-        {
-            throw new NotImplementedException();
+            Save();
         }
 
         public Uri GetEndpoint(string enviornment, AzureEnvironment.Endpoint endpoint)
         {
-            AzureEnvironment env = GetEnvironment(enviornment);
+            AzureEnvironment env = Environments[enviornment];
             Uri endpointUri = null;
 
             if (env != null)
@@ -182,45 +134,5 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
 
             return endpointUri;
         }
-
-        #endregion
-
-        #region Subscription Methods
-
-        public void AddSubscription(AzureSubscription subscription)
-        {
-            /*
-             * This method will do epic work merging between given subscription and existing
-             * subscriptions on the disk
-             */
-            throw new NotImplementedException();
-        }
-
-        public AzureSubscription GetSubscription(Guid? id)
-        {
-            if (id.HasValue)
-            {
-                return GetSubscription(id.Value);
-            }
-
-            return null;
-        }
-
-        public AzureSubscription GetSubscription(Guid id)
-        {
-            return Subscriptions.FirstOrDefault(s => Guid.Equals(id, s.Id));
-        }
-
-        public void RemoveSubscription(string name)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateSubscription(AzureSubscription subscription)
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion
     }
 }
