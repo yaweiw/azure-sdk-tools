@@ -21,7 +21,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntitie
     [DataContract(Namespace = UriElements.ServiceNamespace)]
     public class MetricSet
     {
-
         [DataMember]
         public string Name { get; set; }
 
@@ -35,7 +34,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntitie
         public DateTime EndTime { get; set; }
 
         [DataMember]
-        public TimeSpan TimeGrain { get; set; }
+        public string TimeGrain { get; set; }
 
         [DataMember]
         public string PrimaryAggregationType { get; set; }
@@ -48,7 +47,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntitie
             Values = new List<MetricSample>();
         }
 
-        public MetricSet(string name, string units, DateTime startTime, DateTime endTime, TimeSpan timeGrain, string primaryAggregationType)
+        public MetricSet(string name, string units, DateTime startTime, DateTime endTime, string timeGrain, string primaryAggregationType)
             : this()
         {
             Name = name;
@@ -89,6 +88,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntitie
             Total = total;
             TimeCreated = timeCreated;
             Count = 1;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("Time:{0}, Total:{1}, Min:{2}, Max:{3}", TimeCreated, Total, Minimum, Maximum);
         }
     }
 

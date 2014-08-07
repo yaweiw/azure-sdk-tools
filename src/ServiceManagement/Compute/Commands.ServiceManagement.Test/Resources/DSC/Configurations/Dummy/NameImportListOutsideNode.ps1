@@ -12,22 +12,10 @@
 # limitations under the License.
 # ----------------------------------------------------------------------------------
 
-Write-Output -InputObject 'Starting post-build script';
-
-$sourceDir = $args[0];
-Write-Output -InputObject $sourceDir;
-
-$sourcePath = $sourceDir + "AzureResourceManager.psd1"
-$destDir = Split-Path -Path $sourceDir
-
-if (Test-Path -Path $sourcePath) {
-    Write-Output -InputObject "Copying '$sourcePath' to directory '$destDir'";
-    Copy-Item -Path $sourcePath -Destination $destDir;
+Configuration Foo
+{ 
+	Import-DscResource -N MSFT_xComputer, MSFT_xADDomain, MSFT_xADUser
+    Node Bar
+    {     	
+    }
 }
-
-if (Test-Path -Path $sourcePath) {
-    Write-Output "Removing $sourcePath";
-    Remove-Item -Path $sourcePath -Force;
-}
-
-Write-Output -InputObject 'Finished post-build script';
