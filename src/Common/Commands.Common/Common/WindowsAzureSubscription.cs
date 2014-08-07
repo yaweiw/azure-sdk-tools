@@ -83,6 +83,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// </summary>
         internal Action Save { get; set; }
 
+        public IReadOnlyCollection<string> RegisteredResourceProvidersList
+        {
+            get { return RegisteredResourceProviders.AsReadOnly(); }
+        }
+
         public string CurrentStorageAccountName
         {
             get { return currentStorageAccountName; }
@@ -233,6 +238,33 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public TClient CreateClient<TClient>(bool registerProviders, params object[] parameters) where TClient : ServiceClient<TClient>
         {
             return ClientFactory.CreateClient<TClient>(parameters);
+        }
+
+        public void RegisterCustomProviders(IEnumerable<Provider> providers)
+        {
+            var requiredProviders = providers.Select(p => p.Namespace.ToLower())
+                                              .Where(p => !RegisteredResourceProviders.Contains(p))
+                                             .ToList();
+
+            if (requiredProviders.Count > 0)
+            {
+                var credentials = CreateCredentials();
+                using (IResourceManagementClient client = new ResourceManagementClient(credentials, ResourceManagerEndpoint))
+                {
+                    foreach (var provider in requiredProviders)
+                    {
+                        try
+                        {
+                            client.Providers.Register(provider);
+                            RegisteredResourceProviders.Add(provider);
+                        }
+                        catch
+                        {
+                            // Ignore this as the user may not have access to Sparta endpoint or the provider is already registered
+                        }
+                    }
+                }
+            }
         }
 
         private void RegisterRequiredResourceProviders<T>(SubscriptionCloudCredentials credentials) where T : ServiceClient<T>

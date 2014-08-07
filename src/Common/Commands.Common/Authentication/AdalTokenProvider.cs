@@ -140,6 +140,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
                             ex = threadEx;
                         }
                     }
+                    else if (adalEx.ErrorCode == AdalError.MissingFederationMetadataUrl)
+                    {
+                        ex = new Exception(Resources.CredentialOrganizationIdMessage, adalEx);
+                    }
                     else
                     {
                         ex = adalEx;

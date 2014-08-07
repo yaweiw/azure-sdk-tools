@@ -18,7 +18,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions.DSC
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.IO;
     using System.Linq;
     using System.Management.Automation;
@@ -59,7 +58,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions.DSC
             return false;
         }
 
-        private static List<string> GetTopLevelParametersFromAst(CommandAst ast, string parameterName)
+        private static List<string> GetLegacyTopLevelParametersFromAst(CommandAst ast, string parameterName)
         {
             List<string> parameters = new List<string>();
             IEnumerable<CommandParameterAst> commandElement =
@@ -89,11 +88,35 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions.DSC
                     powerShell.AddScript(
                      @"function BindArguments($ast, $out) 
                         {
+                            function GetListFromBinding($binding) 
+                            {
+                                if ($binding.Value.Value.Elements)
+                                # ArrayAst case
+                                { 
+                                    foreach ($x in $binding.Value.Value.Elements) { Write-Output $x } 
+                                }
+                                else 
+                                { 
+                                    Write-Output $binding.Value.Value.Value
+                                }
+                            }
+
                             $dic = ([System.Management.Automation.Language.StaticParameterBinder]::BindCommand($ast)).BoundParameters 
                             foreach ($binding in $dic.GetEnumerator()) 
                             {
-                                if ($binding.Key -like ""[N]*"") { $out.Add( (Get-DscResource $binding.Value.Value.Value).Module.Name ) }
-                                else {if ($binding.Key -like ""[M]*"") { $out.Add( $binding.Value.Value.Value ) }}
+                                # Name case
+                                if ($binding.Key -like ""[N]*"") 
+                                { 
+                                    GetListFromBinding($binding) | %{$out.Add( (Get-DscResource $_).Module.Name )}
+                                }
+                                else 
+                                { 
+                                    # ModuleName case
+                                    if ($binding.Key -like ""[M]*"") 
+                                    { 
+                                        GetListFromBinding($binding) | %{$out.Add( $_ )}
+                                    } 
+                                }
                             }
                         }");
                     powerShell.Invoke();
@@ -122,31 +145,43 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions.DSC
             return moduleName;
         }
 
-        private static List<string> GetRequiredModulesFromAst(CommandAst ast)
+        private static List<string> GetRequiredModulesFromAst(Ast ast)
         {
             List<string> modules = new List<string>();
 
+            // We use System.Management.Automation.Language.Parser to extract required modules from ast, 
+            // but format of ast is a bit tricky and have changed in time.
+            //
             // There are two place where 'Import-DscResource' keyword can appear:
             // 1) 
             // Configuration Foo {
-            //   Import-DscResource ....
+            //   Import-DscResource ....  # outside node
             //   Node Bar {...}
             // }
             // 2)
             // Configuration Foo {
             //   Node Bar {
-            //     Import-DscResource ....
+            //     Import-DscResource .... # inside node
             //     ...
             //   }
             // }
-            // Parser produce different ASTs for these two cases, here we handle first one.
+            // 
+            // The old version of System.Management.Automation.Language.Parser produces slightly different AST for the first case.
+            // In new version, Configuration corresponds to ConfigurationDefinitionAst.
+            // In old version is's a generic CommandAst with specific commandElements which capture top-level Imports (case 1).
+            // In new version all imports correspond to their own CommandAsts, same for case 2 in old version. 
+
+            // Old version, case 1:
+            IEnumerable<CommandAst> legacyConfigurationAsts = ast.FindAll(IsLegacyAstConfiguration, true).Select(x => (CommandAst)x);
+            foreach (var legacyConfigurationAst in legacyConfigurationAsts)
+            {
+                // Example: Import-DscResource -Module xPSDesiredStateConfiguration
+                modules.AddRange(GetLegacyTopLevelParametersFromAst(legacyConfigurationAst, "ModuleDefinition"));
+                // Example: Import-DscResource -Name MSFT_xComputer
+                modules.AddRange(GetLegacyTopLevelParametersFromAst(legacyConfigurationAst, "ResourceDefinition").Select(GetModuleNameForDscResource));    
+            }
             
-            // Example: Import-DscResource -Module xPSDesiredStateConfiguration
-            modules.AddRange(GetTopLevelParametersFromAst(ast, "ModuleDefinition"));
-            // Example: Import-DscResource -Name MSFT_xComputer
-            modules.AddRange(GetTopLevelParametersFromAst(ast, "ResourceDefinition").Select(GetModuleNameForDscResource));
-            
-            // And here second one.
+            // Both cases in new version and 2 case in old version:
             modules.AddRange(GetNodeLevelRequiredModules(ast));
 
             return modules.Distinct().ToList();
@@ -201,7 +236,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions.DSC
             }
         }
 
-        private static bool IsAstConfiguration(Ast node)
+        private static bool IsLegacyAstConfiguration(Ast node)
         {
             CommandAst commandNode = node as CommandAst;
             if (commandNode == null)
@@ -223,7 +258,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions.DSC
                     StringComparison.OrdinalIgnoreCase);
         }
 
-        public static ConfigurationParseResult ExtractConfigurationNames(string path)
+        public static ConfigurationParseResult ParseConfiguration(string path)
         {
             // Get the resolved script path. This will throw an exception if the file is not found.
             string fullPath = Path.GetFullPath(path);
@@ -232,9 +267,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions.DSC
             // Parse the script into an AST, capturing parse errors. Note - even with errors, the
             // file may still successfully define one or more configurations.
             ScriptBlockAst ast = Parser.ParseFile(fullPath, out tokens, out errors);
-            IEnumerable<CommandAst> configs = ast.FindAll(IsAstConfiguration, true).Select(x => (CommandAst)x);
-
-            List<string> requiredModules = configs.Select(GetRequiredModulesFromAst).SelectMany(x => x).Distinct().ToList();
+            List<string> requiredModules = GetRequiredModulesFromAst(ast).Distinct().ToList();
 
             return new ConfigurationParseResult()
             {

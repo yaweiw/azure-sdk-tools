@@ -216,6 +216,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Windows Azure Powershell\.
         /// </summary>
+        public static string Argument_WebSpaceMissing {
+            get {
+                return ResourceManager.GetString("Argument_WebSpaceMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        /// </summary>
         public static string AzureDirectory {
             get {
                 return ResourceManager.GetString("AzureDirectory", resourceCulture);

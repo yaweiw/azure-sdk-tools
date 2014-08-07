@@ -21,6 +21,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
     using Management.WebSites.Models;
     using Utilities.Common;
     using WebEntities;
+    using Utilities = Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntities;
+    using Models = Management.WebSites.Models;
 
     /// <summary>
     /// Extension methods for converting return values from the websites
@@ -89,7 +91,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
                     {
                         ConnectionString = cs.ConnectionString,
                         Name = cs.Name,
-                        Type = (DatabaseType)Enum.Parse(typeof(DatabaseType), cs.Type)
+                        Type = (DatabaseType)Enum.Parse(typeof(DatabaseType), cs.Type.ToString())
                     }).ToList()),
                 HandlerMappings = getConfigResponse.HandlerMappings.Select(hm => new HandlerMapping
                 {
@@ -100,11 +102,39 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
                 ManagedPipelineMode = getConfigResponse.ManagedPipelineMode,
                 WebSocketsEnabled = getConfigResponse.WebSocketsEnabled,
                 RemoteDebuggingEnabled = getConfigResponse.RemoteDebuggingEnabled,
-                RemoteDebuggingVersion = getConfigResponse.RemoteDebuggingVersion.GetValueOrDefault()
+                RemoteDebuggingVersion = getConfigResponse.RemoteDebuggingVersion.GetValueOrDefault(),
+                RoutingRules = getConfigResponse.RoutingRules.Select(r => r.ToRoutingRule()).ToList()
             };
             return config;
         }
 
+        internal static Utilities.RoutingRule ToRoutingRule(this Models.RoutingRule rule)
+        {
+            Utilities.RoutingRule result = null;
+            if (rule is Models.RampUpRule)
+            {
+                Models.RampUpRule rampupRule = rule as Models.RampUpRule;
+                result = new Utilities.RampUpRule()
+                {
+                    ReroutePercentage = rampupRule.ReroutePercentage,
+                    ActionHostName = rampupRule.ActionHostName,
+                    MinReroutePercentage = rampupRule.MinReroutePercentage,
+                    MaxReroutePercentage = rampupRule.MaxReroutePercentage,
+                    ChangeDecisionCallbackUrl = rampupRule.ChangeDecisionCallbackUrl,
+                    ChangeIntervalInMinutes = rampupRule.ChangeIntervalInMinutes,
+                    ChangeStep = rampupRule.ChangeStep,
+                };
+            }
+
+            if (result != null)
+            {
+                // base class properties
+                result.Name = rule.Name;
+            }
+
+            return result;
+        }
+          
         internal static Site ToSite(this WebSiteGetResponse response)
         {
             return new Site
@@ -174,6 +204,105 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
         {
             return new KeyValuePair<string, string>(nvp.Name, nvp.Value);
         }
+        internal static IList<MetricResponse> ToMetricResponses(this WebSiteGetHistoricalUsageMetricsResponse metricsResponse)
+        {
+            var result = new List<MetricResponse>();
+            if (metricsResponse == null || metricsResponse.UsageMetrics == null)
+            {
+                return result;
+            }
+
+            foreach (var response in metricsResponse.UsageMetrics)
+            {
+                var metrics = response.Data.ToMetricSet();
+                var rsp = new MetricResponse
+                {
+                    Code = response.Code,
+                    Message = response.Message,
+                    Data = metrics
+                };
+                result.Add(rsp);
+            }
+
+            return result;
+        }
+
+        internal static IList<MetricResponse> ToMetricResponses(this WebHostingPlanGetHistoricalUsageMetricsResponse metricsResponse)
+        {
+            var result = new List<MetricResponse>();
+            if (metricsResponse == null || metricsResponse.UsageMetrics == null)
+            {
+                return result;
+            }
+
+            foreach (var response in metricsResponse.UsageMetrics)
+            {
+                var metrics = response.Data.ToMetricSet();
+                var rsp = new MetricResponse
+                {
+                    Code = response.Code,
+                    Message = response.Message,
+                    Data = metrics
+                };
+                result.Add(rsp);
+            }
+
+            return result;
+        }
+        
+        internal static MetricSet ToMetricSet(this HistoricalUsageMetricData data)
+        {
+            var metrics = new MetricSet
+            {
+                Name = data.Name,
+                PrimaryAggregationType = data.PrimaryAggregationType,
+                TimeGrain = data.TimeGrain,
+                StartTime = data.StartTime,
+                EndTime = data.EndTime,
+                Unit = data.Unit,
+                Values = data.Values.ToMetricSamples().ToList(),
+            };
+
+            return metrics;
+        }
+
+        internal static IList<MetricSample> ToMetricSamples(this IList<HistoricalUsageMetricSample> samples)
+        {
+            var result = new List<MetricSample>();
+
+            foreach (var s in samples)
+            {
+                var converted = new MetricSample()
+                {
+                    Count = s.Count,
+                    TimeCreated = s.TimeCreated,
+                };
+
+                long val = 0;
+
+                if (!string.IsNullOrEmpty(s.Minimum))
+                {
+                    long.TryParse(s.Minimum, out val);
+                    converted.Minimum = val;
+                }
+
+                if (!string.IsNullOrEmpty(s.Maximum))
+                {
+                    long.TryParse(s.Maximum, out val);
+                    converted.Maximum = val;
+                }
+                
+                if (!string.IsNullOrEmpty(s.Total))
+                {
+                    long.TryParse(s.Total, out val);
+                    converted.Total = val;
+                }
+
+                result.Add(converted);
+            }
+
+            return result;
+        }
 
         private static Certificate ToCertificate(WebSite.WebSiteSslCertificate certificate)
         {
@@ -215,10 +344,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
                 ComputeMode = null, // TODO: Update
                 WorkerSize =
                     webspace.WorkerSize.HasValue
-                        ? new WorkerSizeOptions?((WorkerSizeOptions)(int)webspace.WorkerSize.Value)
+                        ? new Utilities.WorkerSizeOptions?((Utilities.WorkerSizeOptions)(int)webspace.WorkerSize.Value)
                         : null,
                 NumberOfWorkers = webspace.CurrentNumberOfWorkers,
-                Status = (StatusOptions)(int)webspace.Status,
+                Status = (Utilities.StatusOptions)(int)webspace.Status,
                 AvailabilityState = (WebEntities.WebSpaceAvailabilityState)(int)webspace.AvailabilityState
             };
         }
@@ -238,19 +367,26 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
                 ManagedPipelineMode = config.ManagedPipelineMode,
                 WebSocketsEnabled = config.WebSocketsEnabled,
                 RemoteDebuggingEnabled = config.RemoteDebuggingEnabled,
-                RemoteDebuggingVersion = config.RemoteDebuggingVersion
+                RemoteDebuggingVersion = config.RemoteDebuggingVersion,
+                RoutingRules = config.RoutingRules.Select(r => r.ToRoutingRule()).ToArray()
             };
-            config.AppSettings.ForEach(nvp => parameters.AppSettings.Add(ToKeyValuePair(nvp)));
-            config.ConnectionStrings.ForEach(
+            if (config.AppSettings != null)
+                config.AppSettings.ForEach(nvp => parameters.AppSettings.Add(ToKeyValuePair(nvp)));
+
+            if (config.ConnectionStrings != null)
+                config.ConnectionStrings.ForEach(
                 csi => parameters.ConnectionStrings.Add(new WebSiteUpdateConfigurationParameters.ConnectionStringInfo
                 {
                     Name = csi.Name,
                     ConnectionString = csi.ConnectionString,
-                    Type = csi.Type.ToString()
+                    Type = (Models.ConnectionStringType)Enum.Parse(typeof(Models.ConnectionStringType), csi.Type.ToString())
                 }));
 
-            config.DefaultDocuments.ForEach(d => parameters.DefaultDocuments.Add(d));
-            config.HandlerMappings.ForEach(
+            if (config.DefaultDocuments != null)
+                config.DefaultDocuments.ForEach(d => parameters.DefaultDocuments.Add(d));
+
+            if (config.HandlerMappings != null)
+                config.HandlerMappings.ForEach(
                 hm => parameters.HandlerMappings.Add(new WebSiteUpdateConfigurationParameters.HandlerMapping
                 {
                     Arguments = hm.Arguments,
@@ -258,9 +394,74 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
                     ScriptProcessor = hm.ScriptProcessor
                 }));
 
-            config.Metadata.ForEach(nvp => parameters.Metadata.Add(ToKeyValuePair(nvp)));
+            if (config.Metadata != null)
+                config.Metadata.ForEach(nvp => parameters.Metadata.Add(ToKeyValuePair(nvp)));
 
             return parameters;
+        }
+
+        internal static Models.RoutingRule ToRoutingRule(this Utilities.RoutingRule rule)
+        {
+            Models.RoutingRule result = null;
+            if (rule is Utilities.RampUpRule)
+            {
+                var rampupRule = rule as Utilities.RampUpRule;
+                result = new Models.RampUpRule()
+                {
+                    ReroutePercentage = rampupRule.ReroutePercentage,
+                    ActionHostName = rampupRule.ActionHostName,
+                    MinReroutePercentage = rampupRule.MinReroutePercentage,
+                    MaxReroutePercentage = rampupRule.MaxReroutePercentage,
+                    ChangeDecisionCallbackUrl = rampupRule.ChangeDecisionCallbackUrl,
+                    ChangeIntervalInMinutes = rampupRule.ChangeIntervalInMinutes,
+                    ChangeStep = rampupRule.ChangeStep,
+                };
+            }
+
+            if (result != null)
+            {
+                // base class properties
+                result.Name = rule.Name;
+            }
+
+            return result;
+        }
+
+        internal static Utilities.WebHostingPlan ToWebHostingPlan(this Models.WebHostingPlan plan, string webSpace)
+        {
+            return new Utilities.WebHostingPlan
+            {
+                Name = plan.Name,
+                CurrentNumberOfWorkers = plan.CurrentNumberOfWorkers,
+                CurrentWorkerSize = plan.CurrentWorkerSize.HasValue
+                        ? new Utilities.WorkerSizeOptions?((Utilities.WorkerSizeOptions)(int)plan.CurrentWorkerSize.Value)
+                        : null,
+                WorkerSize = plan.WorkerSize.HasValue
+                        ? new Utilities.WorkerSizeOptions?((Utilities.WorkerSizeOptions)(int)plan.WorkerSize.Value)
+                        : null,
+                Status = (Utilities.StatusOptions) plan.Status,
+                NumberOfWorkers = plan.NumberOfWorkers,
+                SKU = plan.SKU,
+                WebSpace = webSpace,
+            };
+        }
+
+        internal static Utilities.WebHostingPlan ToWebHostingPlan(this Models.WebHostingPlanGetResponse plan)
+        {
+            return new Utilities.WebHostingPlan
+            {
+                Name = plan.Name,
+                CurrentNumberOfWorkers = plan.CurrentNumberOfWorkers,
+                CurrentWorkerSize = plan.CurrentWorkerSize.HasValue
+                        ? new Utilities.WorkerSizeOptions?((Utilities.WorkerSizeOptions)(int)plan.CurrentWorkerSize.Value)
+                        : null,
+                WorkerSize = plan.WorkerSize.HasValue
+                        ? new Utilities.WorkerSizeOptions?((Utilities.WorkerSizeOptions)(int)plan.WorkerSize.Value)
+                        : null,
+                Status = (Utilities.StatusOptions)plan.Status,
+                NumberOfWorkers = plan.NumberOfWorkers,
+                SKU = plan.SKU
+            };
         }
     }
 

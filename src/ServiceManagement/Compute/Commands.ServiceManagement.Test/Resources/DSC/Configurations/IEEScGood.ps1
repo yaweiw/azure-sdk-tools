@@ -12,22 +12,15 @@
 # limitations under the License.
 # ----------------------------------------------------------------------------------
 
-Write-Output -InputObject 'Starting post-build script';
+Configuration IEEscGood {
+    Import-DscResource -ModuleName xSystemSecurity -Name xIEESC
+    
+    Node localhost {
+        xIEESc DscIE {
+            UserRole = "Users"
+            IsEnabled = $False
+        }
+    }
 
-$sourceDir = $args[0];
-Write-Output -InputObject $sourceDir;
-
-$sourcePath = $sourceDir + "AzureResourceManager.psd1"
-$destDir = Split-Path -Path $sourceDir
-
-if (Test-Path -Path $sourcePath) {
-    Write-Output -InputObject "Copying '$sourcePath' to directory '$destDir'";
-    Copy-Item -Path $sourcePath -Destination $destDir;
 }
-
-if (Test-Path -Path $sourcePath) {
-    Write-Output "Removing $sourcePath";
-    Remove-Item -Path $sourcePath -Force;
-}
-
-Write-Output -InputObject 'Finished post-build script';
+AzureDscDemo
