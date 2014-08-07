@@ -17,14 +17,14 @@ using System.Collections.Generic;
 using System.Security;
 using Microsoft.WindowsAzure.Commands.Common.Models;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
+using Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication;
 
 namespace Microsoft.WindowsAzure.Commands.Common
 {
     public interface IAuthenticationFactory
     {
-        IEnumerable<AzureSubscription> Authenticate(AzureEnvironment environment, AzureModule currentMode, bool noPrompt, out string userId);
-        IEnumerable<AzureSubscription> Authenticate(AzureEnvironment environment, AzureModule currentMode, bool noPrompt, string userId);
-        IEnumerable<AzureSubscription> Authenticate(AzureEnvironment environment, AzureModule currentMode, bool noPrompt, string userId, SecureString password);
+        IAccessToken Authenticate(AzureEnvironment environment, ref UserCredentials credentials);
+        IAccessToken Authenticate(AzureEnvironment environment, string tenant, ref UserCredentials credentials);
         SubscriptionCloudCredentials GetSubscriptionCloudCredentials(Guid subscriptionId);
     }
 }

@@ -131,6 +131,7 @@
   <ItemGroup>
     <Compile Include="Authentication\AadAuthenticationException.cs" />
     <Compile Include="Authentication\AccessTokenCredential.cs" />
+    <Compile Include="Authentication\UserCredentials.cs" />
     <Compile Include="Authentication\AdalConfiguration.cs" />
     <Compile Include="Authentication\ProtectedFileTokenCache.cs" />
     <Compile Include="Authentication\AdalTokenProvider.cs" />

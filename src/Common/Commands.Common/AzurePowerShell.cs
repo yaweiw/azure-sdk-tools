@@ -12,12 +12,15 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.Collections.Generic;
 using Microsoft.WindowsAzure.Commands.Common.Factories;
+using Microsoft.WindowsAzure.Commands.Common.Interfaces;
 using Microsoft.WindowsAzure.Commands.Common.Models;
 using Microsoft.WindowsAzure.Commands.Common.Properties;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using System;
 using System.IO;
+using Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication;
 
 namespace Microsoft.WindowsAzure.Commands.Common
 {
@@ -49,8 +52,10 @@ namespace Microsoft.WindowsAzure.Commands.Common
 
         static AzurePowerShell()
         {
+            DataStoreInitializer = (p) => { return new DiskDataStore(p); };
             ClientFactoryInitializer = (p, a) => { return new ClientFactory(p, a); };
             AuthenticationFactoryInitializer = p => { return new AuthenticationFactory(p); };
+            SubscriptionTokenCache = new Dictionary<Guid, IAccessToken>();
 
             if (File.Exists(Path.Combine(ProfileDirectory, OldProfileFile)))
             {
@@ -61,7 +66,7 @@ namespace Microsoft.WindowsAzure.Commands.Common
         private static void UpgradeProfile()
         {
             string oldProfilePath = Path.Combine(ProfileDirectory, OldProfileFile);
-            AzureProfile profile = new AzureProfile(new DiskDataStore(oldProfilePath));
+            AzureProfile profile = new AzureProfile(DataStoreInitializer(oldProfilePath));
             
             // Save the profile to the disk
             profile.Dispose();
@@ -72,19 +77,23 @@ namespace Microsoft.WindowsAzure.Commands.Common
 
         public AzurePowerShell(string profilePath)
         {
-            Profile = new AzureProfile(new DiskDataStore(profilePath));
+            Profile = new AzureProfile(DataStoreInitializer(profilePath));
             AuthenticationFactory = AuthenticationFactoryInitializer(Profile);
             ClientFactory = ClientFactoryInitializer(Profile, AuthenticationFactory);
         }
 
         public AzurePowerShell() : this(Path.Combine(ProfileDirectory, ProfileFile))
         {
-
+            
         }
+
+        public static Func<string, IDataStore> DataStoreInitializer { get; set; }
 
         public static Func<AzureProfile, IAuthenticationFactory, IClientFactory> ClientFactoryInitializer { get; set; }
 
         public static Func<AzureProfile, IAuthenticationFactory> AuthenticationFactoryInitializer { get; set; }
+
+        public static IDictionary<Guid, IAccessToken> SubscriptionTokenCache { get; set; }
 
         public AzureSubscription CurrentSubscription
         {

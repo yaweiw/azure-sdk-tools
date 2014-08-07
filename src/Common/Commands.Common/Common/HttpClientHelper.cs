@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Commands.Common.Factories;
+
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using System.Net;
@@ -24,11 +26,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         {
             if (credentials != null)
             {
-                return AzurePowerShell.ClientFactory.CreateHttpClient(serviceUrl, credentials);
+                return ClientFactory.CreateHttpClient(serviceUrl, credentials);
             }
             else
             {
-                return AzurePowerShell.ClientFactory.CreateHttpClient(serviceUrl, handler);
+                return ClientFactory.CreateHttpClient(serviceUrl, handler);
             }
         }
     }

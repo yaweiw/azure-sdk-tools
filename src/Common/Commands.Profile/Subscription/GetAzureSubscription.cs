@@ -69,7 +69,8 @@ namespace Microsoft.WindowsAzure.Commands.Profile
 
         public void GetByName()
         {
-            IEnumerable<AzureSubscription> subscriptions = AzurePowerShell.Profile.Subscriptions.Union(LoadSubscriptionsFromServer());
+            IEnumerable<AzureSubscription> subscriptions = AzureSession.Profile
+                .Subscriptions.Values.Union(LoadSubscriptionsFromServer());
             if (!string.IsNullOrEmpty(SubscriptionName))
             {
                 subscriptions = subscriptions.Where(s => s.Name == SubscriptionName);
@@ -79,7 +80,9 @@ namespace Microsoft.WindowsAzure.Commands.Profile
 
         public void GetDefault()
         {
-            if (AzurePowerShell.Profile.CurrentEnvironment.DefaultSubscriptionId == null)
+            var defaultSubscription = AzureSession.Profile.DefaultSubscription;
+
+            if (defaultSubscription == null)
             {
                 WriteError(new ErrorRecord(
                     new InvalidOperationException(Resources.InvalidDefaultSubscription), 
@@ -88,8 +91,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
             }
             else
             {
-                var subscriptionId = AzurePowerShell.Profile.CurrentEnvironment.DefaultSubscriptionId;
-                WriteSubscriptions(AzurePowerShell.Profile.GetSubscription(subscriptionId));
+                WriteSubscriptions(defaultSubscription);
             }
         }
 
@@ -110,7 +112,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
             }
             else
             {
-                WriteSubscriptions(AzurePowerShell.Profile.CurrentSubscription);
+                WriteSubscriptions(AzureSession.CurrentSubscription);
             }
         }
 
@@ -125,7 +127,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
 
             if (ExtendedDetails.IsPresent)
             {
-                subscriptionOutput = subscriptions.Select(s => s.ToExtendedData());
+                subscriptionOutput = subscriptions.Select(s => s.ToExtendedData(AzureSession.ClientFactory, AzureSession.Profile));
             }
             else
             {
@@ -141,12 +143,12 @@ namespace Microsoft.WindowsAzure.Commands.Profile
 
     static class SubscriptionConversions
     {
-        internal static SubscriptionDataExtended ToExtendedData(this AzureSubscription subscription)
+        internal static SubscriptionDataExtended ToExtendedData(this AzureSubscription subscription, IClientFactory clientFactory, AzureProfile azureProfile)
         {
-            using (var client = AzurePowerShell.ClientFactory.CreateClient<ManagementClient>())
+            using (var client = clientFactory.CreateClient<ManagementClient>())
             {
                 var response = client.Subscriptions.Get();
-                var environment = AzurePowerShell.Profile.GetEnvironment(subscription.Environment);
+                var environment = azureProfile.Environments[subscription.Environment];
 
                 SubscriptionDataExtended result = new SubscriptionDataExtended
                 {
@@ -168,7 +170,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
                     Id = subscription.Id,
                     ServiceEndpoint = environment.GetEndpoint(AzureEnvironment.Endpoint.ServiceEndpoint),
                     ResourceManagerEndpoint = environment.GetEndpoint(AzureEnvironment.Endpoint.ResourceManagerEndpoint),
-                    IsDefault = environment.DefaultSubscriptionId == subscription.Id,
+                    IsDefault = subscription.GetProperty(AzureSubscription.Property.Default) != null,
                     Certificate = WindowsAzureCertificate.FromThumbprint(subscription.GetProperty(AzureSubscription.Property.Thumbprint)),
                     CurrentStorageAccountName = subscription.GetProperty(AzureSubscription.Property.CloudStorageAccount)
                 };

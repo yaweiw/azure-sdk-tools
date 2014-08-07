@@ -38,7 +38,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest
         /// <param name="initializedManagementClients"></param>
         public void SetupManagementClients(params object[] initializedManagementClients)
         {
-            AzurePowerShell.ClientFactory = new DummyManagementClientHelper(initializedManagementClients);
+            AzurePowerShell.ClientFactoryInitializer = (p, a) => new DummyManagementClientHelper(initializedManagementClients);
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest
         /// <param name="initializedManagementClients"></param>
         public void SetupSomeOfManagementClients(params object[] initializedManagementClients)
         {
-            AzurePowerShell.ClientFactory = new DummyManagementClientHelper(initializedManagementClients, false);
+            AzurePowerShell.ClientFactoryInitializer = (p, a) => new DummyManagementClientHelper(initializedManagementClients, false);
         }
 
         public void SetupEnvironment(AzureModule mode)

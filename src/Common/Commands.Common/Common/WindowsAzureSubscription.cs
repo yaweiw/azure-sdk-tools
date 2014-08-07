@@ -15,11 +15,11 @@
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using Authentication;
-    using Commands.Common;
     using Commands.Common.Properties;
     using Management;
     using Microsoft.Azure.Management.Resources;
     using Microsoft.Azure.Management.Resources.Models;
+    using Microsoft.WindowsAzure.Commands.Common.Factories;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -232,7 +232,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         public TClient CreateClient<TClient>(bool registerProviders, params object[] parameters) where TClient : ServiceClient<TClient>
         {
-            return AzurePowerShell.ClientFactory.CreateClient<TClient>(parameters);
+            return ClientFactory.CreateClient<TClient>(parameters);
         }
 
         private void RegisterRequiredResourceProviders<T>(SubscriptionCloudCredentials credentials) where T : ServiceClient<T>

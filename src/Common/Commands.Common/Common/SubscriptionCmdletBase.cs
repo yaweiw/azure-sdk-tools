@@ -85,36 +85,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Profile
 
         protected IEnumerable<AzureSubscription> LoadSubscriptionsFromServer()
         {
-            var currentMode = PowerShellUtilities.GetCurrentMode();
-            var currentSubscription = AzurePowerShell.Profile.CurrentSubscription;
-            var currentEnvironment = AzurePowerShell.Profile.CurrentEnvironment;
-            string userId = null;
-            if (currentSubscription == null)
-            {
-                return AzurePowerShell.AuthenticationFactory.Authenticate(currentEnvironment, currentMode, true, out userId);
-
-                // Save userId into environment
-                // Save subscriptions into profile
-                // Save profile
-            }
-            else
-            {
-                // Get all AD accounts and iterate
-
-                userId = currentSubscription.GetProperty(AzureSubscription.Property.UserAccount);
-                if (userId != null)
-                {
-                    return AzurePowerShell.AuthenticationFactory.Authenticate(currentEnvironment, currentMode, true, userId);
-
-                    // Save userId into environment
-                    // Save subscriptions into profile
-                    // Save profile
-                }
-                else
-                {
-                    return new AzureSubscription[0];
-                }
-            }
+            var subscriptionClient = new AzureSubscriptionsClient(this.AzureSession);
+            return subscriptionClient.LoadSubscriptionsFromServer();
         }
     }
 }

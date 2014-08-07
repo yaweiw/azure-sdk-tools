@@ -16,6 +16,7 @@ using System;
 using Microsoft.WindowsAzure.Commands.Common.Models;
 using Microsoft.WindowsAzure.Commands.Common.Test.Common;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
+using Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication;
 using Xunit;
 
 namespace Microsoft.WindowsAzure.Commands.Common.Test.Factories
@@ -25,28 +26,30 @@ namespace Microsoft.WindowsAzure.Commands.Common.Test.Factories
         [Fact]
         public void GetCloudCredentialThrowsExceptionForInvalidSubscription()
         {
-            AzurePowerShell.Profile = new AzureProfile(new VirtualDiskDataStore());
-            AzurePowerShell.Profile.Subscriptions.Add(new AzureSubscription
+            AzurePowerShell.DataStoreInitializer = (p) => { return new MockDataStore(); };
+            AzurePowerShell powershell = new AzurePowerShell();
+            var id = Guid.NewGuid();
+            powershell.Profile.Subscriptions[id] = new AzureSubscription
             {
-                Id = Guid.NewGuid(),
+                Id = id,
                 Name = "Test",
                 Environment = "Test"
-            });
-            AzurePowerShell.Profile.Environments.Add(new AzureEnvironment
+            };
+            powershell.Profile.Environments["Test"] = new AzureEnvironment
             {
                 Name = "Test"
-            });
-            Assert.Throws<ArgumentException>(() => AzurePowerShell.AuthenticationFactory.GetSubscriptionCloudCredentials(Guid.NewGuid()));
+            };
+            Assert.Throws<ArgumentException>(() => powershell.AuthenticationFactory.GetSubscriptionCloudCredentials(Guid.NewGuid()));
         }
 
         [Fact (Skip = "TODO: Implement mocks to test logic without interactive flow.")]
         public void AuthenticateReturnsSubscriptions()
         {
-            AzurePowerShell.Profile = new AzureProfile(new VirtualDiskDataStore());
-            string userName = "";
-            var ids = AzurePowerShell.AuthenticationFactory.Authenticate(AzurePowerShell.Profile.CurrentEnvironment, AzureModule.AzureResourceManager, true, out userName);
-            Assert.NotNull(userName);
-            Assert.NotEmpty(ids);
+            AzurePowerShell.DataStoreInitializer = (p) => { return new MockDataStore(); };
+            AzurePowerShell powershell = new AzurePowerShell();
+            UserCredentials creds = new UserCredentials();
+            powershell.AuthenticationFactory.Authenticate(powershell.CurrentEnvironment, ref creds);
+            Assert.NotNull(creds.UserName);
         }
     }
 }

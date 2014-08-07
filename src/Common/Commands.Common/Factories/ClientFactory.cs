@@ -25,11 +25,6 @@ namespace Microsoft.WindowsAzure.Commands.Common.Factories
 {
     public class ClientFactory : IClientFactory
     {
-        /// <summary>
-        /// Event that's trigged when a new client has been created.
-        /// </summary>
-        public event EventHandler<ClientCreatedArgs> OnClientCreated;
-
         private static readonly char[] uriPathSeparator = { '/' };
 
         private IAuthenticationFactory authenticationFactory;
@@ -42,14 +37,26 @@ namespace Microsoft.WindowsAzure.Commands.Common.Factories
             this.profile = profile;
         }
 
+        public event EventHandler<ClientCreatedArgs> OnClientCreated;
+
         public TClient CreateClient<TClient>(AzureSubscription subscription, AzureEnvironment.Endpoint endpoint) where TClient : ServiceClient<TClient>
         {
-            SubscriptionCloudCredentials creds = authenticationFactory.Authenticate(subscription);
+            SubscriptionCloudCredentials creds = authenticationFactory.GetSubscriptionCloudCredentials(subscription.Id);
             Uri endpointUri = profile.GetEndpoint(subscription.Environment, endpoint);
             return CreateClient<TClient>(creds, endpointUri);
         }
 
-        public TClient CreateClient<TClient>(params object[] parameters) where TClient : ServiceClient<TClient>
+        TClient IClientFactory.CreateClient<TClient>(params object[] parameters)
+        {
+            var client = CreateClient<TClient>(parameters);
+            if (client != null && OnClientCreated != null)
+            {
+                OnClientCreated(this, new ClientCreatedArgs {CreatedClient = client, ClientType = client.GetType()});
+            }
+            return client;
+        }
+
+        public static TClient CreateClient<TClient>(params object[] parameters) where TClient : ServiceClient<TClient>
         {
             List<Type> types = new List<Type>();
             foreach (object obj in parameters)
@@ -67,22 +74,25 @@ namespace Microsoft.WindowsAzure.Commands.Common.Factories
             TClient client = (TClient)constructor.Invoke(parameters);
             client.UserAgent.Add(ApiConstants.UserAgentValue);
             
-            if (OnClientCreated != null)
-            {
-                ClientCreatedArgs args = new ClientCreatedArgs { CreatedClient = client, ClientType = typeof(TClient) };
-                OnClientCreated(this, args);
-                client = (TClient)args.CreatedClient;
-            }
-
             return client;
         }
 
-        public HttpClient CreateHttpClient(string endpoint, ICredentials credentials)
+        HttpClient IClientFactory.CreateHttpClient(string endpoint, ICredentials credentials)
+        {
+            return CreateHttpClient(endpoint, credentials);
+        }
+
+        HttpClient IClientFactory.CreateHttpClient(string endpoint, HttpMessageHandler effectiveHandler)
+        {
+            return CreateHttpClient(endpoint, effectiveHandler);
+        }
+
+        public static HttpClient CreateHttpClient(string endpoint, ICredentials credentials)
         {
             return CreateHttpClient(endpoint, CreateHttpClientHandler(endpoint, credentials));
         }
 
-        public HttpClient CreateHttpClient(string endpoint, HttpMessageHandler effectiveHandler)
+        public static HttpClient CreateHttpClient(string endpoint, HttpMessageHandler effectiveHandler)
         {
             if (endpoint == null)
             {
