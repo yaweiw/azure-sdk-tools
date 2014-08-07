@@ -16,6 +16,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using Commands.Common.Properties;
     using Commands.Common.Models;
+    using Microsoft.WindowsAzure.Commands.Common;
     using System;
     using System.Diagnostics;
     using System.Management.Automation;
@@ -23,6 +24,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     public abstract class CmdletBase : PSCmdlet
     {
         private readonly RecordingTracingInterceptor httpTracingInterceptor = new RecordingTracingInterceptor();
+        AzurePowerShell AzurePowerShell { get; set; }
+
+        public CmdletBase()
+        {
+            AzurePowerShell = new AzurePowerShell();
+        }
 
         protected string CurrentPath()
         {

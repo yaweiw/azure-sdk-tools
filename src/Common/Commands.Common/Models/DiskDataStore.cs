@@ -21,19 +21,44 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
 {
     public class DiskDataStore : IDataStore
     {
-        public void WriteFile(string path, string contents)
+        private string profilePath;
+
+        private string tokenCachePath;
+
+        public DiskDataStore(string profilePath)
         {
-            File.WriteAllText(path, contents);
+            this.profilePath = profilePath;
+            this.tokenCachePath = Path.Combine(AzurePowerShell.ProfileDirectory, AzurePowerShell.TokenCacheFile);
         }
 
-        public string ReadFile(string path)
+        public void WriteProfile(string contents)
         {
-            return File.ReadAllText(path);
+            File.WriteAllText(profilePath, contents);
         }
 
-        public bool FileExists(string path)
+        public void WriteTokenCache(byte[] contents)
         {
-            return File.Exists(path);
+            File.WriteAllBytes(tokenCachePath, contents);
+        }
+
+        public string ReadProfile()
+        {
+            if (File.Exists(profilePath))
+            {
+                return File.ReadAllText(profilePath);
+            }
+
+            return null;
+        }
+
+        public byte[] ReadTokenCache()
+        {
+            if (File.Exists(tokenCachePath))
+            {
+                return File.ReadAllBytes(tokenCachePath);                
+            }
+
+            return null;
         }
 
         public X509Certificate2 GetCertificate(string thumbprint)

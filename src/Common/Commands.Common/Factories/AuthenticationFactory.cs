@@ -34,9 +34,6 @@ namespace Microsoft.WindowsAzure.Commands.Common.Factories
         private readonly IDictionary<Guid, IAccessToken> subscriptionTokenCache = new Dictionary<Guid, IAccessToken>();
         private readonly AzureProfile profile;
 
-        public AuthenticationFactory() : this(AzurePowerShell.Profile)
-        { }
-
         public AuthenticationFactory(AzureProfile azureProfile)
         {
             TokenProvider = new AdalTokenProvider();
@@ -180,13 +177,13 @@ namespace Microsoft.WindowsAzure.Commands.Common.Factories
 
         public SubscriptionCloudCredentials GetSubscriptionCloudCredentials(Guid subscriptionId)
         {
-            var subscription = profile.GetSubscription(subscriptionId);
+            var subscription = profile.Subscriptions[subscriptionId];
             if (subscription == null)
             {
                 throw new ArgumentException("Specified subscription has not been loaded.");
             }
 
-            var environment = profile.GetEnvironment(subscription.Environment);
+            var environment = profile.Environments[subscription.Environment];
             var userId = subscription.GetProperty(AzureSubscription.Property.UserAccount);
             var certificate = WindowsAzureCertificate.FromThumbprint(subscription.GetProperty(AzureSubscription.Property.Thumbprint));
 

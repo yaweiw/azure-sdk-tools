@@ -16,8 +16,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security;
+using Microsoft.Azure.Subscriptions;
+using Microsoft.Azure.Subscriptions.Models;
 using Microsoft.WindowsAzure.Commands.Common.Models;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
+using Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication;
 
 namespace Microsoft.WindowsAzure.Commands.Common
 {
@@ -26,19 +30,16 @@ namespace Microsoft.WindowsAzure.Commands.Common
     /// </summary>
     public class AzureSubscriptionsClient
     {
-        private AzureProfile profile;
+        private AzurePowerShell azurePowerShell;
 
-        public AzureSubscriptionsClient() : this(AzurePowerShell.Profile)
-        { }
-
-        public AzureSubscriptionsClient(AzureProfile profile)
+        public AzureSubscriptionsClient(AzurePowerShell azurePowerShell)
         {
-            this.profile = profile;
+            this.azurePowerShell = azurePowerShell;
         }
 
         public IEnumerable<AzureSubscription> LoadSubscriptionsFromPublishSettingsFile(string filePath)
         {
-            var currentEnvironment = profile.CurrentEnvironment;
+            var currentEnvironment = azurePowerShell.CurrentEnvironment;
 
             if (string.IsNullOrEmpty(filePath) || !File.Exists(filePath))
             {
@@ -50,8 +51,8 @@ namespace Microsoft.WindowsAzure.Commands.Common
         public IEnumerable<AzureSubscription> LoadSubscriptionsFromServer()
         {
             var currentMode = PowerShellUtilities.GetCurrentMode();
-            var currentSubscription = profile.CurrentSubscription;
-            var currentEnvironment = profile.CurrentEnvironment;
+            var currentSubscription = azurePowerShell.CurrentSubscription;
+            var currentEnvironment = azurePowerShell.CurrentEnvironment;
             if (currentSubscription == null)
             {
                 string userId = null;
@@ -60,7 +61,7 @@ namespace Microsoft.WindowsAzure.Commands.Common
             else
             {
                 // Get all AD accounts and iterate
-                var userIds = profile.Subscriptions
+                var userIds = azurePowerShell.Profile.Subscriptions.Values
                     .Select(s => s.Properties[AzureSubscription.Property.UserAccount]).Distinct();
 
                 List<AzureSubscription> subscriptions = new List<AzureSubscription>();
@@ -81,11 +82,58 @@ namespace Microsoft.WindowsAzure.Commands.Common
             }
         }
 
+        private IEnumerable<AzureSubscription> GetServerSubscriptions(AzureEnvironment environment)
+        {
+            IAccessToken commonTenantToken = azurePowerShell.AuthenticationFactory.GetToken();
+
+            TenantListResult tenants;
+            using (var subscriptionClient = azurePowerShell.ClientFactory.CreateClient<Azure.Subscriptions.SubscriptionClient>(
+                new TokenCloudCredentials(commonTenantToken.AccessToken),
+                new Uri(environment.GetEndpoint(AzureEnvironment.Endpoint.ResourceManagerEndpoint))))
+            {
+                tenants = subscriptionClient.Tenants.List();
+            }
+
+            // Go over each tenant and get all subscriptions for tenant
+            foreach (var tenant in tenants.TenantIds)
+            {
+                // Generate tenant specific token to query list of subscriptions
+                IAccessToken tenantToken = azurePowerShell.AuthenticationFactory.GetToken(GetAdalConfiguration(environment, tenant.TenantId), commonTenantToken.UserId,
+                    password);
+
+                using (var subscriptionClient = azurePowerShell.ClientFactory.CreateClient<Azure.Subscriptions.SubscriptionClient>(
+                        new TokenCloudCredentials(tenantToken.AccessToken),
+                        new Uri(environment.GetEndpoint(AzureEnvironment.Endpoint.ResourceManagerEndpoint))))
+                {
+                    var subscriptionListResult = subscriptionClient.Subscriptions.List();
+                    foreach (var subscription in subscriptionListResult.Subscriptions)
+                    {
+                        AzureSubscription psSubscription = new AzureSubscription
+                        {
+                            Id = new Guid(subscription.SubscriptionId),
+                            Name = subscription.DisplayName,
+                            Environment = environment.Name
+                        };
+                        if (commonTenantToken.LoginType == LoginType.LiveId)
+                        {
+                            subscriptionTokenCache[psSubscription.Id] = tenantToken;
+                        }
+                        else
+                        {
+                            subscriptionTokenCache[psSubscription.Id] = commonTenantToken;
+                        }
+
+                        yield return psSubscription;
+                    }
+                }
+            }
+        }
+
         public void SaveSubscriptions(IEnumerable<AzureSubscription> subscriptions)
         {
             foreach (var subscription in subscriptions)
             {
-                profile.AddSubscription(subscription);
+                azurePowerShell.Profile.Subscriptions[subscription.Id] = subscription;
             }
         }
     }

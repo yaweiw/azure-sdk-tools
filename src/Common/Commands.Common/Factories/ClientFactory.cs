@@ -32,15 +32,20 @@ namespace Microsoft.WindowsAzure.Commands.Common.Factories
 
         private static readonly char[] uriPathSeparator = { '/' };
 
-        public ClientFactory ()
-        {
+        private IAuthenticationFactory authenticationFactory;
 
+        private AzureProfile profile;
+
+        public ClientFactory(AzureProfile profile, IAuthenticationFactory authenticationFactory)
+        {
+            this.authenticationFactory = authenticationFactory;
+            this.profile = profile;
         }
 
         public TClient CreateClient<TClient>(AzureSubscription subscription, AzureEnvironment.Endpoint endpoint) where TClient : ServiceClient<TClient>
         {
-            SubscriptionCloudCredentials creds = AzurePowerShell.AuthenticationFactory.GetSubscriptionCloudCredentials(subscription.Id);
-            Uri endpointUri = AzurePowerShell.Profile.GetEndpoint(subscription.Environment, endpoint);
+            SubscriptionCloudCredentials creds = authenticationFactory.Authenticate(subscription);
+            Uri endpointUri = profile.GetEndpoint(subscription.Environment, endpoint);
             return CreateClient<TClient>(creds, endpointUri);
         }
 
