@@ -1801,15 +1801,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to In the current release, you have to specify &quot;-DeleteVHD&quot; to delete a VM image and all its underlying VHDs..
-        /// </summary>
-        public static string VMImageDeletionMustSpecifyDeleteVhdParameter {
-            get {
-                return ResourceManager.GetString("VMImageDeletionMustSpecifyDeleteVhdParameter", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Virtual Machine {0} is missing provisioning configuration.
         /// </summary>
         public static string VMMissingProvisioningConfiguration {

@@ -272,16 +272,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
         public PersistentVM SetAzureAvailabilitySet(string vmName, string serviceName, string availabilitySetName)
         {
-            if (!string.IsNullOrEmpty(availabilitySetName))
-            {
-                PersistentVM vm = GetAzureVM(vmName, serviceName).VM;
-
-                return RunPSCmdletAndReturnFirst<PersistentVM>(new SetAzureAvailabilitySetCmdletInfo(availabilitySetName, vm));
-            }
-            else
-            {
-                return null;
-            }
+            PersistentVM vm = GetAzureVM(vmName, serviceName).VM;
+            return RunPSCmdletAndReturnFirst<PersistentVM>(new SetAzureAvailabilitySetCmdletInfo(availabilitySetName, vm));
         }
 
         #endregion AzureAvailabilitySet

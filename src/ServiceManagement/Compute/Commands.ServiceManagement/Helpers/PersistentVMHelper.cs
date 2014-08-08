@@ -189,5 +189,32 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
 
             return name;
         }
+
+        public static string ConvertCustomDataFileToBase64(string fileName)
+        {
+            byte[] bytes = new byte[3 * 4096]; // Make buffer be a factor of 3 for encoding correctly
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            System.IO.FileStream fileStream = null;
+ 
+            try
+            {
+                fileStream = new System.IO.FileStream(fileName, System.IO.FileMode.Open);
+ 
+                while (fileStream.Position < fileStream.Length)
+                {
+                    int cb = fileStream.Read(bytes, 0, bytes.Length);
+                    sb.Append(System.Convert.ToBase64String(bytes, 0, cb));
+                }
+            }
+            finally
+            {
+                if (fileStream != null)
+                {
+                    fileStream.Close();
+                }
+            }
+            
+            return (sb.ToString());
+        }
     }
 }
