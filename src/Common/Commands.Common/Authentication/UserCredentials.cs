@@ -19,7 +19,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
     public struct UserCredentials
     {
         public string UserName { get; set; }
+
         public SecureString Password { get; set; }
+        
         public bool NoPrompt { get; set; }
     }
 }

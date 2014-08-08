@@ -21,7 +21,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Microsoft.WindowsAzure.Management.ServiceBus;
     using Microsoft.WindowsAzure.Management.ServiceBus.Models;
-    using Microsoft.WindowsAzure.ServiceManagement;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;

@@ -328,30 +328,5 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 WriteError(errorRecord);
             }
         }
-
-        /// <summary>
-        /// Wrap the base Cmdlet's WriteError call so that it will not throw
-        /// a NotSupportedException when called without a CommandRuntime (i.e.,
-        /// when not called from within Powershell).
-        /// </summary>
-        /// <param name="errorRecord">The error to write.</param>
-        protected void WriteWindowsAzureError(ErrorRecord errorRecord)
-        {
-            // If the exception is an Azure Service Management error, pull the
-            // Azure message out to the front instead of the generic response.
-            errorRecord = AzureException.WrapExistingError(errorRecord);
-        }
-
-        protected static string RetrieveOperationId()
-        {
-            var operationId = string.Empty;
-
-            if ((WebOperationContext.Current != null) && (WebOperationContext.Current.IncomingResponse != null))
-            {
-                operationId = WebOperationContext.Current.IncomingResponse.Headers[ServiceManagement.Model.Constants.OperationTrackingIdHeader];
-            }
-
-            return operationId;
-        }
     }
 }

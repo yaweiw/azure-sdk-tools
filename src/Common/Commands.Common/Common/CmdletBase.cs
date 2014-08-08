@@ -24,12 +24,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     public abstract class CmdletBase : PSCmdlet
     {
         private readonly RecordingTracingInterceptor httpTracingInterceptor = new RecordingTracingInterceptor();
-        
-        protected AzureSession CurrentAzureSession { get; set; }
 
         public CmdletBase()
         {
-            CurrentAzureSession = new AzureSession();
+            ProfileClient client = new ProfileClient();
+            AzureSession.Load(client.Profile.Environments, client.Profile.DefaultSubscription);
         }
 
         protected string CurrentPath()
@@ -155,7 +154,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             try
             {
                 base.ProcessRecord();
-                HttpRestCallLogger.CurrentCmdlet = this;
                 ExecuteCmdlet();
             }
             catch (Exception ex)

@@ -27,35 +27,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
     public static class CmdletExtensions
     {
-        [SuppressMessage("Microsoft.Usage", "CA2202:Do not dispose objects multiple times")]
-        public static void WriteVerboseOutputForObject(this PSCmdlet powerShellCmdlet, object obj)
-        {
-            bool verbose = powerShellCmdlet.MyInvocation.BoundParameters.ContainsKey("Verbose") && ((SwitchParameter)powerShellCmdlet.MyInvocation.BoundParameters["Verbose"]).ToBool();
-            if (verbose == false)
-            {
-                return;
-            }
-
-            string deserializedobj;
-            var serializer = new DataContractSerializer(obj.GetType());
-
-            using (var backing = new StringWriter())
-            {
-                using (var writer = new XmlTextWriter(backing))
-                {
-                    writer.Formatting = Formatting.Indented;
-
-                    serializer.WriteObject(writer, obj);
-                    deserializedobj = backing.ToString();
-                }
-            }
-
-            deserializedobj = deserializedobj.Replace("/d2p1:", string.Empty);
-            deserializedobj = deserializedobj.Replace("d2p1:", string.Empty);
-            powerShellCmdlet.WriteVerbose(powerShellCmdlet.CommandRuntime.ToString());
-            powerShellCmdlet.WriteVerbose(deserializedobj);
-        }
-
         public static string TryResolvePath(this PSCmdlet psCmdlet, string path)
         {
             try
@@ -92,37 +63,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             return fullPath;
         }
 
-        public static Exception ProcessExceptionDetails(this PSCmdlet cmdlet, Exception exception)
-        {
-            if ((exception is DataServiceQueryException) && (exception.InnerException != null))
-            {
-                var dscException = FindDataServiceClientException(exception.InnerException);
-
-                if (dscException == null)
-                {
-                    return new InnerDataServiceException(exception.InnerException.Message);
-                }
-
-                var message = dscException.Message;
-                try
-                {
-                    XNamespace ns = "http://schemas.microsoft.com/ado/2007/08/dataservices/" +
-                                    "metadata";
-                    XDocument doc = XDocument.Parse(message);
-                    if (doc.Root != null)
-                    {
-                        return new InnerDataServiceException(doc.Root.Element(ns + "message").Value);
-                    }
-                }
-                catch
-                {
-                    return new InnerDataServiceException(message);
-                }
-            }
-
-            return exception;
-        }
-
         private static Exception FindDataServiceClientException(Exception ex)
         {
             if (ex is DataServiceClientException)
@@ -131,16 +71,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             }
 
             return ex.InnerException != null ? FindDataServiceClientException(ex.InnerException) : null;
-        }
-
-        public static void ExecuteScript(this PSCmdlet cmdlet, string contents)
-        {
-            ExecuteScript<object>(cmdlet, contents);
-        }
-
-        public static void ExecuteScriptFile(this PSCmdlet cmdlet, string absolutePath)
-        {
-            ExecuteScriptFile<object>(cmdlet, absolutePath);
         }
 
         public static List<T> ExecuteScript<T>(this PSCmdlet cmdlet, string contents)

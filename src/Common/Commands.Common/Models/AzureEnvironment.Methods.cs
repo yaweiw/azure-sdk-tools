@@ -34,7 +34,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
 
         private string EndpointFormatFor(string service)
         {
-            string suffix = GetEndpoint(AzureEnvironment.Endpoint.StorageEndpointSuffix);
+            string suffix = GetEndpointSuffix(AzureEnvironment.Endpoint.StorageEndpointSuffix);
 
             if (!string.IsNullOrEmpty(suffix))
             {
@@ -119,11 +119,21 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
             }
         };
 
-        public string GetEndpoint(AzureEnvironment.Endpoint endpoint)
+        public Uri GetEndpoint(AzureEnvironment.Endpoint endpoint)
         {
             if (Endpoints.ContainsKey(endpoint))
             {
-                return Endpoints[endpoint];
+                new Uri(Endpoints[endpoint]);
+            }
+
+            return null;
+        }
+
+        public string GetEndpointSuffix(AzureEnvironment.Endpoint endpointSuffix)
+        {
+            if (Endpoints.ContainsKey(endpointSuffix))
+            {
+                return Endpoints[endpointSuffix];
             }
 
             return null;

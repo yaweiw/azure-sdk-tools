@@ -44,6 +44,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Profile
         protected SubscriptionCmdletBase(bool createFileIfNotExists)
         {
             this.createFileIfNotExists = createFileIfNotExists;
+            ProfileClient = new ProfileClient();
+        }
+
+        protected override void BeginProcessing()
+        {
+            if (!string.IsNullOrEmpty(SubscriptionDataFile))
+            {
+                ProfileClient = new ProfileClient(SubscriptionDataFile);
+            }
         }
 
         public override WindowsAzureProfile Profile
@@ -72,6 +81,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Profile
             get { return base.Profile; }
         }
 
+        public ProfileClient ProfileClient { get; set; }
+
         private WindowsAzureProfile LoadSubscriptionDataFile()
         {
             string path = GetUnresolvedProviderPathFromPSPath(SubscriptionDataFile);
@@ -84,7 +95,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Profile
 
         protected IEnumerable<AzureSubscription> LoadSubscriptionsFromServer()
         {
-            var subscriptionClient = new ProfileClient(CurrentAzureSession);
+            var subscriptionClient = new ProfileClient();
             return subscriptionClient.LoadSubscriptionsFromServer();
         }
     }

@@ -17,12 +17,12 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("ManagedCache Test Assembly")]
-[assembly: AssemblyCompany(Microsoft.WindowsAzure.Commands.Common.AzureSession.AssemblyCompany)]
+[assembly: AssemblyCompany(Microsoft.WindowsAzure.Commands.Common.AzurePowerShell.AssemblyCompany)]
 [assembly: AssemblyProduct("ManagedCache Test Assembly")]
-[assembly: AssemblyCopyright(Microsoft.WindowsAzure.Commands.Common.AzureSession.AssemblyCopyright)]
+[assembly: AssemblyCopyright(Microsoft.WindowsAzure.Commands.Common.AzurePowerShell.AssemblyCopyright)]
 
 [assembly: ComVisible(false)]
 [assembly: CLSCompliant(false)]
 [assembly: Guid("3E5D3114-DEBB-4DC2-BB9D-CF2A2707F74D")]
-[assembly: AssemblyVersion(Microsoft.WindowsAzure.Commands.Common.AzureSession.AssemblyVersion)]
-[assembly: AssemblyFileVersion(Microsoft.WindowsAzure.Commands.Common.AzureSession.AssemblyFileVersion)]
+[assembly: AssemblyVersion(Microsoft.WindowsAzure.Commands.Common.AzurePowerShell.AssemblyVersion)]
+[assembly: AssemblyFileVersion(Microsoft.WindowsAzure.Commands.Common.AzurePowerShell.AssemblyFileVersion)]

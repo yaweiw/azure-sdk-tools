@@ -55,10 +55,10 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest
             SubscriptionCloudCredentials creds = new TokenCloudCredentials(subscription.Id.ToString(), "fake_token");
             if (HttpMockServer.GetCurrentMode() != HttpRecorderMode.Playback)
             {
-                creds = authenticationFactory.GetSubscriptionCloudCredentials(subscription.Id);    
+                creds = authenticationFactory.GetSubscriptionCloudCredentials(subscription);    
             }
 
-            Uri endpointUri = profile.GetEndpoint(subscription.Environment, endpoint);
+            Uri endpointUri = AzureSession.Environments[subscription.Environment].GetEndpoint(endpoint);
             return CreateClient<TClient>(creds, endpointUri);
         }
 
@@ -75,7 +75,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest
                 }
                 else
                 {
-                    IClientFactory realHelper = new ClientFactory(profile, authenticationFactory);
+                    IClientFactory realHelper = new ClientFactory();
                     var realClient = realHelper.CreateClient<TClient>(parameters);
                     realClient.WithHandler(HttpMockServer.CreateInstance());
                     return realClient;

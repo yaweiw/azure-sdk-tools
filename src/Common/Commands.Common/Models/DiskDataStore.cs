@@ -28,7 +28,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
         public DiskDataStore(string profilePath)
         {
             this.profilePath = profilePath;
-            this.tokenCachePath = Path.Combine(AzureSession.ProfileDirectory, AzureSession.TokenCacheFile);
+            this.tokenCachePath = Path.Combine(AzurePowerShell.ProfileDirectory, AzurePowerShell.TokenCacheFile);
         }
 
         public void WriteProfile(string contents)
@@ -70,5 +70,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
         {
             GeneralUtilities.AddCertificateToStore(cert);
         }
+
+        public string ProfilePath { get { return profilePath; } }
     }
 }

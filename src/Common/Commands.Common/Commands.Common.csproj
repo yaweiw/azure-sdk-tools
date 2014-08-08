@@ -140,7 +140,9 @@
     <Compile Include="Authentication\ITokenProvider.cs" />
     <Compile Include="Authentication\LoginType.cs" />
     <Compile Include="Authentication\RegistryBackedDictionary.cs" />
+    <Compile Include="Common\AzurePowerShell.cs" />
     <Compile Include="Common\ProfileClient.cs" />
+    <Compile Include="Common\ServiceManagementTypes.cs" />
     <Compile Include="Factories\AuthenticationFactory.cs" />
     <Compile Include="Factories\ClientFactory.cs" />
     <Compile Include="Common\AzureException.cs" />
@@ -156,8 +158,6 @@
     <Compile Include="Common\IdnHelper.cs" />
     <Compile Include="Common\ManagementOperationContext.cs" />
     <Compile Include="Common\Parameters.cs" />
-    <Compile Include="Common\ServiceManagementTypes.cs" />
-    <Compile Include="Common\ServiceManagementClientExtensions.cs" />
     <Compile Include="Common\SubscriptionCmdletBase.cs" />
     <Compile Include="Common\SubscriptionDataExtended.cs" />
     <Compile Include="Common\TestMockSupport.cs" />
@@ -166,7 +166,6 @@
     <Compile Include="Common\HttpClientHelper.cs" />
     <Compile Include="Common\HttpRestCallLogger.cs" />
     <Compile Include="Common\HttpRestMessageInspector.cs" />
-    <Compile Include="Common\InnerDataServiceException.cs" />
     <Compile Include="Common\IProfileStore.cs" />
     <Compile Include="Common\ManagementConstants.cs" />
     <Compile Include="Common\PowershellDefaultProfileStore.cs" />

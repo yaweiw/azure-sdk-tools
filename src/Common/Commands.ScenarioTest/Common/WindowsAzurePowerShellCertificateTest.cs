@@ -31,7 +31,6 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
         protected TestCredentialHelper credentials;
         protected string credentialFile;
         protected string profileFile;
-        protected AzureSession azurePowerShell = new AzureSession();
 
         // Location where test output will be written to e.g. C:\Temp
         private static string outputDirKey = "TEST_HTTPMOCK_OUTPUT";
@@ -80,7 +79,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
         public override void TestSetup()
         {
             base.TestSetup();
-            azurePowerShell.ClientFactory.OnClientCreated += OnClientCreated;
+            AzureSession.ClientFactory.OnClientCreated += OnClientCreated;
             if (this.runningMocked)
             {
                 TestCredentialHelper.ImportCredentails(powershell, this.credentialFile);
@@ -99,7 +98,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
         public override void TestCleanup()
         {
             base.TestCleanup();
-            azurePowerShell.ClientFactory.OnClientCreated -= OnClientCreated;
+            AzureSession.ClientFactory.OnClientCreated -= OnClientCreated;
             if (!this.runningMocked && HttpMockServer.CallerIdentity != null)
             {
                 HttpMockServer.Flush();

@@ -25,12 +25,9 @@ namespace Microsoft.WindowsAzure.Commands.Common.Factories
     {
         private const string CommonAdTenant = "Common";
 
-        private readonly AzureProfile profile;
-
-        public AuthenticationFactory(AzureProfile azureProfile)
+        public AuthenticationFactory()
         {
             TokenProvider = new AdalTokenProvider();
-            profile = azureProfile;
         }
 
         public ITokenProvider TokenProvider { get; set; }
@@ -54,33 +51,27 @@ namespace Microsoft.WindowsAzure.Commands.Common.Factories
             return token;
         }
 
-        public SubscriptionCloudCredentials GetSubscriptionCloudCredentials(Guid subscriptionId)
+        public SubscriptionCloudCredentials GetSubscriptionCloudCredentials(AzureSubscription subscription)
         {
-            var subscription = profile.Subscriptions[subscriptionId];
-            if (subscription == null)
-            {
-                throw new ArgumentException("Specified subscription has not been loaded.");
-            }
-
-            var environment = profile.Environments[subscription.Environment];
+            var environment = AzureSession.Environments[subscription.Environment];
             var userId = subscription.GetProperty(AzureSubscription.Property.UserAccount);
             var certificate = WindowsAzureCertificate.FromThumbprint(subscription.GetProperty(AzureSubscription.Property.Thumbprint));
 
-            if (AzureSession.SubscriptionTokenCache.ContainsKey(subscriptionId))
+            if (AzureSession.SubscriptionTokenCache.ContainsKey(subscription.Id))
             {
-                return new AccessTokenCredential(subscriptionId.ToString(), AzureSession.SubscriptionTokenCache[subscriptionId]);
+                return new AccessTokenCredential(subscription.ToString(), AzureSession.SubscriptionTokenCache[subscription.Id]);
             }
             else if (userId != null)
             {
-                if (!AzureSession.SubscriptionTokenCache.ContainsKey(subscriptionId))
+                if (!AzureSession.SubscriptionTokenCache.ContainsKey(subscription.Id))
                 {
                     throw new ArgumentException(Resources.InvalidSubscriptionState);
                 }
-                return new AccessTokenCredential(subscriptionId.ToString(), AzureSession.SubscriptionTokenCache[subscriptionId]);
+                return new AccessTokenCredential(subscription.ToString(), AzureSession.SubscriptionTokenCache[subscription.Id]);
             }
             else if (certificate != null)
             {
-                return new CertificateCloudCredentials(subscriptionId.ToString(), certificate);
+                return new CertificateCloudCredentials(subscription.ToString(), certificate);
             }
             else
             {

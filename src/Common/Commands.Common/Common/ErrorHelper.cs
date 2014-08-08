@@ -60,7 +60,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
             if (response.Headers != null)
             {
-                operationId = response.Headers[Constants.OperationTrackingIdHeader];
+                operationId = response.Headers[ApiConstants.OperationTrackingIdHeader];
             }
 
             if (response.StatusCode == HttpStatusCode.NotFound)

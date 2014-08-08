@@ -22,6 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Test.Common
     public class MockDataStore : IDataStore
     {
         private const string profileFileName = "profile";
+
         private const string tokenFileName = "token";
 
         private Dictionary<string, object> mockStore = new Dictionary<string, object>();
@@ -70,5 +71,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Test.Common
         {
             throw new System.NotImplementedException();
         }
+
+        public string ProfilePath { get { return null; } }
     }
 }

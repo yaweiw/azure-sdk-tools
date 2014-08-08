@@ -36,6 +36,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
     {
         public GetAzureSubscriptionCommand() : base(false)
         {
+
         }
 
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the subscription", ParameterSetName = "ByName")]
@@ -69,7 +70,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
 
         public void GetByName()
         {
-            IEnumerable<AzureSubscription> subscriptions = CurrentAzureSession.Profile
+            IEnumerable<AzureSubscription> subscriptions = ProfileClient.Profile
                 .Subscriptions.Values.Union(LoadSubscriptionsFromServer());
             if (!string.IsNullOrEmpty(SubscriptionName))
             {
@@ -80,7 +81,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
 
         public void GetDefault()
         {
-            var defaultSubscription = CurrentAzureSession.Profile.DefaultSubscription;
+            var defaultSubscription = ProfileClient.Profile.DefaultSubscription;
 
             if (defaultSubscription == null)
             {
@@ -112,7 +113,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
             }
             else
             {
-                WriteSubscriptions(CurrentAzureSession.CurrentSubscription);
+                WriteSubscriptions(AzureSession.CurrentSubscription);
             }
         }
 
@@ -127,7 +128,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
 
             if (ExtendedDetails.IsPresent)
             {
-                subscriptionOutput = subscriptions.Select(s => s.ToExtendedData(CurrentAzureSession.ClientFactory, CurrentAzureSession.Profile));
+                subscriptionOutput = subscriptions.Select(s => s.ToExtendedData(AzureSession.ClientFactory, ProfileClient.Profile));
             }
             else
             {
@@ -168,8 +169,8 @@ namespace Microsoft.WindowsAzure.Commands.Profile
                     SubscriptionStatus = response.SubscriptionStatus.ToString(),
                     Name = subscription.Name,
                     Id = subscription.Id,
-                    ServiceEndpoint = environment.GetEndpoint(AzureEnvironment.Endpoint.ServiceEndpoint),
-                    ResourceManagerEndpoint = environment.GetEndpoint(AzureEnvironment.Endpoint.ResourceManagerEndpoint),
+                    ServiceEndpoint = environment.GetEndpoint(AzureEnvironment.Endpoint.ServiceEndpoint).ToString(),
+                    ResourceManagerEndpoint = environment.GetEndpoint(AzureEnvironment.Endpoint.ResourceManagerEndpoint).ToString(),
                     IsDefault = subscription.GetProperty(AzureSubscription.Property.Default) != null,
                     Certificate = WindowsAzureCertificate.FromThumbprint(subscription.GetProperty(AzureSubscription.Property.Thumbprint)),
                     CurrentStorageAccountName = subscription.GetProperty(AzureSubscription.Property.CloudStorageAccount)
