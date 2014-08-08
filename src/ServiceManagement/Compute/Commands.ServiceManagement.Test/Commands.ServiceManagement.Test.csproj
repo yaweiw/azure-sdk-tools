@@ -329,6 +329,7 @@
     <Compile Include="FunctionalTests\PIRCmdletInfo\RemoveAzurePlatformVMImage.cs" />
     <Compile Include="FunctionalTests\PIRCmdletInfo\SetAzurePlatformVMImage.cs" />
     <Compile Include="FunctionalTests\PIRTest.cs" />
+    <Compile Include="FunctionalTests\PowershellCore\InvokeCommandCmdletInfo.cs" />
     <Compile Include="FunctionalTests\PowershellCore\PowershellCmdletScript.cs" />
     <Compile Include="FunctionalTests\PreviewCmdletInfo\GetAzureReservedIPCmdletInfo.cs" />
     <Compile Include="FunctionalTests\PreviewCmdletInfo\NewAzureReservedIPCmdletInfo.cs" />
@@ -388,6 +389,12 @@
     <None Include="packages.config" />
     <None Include="Resources\affinityGroupData.csv" />
     <None Include="Resources\certificateData.csv" />
+    <None Include="Resources\CustomData.bin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\cloudinittest.sh">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\DSC\Configurations\Dummy\ModuleImportSingleInsideNode.ps1" />
     <None Include="Resources\DSC\Configurations\Dummy\ModuleImportSingleOutsideNode.ps1" />
     <None Include="Resources\DSC\Configurations\Dummy\ModuleImportListOutsideNode.ps1" />
