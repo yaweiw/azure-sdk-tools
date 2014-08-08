@@ -95,8 +95,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Profile
 
         protected IEnumerable<AzureSubscription> LoadSubscriptionsFromServer()
         {
-            var subscriptionClient = new ProfileClient();
-            return subscriptionClient.LoadSubscriptionsFromServer();
+            return ProfileClient.LoadSubscriptionsFromServer();
         }
     }
 }
