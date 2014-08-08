@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.MediaServices
     using System;
     using Utilities.Common;
 
-    public class AzureMediaServicesHttpClientCommandBase : CmdletWithSubscriptionBase
+    public class AzureMediaServicesHttpClientCommandBase : AzurePSCmdlet
     {
         protected virtual void OnProcessRecord()
         {

@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Management.Automation;
 using Microsoft.Azure.Utilities.HttpRecorder;
+using Microsoft.WindowsAzure.Commands.Common;
 using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Microsoft.WindowsAzure.Testing;
@@ -37,7 +38,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest
         /// <param name="initializedManagementClients"></param>
         public void SetupManagementClients(params object[] initializedManagementClients)
         {
-            AzureSession.Current.ManagementClientHelper = new DummyManagementClientHelper(initializedManagementClients);
+            AzureSession.ClientFactory = new DummyManagementClientHelper(initializedManagementClients);
         }
 
         /// <summary>
@@ -46,7 +47,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest
         /// <param name="initializedManagementClients"></param>
         public void SetupSomeOfManagementClients(params object[] initializedManagementClients)
         {
-            AzureSession.Current.ManagementClientHelper = new DummyManagementClientHelper(initializedManagementClients, false);
+            AzureSession.ClientFactory = new DummyManagementClientHelper(initializedManagementClients, false);
         }
 
         public void SetupEnvironment(AzureModule mode)

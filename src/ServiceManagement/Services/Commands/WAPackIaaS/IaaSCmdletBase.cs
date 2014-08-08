@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS
     using System.Security;
     using System.Security.Permissions;
 
-    public abstract class IaaSCmdletBase : CmdletWithSubscriptionBase, ILogger
+    public abstract class IaaSCmdletBase : AzurePSCmdlet, ILogger
     {
         private IRequestChannel requestChannel;
 

@@ -12,21 +12,32 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Commands.Common.Properties;
 using System;
-using System.Collections.Generic;
-using System.Security;
-using Microsoft.WindowsAzure.Commands.Common.Models;
-using Microsoft.WindowsAzure.Commands.Utilities.Common;
-using Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication;
+using System.IO;
 
 namespace Microsoft.WindowsAzure.Commands.Common
 {
-    public interface IAuthenticationFactory
+    public class AzurePowerShell
     {
-        IAccessToken Authenticate(AzureEnvironment environment, ref UserCredentials credentials);
+        public const string AssemblyCompany = "Microsoft";
 
-        IAccessToken Authenticate(AzureEnvironment environment, string tenant, ref UserCredentials credentials);
-        
-        SubscriptionCloudCredentials GetSubscriptionCloudCredentials(AzureSubscription subscription);
+        public const string AssemblyProduct = "Microsoft Azure Powershell";
+
+        public const string AssemblyCopyright = "Copyright © Microsoft";
+
+        public const string AssemblyVersion = "0.8.6";
+
+        public const string AssemblyFileVersion = "0.8.6";
+
+        public const string ProfileFile = "AzureProfile.json";
+
+        public const string OldProfileFile = "WindowsAzureProfile.xml";
+
+        public const string TokenCacheFile = "TokenCache.dat";
+
+        public static string ProfileDirectory = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            Resources.AzureDirectoryName);
     }
 }

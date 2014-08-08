@@ -79,7 +79,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Common
 
         private List<WindowsAzureSubscription> ReadPublishSettings(Stream s)
         {
-            return PublishSettingsImporter.Import(s).ToList();
+            return PublishSettingsImporter.ImportWindowsAzureSubscription(s).ToList();
         }
 
         private X509Certificate2 ExpectedManagementCertificate(XDocument doc, XElement sub)

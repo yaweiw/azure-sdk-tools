@@ -55,5 +55,15 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
         {
             return this.accessToken;
         }
+
+        public IAccessToken GetNewToken(AdalConfiguration config, string userId, SecureString password)
+        {
+            return this.accessToken;
+        }
+
+        public IAccessToken GetCachedToken(AdalConfiguration config, string userId, SecureString password)
+        {
+            return this.accessToken;
+        }
     }
 }

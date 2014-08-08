@@ -19,14 +19,29 @@ using System.Net;
 using System.Net.Http;
 using Microsoft.Azure.Utilities.HttpRecorder;
 using Microsoft.WindowsAzure.Commands.Common;
+using Microsoft.WindowsAzure.Commands.Common.Factories;
+using Microsoft.WindowsAzure.Commands.Common.Models;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Microsoft.WindowsAzure.Common;
 
 namespace Microsoft.WindowsAzure.Commands.ScenarioTest
 {
-    public class DummyManagementClientHelper : IManagementClientHelper
+    public class DummyManagementClientHelper : IClientFactory
     {
+        private IAuthenticationFactory authenticationFactory;
+
+        private AzureProfile profile;
+
+        public DummyManagementClientHelper(AzureProfile profile, IAuthenticationFactory authenticationFactory)
+        {
+            this.authenticationFactory = authenticationFactory;
+            this.profile = profile;
+        }
+
         private readonly bool throwWhenNotAvailable;
+
+        public event EventHandler<ClientCreatedArgs> OnClientCreated;
+
         public List<object> ManagementClients { get; private set; }
 
         public DummyManagementClientHelper(IEnumerable<object> clients, bool throwIfClientNotSpecified = true)
@@ -35,8 +50,19 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest
             throwWhenNotAvailable = throwIfClientNotSpecified;
         }
 
-        public TClient CreateClient<TClient>(bool addRestLogHandler, EventHandler<ClientCreatedArgs> clientCreatedHandler,
-            params object[] parameters) where TClient : ServiceClient<TClient>
+        public TClient CreateClient<TClient>(AzureSubscription subscription, AzureEnvironment.Endpoint endpoint) where TClient : ServiceClient<TClient>
+        {
+            SubscriptionCloudCredentials creds = new TokenCloudCredentials(subscription.Id.ToString(), "fake_token");
+            if (HttpMockServer.GetCurrentMode() != HttpRecorderMode.Playback)
+            {
+                creds = authenticationFactory.GetSubscriptionCloudCredentials(subscription);    
+            }
+
+            Uri endpointUri = AzureSession.Environments[subscription.Environment].GetEndpoint(endpoint);
+            return CreateClient<TClient>(creds, endpointUri);
+        }
+
+        public TClient CreateClient<TClient>(params object[] parameters) where TClient : ServiceClient<TClient>
         {
             TClient client = ManagementClients.FirstOrDefault(o => o is TClient) as TClient;
             if (client == null)
@@ -45,12 +71,12 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest
                 {
                     throw new ArgumentException(
                         string.Format("TestManagementClientHelper class wasn't initialized with the {0} client.",
-                            typeof (TClient).Name));
+                            typeof(TClient).Name));
                 }
                 else
                 {
-                    var realHelper = new ManagementClientHelper();
-                    var realClient = realHelper.CreateClient<TClient>(addRestLogHandler, clientCreatedHandler, parameters);
+                    IClientFactory realHelper = new ClientFactory();
+                    var realClient = realHelper.CreateClient<TClient>(parameters);
                     realClient.WithHandler(HttpMockServer.CreateInstance());
                     return realClient;
                 }
@@ -61,19 +87,22 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest
 
         public HttpClient CreateHttpClient(string serviceUrl, ICredentials credentials)
         {
+            return CreateHttpClient(serviceUrl, ClientFactory.CreateHttpClientHandler(serviceUrl, credentials));
+        }
+
+        public HttpClient CreateHttpClient(string serviceUrl, HttpMessageHandler effectiveHandler)
+        {
             if (serviceUrl == null)
             {
                 throw new ArgumentNullException("serviceUrl");
             }
-            if (credentials == null)
+            if (effectiveHandler == null)
             {
-                throw new ArgumentNullException("credentials");
+                throw new ArgumentNullException("effectiveHandler");
             }
-            var realHelper = new ManagementClientHelper();
             var mockHandler = HttpMockServer.CreateInstance();
-            var authenticationHandler = realHelper.CreateClientHandler(serviceUrl, credentials);
-            mockHandler.InnerHandler = authenticationHandler;
-            
+            mockHandler.InnerHandler = effectiveHandler;
+
             HttpClient client = new HttpClient(mockHandler)
             {
                 BaseAddress = new Uri(serviceUrl),
@@ -83,11 +112,6 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest
             client.DefaultRequestHeaders.Accept.Clear();
 
             return client;
-        }
-
-        public HttpClient CreateHttpClient(string serviceUrl, HttpMessageHandler effectiveHandler)
-        {
-            throw new NotImplementedException();
         }
     }
 }

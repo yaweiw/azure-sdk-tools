@@ -234,7 +234,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
             if (response.Headers != null)
             {
-                operationId = response.Headers[Constants.OperationTrackingIdHeader];
+                operationId = response.Headers[ApiConstants.OperationTrackingIdHeader];
             }
 
             // Don't wrap responseStream in a using statement to prevent it
@@ -331,9 +331,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                     property.Headers.Remove(VSDebuggerCausalityDataHeaderName);
                 }
 
-                if (property.Headers[Constants.VersionHeaderName] == null)
+                if (property.Headers[ApiConstants.VersionHeaderName] == null)
                 {
-                    property.Headers.Add(Constants.VersionHeaderName, Constants.VersionHeaderContentLatest);
+                    property.Headers.Add(ApiConstants.VersionHeaderName, ApiConstants.VersionHeaderContentLatest);
                 }
 
                 if (property.Headers[UserAgentHeaderName] == null)

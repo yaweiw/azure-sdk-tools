@@ -50,5 +50,33 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
 
             Thumbprint
         }
+
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
+        }
+
+        public string GetProperty(Property property)
+        {
+            if (Properties.ContainsKey(property))
+            {
+                return Properties[property];
+            }
+
+            return null;
+        }
+
+        public override bool Equals(object obj)
+        {
+            var anotherSubscription = obj as AzureSubscription;
+            if (anotherSubscription == null)
+            {
+                return false;
+            }
+            else
+            {
+                return anotherSubscription.Id == Id;
+            }
+        }
     }
 }

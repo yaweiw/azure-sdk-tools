@@ -28,7 +28,7 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
     /// <summary>
     ///     The base class for HDInsight Cmdlets.
     /// </summary>
-    public abstract class AzureHDInsightCmdlet : CmdletWithSubscriptionBase
+    public abstract class AzureHDInsightCmdlet : AzurePSCmdlet
     {
         internal static WindowsAzureSubscription testSubscription;
 

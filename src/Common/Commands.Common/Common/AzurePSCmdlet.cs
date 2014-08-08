@@ -22,18 +22,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     /// otherwise need the channel stuff.
     /// </summary>
 
-    public abstract class CmdletWithSubscriptionBase : CmdletBase
+    public abstract class AzurePSCmdlet : CmdletBase
     {
-        /// <summary>
-        /// Override this method if you need to do processing
-        /// when the current subscription changes.
-        /// </summary>
+        private WindowsAzureProfile profile;
+
         protected virtual void OnCurrentSubscriptionUpdated()
         {
 
         }
-
-        private WindowsAzureProfile profile;
 
         public virtual WindowsAzureProfile Profile
         {

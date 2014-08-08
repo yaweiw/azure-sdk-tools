@@ -53,8 +53,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Microsoft.Azure.Management.Resources.2.4.0-preview\lib\net40\Microsoft.Azure.ResourceManager.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Azure.Utilities.HttpRecorder, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Microsoft.Azure.Utilities.HttpRecorder">
       <HintPath>..\..\..\packages\Hydra.HttpRecorder.1.0.5325.27361-prerelease\lib\net45\Microsoft.Azure.Utilities.HttpRecorder.dll</HintPath>
       <Private>True</Private>
     </Reference>
@@ -91,8 +90,7 @@
       <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.Storage.1.1.1\lib\net40\Microsoft.WindowsAzure.Management.Storage.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Testing, Version=1.0.5325.27361, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Microsoft.WindowsAzure.Testing">
       <HintPath>..\..\..\packages\Hydra.SpecTestSupport.1.0.5325.27361-prerelease\lib\net45\Microsoft.WindowsAzure.Testing.dll</HintPath>
       <Private>True</Private>
     </Reference>

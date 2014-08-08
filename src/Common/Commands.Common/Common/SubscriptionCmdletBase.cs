@@ -12,10 +12,17 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.WindowsAzure.Commands.Common;
+using Microsoft.WindowsAzure.Commands.Common.Models;
+using Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication;
+
 namespace Microsoft.WindowsAzure.Commands.Utilities.Profile
 {
     using Common;
-    using Microsoft.WindowsAzure.Commands.Common.Properties;
+    using Azure.Subscriptions;
+    using WindowsAzure.Commands.Common.Properties;
     using System;
     using System.IO;
     using System.Management.Automation;
@@ -25,9 +32,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Profile
     /// azure subscription, provides common support
     /// for the SubscriptionDataFile parameter.
     /// </summary>
-    public abstract class SubscriptionCmdletBase : CmdletWithSubscriptionBase
+    public abstract class SubscriptionCmdletBase : AzurePSCmdlet
     {
-        [Parameter(Mandatory = false, HelpMessage = "File storing subscription data, it not set uses default.")]
+        [Parameter(Mandatory = false, HelpMessage = "File storing subscription data, if not set uses default.")]
         public string SubscriptionDataFile { get; set; }
 
         private WindowsAzureProfile loadedProfile;
@@ -37,6 +44,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Profile
         protected SubscriptionCmdletBase(bool createFileIfNotExists)
         {
             this.createFileIfNotExists = createFileIfNotExists;
+            ProfileClient = new ProfileClient();
+        }
+
+        protected override void BeginProcessing()
+        {
+            if (!string.IsNullOrEmpty(SubscriptionDataFile))
+            {
+                ProfileClient = new ProfileClient(SubscriptionDataFile);
+            }
         }
 
         public override WindowsAzureProfile Profile
@@ -65,6 +81,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Profile
             get { return base.Profile; }
         }
 
+        public ProfileClient ProfileClient { get; set; }
+
         private WindowsAzureProfile LoadSubscriptionDataFile()
         {
             string path = GetUnresolvedProviderPathFromPSPath(SubscriptionDataFile);
@@ -73,6 +91,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Profile
                 throw new Exception(string.Format(Resources.SubscriptionDataFileNotFound, SubscriptionDataFile));
             }
             return new WindowsAzureProfile(new PowershellProfileStore(path));
+        }
+
+        protected IEnumerable<AzureSubscription> LoadSubscriptionsFromServer()
+        {
+            return ProfileClient.LoadSubscriptionsFromServer();
         }
     }
 }

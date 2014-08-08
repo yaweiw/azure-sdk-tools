@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using Commands.Common.Properties;
+    using Commands.Common.Models;
     using Microsoft.WindowsAzure.Commands.Common;
     using System;
     using System.Diagnostics;
@@ -22,12 +23,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
     public abstract class CmdletBase : PSCmdlet
     {
-        AzurePowerShell AzurePowerShell { get; set; }
+        private readonly RecordingTracingInterceptor httpTracingInterceptor = new RecordingTracingInterceptor();
 
         public CmdletBase()
         {
-            HttpRestCallLogger.CurrentCmdlet = this;
-            //AzurePowerShell = new AzurePowerShell();
+            ProfileClient client = new ProfileClient();
+            AzureSession.Load(client.Profile.Environments, client.Profile.DefaultSubscription);
         }
 
         protected string CurrentPath()
@@ -43,6 +44,54 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         {
             bool verbose = MyInvocation.BoundParameters.ContainsKey("Verbose") && ((SwitchParameter)MyInvocation.BoundParameters["Verbose"]).ToBool();
             return verbose;
+        }
+
+        public new void WriteError(ErrorRecord errorRecord)
+        {
+            FlushMessagesFromTracingInterceptor();
+            base.WriteError(errorRecord);
+        }
+
+        public new void WriteObject(object sendToPipeline)
+        {
+            FlushMessagesFromTracingInterceptor();
+            base.WriteObject(sendToPipeline);
+        }
+
+        public new void WriteObject(object sendToPipeline, bool enumerateCollection)
+        {
+            FlushMessagesFromTracingInterceptor();
+            base.WriteObject(sendToPipeline, enumerateCollection);
+        }
+
+        public new void WriteVerbose(string text)
+        {
+            FlushMessagesFromTracingInterceptor();
+            base.WriteVerbose(text);
+        }
+
+        public new void WriteWarning(string text)
+        {
+            FlushMessagesFromTracingInterceptor();
+            base.WriteWarning(text);
+        }
+
+        public new void WriteCommandDetail(string text)
+        {
+            FlushMessagesFromTracingInterceptor();
+            base.WriteCommandDetail(text);
+        }
+
+        public new void WriteProgress(ProgressRecord progressRecord)
+        {
+            FlushMessagesFromTracingInterceptor();
+            base.WriteProgress(progressRecord);
+        }
+
+        public new void WriteDebug(string text)
+        {
+            FlushMessagesFromTracingInterceptor();
+            base.WriteDebug(text);
         }
 
         protected void WriteVerboseWithTimestamp(string message, params object[] args)
@@ -105,7 +154,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             try
             {
                 base.ProcessRecord();
-                HttpRestCallLogger.CurrentCmdlet = this;
                 ExecuteCmdlet();
             }
             catch (Exception ex)
@@ -128,7 +176,18 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 WriteDebugWithTimestamp(string.Format(Resources.BeginProcessingWithParameterSetLog, this.GetType().Name, ParameterSetName));
             }
 
+            RecordingTracingInterceptor.AddToContext(httpTracingInterceptor);
+
             base.BeginProcessing();
+        }
+
+        private void FlushMessagesFromTracingInterceptor()
+        {
+            string message;
+            while (httpTracingInterceptor.MessageQueue.TryDequeue(out message))
+            {
+                base.WriteDebug(message);
+            }
         }
 
         /// <summary>
@@ -138,6 +197,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         {
             string message = string.Format(Resources.EndProcessingLog, this.GetType().Name);
             WriteDebugWithTimestamp(message);
+
+            RecordingTracingInterceptor.RemoveFromContext(httpTracingInterceptor);
+            FlushMessagesFromTracingInterceptor();
 
             base.EndProcessing();
         }

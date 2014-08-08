@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using System;
 using System.Collections.Generic;
@@ -32,15 +34,14 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
 
         private string EndpointFormatFor(string service)
         {
-            string suffix = GetEndpoint(AzureEnvironment.Endpoint.StorageEndpointSuffix);
-            string endpoint = null;
+            string suffix = GetEndpointSuffix(AzureEnvironment.Endpoint.StorageEndpointSuffix);
 
-            if (!string.IsNullOrEmpty(endpoint))
+            if (!string.IsNullOrEmpty(suffix))
             {
-                endpoint = string.Format(storageFormatTemplate, service, suffix);
+                suffix = string.Format(storageFormatTemplate, service, suffix);
             }
 
-            return endpoint;
+            return suffix;
         }
 
         /// <summary>
@@ -118,11 +119,21 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
             }
         };
 
-        public string GetEndpoint(AzureEnvironment.Endpoint endpoint)
+        public Uri GetEndpoint(AzureEnvironment.Endpoint endpoint)
         {
             if (Endpoints.ContainsKey(endpoint))
             {
-                return Endpoints[endpoint];
+                new Uri(Endpoints[endpoint]);
+            }
+
+            return null;
+        }
+
+        public string GetEndpointSuffix(AzureEnvironment.Endpoint endpointSuffix)
+        {
+            if (Endpoints.ContainsKey(endpointSuffix))
+            {
+                return Endpoints[endpointSuffix];
             }
 
             return null;

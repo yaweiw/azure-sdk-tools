@@ -12,65 +12,66 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.Security.Cryptography.X509Certificates;
 using Microsoft.WindowsAzure.Commands.Common.Interfaces;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
-using System.IO;
-using System.Security.Cryptography.X509Certificates;
+using System.Collections.Generic;
 
-namespace Microsoft.WindowsAzure.Commands.Common.Models
+namespace Microsoft.WindowsAzure.Commands.Common.Test.Common
 {
-    public class DiskDataStore : IDataStore
+    public class MockDataStore : IDataStore
     {
-        private string profilePath;
+        private const string profileFileName = "profile";
 
-        private string tokenCachePath;
+        private const string tokenFileName = "token";
 
-        public DiskDataStore(string profilePath)
-        {
-            this.profilePath = profilePath;
-            this.tokenCachePath = Path.Combine(AzurePowerShell.ProfileDirectory, AzurePowerShell.TokenCacheFile);
-        }
+        private Dictionary<string, object> mockStore = new Dictionary<string, object>();
 
         public void WriteProfile(string contents)
         {
-            File.WriteAllText(profilePath, contents);
+            mockStore[profileFileName] = contents;
         }
 
         public void WriteTokenCache(byte[] contents)
         {
-            File.WriteAllBytes(tokenCachePath, contents);
+            mockStore[tokenFileName] = contents;
         }
 
         public string ReadProfile()
         {
-            if (File.Exists(profilePath))
+            if (mockStore.ContainsKey(profileFileName))
             {
-                return File.ReadAllText(profilePath);
+                return mockStore[profileFileName] as string;
+            }
+            else
+            {
+                return null;
             }
 
-            return null;
         }
 
         public byte[] ReadTokenCache()
         {
-            if (File.Exists(tokenCachePath))
+            if (mockStore.ContainsKey(tokenFileName))
             {
-                return File.ReadAllBytes(tokenCachePath);                
+                return mockStore[tokenFileName] as byte[];
             }
-
-            return null;
+            else
+            {
+                return null;
+            }
         }
 
         public X509Certificate2 GetCertificate(string thumbprint)
         {
-            return GeneralUtilities.GetCertificateFromStore(thumbprint);
+            throw new System.NotImplementedException();
         }
 
         public void AddCertificate(X509Certificate2 cert)
         {
-            GeneralUtilities.AddCertificateToStore(cert);
+            throw new System.NotImplementedException();
         }
 
-        public string ProfilePath { get { return profilePath; } }
+        public string ProfilePath { get { return null; } }
     }
 }

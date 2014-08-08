@@ -15,11 +15,11 @@
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using Authentication;
-    using Commands.Common;
     using Commands.Common.Properties;
     using Management;
     using Microsoft.Azure.Management.Resources;
     using Microsoft.Azure.Management.Resources.Models;
+    using Microsoft.WindowsAzure.Commands.Common.Factories;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -82,11 +82,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// when cached list of resource providers is updated.
         /// </summary>
         internal Action Save { get; set; }
-
-        /// <summary>
-        /// Event that's trigged when a new client has been created.
-        /// </summary>
-        public static event EventHandler<ClientCreatedArgs> OnClientCreated;
 
         public IReadOnlyCollection<string> RegisteredResourceProvidersList
         {
@@ -242,7 +237,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         public TClient CreateClient<TClient>(bool registerProviders, params object[] parameters) where TClient : ServiceClient<TClient>
         {
-            return AzureSession.Current.ManagementClientHelper.CreateClient<TClient>(addRestLogHandlerToAllClients, OnClientCreated, parameters);
+            return ClientFactory.CreateClient<TClient>(parameters);
         }
 
         public void RegisterCustomProviders(IEnumerable<Provider> providers)
@@ -346,6 +341,31 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                     Save();
                 }
             }
+        }
+
+        public override int GetHashCode()
+        {
+            if (SubscriptionId != null)
+            {
+                return SubscriptionId.GetHashCode();
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public override bool Equals(object obj)
+        {
+            var subscription = obj as WindowsAzureSubscription;
+            if (subscription != null)
+            {
+                if (subscription.SubscriptionId == this.SubscriptionId)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

@@ -12,23 +12,84 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Commands.Common.Models;
 using System;
+using System.Security;
+using Microsoft.WindowsAzure.Commands.Common.Models;
+using Microsoft.WindowsAzure.Commands.Common.Properties;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
+using Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication;
 
 namespace Microsoft.WindowsAzure.Commands.Common.Factories
 {
     public class AuthenticationFactory : IAuthenticationFactory
     {
-        AzureProfile profile;
+        private const string CommonAdTenant = "Common";
 
-        public AuthenticationFactory(AzureProfile profile)
+        public AuthenticationFactory()
         {
-            this.profile = profile;
+            TokenProvider = new AdalTokenProvider();
         }
 
-        public SubscriptionCloudCredentials Authenticate(AzureSubscription subscription)
+        public ITokenProvider TokenProvider { get; set; }
+
+        public IAccessToken Authenticate(AzureEnvironment environment, ref UserCredentials credentials)
         {
-            throw new NotImplementedException();
+            return Authenticate(environment, CommonAdTenant, ref credentials);
+        }
+
+        public IAccessToken Authenticate(AzureEnvironment environment, string tenant, ref UserCredentials credentials)
+        {
+            Func<AdalConfiguration, string, SecureString, IAccessToken> getTokenFunction = TokenProvider.GetNewToken;
+
+            if (credentials.NoPrompt)
+            {
+                getTokenFunction = TokenProvider.GetCachedToken;
+            }
+
+            var token = getTokenFunction(GetAdalConfiguration(environment, CommonAdTenant), credentials.UserName, credentials.Password);
+            credentials.UserName = token.UserId;
+            return token;
+        }
+
+        public SubscriptionCloudCredentials GetSubscriptionCloudCredentials(AzureSubscription subscription)
+        {
+            var environment = AzureSession.Environments[subscription.Environment];
+            var userId = subscription.GetProperty(AzureSubscription.Property.UserAccount);
+            var certificate = WindowsAzureCertificate.FromThumbprint(subscription.GetProperty(AzureSubscription.Property.Thumbprint));
+
+            if (AzureSession.SubscriptionTokenCache.ContainsKey(subscription.Id))
+            {
+                return new AccessTokenCredential(subscription.ToString(), AzureSession.SubscriptionTokenCache[subscription.Id]);
+            }
+            else if (userId != null)
+            {
+                if (!AzureSession.SubscriptionTokenCache.ContainsKey(subscription.Id))
+                {
+                    throw new ArgumentException(Resources.InvalidSubscriptionState);
+                }
+                return new AccessTokenCredential(subscription.ToString(), AzureSession.SubscriptionTokenCache[subscription.Id]);
+            }
+            else if (certificate != null)
+            {
+                return new CertificateCloudCredentials(subscription.ToString(), certificate);
+            }
+            else
+            {
+                throw new ArgumentException(Resources.InvalidSubscriptionState);
+            }
+        }
+
+        private AdalConfiguration GetAdalConfiguration(AzureEnvironment environment, string tenantId)
+        {
+            var adEndpoint = environment.Endpoints[AzureEnvironment.Endpoint.ActiveDirectoryEndpoint];
+            var adResourceId = environment.Endpoints[AzureEnvironment.Endpoint.ActiveDirectoryServiceEndpointResourceId];
+
+            return new AdalConfiguration
+            {
+                AdEndpoint = adEndpoint,
+                ResourceClientUri = adResourceId,
+                AdDomain = tenantId
+            };
         }
     }
 }

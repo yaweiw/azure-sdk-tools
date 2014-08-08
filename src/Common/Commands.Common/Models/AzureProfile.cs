@@ -22,7 +22,7 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace Microsoft.WindowsAzure.Commands.Common.Models
 {
-    public sealed class AzureProfile : IDisposable
+    public sealed class AzureProfile
     {
         private IDataStore store;
 
@@ -51,7 +51,14 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
             }
         }
 
-        private void Save()
+        public AzureProfile(IDataStore store)
+        {
+            this.store = store;
+            Load();
+            defaultSubscription = Subscriptions.FirstOrDefault(
+                s => s.Value.Properties.ContainsKey(AzureSubscription.Property.Default)).Value;
+        }
+        public void Save()
         {
             // Removing predefined environments
             foreach (string env in AzureEnvironment.PublicEnvironments.Keys)
@@ -69,13 +76,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
             }
         }
 
-        public AzureProfile(IDataStore store)
-        {
-            this.store = store;
-            Load();
-            defaultSubscription = Subscriptions.FirstOrDefault(
-                s => s.Value.Properties.ContainsKey(AzureSubscription.Property.Default)).Value;
-        }
+        public IDataStore DataStore { get { return store; } }
 
         public Dictionary<string, AzureEnvironment> Environments { get; set; }
 
@@ -111,28 +112,6 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
         public byte[] LoadTokenCache()
         {
             return store.ReadTokenCache();
-        }
-
-        public void Dispose()
-        {
-            Save();
-        }
-
-        public Uri GetEndpoint(string enviornment, AzureEnvironment.Endpoint endpoint)
-        {
-            AzureEnvironment env = Environments[enviornment];
-            Uri endpointUri = null;
-
-            if (env != null)
-            {
-                string endpointString = env.GetEndpoint(endpoint);
-                if (!string.IsNullOrEmpty(endpointString))
-                {
-                    endpointUri = new Uri(endpointString);
-                }
-            }
-
-            return endpointUri;
         }
     }
 }

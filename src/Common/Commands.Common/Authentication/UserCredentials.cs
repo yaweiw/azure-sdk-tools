@@ -12,31 +12,16 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Utilities.Common
+using System.Security;
+
+namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
 {
-    using System;
-    using System.Runtime.Serialization;
-
-    [Serializable]
-    public class InnerDataServiceException : Exception
+    public struct UserCredentials
     {
-        public InnerDataServiceException() : base()
-        { 
-        }
+        public string UserName { get; set; }
 
-        public InnerDataServiceException(string message)
-            : base(message)
-        { 
-        }
-
-        public InnerDataServiceException(string message, Exception innerException)
-            : base(message, innerException)
-        { 
-        }
-
-        protected InnerDataServiceException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
-        }
+        public SecureString Password { get; set; }
+        
+        public bool NoPrompt { get; set; }
     }
 }

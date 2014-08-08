@@ -31,7 +31,7 @@ namespace Microsoft.Azure.Commands.Automation.Cmdlet
     /// <summary>
     /// The azure automation base cmdlet.
     /// </summary>
-    public abstract class AzureAutomationBaseCmdlet : CmdletWithSubscriptionBase
+    public abstract class AzureAutomationBaseCmdlet : AzurePSCmdlet
     {
         /// <summary>
         /// The automation client.

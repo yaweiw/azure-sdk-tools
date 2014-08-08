@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.CloudService
     /// Starts the deployment of specified slot in the azure service
     /// </summary>
     [Cmdlet(VerbsLifecycle.Start, "AzureService"), OutputType(typeof(bool))]
-    public class StartAzureServiceCommand : CmdletWithSubscriptionBase
+    public class StartAzureServiceCommand : AzurePSCmdlet
     {
         public ICloudServiceClient CloudServiceClient { get; set; }
 
