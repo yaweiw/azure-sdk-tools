@@ -222,6 +222,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
             using (var subscriptionClient = new SubscriptionClient(credentials, new Uri(ServiceEndpoint)))
             {
+                subscriptionClient.UserAgent.Add(ApiConstants.UserAgentValue);
                 var result = subscriptionClient.Subscriptions.List();
                 // Filter out subscriptions with no tenant, backfill's not done on them
                 foreach (var subscription in result.Subscriptions.Where(s => !string.IsNullOrEmpty(s.ActiveDirectoryTenantId)))
