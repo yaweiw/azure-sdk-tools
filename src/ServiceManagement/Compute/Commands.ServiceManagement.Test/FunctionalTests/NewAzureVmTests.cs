@@ -198,8 +198,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 // Get-AzureCertificate
                 var winRmCert = vmPowershellCmdlets.GetAzureCertificate(_serviceName, vmContext.VM.DefaultWinRmCertificateThumbprint, "sha1").First();
 
-                // Install the WinRM cert
-                InstallCertificate(winRmCert);
+                // Install the WinRM cert to the local machine's root location.
+                InstallCertificate(winRmCert, StoreLocation.LocalMachine, StoreName.Root);
 
                 // Invoke Command
                 var connUri = vmPowershellCmdlets.GetAzureWinRMUri(_serviceName, newAzureVMName);
@@ -359,15 +359,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-        private void InstallCertificate(CertificateContext certContext)
+        private void InstallCertificate(CertificateContext certContext, StoreLocation loc, StoreName name)
         {
-            // Create a certificate
             File.WriteAllBytes(CerFileName, Convert.FromBase64String(certContext.Data));
-
-            // Install the .cer file to the local machine location.
-            certStoreLocation = StoreLocation.LocalMachine;
-            certStoreName = StoreName.Root;
-            _installedCert = Utilities.InstallCert(CerFileName, certStoreLocation, certStoreName);
+            Utilities.InstallCert(CerFileName, loc, name);
         }
 
         private void InstallCertificate()
