@@ -23,6 +23,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     using Microsoft.WindowsAzure.Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Storage;
     using Microsoft.WindowsAzure.Commands.Common.Storage;
+    using Properties;
 
     [Cmdlet(
         VerbsCommon.Set,
@@ -36,7 +37,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         protected const string SetExtRefParamSetName = "SetDiagnosticsWithReferenceExtension";
         private const string PublicConfigurationTemplate = "\"xmlCfg\":\"{0}\", \"StorageAccount\":\"{1}\" ";
         private readonly string PrivateConfigurationTemplate = "\"storageAccountName\":\"{0}\", \"storageAccountKey\":\"{1}\", \"storageAccountEndPoint\":\"{2}\"";
-
+        private readonly string XmlNamespace = "http://schemas.microsoft.com/ServiceHosting/2010/10/DiagnosticsConfiguration";
         [Parameter(
             ParameterSetName = SetExtParamSetName,
             Mandatory = true,
@@ -72,46 +73,35 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             get;
             set;
         }
-
-        [Parameter(
-            ParameterSetName = SetExtParamSetName,
-            Position = 2,
-            ValueFromPipelineByPropertyName = false,
-            HelpMessage = "Local directory where to store the agent logs")]
-        [Parameter(
-           ParameterSetName = SetExtRefParamSetName,
-           Position = 2,
-           ValueFromPipelineByPropertyName = false,
-           HelpMessage = "Local directory where to store the agent logs")]
-        public string LocalDirectory { get; set; }
+ 
 
         [Parameter(
         ParameterSetName = SetExtParamSetName,
-        Position = 3,
+        Position = 2,
         ValueFromPipelineByPropertyName = false,
         HelpMessage = "WAD Version")]
         [Parameter(
         ParameterSetName = SetExtRefParamSetName,
-        Position = 3,
+        Position = 2,
         ValueFromPipelineByPropertyName = false,
         HelpMessage = "WAD Version")]
         public override string Version { get; set; }
 
         [Parameter(
             ParameterSetName = SetExtParamSetName,
-            Position = 4,
+            Position = 3,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "To Set the Extension State to 'Disable'.")]
         [Parameter(
             ParameterSetName = SetExtRefParamSetName,
-            Position = 4,
+            Position = 3,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "To Set the Extension State to 'Disable'.")]
         public override SwitchParameter Disable { get; set; }
 
         [Parameter(
             ParameterSetName = SetExtRefParamSetName,
-            Position = 5,
+            Position = 4,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "To specify the reference name.")]
         public override string ReferenceName { get; set; }
@@ -137,7 +127,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         private void ValidateStorageAccount()
         {
             StorageAccountName = StorageContext.StorageAccountName;
-            
             StorageKey = GetStorageKey();
             // We need the suffix, NOT the full account endpoint.
             Endpoint = "https://" + StorageContext.EndPointSuffix;
@@ -149,20 +138,68 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             // { "xmlCfg":"base-64 encoded string", "StorageAccount":"account_name", "localResourceDirectory":{ "path":"some_path", "expandResourceDirectory":<true|false> }}
             //
             // localResourceDirectory is optional
+            //
+            // What we have in is something like:
+            //
+            // <?xml version="1.0" encoding="utf-8"?>     
+            //  <PublicConfig ...>
+            //    <WadCfg>
+            //      <DiagnosticsMonitorCofiguration> ... </DiagnosticsMonitorCofiguration>
+            //    </WadCfg>
+            //  </PublicConfig
+
+            string config;
             using (StreamReader sr = new StreamReader(DiagnosticsConfigurationPath))
             {
-                string config = string.Format("<WadCfg>{0}</WadCfg>", sr.ReadToEnd());
-                config = Convert.ToBase64String(Encoding.UTF8.GetBytes(config.ToCharArray()));
-                PublicConfiguration = "{ ";
-                PublicConfiguration += string.Format(PublicConfigurationTemplate, config, StorageAccountName);
-
-                if (!string.IsNullOrEmpty(LocalDirectory))
+                // find the <WadCfg> element and extract it
+                string fullConfig = sr.ReadToEnd();
+                int wadCfgBeginIndex = fullConfig.IndexOf("<WadCfg>");
+                if (wadCfgBeginIndex == -1)
                 {
-                    PublicConfiguration += ", \"localResourceDirectory\":{ \"path\":\"" + LocalDirectory + "\", \"expandResourceDirectory\":false}";
+                    throw new ArgumentException(Resources.IaasDiagnosticsBadConfigNoWadCfg);
                 }
 
-                PublicConfiguration += "}";   
+                int wadCfgEndIndex = fullConfig.IndexOf("</WadCfg>");
+                if(wadCfgEndIndex == -1)
+                {
+                    throw new ArgumentException(Resources.IaasDiagnosticsBadConfigNoEndWadCfg);
+                }
+
+                if(wadCfgEndIndex <= wadCfgBeginIndex)
+                {
+                    throw new ArgumentException(Resources.IaasDiagnosticsBadConfigNoMatchingWadCfg);
+                }
+
+                config = fullConfig.Substring(wadCfgBeginIndex, wadCfgEndIndex + "</WadCfg>".Length - wadCfgBeginIndex);
+                config = Convert.ToBase64String(Encoding.UTF8.GetBytes(config.ToCharArray()));
             }
+
+            // Now extract the local resource directory element
+            XmlDocument doc = new XmlDocument();
+            XmlNamespaceManager ns = new XmlNamespaceManager(doc.NameTable);
+            ns.AddNamespace("ns", XmlNamespace);
+            doc.Load(DiagnosticsConfigurationPath);
+            var node = doc.SelectSingleNode("//ns:LocalResourceDirectory", ns);
+            string localDirectory = (node != null && node.Attributes != null) ? node.Attributes["path"].Value : null;
+            string localDirectoryExpand = (node != null && node.Attributes != null) ? node.Attributes["expandEnvironment"].Value : null;
+            if (localDirectoryExpand == "0")
+            {
+                localDirectoryExpand = "false";
+            }
+            if (localDirectoryExpand == "1")
+            {
+                localDirectoryExpand = "true";
+            }
+
+            PublicConfiguration = "{ ";
+            PublicConfiguration += string.Format(PublicConfigurationTemplate, config, StorageAccountName);
+
+            if (!string.IsNullOrEmpty(localDirectory))
+            {
+                PublicConfiguration += ", \"localResourceDirectory\":{ \"path\":\"" + localDirectory + "\", \"expandResourceDirectory\":" + localDirectoryExpand + "}";
+            }
+
+            PublicConfiguration += "}";   
 
             // Private configuration must look like:
             // { "storageAccountName":"your_account_name", "storageAccountKey":"your_key", "storageAccountEndPoint":"end_point" }
