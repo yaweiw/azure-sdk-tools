@@ -202,6 +202,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             return baseUrl;
         }
 
+        public SubscriptionClient AddUserAgent(SubscriptionClient client)
+        {
+            if (!client.UserAgent.Contains(ApiConstants.UserAgentValue))
+            {
+                client.UserAgent.Add(ApiConstants.UserAgentValue);
+            }
+            return client;
+        }
+
         public IEnumerable<WindowsAzureSubscription> AddAccount(ITokenProvider tokenProvider, PSCredential credential)
         {
             if (ActiveDirectoryEndpoint == null || ActiveDirectoryServiceEndpointResourceId == null)
@@ -220,9 +229,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             }
             var credentials = new TokenCloudCredentials(mainToken.AccessToken);
 
-            using (var subscriptionClient = new SubscriptionClient(credentials, new Uri(ServiceEndpoint)))
+            using (var subscriptionClient = AddUserAgent(new SubscriptionClient(credentials, new Uri(ServiceEndpoint))))
             {
-                subscriptionClient.UserAgent.Add(ApiConstants.UserAgentValue);
                 var result = subscriptionClient.Subscriptions.List();
                 // Filter out subscriptions with no tenant, backfill's not done on them
                 foreach (var subscription in result.Subscriptions.Where(s => !string.IsNullOrEmpty(s.ActiveDirectoryTenantId)))

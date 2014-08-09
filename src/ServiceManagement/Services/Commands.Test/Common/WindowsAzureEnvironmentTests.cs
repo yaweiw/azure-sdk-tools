@@ -16,7 +16,11 @@ namespace Microsoft.WindowsAzure.Commands.Test.Common
 {
     using Commands.Utilities.Common;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
+    using Microsoft.WindowsAzure.Subscriptions;
+    using Moq;
     using System;
+    using System.Security.Cryptography.X509Certificates;
 
     [TestClass]
     public class WindowsAzureEnvironmentTests
@@ -143,6 +147,27 @@ namespace Microsoft.WindowsAzure.Commands.Test.Common
             Assert.AreNotEqual(environment.ActiveDirectoryServiceEndpointResourceId,
                 chinaEnvironment.ActiveDirectoryServiceEndpointResourceId);
 
+        }
+
+        [TestMethod]
+        public void AddUserAgentTest()
+        {
+            WindowsAzureSubscription subscription = new WindowsAzureSubscription
+            {
+                Certificate = It.IsAny<X509Certificate2>(),
+                IsDefault = true,
+                ServiceEndpoint = new Uri("https://www.azure.com"),
+                SubscriptionId = Guid.NewGuid().ToString(),
+                SubscriptionName = Data.Subscription1,
+            };
+
+            WindowsAzureEnvironment environment = WindowsAzureEnvironment.PublicEnvironments[EnvironmentName.AzureCloud];
+            ClientMocks clientMocks = new ClientMocks(subscription.SubscriptionId);
+            SubscriptionClient subscriptionClient = clientMocks.SubscriptionClientMock.Object;
+            SubscriptionClient actual = environment.AddUserAgent(subscriptionClient);
+
+            // verify the UserAgent is set in the subscription client
+            Assert.IsTrue(actual.UserAgent.Contains(ApiConstants.UserAgentValue), "Missing proper UserAgent string.");
         }
 
         private void GetEndpointTestInternal(Func<string, bool, Uri> getEndpoint, bool useHttps, string endpointSuffix)
