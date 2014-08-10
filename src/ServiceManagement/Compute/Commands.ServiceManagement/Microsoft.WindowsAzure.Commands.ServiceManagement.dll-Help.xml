@@ -36985,369 +36985,410 @@ PS C:\&gt; Set-AzureServiceAntimalwareExtension -ServiceName "ContosoService03" 
     </maml:relatedLinks>
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
-    <command:details>
-      <command:name>
-        Set-AzureVMDscExtension
-      </command:name>
-      <maml:description>
-        <maml:para>Configure the Windows PowerShell Desired State Configuration extension on a VM.</maml:para>
-      </maml:description>
-      <maml:copyright>
-        <maml:para></maml:para>
-      </maml:copyright>
-      <command:verb>Set</command:verb>
-      <command:noun>AzureVMDscExtension</command:noun>
-      <dev:version></dev:version>
-    </command:details>
-    <maml:description>
-      <maml:para>Configure the Windows PowerShell Desired State Configuration extension on a VM.</maml:para>
-    </maml:description>
-    <!-- Cmdlet syntax section-->
-    <command:syntax>
-      <command:syntaxItem>
-        <maml:name>Set-AzureVMDscExtension</maml:name>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue, ByPropertyName)" position="named">
-          <maml:name>VM</maml:name>
-          <maml:description>
-            <maml:para>The persistent VM object.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">IPersistentVM</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
-          <maml:name>ConfigurationArgument</maml:name>
-          <maml:description>
-            <maml:para>A hashtable specifying the arguments to the configuration function. The keys correspond to the parameter names and the values to the parameter values.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">hashtable</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-          <maml:name>Force</maml:name>
-          <maml:description>
-            <maml:para>By default Set-AzureVMDscExtension will not overwrite any existing blobs. Use -Force to overwrite them.</maml:para>
-          </maml:description>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
-          <maml:name>ReferenceName</maml:name>
-          <maml:description>
-            <maml:para>The Extension Reference Name</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
-          <maml:name>StorageEndpointSuffix</maml:name>
-          <maml:description>
-            <maml:para>The DNS endpoint suffix for all storage services, e.g. &quot;core.windows.net&quot;.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
-          <maml:name>Version</maml:name>
-          <maml:description>
-            <maml:para>The specific version of the DSC Extension to use. If not given, it will default to &quot;1.*&quot;</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
-          <maml:name>Confirm</maml:name>
-          <maml:description>
-            <maml:para>Prompts you for confirmation before executing the command.</maml:para>
-          </maml:description>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
-          <maml:name>WhatIf</maml:name>
-          <maml:description>
-            <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
-          </maml:description>
-        </command:parameter>
-      </command:syntaxItem>
-    </command:syntax>
-    <!-- Cmdlet parameter section  -->
-    <command:parameters>
-      <command:parameter required="" variableLength="false" globbing="false" pipelineInput="false" position="named">
-        <maml:name>ConfigurationArchive</maml:name>
-        <maml:description>
-          <maml:para>The name of the configuration package (.zip file) that was previously uploaded by Publish-AzureVMDscConfiguration. This parameter must specify only the name of the file, without any path.</maml:para>
+	<command:details>
+		<command:name>
+                   Set-AzureVMDscExtension
+		</command:name>
+		<maml:description>
+			<maml:para>Configure the Windows PowerShell Desired State Configuration extension on a VM.</maml:para>
+		</maml:description>
+		<maml:copyright>
+			<maml:para></maml:para>
+		</maml:copyright>
+		<command:verb>Set</command:verb>
+		<command:noun>AzureVMDscExtension</command:noun>
+		<dev:version></dev:version>
+	</command:details>
+	<maml:description>
+		<maml:para>Configure the Windows PowerShell Desired State Configuration extension on a VM.</maml:para>
+	</maml:description>
+	<!-- Cmdlet syntax section-->
+	<command:syntax>
+		<command:syntaxItem>
+			<maml:name>Set-AzureVMDscExtension</maml:name>
+			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue, ByPropertyName)" position="named">
+				<maml:name>VM</maml:name>
+				<maml:description>
+					<maml:para>The persistent VM object.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">IPersistentVM</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+				<maml:name>ConfigurationArchive</maml:name>
+				<maml:description>
+					<maml:para>The name of the configuration package (.zip file) that was previously uploaded by Publish-AzureVMDscConfiguration. This parameter must specify only the name of the file, without any path.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+				<maml:name>ConfigurationArgument</maml:name>
+				<maml:description>
+					<maml:para>A hashtable specifying the arguments to the configuration function. The keys correspond to the parameter names and the values to the parameter values.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">hashtable</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+				<maml:name>ConfigurationDataPath</maml:name>
+				<maml:description>
+					<maml:para>The path to a .psd1 file that specifies the data for the configuration function. This file must contain a hashtable as described in http://technet.microsoft.com/en-us/library/dn249925.aspx.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+				<maml:name>ConfigurationName</maml:name>
+				<maml:description>
+					<maml:para>Name of the configuration script or module that will be invoked by the DSC Extension. 
 
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        <dev:type>
-          <maml:name>string</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
-        <maml:name>ConfigurationArgument</maml:name>
-        <maml:description>
-          <maml:para>A hashtable specifying the arguments to the configuration function. The keys correspond to the parameter names and the values to the parameter values.</maml:para>
-
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">hashtable</command:parameterValue>
-        <dev:type>
-          <maml:name>hashtable</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="" variableLength="false" globbing="false" pipelineInput="false" position="named">
-        <maml:name>ConfigurationDataPath</maml:name>
-        <maml:description>
-          <maml:para>The path to a .psd1 file that specifies the data for the configuration function. This file must contain a hashtable as described in http://technet.microsoft.com/en-us/library/dn249925.aspx.</maml:para>
-
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        <dev:type>
-          <maml:name>string</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="" variableLength="false" globbing="false" pipelineInput="false" position="named">
-        <maml:name>ConfigurationName</maml:name>
-        <maml:description>
-          <maml:para>Name of the configuration script or module that will be invoked by the DSC Extension.
 The value of this parameter  must be the name of one of the configurations functions contained in the scripts or modules packaged in the ConfigurationArchive.
-If omitted, this parameter will default to the name of the file given by the ConfigurationArchive parameter, excluding any extension, for example if ConfigurationArchive is &quot;SalesWebSite.ps1.zip&quot;, the default value for ConfigurationName will be &quot;SalesWebSite&quot;.
-          </maml:para>
 
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        <dev:type>
-          <maml:name>string</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="" variableLength="false" globbing="false" pipelineInput="false" position="named">
-        <maml:name>ContainerName</maml:name>
-        <maml:description>
-          <maml:para>Name of the Azure Storage Container where the ConfigurationArchive is located. </maml:para>
+If omitted, this parameter will default to the name of the file given by the ConfigurationArchive parameter, excluding any extension, for example if ConfigurationArchive is &quot;SalesWebSite.ps1.zip&quot;, the default value for ConfigurationName will be &quot;SalesWebSite&quot;.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+				<maml:name>ContainerName</maml:name>
+				<maml:description>
+					<maml:para>Name of the Azure Storage Container where the ConfigurationArchive is located. </maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+				<maml:name>Force</maml:name>
+				<maml:description>
+					<maml:para>By default Set-AzureVMDscExtension will not overwrite any existing blobs. Use -Force to overwrite them.</maml:para>
+				</maml:description>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+				<maml:name>ReferenceName</maml:name>
+				<maml:description>
+					<maml:para>The Extension Reference Name</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+				<maml:name>StorageContext</maml:name>
+				<maml:description>
+					<maml:para>The Azure Storage Context that provides the security settings used to access the configuration script. This context should provide read access  to the container specified by ContainerName.
 
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        <dev:type>
-          <maml:name>string</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue>WindowsPowerShellDSC</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-        <maml:name>Force</maml:name>
-        <maml:description>
-          <maml:para>By default Set-AzureVMDscExtension will not overwrite any existing blobs. Use -Force to overwrite them.</maml:para>
+</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">AzureStorageContext</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+				<maml:name>StorageEndpointSuffix</maml:name>
+				<maml:description>
+					<maml:para>The DNS endpoint suffix for all storage services, e.g. &quot;core.windows.net&quot;.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+				<maml:name>Version</maml:name>
+				<maml:description>
+					<maml:para>The specific version of the DSC Extension to use. If not given, it will default to &quot;1.*&quot;</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
+   			 <maml:name>Confirm</maml:name>
+    			<maml:description>
+				<maml:para>Prompts you for confirmation before executing the command.</maml:para>
+    			</maml:description>
+			</command:parameter>
+			<command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
+   			 <maml:name>WhatIf</maml:name>
+    			<maml:description>
+				<maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+    			</maml:description>
+			</command:parameter>
+		</command:syntaxItem>
+	</command:syntax>
+	<!-- Cmdlet parameter section  -->
+	<command:parameters>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ConfigurationArchive</maml:name>
+			<maml:description>
+				<maml:para>The name of the configuration package (.zip file) that was previously uploaded by Publish-AzureVMDscConfiguration. This parameter must specify only the name of the file, without any path.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			<dev:type>
+				<maml:name>string</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+			<maml:name>ConfigurationArgument</maml:name>
+			<maml:description>
+				<maml:para>A hashtable specifying the arguments to the configuration function. The keys correspond to the parameter names and the values to the parameter values.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">hashtable</command:parameterValue>
+			<dev:type>
+				<maml:name>hashtable</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ConfigurationDataPath</maml:name>
+			<maml:description>
+				<maml:para>The path to a .psd1 file that specifies the data for the configuration function. This file must contain a hashtable as described in http://technet.microsoft.com/en-us/library/dn249925.aspx.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			<dev:type>
+				<maml:name>string</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ConfigurationName</maml:name>
+			<maml:description>
+				<maml:para>Name of the configuration script or module that will be invoked by the DSC Extension. 
 
-        </maml:description>
-        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-        <dev:type>
-          <maml:name>SwitchParameter</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
-        <maml:name>ReferenceName</maml:name>
-        <maml:description>
-          <maml:para>The Extension Reference Name</maml:para>
+The value of this parameter  must be the name of one of the configurations functions contained in the scripts or modules packaged in the ConfigurationArchive.
 
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        <dev:type>
-          <maml:name>string</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="" variableLength="false" globbing="false" pipelineInput="false" position="named">
-        <maml:name>StorageContext</maml:name>
-        <maml:description>
-          <maml:para>
-            The Azure Storage Context that provides the security settings used to access the configuration script. This context should provide read access  to the container specified by ContainerName.
+If omitted, this parameter will default to the name of the file given by the ConfigurationArchive parameter, excluding any extension, for example if ConfigurationArchive is &quot;SalesWebSite.ps1.zip&quot;, the default value for ConfigurationName will be &quot;SalesWebSite&quot;.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			<dev:type>
+				<maml:name>string</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ContainerName</maml:name>
+			<maml:description>
+				<maml:para>Name of the Azure Storage Container where the ConfigurationArchive is located. </maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			<dev:type>
+				<maml:name>string</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue>WindowsPowerShellDSC</dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>Force</maml:name>
+			<maml:description>
+				<maml:para>By default Set-AzureVMDscExtension will not overwrite any existing blobs. Use -Force to overwrite them.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+			<dev:type>
+				<maml:name>SwitchParameter</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+			<maml:name>ReferenceName</maml:name>
+			<maml:description>
+				<maml:para>The Extension Reference Name</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			<dev:type>
+				<maml:name>string</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>StorageContext</maml:name>
+			<maml:description>
+				<maml:para>The Azure Storage Context that provides the security settings used to access the configuration script. This context should provide read access  to the container specified by ContainerName.
 
-          </maml:para>
+</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">AzureStorageContext</command:parameterValue>
+			<dev:type>
+				<maml:name>AzureStorageContext</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+			<maml:name>StorageEndpointSuffix</maml:name>
+			<maml:description>
+				<maml:para>The DNS endpoint suffix for all storage services, e.g. &quot;core.windows.net&quot;.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			<dev:type>
+				<maml:name>string</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+			<maml:name>Version</maml:name>
+			<maml:description>
+				<maml:para>The specific version of the DSC Extension to use. If not given, it will default to &quot;1.*&quot;</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			<dev:type>
+				<maml:name>string</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue>1.*</dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue, ByPropertyName)" position="named">
+			<maml:name>VM</maml:name>
+			<maml:description>
+				<maml:para>The persistent VM object.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">IPersistentVM</command:parameterValue>
+			<dev:type>
+				<maml:name>IPersistentVM</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+			<command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
+   			 <maml:name>Confirm</maml:name>
+    			<maml:description>
+				<maml:para>Prompts you for confirmation before executing the command.</maml:para>
+    			</maml:description>
+    			<command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>	
+				<dev:type>
+  				<maml:name>SwitchParameter</maml:name> 
+					<maml:uri /> 
+					</dev:type>
+ 			<dev:defaultValue /> 
+			</command:parameter>
+			<command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
+   			 <maml:name>WhatIf</maml:name>
+    			<maml:description>
+				<maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+    			</maml:description>
+    			<command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>	
+				<dev:type>
+  				<maml:name>SwitchParameter</maml:name> 
+					<maml:uri /> 
+					</dev:type>
+ 			<dev:defaultValue /> 
+			</command:parameter>
+	</command:parameters>
+	<!-- Input - Output section-->
+	<command:inputTypes>
+		<command:inputType>
+			<dev:type>
+				<maml:name></maml:name>
+				<maml:uri/>
+				<maml:description />
+			</dev:type>
+			<maml:description>
+				<maml:para>
+					<!-- description  -->
+					
+				</maml:para>
+			</maml:description>
+		</command:inputType>
+	</command:inputTypes>
+	<command:returnValues>
+		<command:returnValue>
+			<dev:type>
+				<maml:name></maml:name>
+				<maml:uri />
+				<maml:description />
+			</dev:type>   
+			<maml:description>
+				<maml:para>
+					<!-- description  -->
+					
+				</maml:para>
+			</maml:description> 
+		</command:returnValue>
+	</command:returnValues>
+	<!-- Error section-->
+	<command:terminatingErrors />
+	<command:nonTerminatingErrors />
+		<!-- Notes section  -->
+	<maml:alertSet>
+		<maml:title></maml:title>
+		<maml:alert>
+			<maml:para>
+                          
+                        </maml:para>
+		</maml:alert>
+		<maml:alert>
+			<maml:para></maml:para>
+		</maml:alert>
+	</maml:alertSet>
+	<!-- Example section  --> 
+	<command:examples>
 
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">AzureStorageContext</command:parameterValue>
-        <dev:type>
-          <maml:name>AzureStorageContext</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
-        <maml:name>StorageEndpointSuffix</maml:name>
-        <maml:description>
-          <maml:para>The DNS endpoint suffix for all storage services, e.g. &quot;core.windows.net&quot;.</maml:para>
+		<command:example>
+			<maml:title>
+				-------------------------- EXAMPLE 1 --------------------------
+			</maml:title> 
+			<maml:introduction>
+				<maml:para>C:\PS&gt;</maml:para>
+			</maml:introduction> 
+  			<dev:code>
+Set-AzureVMDscExtension -VM $vm -ConfigurationArchive MyConfiguration.ps1.zip  -ConfigurationName MyConfiguration -ConfigurationArgument @{ ServerName = 'C:\MyDirectory' }
 
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        <dev:type>
-          <maml:name>string</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
-        <maml:name>Version</maml:name>
-        <maml:description>
-          <maml:para>The specific version of the DSC Extension to use. If not given, it will default to &quot;1.*&quot;</maml:para>
+DeploymentName              : my-vm-svc
+Name                        : my-vm
+Label                       : 
+VM                          : Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVM
+InstanceStatus              : ReadyRole
+IpAddress                   : 10.10.10.10
+InstanceStateDetails        : 
+PowerState                  : Started
+InstanceErrorCode           : 
+InstanceFaultDomain         : 0
+InstanceName                : my-vm
+InstanceUpgradeDomain       : 0
+InstanceSize                : Small
+AvailabilitySetName         : 
+DNSName                     : http://my-vm-svc.cloudapp.net/
+Status                      : ReadyRole
+GuestAgentStatus            : Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.GuestAgentStatus
+ResourceExtensionStatusList : {Microsoft.Compute.BGInfo}
+PublicIPAddress             : 
+PublicIPName                : 
+ServiceName                 : my-vm-svc
+OperationDescription        : Get-AzureVM
+OperationId                 : a0217a7af900c1f8a212299a3333cdbd6
+OperationStatus             : OK                        </dev:code>
+       			<dev:remarks>
+                                <maml:para>Description</maml:para>
+                                <maml:para>-----------</maml:para>
+  			        <maml:para>This command configures the DSC extension on a VM. 
 
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        <dev:type>
-          <maml:name>string</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue>1.*</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue, ByPropertyName)" position="named">
-        <maml:name>VM</maml:name>
-        <maml:description>
-          <maml:para>The persistent VM object.</maml:para>
-
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">IPersistentVM</command:parameterValue>
-        <dev:type>
-          <maml:name>IPersistentVM</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
-        <maml:name>Confirm</maml:name>
-        <maml:description>
-          <maml:para>Prompts you for confirmation before executing the command.</maml:para>
-        </maml:description>
-        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-        <dev:type>
-          <maml:name>SwitchParameter</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue />
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
-        <maml:name>WhatIf</maml:name>
-        <maml:description>
-          <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
-        </maml:description>
-        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-        <dev:type>
-          <maml:name>SwitchParameter</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue />
-      </command:parameter>
-    </command:parameters>
-    <!-- Input - Output section-->
-    <command:inputTypes>
-      <command:inputType>
-        <dev:type>
-          <maml:name></maml:name>
-          <maml:uri/>
-          <maml:description />
-        </dev:type>
-        <maml:description>
-          <maml:para>
-            <!-- description  -->
-
-          </maml:para>
-        </maml:description>
-      </command:inputType>
-    </command:inputTypes>
-    <command:returnValues>
-      <command:returnValue>
-        <dev:type>
-          <maml:name></maml:name>
-          <maml:uri />
-          <maml:description />
-        </dev:type>
-        <maml:description>
-          <maml:para>
-            <!-- description  -->
-
-          </maml:para>
-        </maml:description>
-      </command:returnValue>
-    </command:returnValues>
-    <!-- Error section-->
-    <command:terminatingErrors />
-    <command:nonTerminatingErrors />
-    <!-- Notes section  -->
-    <maml:alertSet>
-      <maml:title></maml:title>
-      <maml:alert>
-        <maml:para>
-
-        </maml:para>
-      </maml:alert>
-      <maml:alert>
-        <maml:para></maml:para>
-      </maml:alert>
-    </maml:alertSet>
-    <!-- Example section  -->
-    <command:examples>
-
-      <command:example>
-        <maml:title>
-          -------------------------- EXAMPLE 1 --------------------------
-        </maml:title>
-        <maml:introduction>
-          <maml:para>C:\PS&gt;</maml:para>
-        </maml:introduction>
-        <dev:code>
-          Set-AzureVMDscExtension -VM $vm -ConfigurationArchive MyConfiguration.ps1.zip  -ConfigurationName MyConfiguration -ConfigurationArgument @{ ServerName = 'C:\MyDirectory' }
-
-          DeploymentName              : my-vm-svc
-          Name                        : my-vm
-          Label                       :
-          VM                          : Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVM
-          InstanceStatus              : ReadyRole
-          IpAddress                   : 10.10.10.10
-          InstanceStateDetails        :
-          PowerState                  : Started
-          InstanceErrorCode           :
-          InstanceFaultDomain         : 0
-          InstanceName                : my-vm
-          InstanceUpgradeDomain       : 0
-          InstanceSize                : Small
-          AvailabilitySetName         :
-          DNSName                     : http://my-vm-svc.cloudapp.net/
-          Status                      : ReadyRole
-          GuestAgentStatus            : Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.GuestAgentStatus
-          ResourceExtensionStatusList : {Microsoft.Compute.BGInfo}
-          PublicIPAddress             :
-          PublicIPName                :
-          ServiceName                 : my-vm-svc
-          OperationDescription        : Get-AzureVM
-          OperationId                 : a0217a7af900c1f8a212299a3333cdbd6
-          OperationStatus             : OK
-        </dev:code>
-        <dev:remarks>
-          <maml:para>Description</maml:para>
-          <maml:para>-----------</maml:para>
-          <maml:para>This command configures the DSC extension on a VM.
 The &quot;MyConfiguration.ps1.zip&quot; package must have been previously uploaded to Azure storage using the Publish-AzureVMDscConfiguration command and includes the &quot;MyConfiguration.ps1&quot; script and the modules it depends on.
-The &quot;MyConfiguration&quot; argument indicates the specific DSC configuration within the script to execute. The -ConfigurationArgument parameter specifies a hashtable with the arguments that will be passed to the configuration function.
-          </maml:para>
-          <maml:para></maml:para>
-          <maml:para></maml:para>
-          <maml:para></maml:para>
-          <maml:para></maml:para>
-        </dev:remarks>
-        <command:commandLines>
-          <command:commandLine>
-            <command:commandText></command:commandText>
-          </command:commandLine>
-        </command:commandLines>
-      </command:example>
-    </command:examples>
-    <!-- Link section  -->
-    <maml:relatedLinks>
-      <maml:navigationLink>
-        <maml:linkText></maml:linkText>
-        <maml:uri/>
-      </maml:navigationLink>
-    </maml:relatedLinks>
-  </command:command>
+
+The &quot;MyConfiguration&quot; argument indicates the specific DSC configuration within the script to execute. The -ConfigurationArgument parameter specifies a hashtable with the arguments that will be passed to the configuration function.</maml:para>
+	                        <maml:para></maml:para>
+	                        <maml:para></maml:para>
+	                        <maml:para></maml:para>
+	                        <maml:para></maml:para>
+  			</dev:remarks>
+			<command:commandLines>
+				<command:commandLine>
+					<command:commandText></command:commandText>
+				</command:commandLine>
+			</command:commandLines>
+		</command:example>
+	</command:examples>
+	<!-- Link section  -->
+	<maml:relatedLinks>
+		<maml:navigationLink>
+			<maml:linkText></maml:linkText>
+			<maml:uri/>
+		</maml:navigationLink>
+	</maml:relatedLinks>
+</command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
     <command:details>
       <command:name>

@@ -742,4 +742,8 @@ The file needs to be a PowerShell script (.ps1 or .psm1).</value>
     <value>"An exception occurred when calling the ServiceManagement API. HTTP Status Code: {0}. Service Management Error Code: {1}. Message: {2}. Operation Tracking ID: {3}."</value>
     <comment>{0} is the HTTP status code. {1} is the Service Management Error Code. {2} is the Service Management Error message. {3} is the operation tracking ID.</comment>
   </data>
+  <data name="PublishVMDscExtensionArchiveUploadedMessage" xml:space="preserve">
+    <value>Configuration published to {0}</value>
+    <comment>{0} is an URI</comment>
+  </data>
 </root>
