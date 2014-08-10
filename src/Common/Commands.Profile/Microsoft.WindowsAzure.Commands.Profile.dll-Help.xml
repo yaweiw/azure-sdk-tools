@@ -1407,7 +1407,7 @@ GalleryEndpoint               : https://gallery.azure.com/
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Import-AzurePublishSettingsFile</maml:name>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
           <maml:name>PublishSettingsFile</maml:name>
           <maml:description>
             <maml:para>Specifies the full path and filename of the publish settings file. This should match the file location that you entered when prompted by Get-AzurePublishSettingsFile.</maml:para>
@@ -1424,7 +1424,7 @@ GalleryEndpoint               : https://gallery.azure.com/
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
         <maml:name>PublishSettingsFile</maml:name>
         <maml:description>
           <maml:para>Specifies the full path and filename of the publish settings file. This should match the file location that you entered when prompted by Get-AzurePublishSettingsFile.</maml:para>

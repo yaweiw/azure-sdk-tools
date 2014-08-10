@@ -30,7 +30,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
         {
         }
 
-        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true,
+        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true,
             HelpMessage = "Path to the publish settings file.")]
         public string PublishSettingsFile { get; set; }
 
