@@ -1186,6 +1186,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Configuration published to {0}.
+        /// </summary>
+        public static string PublishVMDscExtensionArchiveUploadedMessage {
+            get {
+                return ResourceManager.GetString("PublishVMDscExtensionArchiveUploadedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot find configuration file: {0}..
         /// </summary>
         public static string PublishVMDscExtensionConfigFileNotFound {

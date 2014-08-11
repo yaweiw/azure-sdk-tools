@@ -109,7 +109,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntitie
         [DataMember(IsRequired = false)]
         public HostNameSslStates HostNameSslStates { get; set; }
 
-        public WebSiteComputeMode ComputeMode { get; set; }
+        public WebSiteComputeMode? ComputeMode { get; set; }
 
         internal string GetProperty(string property)
         {
