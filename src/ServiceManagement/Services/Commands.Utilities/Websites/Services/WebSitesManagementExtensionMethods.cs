@@ -276,8 +276,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
                 {
                     Count = s.Count,
                     TimeCreated = s.TimeCreated,
+                    InstanceName = s.InstanceName,
                 };
-
                 long val = 0;
 
                 if (!string.IsNullOrEmpty(s.Minimum))

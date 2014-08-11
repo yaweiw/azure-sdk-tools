@@ -44,11 +44,15 @@ namespace Microsoft.WindowsAzure.Commands.Websites.WebHostingPlan
             HelpMessage = "Time grain for the metrics. Supported values are PT1M (per minute), PT1H (per hour), P1D (per day).")]
         public string TimeGrain { get; set; }
 
+        [Parameter(Position = 6, Mandatory = false, ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Include details for each server instance in the web hosting plan.")]
+        public SwitchParameter InstanceDetails { get; set; }
+
         public override void ExecuteCmdlet()
         {
             base.ExecuteCmdlet();
 
-            var response = WebsitesClient.GetPlanHistoricalUsageMetrics(WebSpaceName, Name, MetricNames, StartDate, EndDate, TimeGrain);
+            var response = WebsitesClient.GetPlanHistoricalUsageMetrics(WebSpaceName, Name, MetricNames, StartDate, EndDate, TimeGrain, InstanceDetails);
             foreach (var metricResponse in response)
             {
                 WriteObject(metricResponse, true);
