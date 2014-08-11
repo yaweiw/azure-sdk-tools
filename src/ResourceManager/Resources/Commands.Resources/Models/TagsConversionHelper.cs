@@ -65,9 +65,14 @@ namespace Microsoft.Azure.Commands.Resources.Models
             if (validate)
             {
                 if (hashtableArray != null && hashtableArray.Length > 0 && hashtableArray[0].Count > 0 &&
-                    (tagDictionary == null || tagDictionary.Count == 0 || hashtableArray.Length != tagDictionary.Count))
+                    (tagDictionary == null || tagDictionary.Count == 0))
                 {
                     throw new ArgumentException(ProjectResources.InvalidTagFormat);
+                }
+                if (hashtableArray != null && hashtableArray.Length > 0 && hashtableArray[0].Count > 0 &&
+                    (tagDictionary == null || hashtableArray.Length != tagDictionary.Count))
+                {
+                    throw new ArgumentException(ProjectResources.InvalidTagFormatNotUniqueName);
                 }
             }
 

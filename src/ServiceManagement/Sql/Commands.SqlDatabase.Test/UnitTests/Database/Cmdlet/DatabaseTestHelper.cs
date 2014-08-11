@@ -69,8 +69,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
         public static void SetDefaultTestSessionSettings(HttpSession testSession)
         {
             testSession.ServiceBaseUri = MockServerHelper.CommonServiceBaseUri;
-            testSession.SessionProperties["Servername"] = "testserver";
-            testSession.SessionProperties["Username"] = "mylogin";
+            testSession.SessionProperties["Servername"] = "myserver01";
+            testSession.SessionProperties["Username"] = "testuser";
             testSession.SessionProperties["Password"] = "testp@ss1";
             testSession.ResponseModifier =
                 new Action<HttpMessage>(

@@ -12,6 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using Authentication;
@@ -20,6 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Management.Automation;
 
     /// <summary>
     /// This class is the entry point for all the persistent
@@ -32,6 +34,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         // Store - responsible for loading and saving a profile to a particular location
         private readonly IProfileStore profileStore;
+
+        // Token provider - talks to Active Directory to get access tokens
+        public IProfileStore ProfileStore
+        {
+            get { return profileStore; }
+        }
 
         // Token provider - talks to Active Directory to get access tokens
         public ITokenProvider TokenProvider { get; set; }
@@ -311,10 +319,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// for the given account in that environment.
         /// </summary>
         /// <param name="environment">environment that the subscription is in.</param>
-        public string AddAccounts(WindowsAzureEnvironment environment)
+        /// <param name="credential">optional credentials</param>
+        public string AddAccounts(WindowsAzureEnvironment environment, PSCredential credential)
         {
             environment = environment ?? CurrentEnvironment;
-            var newSubscriptions = environment.AddAccount(TokenProvider).ToList();
+            var newSubscriptions = environment.AddAccount(TokenProvider, credential).ToList();
             AddSubscriptions(newSubscriptions);
             Save();
             return newSubscriptions[0].ActiveDirectoryUserId;
@@ -395,7 +404,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         {
             if (data.Environments != null)
             {
-                foreach (var e in data.Environments.Select(e => e.ToAzureEnvironment()))
+                foreach (var e in data.Environments.Select(e => e.ToWindowsAzureEnvironment()))
                 {
                     environments[e.Name] = e;
                     MigrateExistingEnvironments(e.Name);
@@ -418,7 +427,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             {
                 foreach (var s in data.Subscriptions)
                 {
-                    var newSub = s.ToAzureSubscription();
+                    var newSub = s.ToWindowsAzureSubscription();
                     AddSubscriptionInternal(newSub);
                 }
             }

@@ -110,6 +110,11 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest
             WindowsAzureProfile.Instance.CurrentEnvironment.ServiceEndpoint =
                 rdfeEnvironment.BaseUri.AbsoluteUri;
 
+            if (currentEnvironment.UserName == null)
+            {
+                currentEnvironment.UserName = "fakeuser@microsoft.com";
+            }
+
             testSubscription = new WindowsAzureSubscription(false, false)
             {
                 SubscriptionId = currentEnvironment.SubscriptionId,
@@ -247,7 +252,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest
 
         public void Dispose()
         {
-            if (!WindowsAzureProfile.Instance.Environments.ContainsKey(testEnvironmentName))
+            if (WindowsAzureProfile.Instance.Environments.ContainsKey(testEnvironmentName))
             {
                 WindowsAzureProfile.Instance.RemoveEnvironment(testEnvironmentName);
             }

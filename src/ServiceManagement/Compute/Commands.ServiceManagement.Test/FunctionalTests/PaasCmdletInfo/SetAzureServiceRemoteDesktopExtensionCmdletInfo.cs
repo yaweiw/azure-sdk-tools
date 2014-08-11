@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     {
 
         public SetAzureServiceRemoteDesktopExtensionCmdletInfo
-            (string serviceName, PSCredential credential, DateTime? expiration, string[] roles, string slot)
+            (string serviceName, PSCredential credential, DateTime? expiration, string[] roles, string slot, string version)
         {
 
             this.cmdletName = Utilities.SetAzureServiceRemoteDesktopExtensionCmdletName;
@@ -41,18 +41,22 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             {
                 this.cmdletParams.Add(new CmdletParam("Role", roles));
             }
+            if (!string.IsNullOrEmpty(version))
+            {
+                this.cmdletParams.Add(new CmdletParam("Version", version));
+            }
         }
 
         public SetAzureServiceRemoteDesktopExtensionCmdletInfo
-            (string serviceName, PSCredential credential, X509Certificate2 cert, DateTime? expiration, string[] roles, string slot)
-            : this(serviceName, credential, expiration, roles, slot)
+            (string serviceName, PSCredential credential, X509Certificate2 cert, DateTime? expiration, string[] roles, string slot, string version)
+            : this(serviceName, credential, expiration, roles, slot, version)
         {
             this.cmdletParams.Add(new CmdletParam("X509Certificate", cert));
         }
 
         public SetAzureServiceRemoteDesktopExtensionCmdletInfo
-            (string serviceName, PSCredential credential, string thumbprint, string algorithm, DateTime? expiration, string[] roles, string slot)
-            : this(serviceName, credential, expiration, roles, slot)
+            (string serviceName, PSCredential credential, string thumbprint, string algorithm, DateTime? expiration, string[] roles, string slot, string version)
+            : this(serviceName, credential, expiration, roles, slot, version)
         {
             this.cmdletParams.Add(new CmdletParam("CertificateThumbprint", thumbprint));
             if (!string.IsNullOrEmpty(algorithm))

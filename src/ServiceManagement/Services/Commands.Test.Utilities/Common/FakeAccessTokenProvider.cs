@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.Security;
+
 namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
 {
     using Commands.Utilities.Common;
@@ -45,6 +47,11 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
         }
 
         public IAccessToken GetNewToken(WindowsAzureSubscription subscription, string userId)
+        {
+            return this.accessToken;
+        }
+
+        public IAccessToken GetNewToken(WindowsAzureEnvironment environment, string userId, SecureString password)
         {
             return this.accessToken;
         }

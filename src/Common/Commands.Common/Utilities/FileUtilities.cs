@@ -358,7 +358,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             }
         }
 
-        private static string GetModuleFolderName(AzureModule module)
+        public static string GetModuleFolderName(AzureModule module)
         {
             return module.ToString().Replace("Azure", "");
         }

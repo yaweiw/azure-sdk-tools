@@ -14,7 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 {
-    using Model.PersistentVMModel;
+    using Model;
     using System.Linq;
     using System.Management.Automation;
 
@@ -72,7 +72,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
                                Id = extension.Id,
                                Role = role,
                                UserName = GetPublicConfigValue(extension, UserNameElemStr),
-                               Expiration = GetPublicConfigValue(extension, ExpirationElemStr)
+                               Expiration = GetPublicConfigValue(extension, ExpirationElemStr),
+                               Version = extension.Version
                            };
                 });
         }

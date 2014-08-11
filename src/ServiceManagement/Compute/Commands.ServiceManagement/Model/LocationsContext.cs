@@ -15,7 +15,6 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
-    using PersistentVMModel;
     using System.Collections.Generic;
     using Utilities.Common;
 

@@ -214,7 +214,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Azure Powershell\.
+        ///   Looks up a localized string similar to Windows Azure Powershell\.
         /// </summary>
         public static string AzureDirectory {
             get {
@@ -223,7 +223,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Azure Powershell.
+        ///   Looks up a localized string similar to Windows Azure Powershell.
         /// </summary>
         public static string AzureDirectoryName {
             get {
@@ -301,15 +301,6 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties {
         public static string AzureSdkDirectory {
             get {
                 return ResourceManager.GetString("AzureSdkDirectory", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Azure SDK Deployment Cmdlets.
-        /// </summary>
-        public static string AzureSdkDirectoryName {
-            get {
-                return ResourceManager.GetString("AzureSdkDirectoryName", resourceCulture);
             }
         }
         
@@ -805,6 +796,15 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties {
         public static string CreatingPackageMessage {
             get {
                 return ResourceManager.GetString("CreatingPackageMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to -Credential parameter can only be used with Organization ID credentials. For more information, please refer to http://go.microsoft.com/fwlink/?linkid=331007&amp;clcid=0x409 for more information about the difference between an organizational account and a Microsoft account..
+        /// </summary>
+        public static string CredentialOrganizationIdMessage {
+            get {
+                return ResourceManager.GetString("CredentialOrganizationIdMessage", resourceCulture);
             }
         }
         
@@ -2030,7 +2030,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to http://az413943.vo.msecnd.net/node/runtimemanifest_0.7.3.xml.
+        ///   Looks up a localized string similar to http://az413943.vo.msecnd.net/node/runtimemanifest_0.7.4.1.xml.
         /// </summary>
         public static string ManifestUri {
             get {
@@ -2039,7 +2039,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to v2.3.
+        ///   Looks up a localized string similar to v2.4.
         /// </summary>
         public static string MaxSupportAzureSdkVersion {
             get {
@@ -2066,7 +2066,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to v2.3.
+        ///   Looks up a localized string similar to v2.4.
         /// </summary>
         public static string MinSupportAzureSdkVersion {
             get {
@@ -2338,6 +2338,15 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties {
         public static string NoInternetConnection1 {
             get {
                 return ResourceManager.GetString("NoInternetConnection1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;NONE&gt;.
+        /// </summary>
+        public static string None {
+            get {
+                return ResourceManager.GetString("None", resourceCulture);
             }
         }
         
@@ -3577,6 +3586,24 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string ServiceManagementClientExceptionStringFormat {
+            get {
+                return ResourceManager.GetString("ServiceManagementClientExceptionStringFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &quot;An exception occurred when calling the ServiceManagement API. HTTP Status Code: {0}. Service Management Error Code: {1}. Message: {2}. Operation Tracking ID: {3}.&quot;.
+        /// </summary>
+        public static string ServiceManagementClientExceptionStringFormat1 {
+            get {
+                return ResourceManager.GetString("ServiceManagementClientExceptionStringFormat1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Begin Operation: {0}.
         /// </summary>
         public static string ServiceManagementExecuteClientActionBeginOperation {
@@ -4105,6 +4132,15 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties {
         public static string UnableToCreateDjangoAppFix {
             get {
                 return ResourceManager.GetString("UnableToCreateDjangoAppFix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to decode string from base 64. Please make sure the string is correctly encoded: {0}..
+        /// </summary>
+        public static string UnableToDecodeBase64String {
+            get {
+                return ResourceManager.GetString("UnableToDecodeBase64String", resourceCulture);
             }
         }
         

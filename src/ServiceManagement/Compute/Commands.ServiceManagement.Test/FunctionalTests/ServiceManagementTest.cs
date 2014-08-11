@@ -24,6 +24,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using System.Linq;
     using System.Xml.Linq;
     using VisualStudio.TestTools.UnitTesting;
+    using WindowsAzure.Commands.ServiceManagement;
 
     [TestClass]
     public class ServiceManagementTest
@@ -333,6 +334,23 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             {
                 Assert.Fail(e.InnerException.ToString());
             }
+        }
+
+        protected void VerifyRDP(string serviceName, string rdpPath)
+        {
+            Utilities.GetDeploymentAndWaitForReady(serviceName, DeploymentSlotType.Production, 10, 600);
+
+            vmPowershellCmdlets.GetAzureRemoteDesktopFile("WebRole1_IN_0", serviceName, rdpPath, false);
+
+            string dns;
+
+            using (var stream = new StreamReader(rdpPath))
+            {
+                string firstLine = stream.ReadLine();
+                dns = Utilities.FindSubstring(firstLine, ':', 2);
+            }
+
+            Assert.IsTrue((Utilities.RDPtestPaaS(dns, "WebRole1", 0, username, password, true)), "Cannot RDP to the instance!!");
         }
     }
 }

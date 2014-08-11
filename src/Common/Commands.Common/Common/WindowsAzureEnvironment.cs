@@ -19,6 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Management.Automation;
 
     [Serializable]
     public class WindowsAzureEnvironment
@@ -92,7 +93,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// <summary>
         /// The storage service blob endpoint format.
         /// </summary>
-        public string StorageBlobEndpointFormat { 
+        public string StorageBlobEndpointFormat
+        { 
             get { return EndpointFormatFor("blob"); }
         }
 
@@ -200,14 +202,22 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             return baseUrl;
         }
 
-        public IEnumerable<WindowsAzureSubscription> AddAccount(ITokenProvider tokenProvider)
+        public IEnumerable<WindowsAzureSubscription> AddAccount(ITokenProvider tokenProvider, PSCredential credential)
         {
             if (ActiveDirectoryEndpoint == null || ActiveDirectoryServiceEndpointResourceId == null)
             {
                 throw new Exception(string.Format(Resources.EnvironmentDoesNotSupportActiveDirectory, Name));
             }
 
-            IAccessToken mainToken = tokenProvider.GetNewToken(this);
+            IAccessToken mainToken;
+            if (credential != null)
+            {
+                mainToken = tokenProvider.GetNewToken(this, credential.UserName, credential.Password);
+            }
+            else
+            {
+                mainToken = tokenProvider.GetNewToken(this);
+            }
             var credentials = new TokenCloudCredentials(mainToken.AccessToken);
 
             using (var subscriptionClient = new SubscriptionClient(credentials, new Uri(ServiceEndpoint)))

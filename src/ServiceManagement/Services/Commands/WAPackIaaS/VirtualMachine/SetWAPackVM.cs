@@ -58,12 +58,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VirtualMachine
             {
                 throw new WAPackOperationException(String.Format(Resources.OperationFailedErrorMessage, Resources.Update, VM.ID));
             }
-
-            var jobInfo = new JobOperations(this.WebClientFactory).WaitOnJob(jobId.Value);
-            if (jobInfo.jobStatus == JobStatusEnum.Failed)
-            {
-                this.WriteErrorDetails(new Exception(jobInfo.errorMessage));
-            }
+            WaitForJobCompletion(jobId);
 
             if (PassThru)
             {

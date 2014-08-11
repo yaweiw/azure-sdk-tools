@@ -14,7 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.Websites
 {
-    using Commands.Utilities.Common;
+    using Microsoft.WindowsAzure.Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using System.Management.Automation;
     using System.Security.Permissions;
@@ -25,9 +25,22 @@ namespace Microsoft.WindowsAzure.Commands.Websites
     [Cmdlet(VerbsCommon.Show, "AzurePortal")]
     public class ShowAzurePortalCommand : CmdletBase
     {
+        private string name;
+
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the website.")]
         [ValidateNotNullOrEmpty]
-        public string Name { get; set; }
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+            set
+            {
+                // Convert to Unicode if necessary.
+                name = IdnHelper.GetUnicode(value);
+            }
+        }
 
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Realm of the account.")]
         [ValidateNotNullOrEmpty]

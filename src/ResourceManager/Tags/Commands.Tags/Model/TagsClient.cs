@@ -24,7 +24,7 @@ namespace Microsoft.Azure.Commands.Tags.Model
 {
     public class TagsClient
     {
-        private const string ExecludedTagPrefix = "hidden-related:/";
+        public const string ExecludedTagPrefix = "hidden-related:/";
 
         public IResourceManagementClient ResourceManagementClient { get; set; }
 

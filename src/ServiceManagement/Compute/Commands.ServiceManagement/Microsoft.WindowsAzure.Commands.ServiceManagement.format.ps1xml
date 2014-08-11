@@ -23,6 +23,14 @@
                 <PropertyName>Version</PropertyName>
               </ListItem>
               <ListItem>
+                <Label>Label</Label>
+                <PropertyName>Label</PropertyName>
+              </ListItem>
+              <ListItem>
+                <Label>Description</Label>
+                <PropertyName>Description</PropertyName>
+              </ListItem>
+              <ListItem>
                 <Label>PublicConfigurationSchema</Label>
                 <ScriptBlock>
                   $len = 100;
@@ -65,6 +73,10 @@
                 </ScriptBlock>
               </ListItem>
               <ListItem>
+                <Label>IsInternalExtension</Label>
+                <PropertyName>IsInternalExtension</PropertyName>
+              </ListItem>
+              <ListItem>
                 <Label>SampleConfig</Label>
                 <ScriptBlock>
                   $len = 100;
@@ -105,6 +117,22 @@
                 <Label>IsJsonExtension</Label>
                 <PropertyName>IsJsonExtension</PropertyName>
               </ListItem>
+              <ListItem>
+                <Label>DisallowMajorVersionUpgrade</Label>
+                <PropertyName>DisallowMajorVersionUpgrade</PropertyName>
+              </ListItem>
+              <ListItem>
+                <Label>SupportedOS</Label>
+                <PropertyName>SupportedOS</PropertyName>
+              </ListItem>
+              <ListItem>
+                <Label>PublishedDate</Label>
+                <PropertyName>PublishedDate</PropertyName>
+              </ListItem>
+                <ListItem>
+                <Label>CompanyName</Label>
+                <PropertyName>CompanyName</PropertyName>
+              </ListItem>
             </ListItems>
           </ListEntry>
         </ListEntries>
@@ -142,6 +170,10 @@
               <ListItem>
                 <Label>HostingResources</Label>
                 <PropertyName>HostingResources</PropertyName>
+              </ListItem>
+              <ListItem>
+                <Label>MediaLink</Label>
+                <PropertyName>MediaLink</PropertyName>
               </ListItem>
               <ListItem>
                 <Label>ThumbprintAlgorithm</Label>
@@ -194,6 +226,10 @@
                 <PropertyName>BlockRoleUponFailure</PropertyName>
               </ListItem>
               <ListItem>
+                <Label>IsInternalExtension</Label>
+                <PropertyName>IsInternalExtension</PropertyName>
+              </ListItem>
+              <ListItem>
                 <Label>SampleConfig</Label>
                 <ScriptBlock>
                   $len = 100;
@@ -233,6 +269,22 @@
               <ListItem>
                 <Label>IsJsonExtension</Label>
                 <PropertyName>IsJsonExtension</PropertyName>
+              </ListItem>
+              <ListItem>
+                <Label>DisallowMajorVersionUpgrade</Label>
+                <PropertyName>DisallowMajorVersionUpgrade</PropertyName>
+              </ListItem>
+              <ListItem>
+                <Label>SupportedOS</Label>
+                <PropertyName>SupportedOS</PropertyName>
+              </ListItem>
+              <ListItem>
+                <Label>PublishedDate</Label>
+                <PropertyName>PublishedDate</PropertyName>
+              </ListItem>
+              <ListItem>
+                <Label>CompanyName</Label>
+                <PropertyName>CompanyName</PropertyName>
               </ListItem>
             </ListItems>
           </ListEntry>

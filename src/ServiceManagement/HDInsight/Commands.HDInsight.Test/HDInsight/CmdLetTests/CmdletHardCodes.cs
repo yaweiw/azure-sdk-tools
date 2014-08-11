@@ -84,6 +84,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CmdLetTests
         public const string StartAzureHDInsightJob = "Start-AzureHDInsightJob";
         public const string StatusFolder = "StatusFolder";
         public const string YarnConfig = "Yarn";
+        public const string StormConfig = "Storm";
+        public const string HBaseConfig = "HBase";
 
         public const string StdErr = "StandardError";
         public const string Id = "Id";
@@ -110,6 +112,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CmdLetTests
         public const string WaitTimeoutInSeconds = "WaitTimeoutInSeconds";
         public const string HeadNodeVMSize = "HeadNodeVMSize";
         public const string ClusterType = "ClusterType";
+        public const string VirtualNetworkId = "VirtualNetworkId";
+        public const string SubnetName = "SubnetName";
     }
 }
 

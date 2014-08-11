@@ -21,6 +21,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest
     {
         public ProfileData ProfileData { get; set; }
 
+        public byte[] TokenCache { get; set; }
+
         public MockProfileStore()
         {
             ResetData();
@@ -41,14 +43,29 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest
             }
         }
 
+        public void SaveTokenCache(byte[] data)
+        {
+            TokenCache = data;
+        }
+
         public ProfileData Load()
         {
             return ProfileData;
         }
 
+        public byte[] LoadTokenCache()
+        {
+            return TokenCache;
+        }
+
         public void DestroyData()
         {
             ResetData();
+        }
+
+        public void DestroyTokenCache()
+        {
+            TokenCache = null;
         }
 
         private void ResetData()

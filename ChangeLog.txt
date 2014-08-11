@@ -1,3 +1,37 @@
+2014.08.04 Version 0.8.6
+* Non-interactive login support for Microsoft Organizational account with ``Add-AzureAccount -Credential``
+* Upgrade cloud service cmdlets dependencies to Azure SDK 2.4
+* Compute
+    * PowerShell DSC VM extension
+        * Get-AzureVMDscExtension
+        * Remove-AzureVMDscExtension
+        * Set-AzureVMDscExtension
+        * Publish-AzureVMDscConfiguration
+    * Added CompanyName and SupportedOS parameters to Publish-AzurePlatformExtension
+    * New-AzureVM will display a warning instead of an error when the service already exists in the same subscription
+    * Added Version parameter to generic service extension cmdlets
+    * Changed the ShowInGUI parameter to DoNotShowInGUI in Update-AzureVMImage
+* SQL Database
+    * Added OfflineSecondary parameter to Start-AzureSqlDatabaseCopy
+    * Database copy cmdlets will return 2 more properties: IsOfflineSecondary and IsTerminationAllowed
+* Windows Azure Pack
+    * New-WAPackCloudService
+    * Get-WAPackCloudService
+    * Remove-WAPackCloudService
+    * New-WAPackVMRole
+    * Get-WAPackVMRole
+    * Set-WAPackVMRole
+    * Remove-WAPackVMRole
+    * New-WAPackVNet
+    * Remove-WAPackVNet
+    * New-WAPackVMSubnet
+    * Get-WAPackVMSubnet
+    * Remove-WAPackVMSubnet
+    * New-WAPackStaticIPAddressPool
+    * Get-WAPackStaticIPAddressPool
+    * Remove-WAPackStaticIPAddressPool
+    * Get-WAPackLogicalNetwork
+
 2014.07.16 Version 0.8.5
 * Upgrade .NET dependency to .NET 4.5
 * Azure File Service
@@ -13,6 +47,12 @@
     * Tag parameter in Get-AzureResourceGroup and Get-AzureResource
 * Compute
     * ReverseDnsFqdn parameter in New-AzureService, Set-AzureService, New-AzureVM and New-AzureQuickVM
+* Network
+    * Set-AzureInternalLoadBalancer
+    * Add-AzureDns
+    * Set-AzureDns
+    * Remove-AzureDns
+    * Added IdealTimeoutInMinutes parameter to Set-AzurePublicIP, Add-AzureEndpoint and Set-AzureLoadBalancedEndpoint
 
 2014.06.30 Version 0.8.4
 * Compute

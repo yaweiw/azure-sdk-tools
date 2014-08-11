@@ -39,7 +39,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Azure.Utilities.HttpRecorder">
-      <HintPath>..\..\packages\Hydra.HttpRecorder.1.0.5310.25121-prerelease\lib\net45\Microsoft.Azure.Utilities.HttpRecorder.dll</HintPath>
+      <HintPath>..\..\packages\Hydra.HttpRecorder.1.0.5325.27361-prerelease\lib\net45\Microsoft.Azure.Utilities.HttpRecorder.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -51,13 +51,12 @@
     <Reference Include="Microsoft.Data.Services.Client, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Data.Services.Client.5.6.0\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory, Version=2.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.1.0.3\lib\net40\Microsoft.IdentityModel.Clients.ActiveDirectory.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.2.7.10707.1513-rc\lib\net45\Microsoft.IdentityModel.Clients.ActiveDirectory.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.1.0.3\lib\net40\Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms.dll</HintPath>
+    <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms">
+      <HintPath>..\..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.2.7.10707.1513-rc\lib\net45\Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -91,23 +90,23 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Microsoft.WindowsAzure.Management.1.2.0\lib\net40\Microsoft.WindowsAzure.Management.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Management.Compute">
-      <HintPath>..\..\packages\Microsoft.WindowsAzure.Management.Compute.2.4.0\lib\net40\Microsoft.WindowsAzure.Management.Compute.dll</HintPath>
+    <Reference Include="Microsoft.WindowsAzure.Management.Compute, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.WindowsAzure.Management.Compute.4.0.0\lib\net40\Microsoft.WindowsAzure.Management.Compute.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.Storage, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Microsoft.WindowsAzure.Management.Storage.1.1.1\lib\net40\Microsoft.WindowsAzure.Management.Storage.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.WebSites">
-      <HintPath>..\..\packages\Microsoft.WindowsAzure.Management.WebSites.2.0.1\lib\net40\Microsoft.WindowsAzure.Management.WebSites.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.WindowsAzure.Management.WebSites.3.0.7-prerelease\lib\net40\Microsoft.WindowsAzure.Management.WebSites.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Storage, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\WindowsAzure.Storage.4.0.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Testing">
-      <HintPath>..\..\packages\Hydra.SpecTestSupport.1.0.5310.25121-prerelease\lib\net45\Microsoft.WindowsAzure.Testing.dll</HintPath>
+      <HintPath>..\..\packages\Hydra.SpecTestSupport.1.0.5325.27361-prerelease\lib\net45\Microsoft.WindowsAzure.Testing.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -186,22 +185,40 @@
     <Compile Include="StoreTests\StoreTests.cs" />
     <Compile Include="ServiceManagement\VMProvisionScenarioTests.cs" />
     <Compile Include="TrafficManagerTests\TrafficManagerTests.cs" />
+    <Compile Include="WAPackIaaS\CloudService\CmdletTestCloudServiceBase.cs" />
+    <Compile Include="WAPackIaaS\CloudService\GetWAPackCloudServiceTests.cs" />
+    <Compile Include="WAPackIaaS\CloudService\GetWAPackVMRoleTests.cs" />
+    <Compile Include="WAPackIaaS\CloudService\NewWAPackCloudServiceTests.cs" />
+    <Compile Include="WAPackIaaS\CloudService\NewWAPackVMRoleTests.cs" />
+    <Compile Include="WAPackIaaS\CloudService\RemoveWAPackCloudServiceTests.cs" />
+    <Compile Include="WAPackIaaS\CloudService\RemoveWAPackVMRoleTests.cs" />
+    <Compile Include="WAPackIaaS\CloudService\SetWAPackVMRoleTests.cs" />
     <Compile Include="WAPackIaaS\CmdletTestBase.cs" />
-    <Compile Include="WAPackIaaS\CmdletTestVirtualMachineStatusBase.cs" />
-    <Compile Include="WAPackIaaS\GetWAPackVMOSDiskTests.cs" />
-    <Compile Include="WAPackIaaS\GetWAPackVMSizeProfileTests.cs" />
-    <Compile Include="WAPackIaaS\GetWAPackVMTemplateTests.cs" />
-    <Compile Include="WAPackIaaS\GetWAPackVNetTests.cs" />
-    <Compile Include="WAPackIaaS\GetWAPPackVMTests.cs" />
-    <Compile Include="WAPackIaaS\NewWAPackVMTests.cs" />
+    <Compile Include="WAPackIaaS\Networking\CmdletTestNetworkingBase.cs" />
+    <Compile Include="WAPackIaaS\Networking\GetWAPackLogicalNetworkTests.cs" />
+    <Compile Include="WAPackIaaS\Networking\GetWAPackStaticIPAddressPoolTests.cs" />
+    <Compile Include="WAPackIaaS\Networking\GetWAPackVMSubnetTests.cs" />
+    <Compile Include="WAPackIaaS\Networking\NewWAPackStaticIPAddressPoolTests.cs" />
+    <Compile Include="WAPackIaaS\Networking\NewWAPackVMSubnetTests.cs" />
+    <Compile Include="WAPackIaaS\Networking\NewWAPackVNetTests.cs" />
+    <Compile Include="WAPackIaaS\Networking\RemoveStaticIPAddressPoolTests.cs" />
+    <Compile Include="WAPackIaaS\Networking\RemoveWAPackVMSubnetTests.cs" />
+    <Compile Include="WAPackIaaS\Networking\RemoveWAPackVNetTests.cs" />
+    <Compile Include="WAPackIaaS\VirtualMachine\CmdletTestVirtualMachineStatusBase.cs" />
+    <Compile Include="WAPackIaaS\VirtualMachine\GetWAPackVMOSDiskTests.cs" />
+    <Compile Include="WAPackIaaS\VirtualMachine\GetWAPackVMSizeProfileTests.cs" />
+    <Compile Include="WAPackIaaS\VirtualMachine\GetWAPackVMTemplateTests.cs" />
+    <Compile Include="WAPackIaaS\Networking\GetWAPackVNetTests.cs" />
+    <Compile Include="WAPackIaaS\VirtualMachine\GetWAPPackVMTests.cs" />
+    <Compile Include="WAPackIaaS\VirtualMachine\NewWAPackVMTests.cs" />
     <Compile Include="WAPackIaaS\PowershellExtension.cs" />
-    <Compile Include="WAPackIaaS\RemoveWAPackVMTests.cs" />
-    <Compile Include="WAPackIaaS\RestartWAPackVMTests.cs" />
-    <Compile Include="WAPackIaaS\ResumeWAPackVMTests.cs" />
-    <Compile Include="WAPackIaaS\SetWAPackVMTests.cs" />
-    <Compile Include="WAPackIaaS\StartWAPackVMTests.cs" />
-    <Compile Include="WAPackIaaS\StopWAPackVMTests.cs" />
-    <Compile Include="WAPackIaaS\SuspendWAPackVMTests.cs" />
+    <Compile Include="WAPackIaaS\VirtualMachine\RemoveWAPackVMTests.cs" />
+    <Compile Include="WAPackIaaS\VirtualMachine\RestartWAPackVMTests.cs" />
+    <Compile Include="WAPackIaaS\VirtualMachine\ResumeWAPackVMTests.cs" />
+    <Compile Include="WAPackIaaS\VirtualMachine\SetWAPackVMTests.cs" />
+    <Compile Include="WAPackIaaS\VirtualMachine\StartWAPackVMTests.cs" />
+    <Compile Include="WAPackIaaS\VirtualMachine\StopWAPackVMTests.cs" />
+    <Compile Include="WAPackIaaS\VirtualMachine\SuspendWAPackVMTests.cs" />
     <Compile Include="WAPackIaaS\WAPackConfigurationFactory.cs" />
     <Compile Include="WebsitesTests\WebsitesTestsBase.cs" />
     <Compile Include="WebsitesTests\WebsitesTests.cs" />
@@ -252,8 +269,6 @@
     </None>
     <None Include="Resources\CsmTestDummySubscription.json" />
     <None Include="Resources\Scheduler\SchedulerTests.ps1" />
-    <None Include="Resources\TrafficManager\Common.ps1" />
-    <None Include="Resources\TrafficManager\TrafficManagerTests.ps1" />
     <None Include="Resources\Websites\WebsiteJobTestCmd.zip">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

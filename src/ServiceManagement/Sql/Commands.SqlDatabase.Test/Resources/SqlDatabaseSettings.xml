@@ -3,8 +3,8 @@
   <ServerLocation>East Asia</ServerLocation>
   <SubscriptionId>f41585e6-5717-4b9b-b600-d3220c5f3d8d</SubscriptionId>
   <!-- Needs to be a V1 Server-->
-  <ManageUrl>https://serverv1.windows.database.net</ManageUrl>
-  <ServerV2>serverv2</ServerV2>
+  <ManageUrl>https://myserver01.windows.database.net</ManageUrl>
+  <ServerV2>myserver01</ServerV2>
   <SqlAuthUserName>mylogin</SqlAuthUserName>
   <SqlAuthPassword>Pa$$w0rd!</SqlAuthPassword>
   <SourceDatabaseName>testdb1</SourceDatabaseName>
