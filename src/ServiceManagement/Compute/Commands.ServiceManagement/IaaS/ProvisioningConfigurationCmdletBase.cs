@@ -78,6 +78,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             set;
         }
 
+        [Parameter(Mandatory = false, HelpMessage = "Custom Data file")]
+        public string CustomDataFile
+        {
+            get;
+            set;
+        }
+
         [Parameter(Mandatory = true, ParameterSetName = WindowsParameterSetName, HelpMessage = "Set configuration to Windows.")]
         public SwitchParameter Windows
         {
@@ -272,6 +279,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             {
                 provisioningConfiguration.SSH = new LinuxProvisioningConfigurationSet.SSHSettings { PublicKeys = SSHPublicKeys, KeyPairs = SSHKeyPairs };
             }
+
+            if (!string.IsNullOrEmpty(CustomDataFile))
+            {
+                string fileName = this.TryResolvePath(this.CustomDataFile);
+                provisioningConfiguration.CustomData = PersistentVMHelper.ConvertCustomDataFileToBase64(fileName);
+            }
         }
 
         protected void SetProvisioningConfiguration(WindowsProvisioningConfigurationSet provisioningConfiguration)
@@ -305,6 +318,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                     MachineObjectOU = MachineObjectOU,
                     JoinDomain = JoinDomain
                 };
+            }
+
+            if (!string.IsNullOrEmpty(CustomDataFile))
+            {
+                string fileName = this.TryResolvePath(this.CustomDataFile);
+                provisioningConfiguration.CustomData = PersistentVMHelper.ConvertCustomDataFileToBase64(fileName);
             }
         }
     }

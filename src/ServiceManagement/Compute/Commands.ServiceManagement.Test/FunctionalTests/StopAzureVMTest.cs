@@ -303,6 +303,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 WaitForReadyState(svcName, vmName1);
                 WaitForReadyState(svcName, vmName2);
 
+                var vm1 = vmPowershellCmdlets.GetAzureVM(vmName1, svcName);
+                var vm2 = vmPowershellCmdlets.GetAzureVM(vmName2, svcName);
+
+                Assert.AreEqual(vm1.HostName, vmName1);
+                Assert.AreEqual(vm2.HostName, vmName2);
+
                 // Stop and deallocate the VMs
                 vmPowershellCmdlets.StopAzureVM("*", svcName, false, true);
 
@@ -1092,7 +1098,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         {
         }
 
-        private void WaitForStatus(string svcName, string vmName, string[] expStatus, string[] skipStatus, int interval, int maxTry)
+        internal static void WaitForStatus(string svcName, string vmName, string[] expStatus, string[] skipStatus, int interval, int maxTry)
         {
             string vmStatus = string.Empty;
 
@@ -1129,25 +1135,25 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             Assert.Fail("The VM does not become ready within a given time.");
         }
 
-        private void WaitForReadyState(string svc, string vm, int interval = 20, int maxTry = 30)
+        internal static void WaitForReadyState(string svc, string vm, int interval = 20, int maxTry = 30)
         {
             //WaitForStatus(svc, vm, new string[] { readyState }, new string[] { unknownState, creatingState, provisioningState, startingState }, interval, maxTry);
             WaitForStatus(svc, vm, new string[] { readyState }, null, interval, maxTry);
         }
 
-        private void WaitForStartedState(string svc, string vm, int interval = 20, int maxTry = 30)
+        internal static void WaitForStartedState(string svc, string vm, int interval = 20, int maxTry = 30)
         {
             //WaitForStatus(svc, vm, new string[] { readyState, provisioningState }, new string[] { unknownState, creatingState, startingState }, interval, maxTry);
             WaitForStatus(svc, vm, new string[] { readyState, provisioningState }, null, interval, maxTry);
         }
 
-        private void WaitForStartingState(string svc, string vm, int interval = 20, int maxTry = 30)
+        internal static void WaitForStartingState(string svc, string vm, int interval = 20, int maxTry = 30)
         {
             //WaitForStatus(svc, vm, new string[] { creatingState, provisioningState, readyState, startingState }, new string[] { unknownState }, interval, maxTry);
             WaitForStatus(svc, vm, new string[] { creatingState, provisioningState, readyState, startingState }, null, interval, maxTry);
         }
 
-        private void WaitForStoppedState(string svc, string vm, int interval = 20, int maxTry = 30)
+        internal static void WaitForStoppedState(string svc, string vm, int interval = 20, int maxTry = 30)
         {
             //WaitForStatus(svc, vm, new string[] { stoppedDeallocatedState, stoppedProvisionedState }, new string[] { unknownState, provisioningState, readyState }, interval, maxTry);
             WaitForStatus(svc, vm, new string[] { stoppedDeallocatedState, stoppedProvisionedState }, null, interval, maxTry);

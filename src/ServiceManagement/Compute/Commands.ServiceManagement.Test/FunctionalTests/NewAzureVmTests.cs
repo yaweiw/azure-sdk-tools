@@ -1,11 +1,30 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
-using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
+﻿// ----------------------------------------------------------------------------------
+//
+// Copyright Microsoft Corporation
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// ----------------------------------------------------------------------------------
+
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Management.Automation;
+using System.Management.Automation.Runspaces;
 using System.Security.Cryptography.X509Certificates;
+using Microsoft.PowerShell.Commands;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
+using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
+using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo;
+using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.PowershellCore;
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 {
@@ -148,7 +167,94 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 Console.WriteLine(ex.Message);
                 throw;
             }
+        }
 
+        [TestMethod(), TestCategory(Category.Scenario), TestProperty("Feature", "Iaas"), Priority(1), Owner("hylee"), Description("Test the cmdlets(New-AzureVMConfig,Add-AzureProvisioningConfig,New-AzureVM) with a WinRMCert")]
+        public void NewAzureVMWithWindowsAndCustomData()
+        {
+            try
+            {
+                _serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
+                string newAzureVMName = Utilities.GetUniqueShortName("PSWinVM");
+
+                var customDataFile = @".\CustomData.bin";
+                var customDataContent = File.ReadAllText(customDataFile);
+
+                // Add-AzureProvisioningConfig with X509Certificate
+                var azureVMConfigInfo = new AzureVMConfigInfo(newAzureVMName, InstanceSize.Small.ToString(), imageName);
+                var azureProvisioningConfig = new AzureProvisioningConfigInfo(username, password, customDataFile);
+                var persistentVMConfigInfo = new PersistentVMConfigInfo(azureVMConfigInfo, azureProvisioningConfig, null, null);
+                PersistentVM vm = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo);
+
+                // New-AzureVM
+                vmPowershellCmdlets.NewAzureVM(_serviceName, new[] { vm }, locationName);
+                Console.WriteLine("New Azure service with name:{0} created successfully.", _serviceName);
+
+                StopAzureVMTest.WaitForReadyState(_serviceName, newAzureVMName, 60, 30);
+
+                // Get-AzureVM
+                var vmContext = vmPowershellCmdlets.GetAzureVM(newAzureVMName, _serviceName);
+
+                // Get-AzureCertificate
+                var winRmCert = vmPowershellCmdlets.GetAzureCertificate(_serviceName, vmContext.VM.DefaultWinRmCertificateThumbprint, "sha1").First();
+
+                // Install the WinRM cert to the local machine's root location.
+                InstallCertificate(winRmCert, StoreLocation.LocalMachine, StoreName.Root);
+
+                // Invoke Command
+                var connUri = vmPowershellCmdlets.GetAzureWinRMUri(_serviceName, newAzureVMName);
+                var cred = new PSCredential(username, Utilities.convertToSecureString(password));
+                var scriptBlock = ScriptBlock.Create(@"Get-Content -Path 'C:\AzureData\CustomData.bin'");
+
+                var invokeInfo = new InvokeCommandCmdletInfo(connUri, cred, scriptBlock);
+                var invokeCmd = new PowershellCmdlet(invokeInfo);
+                var results = invokeCmd.Run(false);
+
+                Assert.IsTrue(customDataContent == results.First().BaseObject as string);
+
+                pass = true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
+        }
+
+        [TestMethod(), TestCategory(Category.Scenario), TestProperty("Feature", "Iaas"), Priority(1), Owner("hylee"), Description("Test the cmdlets (New-AzureVMConfig,Add-AzureProvisioningConfig,New-AzureVM)")] 
+        public void NewAzureVMWithLinuxAndCustomData()
+        {
+            try
+            {
+                _serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
+ 
+                string newAzureLinuxVMName = Utilities.GetUniqueShortName("PSLinuxVM");
+                string linuxImageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Linux" }, false);
+ 
+                // Add-AzureProvisioningConfig without NoSSHEndpoint or DisableSSH option
+                var azureVMConfigInfo = new AzureVMConfigInfo(newAzureLinuxVMName, InstanceSize.Small.ToString(), linuxImageName);
+                var azureProvisioningConfig = new AzureProvisioningConfigInfo(username, password, false, false, null, null, false, @".\cloudinittest.sh");
+                var persistentVMConfigInfo = new PersistentVMConfigInfo(azureVMConfigInfo, azureProvisioningConfig, null, null);
+                PersistentVM vm = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo);
+ 
+                // New-AzureVM
+                vmPowershellCmdlets.NewAzureVM(_serviceName, new[] { vm }, locationName);
+                Console.WriteLine("New Azure service with name:{0} created successfully.", _serviceName);
+                Collection<InputEndpointContext> endpoints = vmPowershellCmdlets.GetAzureEndPoint(vmPowershellCmdlets.GetAzureVM(newAzureLinuxVMName, _serviceName));
+ 
+                Console.WriteLine("The number of endpoints: {0}", endpoints.Count);
+                foreach (var ep in endpoints)
+                {
+                    Utilities.PrintContext(ep);
+                }
+                Assert.AreEqual(1, endpoints.Count);
+                pass = true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            } 
         }
 
         [TestMethod(), TestCategory(Category.Scenario), TestProperty("Feature", "Iaas"), Priority(1), Owner("hylee"), Description("Test the cmdlets (New-AzureVMConfig,Add-AzureProvisioningConfig,New-AzureVM)")]
@@ -253,6 +359,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
+        private void InstallCertificate(CertificateContext certContext, StoreLocation loc, StoreName name)
+        {
+            File.WriteAllBytes(CerFileName, Convert.FromBase64String(certContext.Data));
+            Utilities.InstallCert(CerFileName, loc, name);
+        }
+
         private void InstallCertificate()
         {
             // Create a certificate
@@ -282,6 +394,5 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 File.Delete(keyPath);
             }
         }
-
     }
 }
