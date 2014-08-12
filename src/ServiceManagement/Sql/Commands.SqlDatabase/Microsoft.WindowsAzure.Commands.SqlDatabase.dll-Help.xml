@@ -6812,7 +6812,7 @@ C:\PS&gt;Select-AzureSubscription -SubscriptionName "mySubscription"</maml:para>
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
-        <dev:code>PS C:\&gt;$mydb = Get-AzureSqlDatabase –ServerName "a234b56" –DatabaseName "mydatabase" # Restore the database using database object PS C:\&gt;$operation = Start-AzureSqlDatabaseRestore –SourceDatabase $mydb –TargetDatabaseName "mydatabaserestored" –PointInTime "2013-01-01 06:00:00"
+        <dev:code>PS C:\&gt;$mydb = Get-AzureSqlDatabase -ServerName "a234b56" -DatabaseName "mydatabase" # Restore the database using database object PS C:\&gt;$operation = Start-AzureSqlDatabaseRestore -SourceDatabase $mydb -TargetDatabaseName "mydatabaserestored" -PointInTime "2013-01-01 06:00:00"
 
 </dev:code>
         <dev:remarks>
@@ -6834,7 +6834,7 @@ C:\PS&gt;Select-AzureSubscription -SubscriptionName "mySubscription"</maml:para>
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
-        <dev:code>PS C:\&gt;$operation = Start-AzureSqlDatabaseRestore –SourceServerName "a234b56" –SourceDatabaseName "mydatabase" –TargetDatabaseName "mydatabaserestored" –PointInTime "2013-01-01 06:00:00" 
+        <dev:code>PS C:\&gt;$operation = Start-AzureSqlDatabaseRestore -SourceServerName "a234b56" -SourceDatabaseName "mydatabase" -TargetDatabaseName "mydatabaserestored" -PointInTime "2013-01-01 06:00:00"
 </dev:code>
         <dev:remarks>
           <maml:para>This example lists the databases on the server, specifies the database properties for a database and restores the database to a specific point in time.</maml:para>
@@ -6855,7 +6855,7 @@ C:\PS&gt;Select-AzureSubscription -SubscriptionName "mySubscription"</maml:para>
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
-        <dev:code>PS C:\&gt;$mydb = Get-AzureSqlDatabase –RestorableDropped –ServerName "server1" –DatabaseName "mydb" –DatabaseDeletionDate "2013-01-01 06:00:00"# Restore the dropped database using database object PS C:\&gt;$operation = Start-AzureSqlDatabaseRestore –SourceRestorableDroppedDatabase $mydb –TargetDatabaseName "mydroppeddatabaserestored" 
+        <dev:code>PS C:\&gt;$mydb = Get-AzureSqlDatabase -RestorableDropped -ServerName "server1" -DatabaseName "mydb" -DatabaseDeletionDate "2013-01-01 06:00:00"# Restore the dropped database using database object PS C:\&gt;$operation = Start-AzureSqlDatabaseRestore -SourceRestorableDroppedDatabase $mydb -TargetDatabaseName "mydroppeddatabaserestored"
 </dev:code>
         <dev:remarks>
           <maml:para>This example restores a dropped database.</maml:para>
