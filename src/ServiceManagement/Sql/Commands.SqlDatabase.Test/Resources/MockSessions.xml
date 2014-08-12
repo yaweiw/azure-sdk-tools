@@ -35135,7 +35135,7 @@
     </Messages>
   </HttpSession>
   <HttpSession>
-    <Name>UnitTests.RecoverAzureSqlDatabaseWithDatabaseNameWithCertAuth</Name>
+    <Name>UnitTests.RecoverAzureSqlDatabaseWithDatabaseName</Name>
     <Messages>
       <HttpMessage>
         <Index>0</Index>
@@ -35196,18 +35196,18 @@
             </Header>
           </Headers>
           <Cookies />
-          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name i:nil="true"/&gt;&lt;Type&gt;Microsoft.SqlAzure.RecoverDatabaseOperation&lt;/Type&gt;&lt;State&gt;Created&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/myserver01/databaserestorestatus/365e51a2-9f26-496e-9399-d62632875e9a&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/myserver01&lt;/ParentLink&gt;&lt;RequestID&gt;365e51a2-9f26-496e-9399-d62632875e9a&lt;/RequestID&gt;&lt;SourceDatabaseName&gt;testdb1&lt;/SourceDatabaseName&gt;&lt;SourceServerName&gt;myserver01&lt;/SourceServerName&gt;&lt;TargetDatabaseName&gt;testdb1-restored&lt;/TargetDatabaseName&gt;&lt;/ServiceResource&gt;</ResponseText>
+          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name i:nil="true"/&gt;&lt;Type&gt;Microsoft.SqlAzure.RecoverDatabaseOperation&lt;/Type&gt;&lt;State&gt;Created&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/myserver01/databaserestorestatus/365e51a2-9f26-496e-9399-d62632875e9a&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/myserver01&lt;/ParentLink&gt;&lt;RequestID&gt;365e51a2-9f26-496e-9399-d62632875e9a&lt;/RequestID&gt;&lt;SourceDatabaseName&gt;testdb1&lt;/SourceDatabaseName&gt;&lt;TargetServerName&gt;myserver01&lt;/TargetServerName&gt;&lt;TargetDatabaseName&gt;testdb1-restored&lt;/TargetDatabaseName&gt;&lt;/ServiceResource&gt;</ResponseText>
         </ResponseInfo>
       </HttpMessage>
     </Messages>
   </HttpSession>
   <HttpSession>
-    <Name>UnitTests.RecoverAzureSqlDatabaseWithDatabaseObjectWithCertAuth</Name>
+    <Name>UnitTests.RecoverAzureSqlDatabaseWithDatabaseObject</Name>
     <Messages>
       <HttpMessage>
         <Index>0</Index>
         <RequestInfo>
-          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/myserver01/recoverabledatabases/myserver01/testdb1</RequestUri>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/myserver01/recoverabledatabases/testdb1</RequestUri>
           <Method>GET</Method>
           <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 AzurePowershell/v0.8.6</UserAgent>
           <Headers>
@@ -35258,7 +35258,7 @@
             </Header>
           </Headers>
           <Cookies />
-          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;testdb1&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.RecoverableDatabase&lt;/Type&gt;&lt;State&gt;Recoverable&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/myserver01/recoverabledatabases/myserver01/myserver01,testdb1&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/myserver01&lt;/ParentLink&gt;&lt;EntityId&gt;myserver01,testdb1&lt;/EntityId&gt;&lt;ServerName&gt;myserver01&lt;/ServerName&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;LastAvailableBackupDate&gt;2014-04-17T06:00:00.9930000Z&lt;/LastAvailableBackupDate&gt;&lt;/ServiceResource&gt;</ResponseText>
+          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;testdb1&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.RecoverableDatabase&lt;/Type&gt;&lt;State&gt;Recoverable&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/myserver01/recoverabledatabases/myserver01,testdb1&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/myserver01&lt;/ParentLink&gt;&lt;EntityId&gt;myserver01,testdb1&lt;/EntityId&gt;&lt;ServerName&gt;myserver01&lt;/ServerName&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;LastAvailableBackupDate&gt;2014-04-17T06:00:00.9930000Z&lt;/LastAvailableBackupDate&gt;&lt;/ServiceResource&gt;</ResponseText>
         </ResponseInfo>
       </HttpMessage>
       <HttpMessage>
@@ -35285,7 +35285,7 @@
           <RequestText>
             &lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure"&gt;
             &lt;SourceDatabaseName&gt;testdb1&lt;/SourceDatabaseName&gt;
-            &lt;SourceServerName&gt;myserver01&lt;/SourceServerName&gt;
+  &lt;TargetServerName&gt;myserver01&lt;/TargetServerName&gt;
             &lt;TargetDatabaseName&gt;testdb1-restored&lt;/TargetDatabaseName&gt;
             &lt;/ServiceResource&gt;
           </RequestText>
@@ -35321,7 +35321,7 @@
             </Header>
           </Headers>
           <Cookies />
-          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name i:nil="true"/&gt;&lt;Type&gt;Microsoft.SqlAzure.RecoverDatabaseOperation&lt;/Type&gt;&lt;State&gt;Created&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/myserver01/databaserestorestatus/29465541-7d5f-403a-bf83-e9e5d4dd6492&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/myserver01&lt;/ParentLink&gt;&lt;RequestID&gt;29465541-7d5f-403a-bf83-e9e5d4dd6492&lt;/RequestID&gt;&lt;SourceDatabaseName&gt;testdb1&lt;/SourceDatabaseName&gt;&lt;SourceServerName&gt;myserver01&lt;/SourceServerName&gt;&lt;TargetDatabaseName&gt;testdb1-restored&lt;/TargetDatabaseName&gt;&lt;/ServiceResource&gt;</ResponseText>
+          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name i:nil="true"/&gt;&lt;Type&gt;Microsoft.SqlAzure.RecoverDatabaseOperation&lt;/Type&gt;&lt;State&gt;Created&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/myserver01/databaserestorestatus/29465541-7d5f-403a-bf83-e9e5d4dd6492&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/myserver01&lt;/ParentLink&gt;&lt;RequestID&gt;29465541-7d5f-403a-bf83-e9e5d4dd6492&lt;/RequestID&gt;&lt;SourceDatabaseName&gt;testdb1&lt;/SourceDatabaseName&gt;&lt;TargetServerName&gt;myserver01&lt;/TargetServerName&gt;&lt;TargetDatabaseName&gt;testdb1-restored&lt;/TargetDatabaseName&gt;&lt;/ServiceResource&gt;</ResponseText>
         </ResponseInfo>
       </HttpMessage>
     </Messages>
