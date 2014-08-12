@@ -31,6 +31,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
         public string InstanceName { get; set; }
         public string InstanceUpgradeDomain { get; set; }
         public string InstanceSize { get; set; }
+        public string HostName { get; set; }
         public string AvailabilitySetName { get; set; }
         public string DNSName { get; set; }
         public string Status { get; set; }

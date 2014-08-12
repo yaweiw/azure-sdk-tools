@@ -34,6 +34,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 this.cmdletParams.Add(new CmdletParam("Password", provConfig.Password));
             }
 
+            if (!string.IsNullOrEmpty(provConfig.CustomDataFile))
+            {
+                this.cmdletParams.Add(new CmdletParam("CustomDataFile", provConfig.CustomDataFile));
+            }
+
             // For Linux parameter set
             if (parameterSet.Equals(OS.Linux.ToString()))
             {

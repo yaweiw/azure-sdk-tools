@@ -67,7 +67,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             testStartTime = DateTime.Now;
         }
 
-        [TestMethod(), Priority(0), TestProperty("Feature", "IaaS"), TestCategory("Scenario"), Owner("hylee"), Description("Test the New-AzureInternalLoadBalancerConfig,Add,Get,Remove-AzureInternalLoadBalancer cmdlets")]
+        [TestMethod(), Priority(0), TestProperty("Feature", "IaaS"), TestCategory(Category.Scenario), Owner("hylee"), Description("Test the New-AzureInternalLoadBalancerConfig,Add,Get,Remove-AzureInternalLoadBalancer cmdlets")]
         public void CreateDeploymentWithILBAndRemoveILB()
         {
             try
@@ -96,7 +96,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-        [TestMethod(), Priority(0), TestProperty("Feature", "IaaS"), TestCategory("Scenario"), Owner("hylee"), Description("Test the New-AzureInternalLoadBalancerConfig,Add,Get,Remove-AzureInternalLoadBalancer cmdlets")]
+        [TestMethod(), Priority(0), TestProperty("Feature", "IaaS"), TestCategory(Category.Scenario), Owner("hylee"), Description("Test the New-AzureInternalLoadBalancerConfig,Add,Get,Remove-AzureInternalLoadBalancer cmdlets")]
         public void CreateDeploymentWithILBSubnetAndAddILBEndpoint()
         {
             try
@@ -142,7 +142,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-        [TestMethod(), Priority(0), TestProperty("Feature", "IaaS"), TestCategory("Scenario"), Owner("hylee"), Description("Test the New-AzureInternalLoadBalancerConfig,Add,Get,Remove-AzureInternalLoadBalancer cmdlets")]
+        [TestMethod(), Priority(0), TestProperty("Feature", "IaaS"), TestCategory(Category.Scenario), Owner("hylee"), Description("Test the New-AzureInternalLoadBalancerConfig,Add,Get,Remove-AzureInternalLoadBalancer cmdlets")]
         public void CreateDeploymentWithILBIPaddressAndSetILBEndpoint()
         {
             try
@@ -188,7 +188,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-        [TestMethod(), Priority(0), TestProperty("Feature", "IaaS"), TestCategory("Scenario"), Owner("hylee"), Description("Test the New-AzureInternalLoadBalancerConfig,Add,Get,Remove-AzureInternalLoadBalancer cmdlets")]
+        [TestMethod(), Priority(0), TestProperty("Feature", "IaaS"), TestCategory(Category.Scenario), Owner("hylee"), Description("Test the New-AzureInternalLoadBalancerConfig,Add,Get,Remove-AzureInternalLoadBalancer cmdlets")]
         public void ILBonExistingDeploymentAndDelete()
         {
             try
@@ -222,7 +222,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-        [TestMethod(), Priority(0), TestProperty("Feature", "IaaS"), TestCategory("Scenario"), Owner("hylee"), Description("Test the New-AzureInternalLoadBalancerConfig,Add,Get,Remove-AzureInternalLoadBalancer cmdlets")]
+        [TestMethod(), Priority(0), TestProperty("Feature", "IaaS"), TestCategory(Category.Scenario), Owner("hylee"), Description("Test the New-AzureInternalLoadBalancerConfig,Add,Get,Remove-AzureInternalLoadBalancer cmdlets")]
         public void ILBonExistingDeploymentWithVnet()
         {
             try
@@ -266,7 +266,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-        [TestMethod(), Priority(0), TestProperty("Feature", "IaaS"), TestCategory("Scenario"), Owner("hylee"), Description("Test the Get/Set-AzurePublicIP cmdlets")]
+        [TestMethod(), Priority(0), TestProperty("Feature", "IaaS"), TestCategory(Category.Scenario), Owner("hylee"), Description("Test the Get/Set-AzurePublicIP cmdlets")]
         public void PublicIpPerVMTest()
         {
             try

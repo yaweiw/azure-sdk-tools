@@ -103,7 +103,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
 
             var storageCredentialsFactory = CreateStorageCredentialsFactory();
 
-            var parameters = new UploadParameters(destinationUri, baseImageUri, LocalFilePath, OverWrite.IsPresent, NumberOfUploaderThreads)
+            PathIntrinsics currentPath = SessionState.Path;
+            var filePath = new FileInfo(currentPath.GetUnresolvedProviderPathFromPSPath(LocalFilePath.ToString()));
+
+            var parameters = new UploadParameters(destinationUri, baseImageUri, filePath, OverWrite.IsPresent, NumberOfUploaderThreads)
             {
                 Cmdlet = this,
                 BlobObjectFactory = new CloudPageBlobObjectFactory(storageCredentialsFactory, TimeSpan.FromMinutes(1))

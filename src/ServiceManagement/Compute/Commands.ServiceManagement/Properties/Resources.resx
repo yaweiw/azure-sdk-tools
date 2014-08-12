@@ -591,9 +591,6 @@
   <data name="DuplicateNamesFoundInBothVMAndOSImages" xml:space="preserve">
     <value>Duplicate names '{0}' found in both VM and OS images. Please delete one of them, using other method such as Portal or Invoke-RestMethod call, and try again.</value>
   </data>
-  <data name="VMImageDeletionMustSpecifyDeleteVhdParameter" xml:space="preserve">
-    <value>In the current release, you have to specify "-DeleteVHD" to delete a VM image and all its underlying VHDs.</value>
-  </data>
   <data name="NoDeploymentFoundByServiceAndVMName" xml:space="preserve">
     <value>No VM deployment found by service name '{0}' and VM name '{1}'.</value>
   </data>
