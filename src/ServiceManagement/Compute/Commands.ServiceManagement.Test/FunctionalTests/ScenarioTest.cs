@@ -961,8 +961,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             string deploymentLabel = "label1";
             DeploymentInfoContext result;
             string storage = defaultAzureSubscription.CurrentStorageAccountName;
-            XmlDocument daConfig = new XmlDocument();
-            daConfig.Load(@".\da.xml");
+            string daConfig = @".\da.xml";
 
             try
             {
@@ -1018,8 +1017,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             DeploymentInfoContext result;
 
             string storage = defaultAzureSubscription.CurrentStorageAccountName;
-            XmlDocument daConfig = new XmlDocument();
-            daConfig.Load(@".\da.xml");
+            string daConfig = @".\da.xml";
 
             string defaultExtensionId = string.Format("Default-{0}-Production-Ext-0", Utilities.PaaSDiagnosticsExtensionName);
 
@@ -1035,7 +1033,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 pass = Utilities.PrintAndCompareDeployment(result, serviceName, deploymentName, deploymentLabel, DeploymentSlotType.Production, null, 2);
                 Console.WriteLine("successfully deployed the package");
 
-                vmPowershellCmdlets.SetAzureServiceDiagnosticsExtension(serviceName, storage, daConfig);
+                vmPowershellCmdlets.SetAzureServiceDiagnosticsExtension(serviceName, storage, daConfig, null, null);
 
                 DiagnosticExtensionContext resultContext = vmPowershellCmdlets.GetAzureServiceDiagnosticsExtension(serviceName)[0];
 
@@ -1592,7 +1590,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             return vnetState.Equals(expectedState);
         }
 
-        private bool VerifyDiagExtContext(DiagnosticExtensionContext resultContext, string role, string extID, string storage, XmlDocument config)
+        private bool VerifyDiagExtContext(DiagnosticExtensionContext resultContext, string role, string extID, string storage, string config)
         {
             Utilities.PrintContext(resultContext);
 
@@ -1603,8 +1601,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 Assert.AreEqual(extID, resultContext.Id, "extension id is not same");
                 //Assert.AreEqual(storage, resultContext.StorageAccountName, "storage account name is not same");
 
+                XmlDocument doc = new XmlDocument();
+                doc.Load("@./da.xml");
                 string inner = Utilities.GetInnerXml(resultContext.WadCfg, "WadCfg");
-                Assert.IsTrue(Utilities.CompareWadCfg(inner, config), "xml is not same");
+                Assert.IsTrue(Utilities.CompareWadCfg(inner, doc), "xml is not same");
 
                 return true;
             }
