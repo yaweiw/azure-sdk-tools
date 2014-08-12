@@ -89,9 +89,9 @@
       <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.1.3.0\lib\net40\Microsoft.WindowsAzure.Management.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Management.Compute">
-      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.Compute.4.1.0\lib\net40\Microsoft.WindowsAzure.Management.Compute.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Microsoft.WindowsAzure.Management.Compute, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.Compute.4.1.1\lib\net40\Microsoft.WindowsAzure.Management.Compute.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.Storage">
       <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.Storage.1.2.0\lib\net40\Microsoft.WindowsAzure.Management.Storage.dll</HintPath>
@@ -167,6 +167,7 @@
     <Compile Include="FunctionalTests\ConfigDataInfo\SetACLConfig.cs" />
     <Compile Include="FunctionalTests\ConfigDataInfo\SSHKey.cs" />
     <Compile Include="FunctionalTests\ConfigDataInfo\VMPowerState.cs" />
+    <Compile Include="FunctionalTests\Constants.cs" />
     <Compile Include="FunctionalTests\CredentialHelper.cs" />
     <Compile Include="FunctionalTests\ExtensionTests\AzureVMAccessExtensionTests.cs" />
     <Compile Include="FunctionalTests\ExtensionTests\AzureVMBGInfoExtensionTests.cs" />
@@ -329,6 +330,7 @@
     <Compile Include="FunctionalTests\PIRCmdletInfo\RemoveAzurePlatformVMImage.cs" />
     <Compile Include="FunctionalTests\PIRCmdletInfo\SetAzurePlatformVMImage.cs" />
     <Compile Include="FunctionalTests\PIRTest.cs" />
+    <Compile Include="FunctionalTests\PowershellCore\InvokeCommandCmdletInfo.cs" />
     <Compile Include="FunctionalTests\PowershellCore\PowershellCmdletScript.cs" />
     <Compile Include="FunctionalTests\PreviewCmdletInfo\GetAzureReservedIPCmdletInfo.cs" />
     <Compile Include="FunctionalTests\PreviewCmdletInfo\NewAzureReservedIPCmdletInfo.cs" />
@@ -388,6 +390,12 @@
     <None Include="packages.config" />
     <None Include="Resources\affinityGroupData.csv" />
     <None Include="Resources\certificateData.csv" />
+    <None Include="Resources\CustomData.bin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\cloudinittest.sh">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\DSC\Configurations\Dummy\ModuleImportSingleInsideNode.ps1" />
     <None Include="Resources\DSC\Configurations\Dummy\ModuleImportSingleOutsideNode.ps1" />
     <None Include="Resources\DSC\Configurations\Dummy\ModuleImportListOutsideNode.ps1" />

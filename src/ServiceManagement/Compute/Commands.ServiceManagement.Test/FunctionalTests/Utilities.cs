@@ -465,6 +465,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
             Assert.AreEqual(deployment.RoleInstanceList.Count, instanceCount);
 
+            Assert.IsNotNull(deployment.LastModifiedTime);
+            Assert.IsNotNull(deployment.CreatedTime);
+
             return true;
         }
 

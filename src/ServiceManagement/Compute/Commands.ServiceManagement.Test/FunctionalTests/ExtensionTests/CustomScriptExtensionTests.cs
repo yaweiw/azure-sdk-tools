@@ -61,7 +61,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// Deploys a new Azure VM with Custom Script extension and verifies that the script is applied and run as expected
         /// </summary>
         #region TestCases
-        [TestMethod(), Priority(0), TestCategory("Scenario"), TestProperty("Feature", "IaaS"), Owner("hylee"),
+        [TestMethod(), Priority(0), TestCategory(Category.Scenario), TestProperty("Feature", "IaaS"), Owner("hylee"),
         Description("Test the cmdlets (New-AzureVM,New-AzureVMConfig,Set/Get/Remove-AzureVMCustomScriptExtension)")]
         public void NewAzureVMwithCustomScriptExtesnionTest()
         {
@@ -85,7 +85,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-        [TestMethod(), Priority(0), TestCategory("Scenario"), TestProperty("Feature", "IaaS"), Owner("hylee"),
+        [TestMethod(), Priority(0), TestCategory(Category.Scenario), TestProperty("Feature", "IaaS"), Owner("hylee"),
         Description("Test the cmdlets (New-AzureVM,New-AzureVMConfig,Set/Get/Remove-AzureVMCustomScriptExtension)")]
         public void NewAzureVMwithCustomScriptExtesnionUsingFileURiTest()
         {
@@ -107,7 +107,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         }
 
 
-        [TestMethod(), Priority(0), TestCategory("Scenario"), TestProperty("Feature", "IaaS"), Owner("hylee"),
+        [TestMethod(), Priority(0), TestCategory(Category.Scenario), TestProperty("Feature", "IaaS"), Owner("hylee"),
         Description("Test the cmdlets (New-AzureVM,New-AzureVMConfig,Set/Get/Remove-AzureVMCustomScriptExtension)")]
         public void SetCustomScriptExtesnionToExistingVMTest()
         {
@@ -134,7 +134,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-        [TestMethod(), Priority(0), TestCategory("Scenario"), TestProperty("Feature", "IaaS"), Owner("hylee"),
+        [TestMethod(), Priority(0), TestCategory(Category.Scenario), TestProperty("Feature", "IaaS"), Owner("hylee"),
         Description("Test the cmdlets (New-AzureVM,New-AzureVMConfig,Set/Get/Remove-AzureVMCustomScriptExtension)")]
         public void SetCustomScriptExtesnionUsingFileURIToExistingVMTest()
         {
@@ -160,7 +160,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         }
 
 
-        [TestMethod(), Priority(0), TestCategory("Scenario"), TestProperty("Feature", "IaaS"), Owner("hylee"),
+        [TestMethod(), Priority(0), TestCategory(Category.Scenario), TestProperty("Feature", "IaaS"), Owner("hylee"),
         Description("Test the cmdlets (New-AzureVM,New-AzureVMConfig,Set/Get/Remove-AzureVMCustomScriptExtension)")]
         public void NewAzureVMWithEmptyCustomScriptConfigurationTest()
         {
