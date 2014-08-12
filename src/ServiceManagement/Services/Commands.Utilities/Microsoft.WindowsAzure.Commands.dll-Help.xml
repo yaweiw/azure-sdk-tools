@@ -9726,6 +9726,446 @@ PS C:\&gt;(Get-AzureWebsite -Name ContosoWeb).Instances.Count
       </maml:navigationLink>
     </maml:relatedLinks>
   </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Get-AzureWebsiteMetric</command:name>
+      <maml:description>
+        <maml:para>Gets metrics for Azure website in the current subscription.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Get</command:verb>
+      <command:noun>AzureWebsiteMetricMetric</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>The Get-AzureWebsiteMetric cmdlet gets information about metrics on Azure web hosting plans in subscription. </maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-AzureWebsiteMetricMetric</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>Enter the name of one web site in the subscription. The Name value does not support wildcard characters.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="3" aliases="">
+          <maml:name>MetricNames</maml:name>
+          <maml:description>
+            <maml:para>List of metrics to return. If empty returns all</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="4" aliases="">
+          <maml:name>StartDate</maml:name>
+          <maml:description>
+            <maml:para>Start time from which to returns metrics.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="5" aliases="">
+          <maml:name>EndDate</maml:name>
+          <maml:description>
+            <maml:para>End time from which to returns metrics.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="5" aliases="">
+          <maml:name>TimeGrain</maml:name>
+          <maml:description>
+            <maml:para>Time grain at which to return metrics. Supported values are Minute(PT1M), Hour(PT1H) - default, Day(P1D).</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="5" aliases="">
+          <maml:name>InstanceDetails</maml:name>
+          <maml:description>
+            <maml:para>Include details per instance level. If the web hosting plan runs on two or more machines returns details metrics for each machine.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">switch</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="5" aliases="">
+          <maml:name>SlotView</maml:name>
+          <maml:description>
+            <maml:para>Represent the metrics for the hostnames that receive the traffic at the current slot. If swap occured in the middle of the period mereics will be merged.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">switch</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>None</maml:name>
+          <maml:uri>
+          </maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe input to this cmdlet by property name, but not by value.</maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntities.MetricResponse</maml:name>
+          <maml:uri>
+          </maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para>By default, Get-AzureWebsiteMetric returns an array of MetricResponse objects.</maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <command:examples>
+      <command:example>
+        <maml:title>Example 1: Gets metrics for last 3 hours on per instance level for a site</maml:title>
+        <maml:introduction>
+          <maml:para>
+          </maml:para>
+        </maml:introduction>
+        <dev:code>
+          PS C:\&gt;$metrics = Get-AzureWebsiteMetric -Name webSiteName -StartDate (get-date).AddHours(-3) -MetricNames &quot;Requests&quot; -InstanceDetails -SlotView -TimeGrain &quot;PT1M&quot;
+          $metrics[1].Data
+
+
+          Name                   : Requests
+          Unit                   : Count
+          StartTime              : 8/11/2014 7:05:00 AM
+          EndTime                : 8/11/2014 5:06:01 PM
+          TimeGrain              : PT1M
+          PrimaryAggregationType : Instance
+          Values                 : {Time:8/11/2014 7:05:00 AM, Total:4, Min:, Max:, Time:8/11/2014 7:06:00 AM, Total:3, Min:, Max:, Time:8/11/2014 7:07:00 AM, Total:3, Min:, Max:, Time:8/11/2014
+          7:08:00 AM, Total:12, Min:, Max:...}
+
+          $metrics[1].Data.Values | ft
+
+          TimeCreated                                               Total Minimum                         Maximum                                                   Count InstanceName
+          -----------                                               ----- -------                         -------                                                   ----- ------------
+          8/11/2014 7:05:00 AM                                          4                                                                                               1 RD00155DC24599
+          8/11/2014 7:06:00 AM                                          3                                                                                               1 RD00155DC24599
+          8/11/2014 7:07:00 AM                                          3                                                                                               1 RD00155DC24599
+          8/11/2014 7:08:00 AM                                         12                                                                                               1 RD00155DC24599
+          8/11/2014 7:09:00 AM                                         37                                                                                               1 RD00155DC24599
+          8/11/2014 7:10:00 AM                                          9                                                                                               1 RD00155DC24599
+        </dev:code>
+        <dev:remarks>
+          <maml:para>This command gets metrics for last 3 hours on per instance level for a site.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Get-AzureWebHostingPlan</command:name>
+      <maml:description>
+        <maml:para>Gets Azure web hosting plan in the current subscription.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Get</command:verb>
+      <command:noun>AzureWebHostingPlan</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>The Get-AzureWebHostingPlan cmdlet gets information about Azure web hosting plans in subscription. </maml:para>
+      <maml:para>By default, Get-AzureWebHostingPlan gets all Azure hosting plans in the current subscription and returns an object that provides basic information about the plans. When you use the WebSpace and Name parameters, Get-AzureWebHostingPlan returns a specific object.</maml:para>
+      <maml:para>
+        The current subscription is the subscription that is designated as "current." To find the current subscription, use the Current parameter of the <maml:navigationLink>
+          <maml:linkText>Get-AzureSubscription</maml:linkText>
+          <maml:uri></maml:uri>
+        </maml:navigationLink> cmdlet. To change the current subscription, use the <maml:navigationLink>
+          <maml:linkText>Select-AzureSubscription</maml:linkText>
+          <maml:uri></maml:uri>
+        </maml:navigationLink> cmdlet.
+      </maml:para>
+      <maml:para>This topic describes the cmdlet in the 0.8.2 version of the Microsoft Azure PowerShell module. To find the version of the module you're using, in the Azure PowerShell console, type (Get-Module -Name Azure).Version.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-AzureWebHostingPlan</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
+          <maml:name>WebSpaceName</maml:name>
+          <maml:description>
+            <maml:para>Enter the name of one webspaces in the subscription. By default, Get-AzureWebHostingPlan gets all plans in the current subscription. The WebSpaceName value does not support wildcard characters.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>Enter the name of one plan in the subscription. By default, Get-AzureWebHostingPlan gets all websites in the specified web space. The Name value does not support wildcard characters.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+       </command:syntaxItem>
+    </command:syntax>
+
+    <command:inputTypes>
+          <command:inputType>
+            <dev:type>
+              <maml:name>None</maml:name>
+              <maml:uri>
+              </maml:uri>
+              <maml:description>
+                <maml:para />
+              </maml:description>
+            </dev:type>
+            <maml:description>
+              <maml:para>You can pipe input to this cmdlet by property name, but not by value.</maml:para>
+            </maml:description>
+          </command:inputType>
+        </command:inputTypes>
+        <command:returnValues>
+          <command:returnValue>
+            <dev:type>
+              <maml:name>Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntities.WebHostingPlan</maml:name>
+              <maml:uri>
+              </maml:uri>
+              <maml:description>
+                <maml:para />
+              </maml:description>
+            </dev:type>
+            <maml:description>
+              <maml:para>By default, Get-AzureWebHostingPlan returns an array of WebHostingPlan objects.</maml:para>
+            </maml:description>
+          </command:returnValue>
+        </command:returnValues>
+        <command:terminatingErrors />
+        <command:nonTerminatingErrors />
+        <command:examples>
+          <command:example>
+            <maml:title>Example 1: Get all web hosting plans in the subscription</maml:title>
+            <maml:introduction>
+              <maml:para>
+              </maml:para>
+            </maml:introduction>
+            <dev:code>
+              PS C:\&gt;Get-AzureWebHostingPlan
+              Name                   : Default1
+              SKU                    : Basic
+              WorkerSize             : Small
+              NumberOfWorkers        : 1
+              CurrentWorkerSize      : Small
+              CurrentNumberOfWorkers : 1
+              Status                 : Ready
+              WebSpace               : eastuswebspace
+
+              Name                   : Default0
+              SKU                    : Free
+              WorkerSize             : Small
+              NumberOfWorkers        : 0
+              CurrentWorkerSize      : Small
+              CurrentNumberOfWorkers : 0
+              Status                 : Ready
+            </dev:code>
+            <dev:remarks>
+              <maml:para>This command gets all Azure web hosting plans in the current subscription.</maml:para>
+            </dev:remarks>
+            <command:commandLines>
+              <command:commandLine>
+                <command:commandText />
+              </command:commandLine>
+            </command:commandLines>
+          </command:example>
+            <command:example>
+              <maml:title>Example 2: Get a specific web hosting plans in the subscription</maml:title>
+              <maml:introduction>
+                <maml:para>
+                </maml:para>
+              </maml:introduction>
+              <dev:code>
+                PS C:\&gt;Get-AzureWebHostingPlan westeuropewebspace Default0
+
+                Name                   : Default0
+                SKU                    : Free
+                WorkerSize             : Small
+                NumberOfWorkers        : 0
+                CurrentWorkerSize      : Small
+                CurrentNumberOfWorkers : 0
+                Status                 : Ready
+                WebSpace               : westeuropewebspace
+
+              </dev:code>
+              <dev:remarks>
+                <maml:para>This command gets single Azure web hosting plans in the current subscription.</maml:para>
+              </dev:remarks>
+              <command:commandLines>
+                <command:commandLine>
+                  <command:commandText />
+                </command:commandLine>
+              </command:commandLines>
+            </command:example>
+          </command:examples>
+     </command:command>
+
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Get-AzureWebHostingPlanMetric</command:name>
+      <maml:description>
+        <maml:para>Gets metrics for web hsoting plan.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Get</command:verb>
+      <command:noun>AzureWebHostingPlanMetricMetric</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>The Get-AzureWebHostingPlanMetric cmdlet gets information about metrics on Azure web hosting plans in subscription. </maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-AzureWebHostingPlanMetricMetric</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
+          <maml:name>WebSpaceName</maml:name>
+          <maml:description>
+            <maml:para>Enter the name of one webspaces in the subscription. By default, Get-AzureWebHostingPlanMetric gets all plans in the current subscription. The WebSpaceName value does not support wildcard characters.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>Enter the name of one plan in the subscription. By default, Get-AzureWebHostingPlanMetric gets all websites in the current subscription. The Name value does not support wildcard characters.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="3" aliases="">
+          <maml:name>MetricNames</maml:name>
+          <maml:description>
+            <maml:para>List of metrics to return. If empty returns all</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="4" aliases="">
+          <maml:name>StartDate</maml:name>
+          <maml:description>
+            <maml:para>Start time from which to returns metrics.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="5" aliases="">
+          <maml:name>EndDate</maml:name>
+          <maml:description>
+            <maml:para>End time from which to returns metrics.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="5" aliases="">
+          <maml:name>TimeGrain</maml:name>
+          <maml:description>
+            <maml:para>Time grain at which to return metrics. Supported values are Minute(PT1M), Hour(PT1H) - default, Day(P1D).</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="5" aliases="">
+          <maml:name>InstanceDetails</maml:name>
+          <maml:description>
+            <maml:para>Include details per instance level. If the web hosting plan runs on two or more machines returns details metrics for each machine.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">switch</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>None</maml:name>
+          <maml:uri>
+          </maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe input to this cmdlet by property name, but not by value.</maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntities.MetricResponse</maml:name>
+          <maml:uri>
+          </maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para>By default, Get-AzureWebHostingPlanMetric returns an array of MetricResponse objects.</maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <command:examples>
+      <command:example>
+        <maml:title>Example 1: Get metrics for last 3 hours at hourly level.</maml:title>
+        <maml:introduction>
+          <maml:para>
+          </maml:para>
+        </maml:introduction>
+        <dev:code>
+          PS C:\&gt;$metrics = Get-AzureWebHostingPlanMetric eastuswebspace default1 -StartDate (get-date).AddHours(-3) -InstanceDetails
+          $metrics[1].Data
+
+
+          Name                   : CpuPercentage
+          Unit                   : Percent
+          StartTime              : 8/11/2014 7:00:00 AM
+          EndTime                : 8/11/2014 5:00:23 PM
+          TimeGrain              : PT1H
+          PrimaryAggregationType : Instance
+          Values                 : {Time:8/11/2014 7:00:00 AM, Total:2, Min:9, Max:0, Time:8/11/2014 8:00:00 AM, Total:2, Min:9, Max:0, Time:8/11/2014 9:00:00 AM, Total:2, Min:9, Max:0,
+          Time:8/11/2014 10:00:00 AM, Total:2, Min:8, Max:0...}
+
+          $metrics[1].Data.Values | ft
+
+          TimeCreated                                               Total                         Minimum                         Maximum                           Count InstanceName
+          -----------                                               -----                         -------                         -------                           ----- ------------
+          8/11/2014 7:00:00 AM                                          2                               9                               0                               1 RD00155DC24599
+          8/11/2014 8:00:00 AM                                          2                               9                               0                               1 RD00155DC24599
+          8/11/2014 9:00:00 AM                                          2                               9                               0                               1 RD00155DC24599
+          8/11/2014 10:00:00 AM                                         2                               8                               0                               1 RD00155DC24599
+          8/11/2014 11:00:00 AM                                         2                               9                               0                               1 RD00155DC24599
+          8/11/2014 12:00:00 PM                                         2                               6                               0                               1 RD00155DC24599
+          8/11/2014 1:00:00 PM                                          2                              15                               0                               1 RD00155DC24599
+          8/11/2014 2:00:00 PM                                          3                              21                               0                               1 RD00155DC24599
+          8/11/2014 3:00:00 PM                                          2                              13                               0                               1 RD00155DC24599
+          8/11/2014 4:00:00 PM                                          2                              14                               0                               1 RD00155DC24599
+        </dev:code>
+        <dev:remarks>
+          <maml:para>This command gets metrics for last 3 hours on per instance level.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+  </command:command>
+  
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
     <!--Generated by Help Cmdlet Editor-->
     <command:details>
@@ -11525,6 +11965,13 @@ PS C:\&gt;(Get-AzureWebsite -Name ContosoWeb).Instances.Count
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+          <maml:name>RoutingRules</maml:name>
+          <maml:description>
+            <maml:para>Routing rules used for testing in production</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntities.RampUpRule</command:parameterValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -11854,6 +12301,39 @@ PS C:\&gt;(Get-AzureWebsite -Name ContosoWeb).Instances.Count
         </dev:code>
         <dev:remarks>
           <maml:para>Enable drive logging for the specified website</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText>
+            </command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>
+          --------------  Set routing rules for testing in production --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          $rule = New-Object Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntities.RampUpRule
+          $rule.ActionHostName = "mysite-staging.azurewebsites.net"
+          $rule.ReroutePercentage = 10;
+          $rule.Name = "rule1"
+
+          Set-AzureWebsite mysite -RoutingRules $rule
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Sets up a routing for 10 percent of the traffic to staging slot.</maml:para>
+          <maml:para>
+          </maml:para>
+          <maml:para>
+          </maml:para>
+          <maml:para>
+          </maml:para>
+          <maml:para>
+          </maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>

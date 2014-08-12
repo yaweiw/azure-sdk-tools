@@ -44,6 +44,18 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             HelpMessage = "Time grain for the metrics. Supported values are PT1M (per minute), PT1H (per hour), P1D (per day).")]
         public string TimeGrain { get; set; }
 
+        [Parameter(Position = 6, Mandatory = false, ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Include details for the server instances in which the site is running.")]
+        public SwitchParameter InstanceDetails { get; set; }
+
+        [Parameter(Position = 7, Mandatory = false, ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Flag which specifies if the metrics returned should reflect slot swaps. " +
+            "Let's take for example following case: if production slot has hostname www.contos.com and take traffic for 12 hours " +
+            "and later is swapped with staging slot. Getting metrics with SlotView=false will reflect the swap - e.g. there will be " +
+            "a increase on the staging slot metrics after it goes to production." +
+            "If SlotView=true is used it will show the metrics for the www.contoso.com regardless which slot was serving at the moment.")]
+        public SwitchParameter SlotView { get; set; }
+
         public GetAzureWebsiteMetricCommand()
         {
             websiteNameDiscovery = false;
@@ -53,7 +65,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         {
             base.ExecuteCmdlet();
 
-            var response = WebsitesClient.GetHistoricalUsageMetrics(Name, Slot, MetricNames, StartDate, EndDate, TimeGrain);
+            var response = WebsitesClient.GetHistoricalUsageMetrics(Name, Slot, MetricNames, StartDate, EndDate, TimeGrain, InstanceDetails, SlotView);
             foreach (var metricResponse in response)
             {
                 WriteObject(metricResponse, true);
