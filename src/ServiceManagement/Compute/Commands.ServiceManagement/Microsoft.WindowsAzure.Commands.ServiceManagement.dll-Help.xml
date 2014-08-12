@@ -898,6 +898,196 @@
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
     <command:details>
       <command:name>
+                     Add-AzureDns
+      </command:name>
+      <maml:description>
+        <maml:para>Add-AzureDns [-Name] &lt;string&gt; [-IPAddress] &lt;string&gt; [-ServiceName] &lt;string&gt; [&lt;CommonParameters&gt;]</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para></maml:para>
+      </maml:copyright>
+      <command:verb>Add</command:verb>
+      <command:noun>AzureDns</command:noun>
+      <dev:version></dev:version>
+    </command:details>
+    <maml:description>
+      <maml:para>The Add-AzureDns cmdlet adds a DNS server to an existing cloud service. It accepts three parameters: Name, IPAddress and ServiceName. The Name parameter is a friendly name, not necessarily a DNS resolvable name, the IPAddress is the IP address of the DNS server, and the ServiceName is the name of the cloud service</maml:para>
+    </maml:description>
+    <!-- Cmdlet syntax section-->
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Add-AzureDns</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>Specifies a friendly name to identify the DNS server. This name is not necessarily a fully qualified domain name</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2">
+          <maml:name>IPAddress</maml:name>
+          <maml:description>
+            <maml:para>Specifies the IP address of the DNS server</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="3">
+          <maml:name>ServiceName</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the cloud service</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>PipelineVariable</maml:name>
+          <maml:description>
+            <maml:para></maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <!-- Cmdlet parameter section  -->
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2">
+        <maml:name>IPAddress</maml:name>
+        <maml:description>
+          <maml:para>Specifies the IP address of the DNS server</maml:para>
+                  
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
+        <maml:name>Name</maml:name>
+        <maml:description>
+          <maml:para>Specifies a friendly name to identify the DNS server. This name is not necessarily a fully qualified domain name</maml:para>
+                  
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>PipelineVariable</maml:name>
+        <maml:description>
+          <maml:para></maml:para>
+                  
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="3">
+        <maml:name>ServiceName</maml:name>
+        <maml:description>
+          <maml:para>Specifies the name of the cloud service</maml:para>
+                  
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <!-- Input - Output section-->
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri/>
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+            
+          </maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>Microsoft.WindowsAzure.Commands.Utilities.Common.ManagementOperationContext
+  </maml:name>
+          <maml:uri />
+          <maml:description />
+        </dev:type>   
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+            
+          </maml:para>
+        </maml:description> 
+      </command:returnValue>
+    </command:returnValues>
+    <!-- Error section-->
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+      <!-- Notes section  -->
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>
+                            
+                          </maml:para>
+      </maml:alert>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <!-- Example section  --> 
+    <command:examples>
+  
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 1 --------------------------
+        </maml:title> 
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction> 
+          <dev:code>
+  Add-AzureDns -ServiceName &quot;myservice&quot; -IPAddress 10.1.2.4 -Name &quot;mydns&quot;                        </dev:code>
+              <dev:remarks>
+                                  <maml:para>Description</maml:para>
+                                  <maml:para>-----------</maml:para>
+                  <maml:para>This command adds a DNS server &quot;mydns&quot; to the specified cloud service</maml:para>
+                            <maml:para></maml:para>
+                            <maml:para></maml:para>
+                            <maml:para></maml:para>
+                            <maml:para></maml:para>
+          </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <!-- Link section  -->
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText></maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>
                    Add-AzureEndpoint
 		</command:name>
       <maml:description>
@@ -11196,6 +11386,195 @@ This command gets the virtual machine object with the name "MyDemoVM01" running 
       </maml:navigationLink>
     </maml:relatedLinks>
   </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>
+                     Remove-AzureDns
+      </command:name>
+      <maml:description>
+        <maml:para>Remove-AzureDns [-Name] &lt;string&gt; [-ServiceName] &lt;string&gt; [-Force] [&lt;CommonParameters&gt;]</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para></maml:para>
+      </maml:copyright>
+      <command:verb>Remove</command:verb>
+      <command:noun>AzureDns</command:noun>
+      <dev:version></dev:version>
+    </command:details>
+    <maml:description>
+      <maml:para></maml:para>
+    </maml:description>
+    <!-- Cmdlet syntax section-->
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Remove-AzureDns</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the DNS server to be removed</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2">
+          <maml:name>ServiceName</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the cloud service</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3">
+          <maml:name>Force</maml:name>
+          <maml:description>
+            <maml:para></maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>PipelineVariable</maml:name>
+          <maml:description>
+            <maml:para></maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <!-- Cmdlet parameter section  -->
+    <command:parameters>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3">
+        <maml:name>Force</maml:name>
+        <maml:description>
+          <maml:para></maml:para>
+                  
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
+        <maml:name>Name</maml:name>
+        <maml:description>
+          <maml:para>Specifies the name of the DNS server to be removed</maml:para>
+                  
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>PipelineVariable</maml:name>
+        <maml:description>
+          <maml:para></maml:para>
+                  
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2">
+        <maml:name>ServiceName</maml:name>
+        <maml:description>
+          <maml:para>Specifies the name of the cloud service</maml:para>
+                  
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <!-- Input - Output section-->
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri/>
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+            
+          </maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>Microsoft.WindowsAzure.Commands.Utilities.Common.ManagementOperationContext
+  </maml:name>
+          <maml:uri />
+          <maml:description />
+        </dev:type>   
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+            
+          </maml:para>
+        </maml:description> 
+      </command:returnValue>
+    </command:returnValues>
+    <!-- Error section-->
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+      <!-- Notes section  -->
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>
+                            
+                          </maml:para>
+      </maml:alert>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <!-- Example section  --> 
+    <command:examples>
+  
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 1 --------------------------
+        </maml:title> 
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction> 
+          <dev:code>
+  Remove-AzureDns -ServiceName &quot;myservice&quot; -Name &quot;mydns&quot;                        </dev:code>
+              <dev:remarks>
+                                  <maml:para>Description</maml:para>
+                                  <maml:para>-----------</maml:para>
+                  <maml:para>This command removes the DNS server &quot;mydns&quot; from the specified cloud service</maml:para>
+                            <maml:para></maml:para>
+                            <maml:para></maml:para>
+                            <maml:para></maml:para>
+                            <maml:para></maml:para>
+          </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <!-- Link section  -->
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText></maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
       <command:name>Remove-AzureEndpoint</command:name>
@@ -13710,6 +14089,196 @@ Get-AzureVMImage `
       <maml:navigationLink>
         <maml:linkText>Remove-AzureDeployment</maml:linkText>
         <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>
+                     Set-AzureDns
+      </command:name>
+      <maml:description>
+        <maml:para>Set-AzureDns [-Name] &lt;string&gt; [-IPAddress] &lt;string&gt; [-ServiceName] &lt;string&gt; [&lt;CommonParameters&gt;]</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para></maml:para>
+      </maml:copyright>
+      <command:verb>Set</command:verb>
+      <command:noun>AzureDns</command:noun>
+      <dev:version></dev:version>
+    </command:details>
+    <maml:description>
+      <maml:para></maml:para>
+    </maml:description>
+    <!-- Cmdlet syntax section-->
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Set-AzureDns</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the DNS server to be updated</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2">
+          <maml:name>IPAddress</maml:name>
+          <maml:description>
+            <maml:para></maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="3">
+          <maml:name>ServiceName</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the cloud service</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>PipelineVariable</maml:name>
+          <maml:description>
+            <maml:para></maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <!-- Cmdlet parameter section  -->
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2">
+        <maml:name>IPAddress</maml:name>
+        <maml:description>
+          <maml:para></maml:para>
+                  
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
+        <maml:name>Name</maml:name>
+        <maml:description>
+          <maml:para>Specifies the name of the DNS server to be updated</maml:para>
+                  
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>PipelineVariable</maml:name>
+        <maml:description>
+          <maml:para></maml:para>
+                  
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="3">
+        <maml:name>ServiceName</maml:name>
+        <maml:description>
+          <maml:para>Specifies the name of the cloud service</maml:para>
+                  
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <!-- Input - Output section-->
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri/>
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+            
+          </maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>Microsoft.WindowsAzure.Commands.Utilities.Common.ManagementOperationContext
+  </maml:name>
+          <maml:uri />
+          <maml:description />
+        </dev:type>   
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+            
+          </maml:para>
+        </maml:description> 
+      </command:returnValue>
+    </command:returnValues>
+    <!-- Error section-->
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+      <!-- Notes section  -->
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>
+                            
+                          </maml:para>
+      </maml:alert>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <!-- Example section  --> 
+    <command:examples>
+  
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 1 --------------------------
+        </maml:title> 
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction> 
+          <dev:code>
+  Set-AzureDns -ServiceName &quot;myservice&quot; -IPAddress 10.1.2.5 -Name &quot;mydns&quot;                        </dev:code>
+              <dev:remarks>
+                                  <maml:para>Description</maml:para>
+                                  <maml:para>-----------</maml:para>
+                  <maml:para>This command updates the IP Address of the DNS server &quot;mydns&quot;</maml:para>
+                            <maml:para></maml:para>
+                            <maml:para></maml:para>
+                            <maml:para></maml:para>
+                            <maml:para></maml:para>
+          </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <!-- Link section  -->
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText></maml:linkText>
+        <maml:uri/>
       </maml:navigationLink>
     </maml:relatedLinks>
   </command:command>
