@@ -1389,6 +1389,9 @@ use and privacy statement at &lt;url&gt; and (c) agree to sharing my contact inf
   <data name="StoppedEmulatorMessage" xml:space="preserve">
     <value>Stopped</value>
   </data>
+  <data name="FailedToCleanUpLocalPackage" xml:space="preserve">
+    <value>Could not delete emulator package '{0}' for the service. Please ensure that no files or folders in the package are open in other programs</value>
+  </data>
   <data name="StopStorageEmulatorCommandArgument" xml:space="preserve">
     <value>stop</value>
   </data>
