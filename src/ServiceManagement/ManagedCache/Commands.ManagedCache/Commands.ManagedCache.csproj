@@ -118,6 +118,7 @@
     <Compile Include="Service\NewAzureManagedCacheAccessKey.cs" />
     <Compile Include="Service\RemoveAzureManagedCache.cs" />
     <Compile Include="Service\SetAzureManagedCache.cs" />
+    <None Include="app.config" />
     <None Include="MSSharedLibKey.snk" />
     <Compile Include="lib\ManagedCacheClient.cs" />
     <Compile Include="ManagedCacheCmdletBase.cs" />
