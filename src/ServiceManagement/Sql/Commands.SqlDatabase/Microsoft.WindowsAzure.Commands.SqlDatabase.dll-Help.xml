@@ -6474,7 +6474,7 @@ PS C:\&gt;$operation = Start-AzureSqlDatabaseRecovery –TargetServerName "a234b
     </command:details>
     <maml:description>
       <maml:para>Use this cmdlet to do a point in time restore of a Standard or Premium database. For standard databases, the backups are retained for 7 days and for Premium databases, the backups are retained up to 35 days. The restore operation creates a new database. If you are restoring to the same server as the source database, you must specific a different name from the source database. </maml:para>
-      <maml:para>NOTE: For this release the source server must be live. The source server name and the target server name should be the same.</maml:para>
+      <maml:para>NOTE: For this release, the source server name and the target server name should be the same.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -6511,7 +6511,7 @@ PS C:\&gt;$operation = Start-AzureSqlDatabaseRecovery –TargetServerName "a234b
           <maml:name>TargetServerName</maml:name>
           <maml:description>
             <maml:para>The name of the server that you want to restore the database to.  This can be the same server as the source database or a different server.</maml:para>
-            <maml:para>NOTE: For this release the source server must be live. The source server name and the target server name should be the same.</maml:para>
+            <maml:para>NOTE: For this release, the source server name and the target server name should be the same.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
@@ -6556,7 +6556,7 @@ PS C:\&gt;$operation = Start-AzureSqlDatabaseRecovery –TargetServerName "a234b
           <maml:name>TargetServerName</maml:name>
           <maml:description>
             <maml:para>The name of the server that you want to restore the database to.  This can be the same server as the source database or a different server.</maml:para>
-            <maml:para>NOTE: For this release the source server must be live. The source server name and the target server name should be the same.</maml:para>
+            <maml:para>NOTE: For this release, the source server name and the target server name should be the same.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
@@ -6595,7 +6595,7 @@ PS C:\&gt;$operation = Start-AzureSqlDatabaseRecovery –TargetServerName "a234b
           <maml:name>TargetServerName</maml:name>
           <maml:description>
             <maml:para>The name of the server that you want to restore the database to.  This can be the same server as the source database or a different server.</maml:para>
-            <maml:para>NOTE: For this release the source server must be live. The source server name and the target server name should be the same.</maml:para>
+            <maml:para>NOTE: For this release, the source server name and the target server name should be the same.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
@@ -6634,7 +6634,7 @@ PS C:\&gt;$operation = Start-AzureSqlDatabaseRecovery –TargetServerName "a234b
           <maml:name>TargetServerName</maml:name>
           <maml:description>
             <maml:para>The name of the server that you want to restore the database to.  This can be the same server as the source database or a different server.</maml:para>
-            <maml:para>NOTE: For this release the source server must be live. The source server name and the target server name should be the same.</maml:para>
+            <maml:para>NOTE: For this release, the source server name and the target server name should be the same.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
@@ -6748,7 +6748,7 @@ PS C:\&gt;$operation = Start-AzureSqlDatabaseRecovery –TargetServerName "a234b
         <maml:name>TargetServerName</maml:name>
         <maml:description>
           <maml:para>The name of the server that you want to restore the database to.  This can be the same server as the source database or a different server.</maml:para>
-          <maml:para>NOTE: For this release the source server must be live. The source server name and the target server name should be the same.</maml:para>
+          <maml:para>NOTE: For this release, the source server name and the target server name should be the same.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
