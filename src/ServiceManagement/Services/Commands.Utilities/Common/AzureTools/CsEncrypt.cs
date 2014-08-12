@@ -14,7 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
 {
-    using Commands.Common.Properties;
+    using Commands.Utilities.Properties;
     using Common;
     using System;
     using System.Diagnostics;

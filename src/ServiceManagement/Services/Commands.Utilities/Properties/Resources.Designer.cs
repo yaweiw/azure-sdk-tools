@@ -891,20 +891,20 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to /useemulatorexpress.
-        /// </summary>
-        public static string CsRunEmulatorExpressArg {
-            get {
-                return ResourceManager.GetString("CsRunEmulatorExpressArg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to csrun.exe.
         /// </summary>
         public static string CsRunExe {
             get {
                 return ResourceManager.GetString("CsRunExe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to /usefullemulator.
+        /// </summary>
+        public static string CsRunFullEmulatorArg {
+            get {
+                return ResourceManager.GetString("CsRunFullEmulatorArg", resourceCulture);
             }
         }
         

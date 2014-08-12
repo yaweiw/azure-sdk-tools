@@ -401,8 +401,8 @@
     <value>An unexpected failure occurred.  Details:
 {0}</value>
   </data>
-  <data name="CsRunEmulatorExpressArg" xml:space="preserve">
-    <value>/useemulatorexpress</value>
+  <data name="CsRunFullEmulatorArg" xml:space="preserve">
+    <value>/usefullemulator</value>
   </data>
   <data name="CsRunExe" xml:space="preserve">
     <value>csrun.exe</value>

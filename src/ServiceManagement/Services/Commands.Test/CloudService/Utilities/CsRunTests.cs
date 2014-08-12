@@ -58,10 +58,10 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
             string expectedRemoveAllDeploymentsArgument = Resources.CsRunRemoveAllDeploymentsArg;
             string expectedAzureProjectArgument = string.Format("\"{0}\" \"{1}\" {2} /useiisexpress",
                 testPackagePath, testConfigPath, Resources.CsRunLanuchBrowserArg);
-            if (mode== ComputeEmulatorMode.Express)
+            if (mode== ComputeEmulatorMode.Full)
             {
-                expectedComputeArguments += " " + Resources.CsRunEmulatorExpressArg;
-                expectedAzureProjectArgument += " " + Resources.CsRunEmulatorExpressArg;
+                expectedComputeArguments += " " + Resources.CsRunFullEmulatorArg;
+                expectedAzureProjectArgument += " " + Resources.CsRunFullEmulatorArg;
             }
 
             string testRoleUrl = "http://127.0.0.1:8080/";
