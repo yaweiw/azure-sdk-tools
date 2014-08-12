@@ -79,6 +79,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntitie
         [DataMember]
         public long? Count { get; set; }
 
+        [DataMember]
+        public string InstanceName { get; set; }
+
         public MetricSample()
         {
         }
