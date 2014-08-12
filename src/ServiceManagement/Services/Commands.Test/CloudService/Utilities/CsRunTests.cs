@@ -56,7 +56,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
             string expectedCsrunCommand = testEmulatorFolder + @"\" + Resources.CsRunExe;
             string expectedComputeArguments = Resources.CsRunStartComputeEmulatorArg;
             string expectedRemoveAllDeploymentsArgument = Resources.CsRunRemoveAllDeploymentsArg;
-            string expectedAzureProjectArgument = string.Format("\"{0}\" \"{1}\" {2} /useiisexpress",
+            string expectedAzureProjectArgument = string.Format("/run:\"{0}\";\"{1}\" {2} /useiisexpress",
                 testPackagePath, testConfigPath, Resources.CsRunLanuchBrowserArg);
             if (mode== ComputeEmulatorMode.Full)
             {

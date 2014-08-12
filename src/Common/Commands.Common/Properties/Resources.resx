@@ -1171,9 +1171,6 @@ Please follow these steps in the portal:
   <data name="RoleTypeDoesNotExist" xml:space="preserve">
     <value>Role type {0} doesn't exist</value>
   </data>
-  <data name="RunInEmulatorArguments" xml:space="preserve">
-    <value>"{0}" "{1}" {2} /useiisexpress</value>
-  </data>
   <data name="RuntimeDeploymentLocationError" xml:space="preserve">
     <value>public static Dictionary&lt;string, Location&gt; ReverseLocations { get; private set; }</value>
   </data>

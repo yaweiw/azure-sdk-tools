@@ -3343,7 +3343,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &quot;{0}&quot; &quot;{1}&quot; {2} /useiisexpress.
+        ///   Looks up a localized string similar to /run:&quot;{0}&quot;;&quot;{1}&quot; {2} /useiisexpress.
         /// </summary>
         public static string RunInEmulatorArguments {
             get {

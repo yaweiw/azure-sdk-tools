@@ -3162,15 +3162,6 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &quot;{0}&quot; &quot;{1}&quot; {2} /useiisexpress.
-        /// </summary>
-        public static string RunInEmulatorArguments {
-            get {
-                return ResourceManager.GetString("RunInEmulatorArguments", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to public static Dictionary&lt;string, Location&gt; ReverseLocations { get; private set; }.
         /// </summary>
         public static string RuntimeDeploymentLocationError {
