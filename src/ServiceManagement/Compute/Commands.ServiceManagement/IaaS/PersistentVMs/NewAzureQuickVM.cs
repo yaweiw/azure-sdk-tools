@@ -158,6 +158,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
         [Parameter(HelpMessage = "To disable IaaS provision guest agent.")]
         public SwitchParameter DisableGuestAgent { get; set; }
 
+        [Parameter(Mandatory = false, HelpMessage = "Path to filename that contains custom data that will execute inside the VM after boot")]
+        public string CustomDataFile { get; set; }
+
         [Parameter(ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the reserved IP.")]
         [ValidateNotNullOrEmpty]
         public string ReservedIPName { get; set; }
@@ -383,6 +386,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 var mediaLinkFactory = new MediaLinkFactory(currentStorage, this.ServiceName, vm.RoleName);
                 vm.OSVirtualHardDisk.MediaLink = mediaLinkFactory.Create();
             }
+            
+            string customDataBase64Str = null;
+            if (!string.IsNullOrEmpty(this.CustomDataFile))
+            {
+                string fileName = this.TryResolvePath(this.CustomDataFile);
+                customDataBase64Str = PersistentVMHelper.ConvertCustomDataFileToBase64(fileName);
+            }
 
             var configurationSets = new Collection<ConfigurationSet>();
             var netConfig = CreateNetworkConfigurationSet();
@@ -399,7 +409,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                         EnableAutomaticUpdates = true,
                         ResetPasswordOnFirstLogon = false,
                         StoredCertificateSettings = CertUtilsNewSM.GetCertificateSettings(this.Certificates, this.X509Certificates),
-                        WinRM = GetWinRmConfiguration()
+                        WinRM = GetWinRmConfiguration(),
+                        CustomData = customDataBase64Str
                     };
 
                     if (windowsConfig.StoredCertificateSettings == null)
@@ -427,7 +438,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                         HostName = string.IsNullOrEmpty(this.Name) ? this.ServiceName : this.Name,
                         UserName = this.LinuxUser,
                         UserPassword = SecureStringHelper.GetSecureString(this.Password),
-                        DisableSshPasswordAuthentication = false
+                        DisableSshPasswordAuthentication = false,
+                        CustomData = customDataBase64Str
                     };
 
                     if (this.SSHKeyPairs != null && this.SSHKeyPairs.Count > 0 ||
