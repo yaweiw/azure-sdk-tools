@@ -1835,32 +1835,12 @@ C:\PS&gt;Get-AzureSqlDatabaseImportExportStatus -Request $exportRequest
     </command:details>
     <maml:description>
       <maml:para>This cmdlet can be used to get a list of databases that can be recovered when the database server is no longer available. The database can be recovered to the same server as the source database or to a different server.</maml:para>
-      <maml:para>NOTE: For this release the source server must be live. The source server name and the target server name should be the same.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Get-AzureSqlRecoverableDatabase</maml:name>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>TargetServerName</maml:name>
-          <maml:description>
-            <maml:para>The name of the server where the database backup should be restored to. This can be the same server as the source database or a different server.</maml:para>
-            <maml:para>NOTE: For this release the source server must be live.  The source server name and the target server name should be the same.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-      </command:syntaxItem>
-      <command:syntaxItem>
-        <maml:name>Get-AzureSqlRecoverableDatabase</maml:name>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>TargetServerName</maml:name>
-          <maml:description>
-            <maml:para>The name of the server where the database backup should be restored to. This can be the same server as the source database or a different server.</maml:para>
-            <maml:para>NOTE: For this release the source server must be live.  The source server name and the target server name should be the same.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="">
-          <maml:name>SourceDatabase</maml:name>
+          <maml:name>Database</maml:name>
           <maml:description>
             <maml:para>The database object representing the database you want to retrieve</maml:para>
           </maml:description>
@@ -1870,24 +1850,16 @@ C:\PS&gt;Get-AzureSqlDatabaseImportExportStatus -Request $exportRequest
       <command:syntaxItem>
         <maml:name>Get-AzureSqlRecoverableDatabase</maml:name>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>SourceDatabaseName</maml:name>
+          <maml:name>DatabaseName</maml:name>
           <maml:description>
             <maml:para>The name of the database you want to recover.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>SourceServerName</maml:name>
+          <maml:name>ServerName</maml:name>
           <maml:description>
-            <maml:para>The name of the server where the source database is live and running, or the name of the server where the source database was running before it was deleted.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>TargetServerName</maml:name>
-          <maml:description>
-            <maml:para>The name of the server where the database backup should be restored to. This can be the same server as the source database or a different server.</maml:para>
-            <maml:para>NOTE: For this release the source server must be live.  The source server name and the target server name should be the same.</maml:para>
+            <maml:para>The name of the server where the database is live and running, or the name of the server where the database was running before it was deleted.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
@@ -1895,35 +1867,9 @@ C:\PS&gt;Get-AzureSqlDatabaseImportExportStatus -Request $exportRequest
       <command:syntaxItem>
         <maml:name>Get-AzureSqlRecoverableDatabase</maml:name>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>SourceDatabaseName</maml:name>
+          <maml:name>ServerName</maml:name>
           <maml:description>
-            <maml:para>The name of the database you want to recover.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>TargetServerName</maml:name>
-          <maml:description>
-            <maml:para>The name of the server where the database backup should be restored to. This can be the same server as the source database or a different server.</maml:para>
-            <maml:para>NOTE: For this release the source server must be live.  The source server name and the target server name should be the same.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-      </command:syntaxItem>
-      <command:syntaxItem>
-        <maml:name>Get-AzureSqlRecoverableDatabase</maml:name>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>SourceServerName</maml:name>
-          <maml:description>
-            <maml:para>The name of the server where the source database is live and running, or the name of the server where the source database was running before it was deleted.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>TargetServerName</maml:name>
-          <maml:description>
-            <maml:para>The name of the server where the database backup should be restored to. This can be the same server as the source database or a different server.</maml:para>
-            <maml:para>NOTE: For this release the source server must be live.  The source server name and the target server name should be the same.</maml:para>
+            <maml:para>The name of the server where the database is live and running, or the name of the server where the database was running before it was deleted.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
@@ -1931,7 +1877,7 @@ C:\PS&gt;Get-AzureSqlDatabaseImportExportStatus -Request $exportRequest
     </command:syntax>
     <command:parameters>
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="">
-        <maml:name>SourceDatabase</maml:name>
+        <maml:name>Database</maml:name>
         <maml:description>
           <maml:para>The database object representing the database you want to retrieve</maml:para>
         </maml:description>
@@ -1943,7 +1889,7 @@ C:\PS&gt;Get-AzureSqlDatabaseImportExportStatus -Request $exportRequest
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-        <maml:name>SourceDatabaseName</maml:name>
+        <maml:name>DatabaseName</maml:name>
         <maml:description>
           <maml:para>The name of the database you want to recover.</maml:para>
         </maml:description>
@@ -1955,22 +1901,9 @@ C:\PS&gt;Get-AzureSqlDatabaseImportExportStatus -Request $exportRequest
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-        <maml:name>SourceServerName</maml:name>
+        <maml:name>ServerName</maml:name>
         <maml:description>
-          <maml:para>The name of the server where the source database is live and running, or the name of the server where the source database was running before it was deleted.</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-        <maml:name>TargetServerName</maml:name>
-        <maml:description>
-          <maml:para>The name of the server where the database backup should be restored to. This can be the same server as the source database or a different server.</maml:para>
-          <maml:para>NOTE: For this release the source server must be live.  The source server name and the target server name should be the same.</maml:para>
+          <maml:para>The name of the server where the database is live and running, or the name of the server where the database was running before it was deleted.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -1983,7 +1916,7 @@ C:\PS&gt;Get-AzureSqlDatabaseImportExportStatus -Request $exportRequest
     <command:inputTypes>
       <command:inputType>
         <dev:type>
-          <maml:name>Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server.RecoverableDatabase</maml:name>
+          <maml:name>Microsoft.WindowsAzure.Management.Sql.Models.RecoverableDatabase</maml:name>
           <maml:uri></maml:uri>
           <maml:description>
             <maml:para />
@@ -1997,7 +1930,7 @@ C:\PS&gt;Get-AzureSqlDatabaseImportExportStatus -Request $exportRequest
     <command:returnValues>
       <command:returnValue>
         <dev:type>
-          <maml:name>Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server.RecoverableDatabase </maml:name>
+          <maml:name>Microsoft.WindowsAzure.Management.Sql.Models.RecoverableDatabase</maml:name>
           <maml:uri></maml:uri>
           <maml:description>
             <maml:para />
@@ -2033,7 +1966,7 @@ C:\PS&gt;Select-AzureSubscription -SubscriptionName "mySubscription"</maml:para>
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
-        <dev:code>PS C:\&gt;Get-AzureSqlRecoverableDatabase –SourceServerName "server1" –TargetServerName "server1"
+        <dev:code>PS C:\&gt;Get-AzureSqlRecoverableDatabase -ServerName "server1"
 
 
 </dev:code>
@@ -2056,7 +1989,7 @@ C:\PS&gt;Select-AzureSubscription -SubscriptionName "mySubscription"</maml:para>
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
-        <dev:code>PS C:\&gt;$mydb = Get-AzureSqlRecoverableDatabase -SourceDatabaseName "mydb" -SourceServerName "server1" -TargetServerName "server1"
+        <dev:code>PS C:\&gt;$mydb = Get-AzureSqlRecoverableDatabase -ServerName "server1" -DatabaseName "mydb"
 # refresh 
 PS C:\&gt;$mydb = $mydb | Get-AzureSqlRecoverableDatabase
 </dev:code>
