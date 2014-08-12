@@ -3944,26 +3944,26 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         partial void OnSourceDatabaseNameChanging(string value);
         partial void OnSourceDatabaseNameChanged();
         /// <summary>
-        /// There are no comments for Property SourceServerName in the schema.
+        /// There are no comments for Property TargetServerName in the schema.
         /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
-        public string SourceServerName
+        public string TargetServerName
         {
             get
             {
-                return this._SourceServerName;
+                return this._TargetServerName;
             }
             set
             {
-                this.OnSourceServerNameChanging(value);
-                this._SourceServerName = value;
-                this.OnSourceServerNameChanged();
+                this.OnTargetServerNameChanging(value);
+                this._TargetServerName = value;
+                this.OnTargetServerNameChanged();
             }
         }
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
-        private string _SourceServerName;
-        partial void OnSourceServerNameChanging(string value);
-        partial void OnSourceServerNameChanged();
+        private string _TargetServerName;
+        partial void OnTargetServerNameChanging(string value);
+        partial void OnTargetServerNameChanged();
         /// <summary>
         /// There are no comments for Property TargetDatabaseName in the schema.
         /// </summary>
