@@ -1,4 +1,4 @@
-// ----------------------------------------------------------------------------------
+﻿// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,11 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test
 {
-    public static class WinRMConstants
+    public class Category
     {
-        public const int HttpsListenerPort = 5986;
-        public const string EndpointName = "PowerShell";
+        public const string Scenario = "AzureRTScenario";
+        public const string BVT = "BVT";
+        public const string Functional = "Functional";
+        public const string Preview = "Preview";
+        public const string Sequential = "Sequential";
     }
 }

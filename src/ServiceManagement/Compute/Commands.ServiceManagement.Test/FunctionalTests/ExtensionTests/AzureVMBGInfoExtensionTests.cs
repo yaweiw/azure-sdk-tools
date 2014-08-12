@@ -60,7 +60,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         }
 
 
-        [TestMethod(), TestCategory("Sequential"), TestProperty("Feature", "IAAS"), Priority(0), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove)-AzureVMBGInfoExtension)")]
+        [TestMethod(), TestCategory(Category.Sequential), TestProperty("Feature", "IAAS"), Priority(0), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove)-AzureVMBGInfoExtension)")]
         public void GetAzureVMBGInfoExtensionTest()
         {
             try
@@ -98,7 +98,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-        [TestMethod(), TestCategory("Sequential"), TestProperty("Feature", "IAAS"), Priority(0), Owner("hylee"), Description("Test the cmdlet ((Get,Set)-AzureVMBGInfoExtension)")]
+        [TestMethod(), TestCategory(Category.Sequential), TestProperty("Feature", "IAAS"), Priority(0), Owner("hylee"), Description("Test the cmdlet ((Get,Set)-AzureVMBGInfoExtension)")]
         public void UpdateVMWithBgInfoExtensionTest()
         {
             try
@@ -133,7 +133,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-        [TestMethod(), TestCategory("Sequential"), TestProperty("Feature", "IAAS"), Priority(0), Owner("hylee"), Description("Test the cmdlet ((Get,Set)-AzureVMBGInfoExtension)")]
+        [TestMethod(), TestCategory(Category.Sequential), TestProperty("Feature", "IAAS"), Priority(0), Owner("hylee"), Description("Test the cmdlet ((Get,Set)-AzureVMBGInfoExtension)")]
         public void AddRoleWithBgInfoExtensionTest()
         {
             try
@@ -164,7 +164,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         }
 
 
-        [TestMethod(), TestCategory("Sequential"), TestProperty("Feature", "IAAS"), Priority(0), Owner("hylee"), Description("Test the cmdlet ((Get,Set)-AzureVMBGInfoExtension)")]
+        [TestMethod(), TestCategory(Category.Sequential), TestProperty("Feature", "IAAS"), Priority(0), Owner("hylee"), Description("Test the cmdlet ((Get,Set)-AzureVMBGInfoExtension)")]
         public void UpdateRoleWithBgInfoExtensionTest()
         {
             try
@@ -205,7 +205,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-        [TestMethod(), TestCategory("Sequential"),TestProperty("Feature","IAAS"),Priority(0),Owner("hylee"),Description("Verifies that BGInfo extension is applied by default to Azure IaaS VM with GA enabled.")]
+        [TestMethod(), TestCategory(Category.Sequential),TestProperty("Feature","IAAS"),Priority(0),Owner("hylee"),Description("Verifies that BGInfo extension is applied by default to Azure IaaS VM with GA enabled.")]
         public void BGInfoEnabledForNewAzureVMWithGATest()
         {
             try
@@ -224,7 +224,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-        [TestMethod(), TestCategory("Sequential"), TestProperty("Feature", "IaaS"), Priority(0), Owner("hylee"), Description("Verifies that BGInfo extension is not applied by default to Azure IaaS VM with GA disabled.")]
+        [TestMethod(), TestCategory(Category.Sequential), TestProperty("Feature", "IaaS"), Priority(0), Owner("hylee"), Description("Verifies that BGInfo extension is not applied by default to Azure IaaS VM with GA disabled.")]
         public void BGInfoDisabledForNewAzureVMWithoutGATest()
         {
             try

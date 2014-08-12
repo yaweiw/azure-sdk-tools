@@ -31,8 +31,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
     {
         private bool createdDeployment;
 
-        [Parameter(Mandatory = true, ParameterSetName = "CreateService", ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Service Name")]
-        [Parameter(Mandatory = true, ParameterSetName = "ExistingService", ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Service Name")]
+        [Parameter(Mandatory = true, ParameterSetName = "CreateService", ValueFromPipelineByPropertyName = true, HelpMessage = "Service Name")]
+        [Parameter(Mandatory = true, ParameterSetName = "ExistingService", ValueFromPipelineByPropertyName = true, HelpMessage = "Service Name")]
         [ValidateNotNullOrEmpty]
         public override string ServiceName
         {

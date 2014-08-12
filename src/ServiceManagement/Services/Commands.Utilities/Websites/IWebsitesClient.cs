@@ -215,9 +215,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="starTime">Start date of the requested period</param>
         /// <param name="endTime">End date of the requested period</param>
         /// <param name="timeGrain">Time grains for the metrics.</param>
+        /// <param name="instanceDetails">Include details for the server instances in which the site is running.</param>
+        /// <param name="slotView">Represent the metrics for the hostnames that receive the traffic at the current slot. 
+        /// If swap occured in the middle of the period mereics will be merged</param>
         /// <returns>The list of site metrics for the specified period.</returns>
         IList<MetricResponse> GetHistoricalUsageMetrics(string siteName, string slot, IList<string> metricNames, DateTime? starTime, 
-            DateTime? endTime, string timeGrain);
+            DateTime? endTime, string timeGrain, bool instanceDetails, bool slotView);
         
         /// <summary>
         /// Enables site diagnostic.
@@ -579,9 +582,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="starTime">Start date of the requested period</param>
         /// <param name="endTime">End date of the requested period</param>
         /// <param name="timeGrain">Time grains for the metrics.</param>
+        /// <param name="instanceDetails">Include details for the server instances in which the site is running.</param>
         /// <returns>The list of site metrics for the specified period.</returns>
-        IList<MetricResponse> GetPlanHistoricalUsageMetrics(string webSpaceName, string planName, IList<string> metricNames, 
-            DateTime? starTime, DateTime? endTime, string timeGrain);
+        IList<MetricResponse> GetPlanHistoricalUsageMetrics(string webSpaceName, string planName, IList<string> metricNames,
+            DateTime? starTime, DateTime? endTime, string timeGrain, bool instanceDetails);
     }
 
     public enum WebsiteState

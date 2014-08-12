@@ -77,7 +77,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
         }
 
         [TestMethod]
-        [TestCategory("Functional")]
+        [TestCategory(Category.Functional)]
         public void TestNonExistingExtensionImageList()
         {
             var factory = new VirtualMachineExtensionImageFactory(client.Object);
@@ -91,7 +91,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
         }
 
         [TestMethod]
-        [TestCategory("Functional")]
+        [TestCategory(Category.Functional)]
         public void TestMakeListWithoutClient()
         {
             var factory = new VirtualMachineExtensionImageFactory(null);
@@ -105,7 +105,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
         }
 
         [TestMethod]
-        [TestCategory("Functional")]
+        [TestCategory(Category.Functional)]
         public void TestMakeListWithClient()
         {
             var factory = new VirtualMachineExtensionImageFactory(client.Object);
