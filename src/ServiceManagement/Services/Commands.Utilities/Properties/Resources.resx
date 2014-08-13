@@ -401,8 +401,8 @@
     <value>An unexpected failure occurred.  Details:
 {0}</value>
   </data>
-  <data name="CsRunEmulatorExpressArg" xml:space="preserve">
-    <value>/useemulatorexpress</value>
+  <data name="CsRunFullEmulatorArg" xml:space="preserve">
+    <value>/usefullemulator</value>
   </data>
   <data name="CsRunExe" xml:space="preserve">
     <value>csrun.exe</value>
@@ -1203,7 +1203,7 @@ Please follow these steps in the portal:
     <value>Role type {0} doesn't exist</value>
   </data>
   <data name="RunInEmulatorArguments" xml:space="preserve">
-    <value>"{0}" "{1}" {2} /useiisexpress</value>
+    <value>/run:"{0}";"{1}" {2} /useiisexpress</value>
   </data>
   <data name="RuntimeDeploymentLocationError" xml:space="preserve">
     <value>public static Dictionary&lt;string, Location&gt; ReverseLocations { get; private set; }</value>
@@ -1388,6 +1388,9 @@ use and privacy statement at &lt;url&gt; and (c) agree to sharing my contact inf
   </data>
   <data name="StoppedEmulatorMessage" xml:space="preserve">
     <value>Stopped</value>
+  </data>
+  <data name="FailedToCleanUpLocalPackage" xml:space="preserve">
+    <value>Could not delete emulator package '{0}' for the service. Please ensure that no files or folders in the package are open in other programs</value>
   </data>
   <data name="StopStorageEmulatorCommandArgument" xml:space="preserve">
     <value>stop</value>

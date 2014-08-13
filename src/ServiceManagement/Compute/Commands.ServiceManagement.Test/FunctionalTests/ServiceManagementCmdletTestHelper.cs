@@ -272,16 +272,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
         public PersistentVM SetAzureAvailabilitySet(string vmName, string serviceName, string availabilitySetName)
         {
-            if (!string.IsNullOrEmpty(availabilitySetName))
-            {
-                PersistentVM vm = GetAzureVM(vmName, serviceName).VM;
-
-                return RunPSCmdletAndReturnFirst<PersistentVM>(new SetAzureAvailabilitySetCmdletInfo(availabilitySetName, vm));
-            }
-            else
-            {
-                return null;
-            }
+            PersistentVM vm = GetAzureVM(vmName, serviceName).VM;
+            return RunPSCmdletAndReturnFirst<PersistentVM>(new SetAzureAvailabilitySetCmdletInfo(availabilitySetName, vm));
         }
 
         #endregion AzureAvailabilitySet
@@ -1013,17 +1005,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
         // Set-AzureServiceDiagnosticsExtension
         public ManagementOperationContext SetAzureServiceDiagnosticsExtension
-            (string service, string storage, XmlDocument config = null, string[] roles = null, string slot = null)
+            (string service, string storage, string config = null, string[] roles = null, string slot = null)
         {
             return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new SetAzureServiceDiagnosticsExtensionCmdletInfo(service, storage, config, roles, slot));
         }
 
-        public ManagementOperationContext SetAzureServiceDiagnosticsExtension(string service, string storage, X509Certificate2 cert, XmlDocument config = null, string[] roles = null, string slot = null)
+        public ManagementOperationContext SetAzureServiceDiagnosticsExtension(string service, string storage, X509Certificate2 cert, string config = null, string[] roles = null, string slot = null)
         {
             return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new SetAzureServiceDiagnosticsExtensionCmdletInfo(service, storage, cert, config, roles, slot));
         }
 
-        public ManagementOperationContext SetAzureServiceDiagnosticsExtension(string service, string storage, string thumbprint, string algorithm = null, XmlDocument config = null, string[] roles = null, string slot = null)
+        public ManagementOperationContext SetAzureServiceDiagnosticsExtension(string service, string storage, string thumbprint, string algorithm = null, string config = null, string[] roles = null, string slot = null)
         {
             return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new SetAzureServiceDiagnosticsExtensionCmdletInfo(service, storage, thumbprint, algorithm, config, roles, slot));
         }

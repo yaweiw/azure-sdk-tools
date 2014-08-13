@@ -34,6 +34,12 @@ Write-Host "You can do some testing by loading role url in the browser and addin
 Write-Host "Press any key to continue to the next testing"
 $keyPressed = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
 
+# testing full emulator
+Start-AzureEmulator -mode Full -v
+Write-Host "You can do similar testing like you did just now. The only context difference is you are using a full emulator this time" -ForegroundColor "Yellow"
+Write-Host "Press any key to continue to the next testing"
+$keyPressed = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+
 Write-Host "Testing PHP web & worker roles with emulator" -ForegroundColor "Green" 
 cd $testFolder
 New-AzureServiceProject MyPHPTest
@@ -49,5 +55,5 @@ Write-Host "Testing Django web roles" -ForegroundColor "Green"
 cd $testFolder
 New-AzureServiceProject MyDjangoTest
 Add-AzureDjangoWebRole
-Start-AzureEmulator  -v 
+Start-AzureEmulator -v 
 Write-Host "You can do some testing by loading role url in the browser and make sure default django page loads fine " -ForegroundColor "Yellow"

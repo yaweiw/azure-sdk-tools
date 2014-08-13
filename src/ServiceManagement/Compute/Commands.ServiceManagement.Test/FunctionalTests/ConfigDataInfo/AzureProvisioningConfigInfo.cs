@@ -55,6 +55,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         public LinuxProvisioningConfigurationSet.SSHKeyPairList SSHKeyPairs = null;
         public LinuxProvisioningConfigurationSet.SSHPublicKeyList SshPublicKeys = null;
         public string TimeZone = null;
+        
+        public string CustomDataFile = null;
 
         // WindowsDomain paramenter set
         public AzureProvisioningConfigInfo(string option, string user, string password, string joinDomain, string domain,
@@ -110,7 +112,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
         public AzureProvisioningConfigInfo(string linuxUser, string password = null, bool noSshEndpoint = false,
             bool disableSSH = false, LinuxProvisioningConfigurationSet.SSHKeyPairList sSHKeyPairList = null,
-            LinuxProvisioningConfigurationSet.SSHPublicKeyList sSHPublicKeyList = null, bool noSSHPassword = false)
+            LinuxProvisioningConfigurationSet.SSHPublicKeyList sSHPublicKeyList = null, bool noSSHPassword = false, string CustomDataFile = null)
         {
             this.OS = OS.Linux;
             this.LinuxUser = linuxUser;
@@ -132,6 +134,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             {
                 this.NoSSHPassword = noSSHPassword;
             }
+
+            this.CustomDataFile = CustomDataFile;
         }
 
         public AzureProvisioningConfigInfo(string adminUsername, string password, X509Certificate2 winRMCertificate)
@@ -140,6 +144,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             this.AdminUsername = adminUsername;
             this.Password = password;
             this.WinRMCertificate = winRMCertificate;
+        }
+
+        public AzureProvisioningConfigInfo(string adminUsername, string password, string customData)
+        {
+            this.OS = OS.Windows;
+            this.AdminUsername = adminUsername;
+            this.Password = password;
+            this.CustomDataFile = customData;
         }
 
         public PersistentVM  Vm { get; set; }

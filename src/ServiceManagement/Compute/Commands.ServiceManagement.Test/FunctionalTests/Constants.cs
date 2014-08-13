@@ -12,11 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test
 {
-    public enum ComputeEmulatorMode
+    public class Category
     {
-        Express,
-        Full
+        public const string Scenario = "AzureRTScenario";
+        public const string BVT = "BVT";
+        public const string Functional = "Functional";
+        public const string Preview = "Preview";
+        public const string Sequential = "Sequential";
     }
 }
