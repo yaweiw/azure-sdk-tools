@@ -187,55 +187,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions.DSC
             return modules.Distinct().ToList();
         }
 
-        private static List<string> Visit(Ast ast)
-        {
-            RequiredModulesAstVisitor visitor = new RequiredModulesAstVisitor();
-            ast.Visit(visitor);
-            return visitor.Modules.Distinct().ToList();
-        }
-
-        private class RequiredModulesAstVisitor : AstVisitor
-        {
-            public List<string> Modules { get; private set; }
-
-            public RequiredModulesAstVisitor()
-            {
-                Modules = new List<string>();
-            }
-
-            public override AstVisitAction VisitCommandParameter(CommandParameterAst commandParameterAst)
-            {
-                CommandAst commandParentAst = commandParameterAst.Parent as CommandAst;
-                if (commandParentAst != null && 
-                    String.Equals(commandParentAst.GetCommandName(), "Import-DscResource", StringComparison.OrdinalIgnoreCase))
-                {
-                    // Resource can be specified by name, without a module.
-                    if (String.Equals(commandParameterAst.ParameterName, "Name", StringComparison.OrdinalIgnoreCase))
-                    {
-                        ArrayLiteralAst arrayLiteralAst = commandParameterAst.Argument as ArrayLiteralAst;
-                        if (arrayLiteralAst != null)
-                        {
-                            IEnumerable<string> resourceNames = arrayLiteralAst.Elements.OfType<StringConstantExpressionAst>().Select(x => x.Value);
-                            foreach (string resourceName in resourceNames)
-                            {
-                                
-                            }
-                        }
-                    }
-                    // Or with ModuleDefinition parameter
-                    else if (String.Equals(commandParameterAst.ParameterName, "ModuleDefinition", StringComparison.OrdinalIgnoreCase))
-                    {
-                        ArrayLiteralAst arrayLiteralAst = commandParameterAst.Argument as ArrayLiteralAst;
-                        if (arrayLiteralAst != null)
-                        {
-                            Modules.AddRange(arrayLiteralAst.Elements.OfType<StringConstantExpressionAst>().Select(x => x.Value));
-                        }
-                    }
-                }
-                return base.VisitCommandParameter(commandParameterAst);
-            }
-        }
-
         private static bool IsLegacyAstConfiguration(Ast node)
         {
             CommandAst commandNode = node as CommandAst;
