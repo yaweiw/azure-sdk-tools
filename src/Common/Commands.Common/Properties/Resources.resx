@@ -367,58 +367,6 @@
   <data name="CreateWebsiteFailed" xml:space="preserve">
     <value>Creating the website failed. If this is the first website for this subscription, please create it using the management portal instead.</value>
   </data>
-  <data name="CreatingPackageMessage" xml:space="preserve">
-    <value>Creating {0} package...</value>
-  </data>
-  <data name="CsEncrypt_CreateCertificate_CreationFailed" xml:space="preserve">
-    <value>CsEncrypt.exe failed to generate a certificate ({0})</value>
-  </data>
-  <data name="CsEncryptCreateCertificateArg" xml:space="preserve">
-    <value>New-PasswordEncryptionCertificate -FriendlyName "Microsoft Azure Certificate"</value>
-  </data>
-  <data name="CsEncryptExe" xml:space="preserve">
-    <value>csencrypt.exe</value>
-  </data>
-  <data name="CsPackCloudArg" xml:space="preserve">
-    <value>"{0}\ServiceDefinition.csdef" /out:"{0}\cloud_package.cspkg" {1} {2}</value>
-  </data>
-  <data name="CsPackExe" xml:space="preserve">
-    <value>cspack.exe</value>
-  </data>
-  <data name="CsPackLocalArg" xml:space="preserve">
-    <value>"{0}\ServiceDefinition.csdef" /out:"{0}\local_package.csx" {1} {2} /copyOnly</value>
-  </data>
-  <data name="CsRun_StartCsRunProcess_UnexpectedFailure" xml:space="preserve">
-    <value>An unexpected failure occurred.  Details:
-{0}</value>
-  </data>
-  <data name="CsRunEmulatorExpressArg" xml:space="preserve">
-    <value>/useemulatorexpress</value>
-  </data>
-  <data name="CsRunExe" xml:space="preserve">
-    <value>csrun.exe</value>
-  </data>
-  <data name="CsRunLanuchBrowserArg" xml:space="preserve">
-    <value>/launchbrowser</value>
-  </data>
-  <data name="CsRunRemoveAllDeploymentsArg" xml:space="preserve">
-    <value>/removeall</value>
-  </data>
-  <data name="CsRunRemoveDeploymentArg" xml:space="preserve">
-    <value>/remove:{0}</value>
-  </data>
-  <data name="CsRunStartComputeEmulatorArg" xml:space="preserve">
-    <value>/devfabric</value>
-  </data>
-  <data name="CsRunStartStorageEmulatorArg" xml:space="preserve">
-    <value>/devstore</value>
-  </data>
-  <data name="CsRunStopEmulatorArg" xml:space="preserve">
-    <value>/devfabric:shutdown</value>
-  </data>
-  <data name="CsRunUpdateDeploymentArg" xml:space="preserve">
-    <value>/update:{0};{1}</value>
-  </data>
   <data name="DataCacheClientsType" xml:space="preserve">
     <value>Microsoft.ApplicationServer.Caching.DataCacheClientsSection, Microsoft.ApplicationServer.Caching.Core</value>
   </data>
@@ -473,27 +421,6 @@
   </data>
   <data name="DnsDoesNotExist" xml:space="preserve">
     <value>The provided dns {0} doesn't exist</value>
-  </data>
-  <data name="EmulatedKey" xml:space="preserve">
-    <value>EMULATED</value>
-  </data>
-  <data name="EmulatorConnectionString" xml:space="preserve">
-    <value>UseDevelopmentStorage=true</value>
-  </data>
-  <data name="EmulatorOutputSitesRegex" xml:space="preserve">
-    <value>((http|tcp)://[0-9.:/]*)</value>
-  </data>
-  <data name="EmulatorRoleRunningMessage" xml:space="preserve">
-    <value>Role is running at {0}</value>
-  </data>
-  <data name="EnableAzureRemoteDesktop_Enable_NoRoles" xml:space="preserve">
-    <value>Cannot enable Remote Desktop because there are no roles</value>
-  </data>
-  <data name="EnableAzureRemoteDesktopCommand_Enable_NeedComplexPassword" xml:space="preserve">
-    <value>Password is not complex enough. The password should include at least three different kinds of characters (uppercase, lowercase, digits, and other symbols) and be at least six characters long.</value>
-  </data>
-  <data name="EnableMemcacheMessage" xml:space="preserve">
-    <value>Memcache is enabled for role '{0}' using cache role '{1}' to connect use server name 'localhost_{0}' with port {2}.</value>
   </data>
   <data name="EnableRemoteDesktop_FriendlyCertificateName" xml:space="preserve">
     <value>Microsoft Azure Certificate</value>
@@ -1243,9 +1170,6 @@ Please follow these steps in the portal:
   </data>
   <data name="RoleTypeDoesNotExist" xml:space="preserve">
     <value>Role type {0} doesn't exist</value>
-  </data>
-  <data name="RunInEmulatorArguments" xml:space="preserve">
-    <value>"{0}" "{1}" {2} /useiisexpress</value>
   </data>
   <data name="RuntimeDeploymentLocationError" xml:space="preserve">
     <value>public static Dictionary&lt;string, Location&gt; ReverseLocations { get; private set; }</value>
