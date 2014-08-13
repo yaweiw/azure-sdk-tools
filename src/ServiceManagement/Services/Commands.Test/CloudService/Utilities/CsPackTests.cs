@@ -24,6 +24,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
+    [Ignore]
     public class CsPackTests : TestBase
     {
         private const string serviceName = "AzureService";

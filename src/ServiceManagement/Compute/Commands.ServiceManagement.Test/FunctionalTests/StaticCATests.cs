@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
-    using Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
     using System;
     using System.Collections.Generic;
@@ -60,7 +60,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         }
 
         #region Test cases
-        [TestMethod(), TestCategory("Sequential"), TestProperty("Feature", "IAAS"), Priority(0), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove,Test)-AzureStaticVnetIP)")]
+        [TestMethod(), TestCategory(Category.Sequential), TestProperty("Feature", "IAAS"), Priority(0), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove,Test)-AzureStaticVnetIP)")]
         public void DeployVMWithStaticCATest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -97,7 +97,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-        [TestMethod(), TestCategory("Sequential"), TestProperty("Feature", "IAAS"), Priority(0), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove,Test)-AzureStaticVnetIP)")]
+        [TestMethod(), TestCategory(Category.Sequential), TestProperty("Feature", "IAAS"), Priority(0), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove,Test)-AzureStaticVnetIP)")]
         public void AddVMWithStaticCATest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -111,7 +111,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 CheckAvailabilityofIpAddress(vnet1, ipaddress);
 
                 //Create an IaaS VM
-                vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, vmName1, serviceName, imageName, InstanceSize.Small.ToString(), username, password, VNetName, new string[1] { StaticCASubnet0 }, AffinityGroup);
+                vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, vmName1, serviceName, imageName, new string[1] { StaticCASubnet0 }, InstanceSize.Small, username, password, VNetName, AffinityGroup);
 
                 //Add an IaaS VM with a static CA
                 var vm = CreatIaasVMObject(vmName2, ipaddress, StaticCASubnet0);
@@ -138,7 +138,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-        [TestMethod(), TestCategory("Sequential"), TestProperty("Feature", "IAAS"), Priority(0), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove,Test)-AzureStaticVnetIP)")]        
+        [TestMethod(), TestCategory(Category.Sequential), TestProperty("Feature", "IAAS"), Priority(0), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove,Test)-AzureStaticVnetIP)")]        
         public void UpdateVMWithNewStaticCATest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -154,7 +154,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 Console.WriteLine("ipaddress {0} is available", ipaddress);
 
                 //Create an IaaS VM
-                vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, vmName1, serviceName, imageName, InstanceSize.Small.ToString(), username, password, VNetName, new string[1] { StaticCASubnet0 }, AffinityGroup);
+                vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, vmName1, serviceName, imageName, new string[1] { StaticCASubnet0 }, InstanceSize.Small, username, password, VNetName, AffinityGroup);
 
                 //Update the IaaS VM with a static CA
                 var vmRoleContext = vmPowershellCmdlets.GetAzureVM(vmName1, serviceName);
@@ -169,7 +169,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 //Verify that the first DIP is released.
                 Console.WriteLine("Checking for the availability of non static IpAdress after giving a static CA to the VM");
 
-                Thread.Sleep(5000);
+                Thread.Sleep(TimeSpan.FromMinutes(2));
 
                 var availabilityContext = vmPowershellCmdlets.TestAzureStaticVNetIP(vnet1, nonStaticIpAddress);
 
@@ -184,7 +184,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-        [TestMethod(), TestCategory("Sequential"), TestProperty("Feature", "IAAS"), Priority(0), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove,Test)-AzureStaticVnetIP)")]
+        [TestMethod(), TestCategory(Category.Sequential), TestProperty("Feature", "IAAS"), Priority(0), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove,Test)-AzureStaticVnetIP)")]
         public void UpdateToStaticCATest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -194,7 +194,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             try
             {
                 //Create an IaaS VM
-                vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, vmName1, serviceName, imageName, InstanceSize.Small.ToString(), username, password, VNetName, new string[1] { StaticCASubnet0 }, AffinityGroup);
+                vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, vmName1, serviceName, imageName, new string[1] { StaticCASubnet0 }, InstanceSize.Small, username, password, VNetName, AffinityGroup);
 
                 //Update the IaaS VM with a static CA
                 var vmRoleContext = vmPowershellCmdlets.GetAzureVM(vmName1, serviceName);
@@ -215,7 +215,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-        [TestMethod(), TestCategory("Sequential"), TestProperty("Feature", "IAAS"), Priority(0), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove,Test)-AzureStaticVnetIP)")]
+        [TestMethod(), TestCategory(Category.Sequential), TestProperty("Feature", "IAAS"), Priority(0), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove,Test)-AzureStaticVnetIP)")]
         public void UnreserveStaticCATest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -258,7 +258,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-        [TestMethod(), TestCategory("Sequential"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove,Test)-AzureStaticVnetIP)")]
+        [TestMethod(), TestCategory(Category.Sequential), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove,Test)-AzureStaticVnetIP)")]
         public void TryToReserveExistingCATest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -274,7 +274,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 string nonStaticIpAddress = string.Empty;
 
                 //Create an IaaS VM
-                vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, vmName1, serviceName, imageName, InstanceSize.Small.ToString(), username, password, VNetName, new string[1] { StaticCASubnet0 }, AffinityGroup);
+                vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, vmName1, serviceName, imageName, new string[1] { StaticCASubnet0 }, InstanceSize.Small, username, password, VNetName, AffinityGroup);
                 //Get the DIP of the VM (Get-AzureVM)
                 var vmRoleContext = vmPowershellCmdlets.GetAzureVM(vmName1, serviceName);
                 nonStaticIpAddress = vmRoleContext.IpAddress;
@@ -337,7 +337,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-        [TestMethod(), TestCategory("Sequential"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove,Test)-AzureStaticVnetIP)")]
+        [TestMethod(), TestCategory(Category.Sequential), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove,Test)-AzureStaticVnetIP)")]
         public void StopStayProvisionedVMWithStaticCATest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -374,7 +374,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-        [TestMethod(), TestCategory("Sequential"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove,Test)-AzureStaticVnetIP)")]
+        [TestMethod(), TestCategory(Category.Sequential), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove,Test)-AzureStaticVnetIP)")]
         public void StopDeallocateVMWithStaticCATest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -411,7 +411,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-        [TestMethod(), TestCategory("Sequential"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove,Test)-AzureStaticVnetIP)")]
+        [TestMethod(), TestCategory(Category.Sequential), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove,Test)-AzureStaticVnetIP)")]
         public void UpdateVMWithStaticCA()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -449,7 +449,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-        [TestMethod(), TestCategory("Sequential"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove,Test)-AzureStaticVnetIP)")]
+        [TestMethod(), TestCategory(Category.Sequential), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove,Test)-AzureStaticVnetIP)")]
         public void StaticCAExhautionTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);

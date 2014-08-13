@@ -16,7 +16,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
 {
     using Commands.Common.Properties;
     using Commands.Utilities.Common;
-    using ServiceManagement;
+    using Commands.ServiceManagement.Model;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -27,7 +27,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
         // To Do:
         // Add invalid service/storage account name data: http://social.msdn.microsoft.com/Forums/en-US/windowsazuredevelopment/thread/75b05a42-cd3b-4ab8-aa26-dc8366ede115
         // Add invalid deployment name data
-        public static string Subscription1 = "Windows Azure Sandbox 9-220";
+        public static string Subscription1 = "Microsoft Azure Sandbox 9-220";
         public static string SampleSubscription1 = "Sample Subscription 1";
 
         public static List<string> ValidServiceNames { get; private set; }
@@ -68,7 +68,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
         static Data()
         {
             AzureAppDir = Path.Combine(Directory.GetCurrentDirectory(), Resources.AzureDirectoryName);
-            AzureSdkAppDir = Path.Combine(Directory.GetCurrentDirectory(), "Windows Azure PowerShell");
+            AzureSdkAppDir = Path.Combine(Directory.GetCurrentDirectory(), "Microsoft Azure PowerShell");
             TestResultDirectory = FileUtilities.GetAssemblyDirectory();
 
             ValidServiceNames = new List<string>();
@@ -144,7 +144,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
             myStore.StorageServiceKeys.Secondary = "=w8uidjew4378891289";
             myStore.StorageServiceProperties = new StorageServiceProperties();
             myStore.StorageServiceProperties.Location = "North Central US";
-            myStore.StorageServiceProperties.Status = StorageServiceStatus.Created;
+            myStore.StorageServiceProperties.Status = "Created";
             ValidStorageService.Add(myStore);
 
             StorageService testStore = new StorageService();
@@ -154,7 +154,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
             testStore.StorageServiceKeys.Secondary = "==0--3210-//121313233290sd";
             testStore.StorageServiceProperties = new StorageServiceProperties();
             testStore.StorageServiceProperties.Location = "East Asia";
-            testStore.StorageServiceProperties.Status = StorageServiceStatus.Creating;
+            testStore.StorageServiceProperties.Status = "Creating";
             ValidStorageService.Add(testStore);
 
             StorageService MyCompanyStore = new StorageService();
@@ -164,7 +164,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
             MyCompanyStore.StorageServiceKeys.Secondary = "023432dfelfema1=";
             MyCompanyStore.StorageServiceProperties = new StorageServiceProperties();
             MyCompanyStore.StorageServiceProperties.Location = "North Europe";
-            MyCompanyStore.StorageServiceProperties.Status = StorageServiceStatus.ResolvingDns;
+            MyCompanyStore.StorageServiceProperties.Status = "Suspending";
             ValidStorageService.Add(MyCompanyStore);
         }
 

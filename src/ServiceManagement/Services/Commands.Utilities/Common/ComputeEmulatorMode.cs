@@ -16,7 +16,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 {
     public enum ComputeEmulatorMode
     {
-        Full,
-        Express
+        Express,
+        Full
     }
 }

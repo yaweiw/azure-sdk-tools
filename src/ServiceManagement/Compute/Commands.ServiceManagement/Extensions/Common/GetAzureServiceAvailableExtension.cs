@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     using Utilities.Common;
 
     /// <summary>
-    /// Get Windows Azure Service Extension.
+    /// Get Microsoft Azure Service Extension.
     /// </summary>
     [Cmdlet(
         VerbsCommon.Get,
@@ -114,14 +114,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         {
             ServiceManagementProfile.Initialize();
 
-            var truePred = (Func<HostedServiceListAvailableExtensionsResponse.ExtensionImage, bool>)(s => true);
+            var truePred = (Func<ExtensionImage, bool>)(s => true);
 
-            Func<string, Func<HostedServiceListAvailableExtensionsResponse.ExtensionImage, string>,
-                 Func<HostedServiceListAvailableExtensionsResponse.ExtensionImage, bool>> predFunc =
+            Func<string, Func<ExtensionImage, string>,
+                 Func<ExtensionImage, bool>> predFunc =
                  (x, f) => string.IsNullOrEmpty(x) ? truePred : s => string.Equals(x, f(s), StringComparison.OrdinalIgnoreCase);
 
             var typePred = predFunc(this.ExtensionName, s => s.Type);
-            var nameSpacePred = predFunc(this.ProviderNamespace, s => s.ProviderNamespace);
+            var nameSpacePred = predFunc(this.ProviderNamespace, s => s.ProviderNameSpace);
             var versionPred = predFunc(this.Version, s => s.Version);
 
             ExecuteClientActionNewSM(null,
@@ -138,7 +138,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
                     }
                 },
                 (op, response) => response.Where(typePred).Where(nameSpacePred).Where(versionPred).Select(
-                     extension => ContextFactory<HostedServiceListAvailableExtensionsResponse.ExtensionImage, ExtensionImageContext>(extension, op)));
+                     extension => ContextFactory<ExtensionImage, ExtensionImageContext>(extension, op)));
         }
 
         protected override void OnProcessRecord()

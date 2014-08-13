@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
     using DatabaseCopyModel = Microsoft.WindowsAzure.Commands.SqlDatabase.Model.DatabaseCopy;
 
     /// <summary>
-    /// Start a copy operation for a Windows Azure SQL Database in the given server context.
+    /// Start a copy operation for a Microsoft Azure SQL Database in the given server context.
     /// </summary>
     [Cmdlet(VerbsLifecycle.Start, "AzureSqlDatabaseCopy", SupportsShouldProcess = true,
         ConfirmImpact = ConfirmImpact.Low)]
@@ -105,10 +105,19 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         /// Gets or sets a value indicating whether to make this a continuous copy.
         /// </summary>
         [Parameter(Mandatory = true, ParameterSetName = ByInputObjectContinuous,
-            HelpMessage = "The name of the partner database.")]
+            HelpMessage = "Whether to make this a continuous copy.")]
         [Parameter(Mandatory = true, ParameterSetName = ByDatabaseNameContinuous,
-            HelpMessage = "The name of the partner database.")]
+            HelpMessage = "Whether to make this a continuous copy.")]
         public SwitchParameter ContinuousCopy { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this is an offline secondary copy.
+        /// </summary>
+        [Parameter(Mandatory = false, ParameterSetName = ByInputObjectContinuous,
+            HelpMessage = "Whether this is an offline secondary copy.")]
+        [Parameter(Mandatory = false, ParameterSetName = ByDatabaseNameContinuous,
+            HelpMessage = "Whether this is an offline secondary copy.")]
+        public SwitchParameter OfflineSecondary { get; set; }
 
         /// <summary>
         /// Gets or sets the switch to not confirm on the start of the database copy.
@@ -185,7 +194,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                     databaseName,
                     partnerServerName,
                     partnerDatabaseName,
-                    this.ContinuousCopy.IsPresent);
+                    this.ContinuousCopy.IsPresent,
+                    this.OfflineSecondary.IsPresent);
 
                 this.WriteObject(databaseCopy, true);
             }

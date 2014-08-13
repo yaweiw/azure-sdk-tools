@@ -151,13 +151,13 @@
     <value>Role has been created at {0}\{1}.</value>
   </data>
   <data name="AddRoleMessageCreateNode" xml:space="preserve">
-    <value>Role has been created at {0}\{1}. For easy access to Windows Azure services from your application code, install the Windows Azure client library for Node.js by running ‘npm install azure’.</value>
+    <value>Role has been created at {0}\{1}. For easy access to Microsoft Azure services from your application code, install the Microsoft Azure client library for Node.js by running ‘npm install azure’.</value>
   </data>
   <data name="AddRoleMessageCreatePHP" xml:space="preserve">
-    <value>Role has been created at {0}\{1}. For easy access to Windows Azure services from your application code, install the Windows Azure client library for PHP by running "pear WindowsAzure/WindowsAzure".</value>
+    <value>Role has been created at {0}\{1}. For easy access to Microsoft Azure services from your application code, install the Microsoft Azure client library for PHP by running "pear WindowsAzure/WindowsAzure".</value>
   </data>
   <data name="AddRoleMessageCreatePython" xml:space="preserve">
-    <value>Role has been created at {0}\{1}. For easy access to Windows Azure services from your application code, install the Windows Azure client library for Python by running "pip windowsazure".</value>
+    <value>Role has been created at {0}\{1}. For easy access to Microsoft Azure services from your application code, install the Microsoft Azure client library for Python by running "pip windowsazure".</value>
   </data>
   <data name="AddRoleMessageInsufficientPermissions" xml:space="preserve">
     <value>Unable to set role permissions. Please give the 'Network Service' user 'Read &amp; execute' and 'Modify' permissions to the role folder, or run PowerShell as an Administrator</value>
@@ -178,7 +178,7 @@
     <value>Azure Emulator is not installed and is required</value>
   </data>
   <data name="AzureEmulatorPathPortion" xml:space="preserve">
-    <value>Windows Azure Emulator\emulator</value>
+    <value>Azure Emulator\emulator</value>
   </data>
   <data name="AzureEmulatorRegistryKey" xml:space="preserve">
     <value>SOFTWARE\Microsoft\Windows Azure Emulator</value>
@@ -190,10 +190,7 @@
     <value>AZURE_PORTAL_URL</value>
   </data>
   <data name="AzureSdkDirectory" xml:space="preserve">
-    <value>Windows Azure SDK\{0}\</value>
-  </data>
-  <data name="AzureSdkDirectoryName" xml:space="preserve">
-    <value>Windows Azure SDK Deployment Cmdlets</value>
+    <value>Azure SDK\{0}\</value>
   </data>
   <data name="AzureSdkInstallPathRegistryKeyValue" xml:space="preserve">
     <value>InstallPath</value>
@@ -292,7 +289,7 @@
     <value>Deployment for service {0} with {1} slot doesn't exist</value>
   </data>
   <data name="CannotFindRole" xml:space="preserve">
-    <value>Can't find valid Windows Azure role in current directory {0}</value>
+    <value>Can't find valid Microsoft Azure role in current directory {0}</value>
   </data>
   <data name="CannotFindServiceConfigurationFile" xml:space="preserve">
     <value>service {0} configuration file (ServiceConfiguration.Cloud.cscfg) is either null or doesn't exist</value>
@@ -370,58 +367,6 @@
   <data name="CreateWebsiteFailed" xml:space="preserve">
     <value>Creating the website failed. If this is the first website for this subscription, please create it using the management portal instead.</value>
   </data>
-  <data name="CreatingPackageMessage" xml:space="preserve">
-    <value>Creating {0} package...</value>
-  </data>
-  <data name="CsEncrypt_CreateCertificate_CreationFailed" xml:space="preserve">
-    <value>CsEncrypt.exe failed to generate a certificate ({0})</value>
-  </data>
-  <data name="CsEncryptCreateCertificateArg" xml:space="preserve">
-    <value>New-PasswordEncryptionCertificate -FriendlyName "Windows Azure Certificate"</value>
-  </data>
-  <data name="CsEncryptExe" xml:space="preserve">
-    <value>csencrypt.exe</value>
-  </data>
-  <data name="CsPackCloudArg" xml:space="preserve">
-    <value>"{0}\ServiceDefinition.csdef" /out:"{0}\cloud_package.cspkg" {1} {2}</value>
-  </data>
-  <data name="CsPackExe" xml:space="preserve">
-    <value>cspack.exe</value>
-  </data>
-  <data name="CsPackLocalArg" xml:space="preserve">
-    <value>"{0}\ServiceDefinition.csdef" /out:"{0}\local_package.csx" {1} {2} /copyOnly</value>
-  </data>
-  <data name="CsRun_StartCsRunProcess_UnexpectedFailure" xml:space="preserve">
-    <value>An unexpected failure occurred.  Details:
-{0}</value>
-  </data>
-  <data name="CsRunEmulatorExpressArg" xml:space="preserve">
-    <value>/useemulatorexpress</value>
-  </data>
-  <data name="CsRunExe" xml:space="preserve">
-    <value>csrun.exe</value>
-  </data>
-  <data name="CsRunLanuchBrowserArg" xml:space="preserve">
-    <value>/launchbrowser</value>
-  </data>
-  <data name="CsRunRemoveAllDeploymentsArg" xml:space="preserve">
-    <value>/removeall</value>
-  </data>
-  <data name="CsRunRemoveDeploymentArg" xml:space="preserve">
-    <value>/remove:{0}</value>
-  </data>
-  <data name="CsRunStartComputeEmulatorArg" xml:space="preserve">
-    <value>/devfabric</value>
-  </data>
-  <data name="CsRunStartStorageEmulatorArg" xml:space="preserve">
-    <value>/devstore</value>
-  </data>
-  <data name="CsRunStopEmulatorArg" xml:space="preserve">
-    <value>/devfabric:shutdown</value>
-  </data>
-  <data name="CsRunUpdateDeploymentArg" xml:space="preserve">
-    <value>/update:{0};{1}</value>
-  </data>
   <data name="DataCacheClientsType" xml:space="preserve">
     <value>Microsoft.ApplicationServer.Caching.DataCacheClientsSection, Microsoft.ApplicationServer.Caching.Core</value>
   </data>
@@ -477,29 +422,8 @@
   <data name="DnsDoesNotExist" xml:space="preserve">
     <value>The provided dns {0} doesn't exist</value>
   </data>
-  <data name="EmulatedKey" xml:space="preserve">
-    <value>EMULATED</value>
-  </data>
-  <data name="EmulatorConnectionString" xml:space="preserve">
-    <value>UseDevelopmentStorage=true</value>
-  </data>
-  <data name="EmulatorOutputSitesRegex" xml:space="preserve">
-    <value>((http|tcp)://[0-9.:/]*)</value>
-  </data>
-  <data name="EmulatorRoleRunningMessage" xml:space="preserve">
-    <value>Role is running at {0}</value>
-  </data>
-  <data name="EnableAzureRemoteDesktop_Enable_NoRoles" xml:space="preserve">
-    <value>Cannot enable Remote Desktop because there are no roles</value>
-  </data>
-  <data name="EnableAzureRemoteDesktopCommand_Enable_NeedComplexPassword" xml:space="preserve">
-    <value>Password is not complex enough. The password should include at least three different kinds of characters (uppercase, lowercase, digits, and other symbols) and be at least six characters long.</value>
-  </data>
-  <data name="EnableMemcacheMessage" xml:space="preserve">
-    <value>Memcache is enabled for role '{0}' using cache role '{1}' to connect use server name 'localhost_{0}' with port {2}.</value>
-  </data>
   <data name="EnableRemoteDesktop_FriendlyCertificateName" xml:space="preserve">
-    <value>Windows Azure Certificate</value>
+    <value>Microsoft Azure Certificate</value>
   </data>
   <data name="EndPointNotFoundForBlobStorage" xml:space="preserve">
     <value>Endpoint can't be retrieved for storage account</value>
@@ -531,7 +455,7 @@
     <comment>WAPackIaaS</comment>
   </data>
   <data name="ExpiredRefreshToken" xml:space="preserve">
-    <value>Your Windows Azure credential in the Windows PowerShell session has expired. Please use Add-AzureAccount to login again.</value>
+    <value>Your Microsoft Azure credential in the Windows PowerShell session has expired. Please use Add-AzureAccount to login again.</value>
   </data>
   <data name="FailedJobErrorMessage" xml:space="preserve">
     <value>Job Id {0} failed. Error: {1}, ExceptionDetails: {2}</value>
@@ -541,7 +465,7 @@
     <value>The HTTP request was forbidden with client authentication scheme 'Anonymous'.</value>
   </data>
   <data name="FirstPurchaseMessage" xml:space="preserve">
-    <value>This add-on requires you to purchase the first instance through the Windows Azure Portal. Subsequent purchases can be performed through PowerShell.</value>
+    <value>This add-on requires you to purchase the first instance through the Microsoft Azure Portal. Subsequent purchases can be performed through PowerShell.</value>
   </data>
   <data name="GatewayOperationStatus" xml:space="preserve">
     <value>Operation Status:</value>
@@ -550,7 +474,7 @@
     <value>Resources\Scaffolding\General</value>
   </data>
   <data name="GetAllAddOnsWaitMessage" xml:space="preserve">
-    <value>Getting all available Windows Azure Add-Ons, this may take few minutes...</value>
+    <value>Getting all available Microsoft Azure Add-Ons, this may take few minutes...</value>
   </data>
   <data name="GetStorageKeysHeader" xml:space="preserve">
     <value>Name{0}Primary Key{0}Seconday Key</value>
@@ -637,7 +561,7 @@
     <value>File {0} has invalid characters</value>
   </data>
   <data name="InvalidGitCredentials" xml:space="preserve">
-    <value>You must create your git publishing credentials using the Windows Azure portal.
+    <value>You must create your git publishing credentials using the Microsoft Azure portal.
 Please follow these steps in the portal:
 1. On the left side open "Web Sites"
 2. Click on any website
@@ -790,10 +714,10 @@ Please follow these steps in the portal:
     <value>uri</value>
   </data>
   <data name="ManifestUri" xml:space="preserve">
-    <value>http://az413943.vo.msecnd.net/node/runtimemanifest_0.7.3.xml</value>
+    <value>http://az413943.vo.msecnd.net/node/runtimemanifest_0.7.4.1.xml</value>
   </data>
   <data name="MaxSupportAzureSdkVersion" xml:space="preserve">
-    <value>v2.3</value>
+    <value>v2.4</value>
   </data>
   <data name="MemcacheEndpointName" xml:space="preserve">
     <value>memcache_default</value>
@@ -802,7 +726,7 @@ Please follow these steps in the portal:
     <value>11211</value>
   </data>
   <data name="MinSupportAzureSdkVersion" xml:space="preserve">
-    <value>v2.3</value>
+    <value>v2.4</value>
   </data>
   <data name="MissingPythonPreReq" xml:space="preserve">
     <value>Python 2.7 is not installed.  Please install it as well as Django 1.4.</value>
@@ -872,7 +796,7 @@ use and privacy statement at {0} and (c) agree to sharing my contact information
     <value>There is no default subscription set, please set a default subscription by running Set-AzureSubscription -Default &lt;subscription name&gt;</value>
   </data>
   <data name="NodeModulesPath" xml:space="preserve">
-    <value>Microsoft SDKs\Windows Azure\Nodejs\Nov2011</value>
+    <value>Microsoft SDKs\Azure\Nodejs\Nov2011</value>
   </data>
   <data name="NodeProgramFilesFolderName" xml:space="preserve">
     <value>nodejs</value>
@@ -981,7 +905,7 @@ use and privacy statement at {0} and (c) agree to sharing my contact information
     <value>Installing PHP version {0} for Role '{1}' (the PHP version locally installed is: {2})</value>
   </data>
   <data name="PortalInstructions" xml:space="preserve">
-    <value>You must create your first web site using the Windows Azure portal.
+    <value>You must create your first web site using the Microsoft Azure portal.
 Please follow these steps in the portal:
 1. At the bottom of the page, click on New &gt; Web Site &gt; Quick Create
 2. Type {0} in the URL field
@@ -1038,7 +962,7 @@ Please follow these steps in the portal:
     <value>Preparing deployment for {0} with Subscription ID: {1}...</value>
   </data>
   <data name="PublishServiceStartMessage" xml:space="preserve">
-    <value>Publishing {0} to Windows Azure. This may take several minutes...</value>
+    <value>Publishing {0} to Microsoft Azure. This may take several minutes...</value>
   </data>
   <data name="PublishSettings" xml:space="preserve">
     <value>publish settings</value>
@@ -1095,7 +1019,7 @@ Please follow these steps in the portal:
     <value>Remove Add-On Confirmation</value>
   </data>
   <data name="RemoveAddOnMessage" xml:space="preserve">
-    <value>If you delete this add-on, your data may be deleted and the operation may not be undone.  You may have to purchase it again from the Windows Azure Store to use it. The price of the add-on  may not be refunded. Are you sure you want to delete this add-on? Enter “Yes” to confirm.</value>
+    <value>If you delete this add-on, your data may be deleted and the operation may not be undone.  You may have to purchase it again from the Microsoft Azure Store to use it. The price of the add-on  may not be refunded. Are you sure you want to delete this add-on? Enter “Yes” to confirm.</value>
   </data>
   <data name="RemoveAzureBGPPeeringFailed" xml:space="preserve">
     <value>Remove-AzureBGPPeering Operation failed.</value>
@@ -1246,9 +1170,6 @@ Please follow these steps in the portal:
   </data>
   <data name="RoleTypeDoesNotExist" xml:space="preserve">
     <value>Role type {0} doesn't exist</value>
-  </data>
-  <data name="RunInEmulatorArguments" xml:space="preserve">
-    <value>"{0}" "{1}" {2} /useiisexpress</value>
   </data>
   <data name="RuntimeDeploymentLocationError" xml:space="preserve">
     <value>public static Dictionary&lt;string, Location&gt; ReverseLocations { get; private set; }</value>
@@ -1595,5 +1516,22 @@ use and privacy statement at &lt;url&gt; and (c) agree to sharing my contact inf
   </data>
   <data name="SetTrafficManagerProfileAmbiguous" xml:space="preserve">
     <value>Ambiguous operation: the profile name specified doesn't match the name of the profile object.</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>&lt;NONE&gt;</value>
+  </data>
+  <data name="ServiceManagementClientExceptionStringFormat" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ServiceManagementClientExceptionStringFormat1" xml:space="preserve">
+    <value>"An exception occurred when calling the ServiceManagement API. HTTP Status Code: {0}. Service Management Error Code: {1}. Message: {2}. Operation Tracking ID: {3}."</value>
+    <comment>{0} is the HTTP status code. {1} is the Service Management Error Code. {2} is the Service Management Error message. {3} is the operation tracking ID.</comment>
+  </data>
+  <data name="UnableToDecodeBase64String" xml:space="preserve">
+    <value>Unable to decode string from base 64. Please make sure the string is correctly encoded: {0}.</value>
+    <comment>{0} is the string that is not in a valid base 64 format.</comment>
+  </data>
+  <data name="CredentialOrganizationIdMessage" xml:space="preserve">
+    <value>-Credential parameter can only be used with Organization ID credentials. For more information, please refer to http://go.microsoft.com/fwlink/?linkid=331007&amp;clcid=0x409 for more information about the difference between an organizational account and a Microsoft account.</value>
   </data>
 </root>

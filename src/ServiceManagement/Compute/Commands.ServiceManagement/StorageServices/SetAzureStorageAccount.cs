@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
     using Utilities.Common;
 
     /// <summary>
-    /// Updates the label and/or the description for a storage account in Windows Azure.
+    /// Updates the label and/or the description for a storage account in Microsoft Azure.
     /// </summary>
     [Cmdlet(VerbsCommon.Set, "AzureStorageAccount"), OutputType(typeof(ManagementOperationContext))]
     public class SetAzureStorageAccountCommand : ServiceManagementBaseCmdlet

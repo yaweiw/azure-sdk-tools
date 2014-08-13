@@ -19,7 +19,7 @@ namespace Microsoft.Azure.Commands.ManagedCache
     using System.Management.Automation;
 
     /// <summary>
-    /// Retrieves a list of Windows Azure SQL Database servers in the selected subscription.
+    /// Retrieves a list of Microsoft Azure SQL Database servers in the selected subscription.
     /// </summary>
     [Cmdlet(VerbsCommon.Set, "AzureManagedCache"), OutputType(typeof(PSCacheService))]
     public class SetAzureManagedCache : ManagedCacheCmdletBase, IDynamicParameters

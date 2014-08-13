@@ -257,7 +257,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 Assert.AreEqual(1, powershell.Streams.Error.Count, "Expecting errors");
                 Assert.AreEqual(2, powershell.Streams.Warning.Count, "Expecting tracing IDs");
                 Assert.AreEqual(
-                    "Database 'testserver.testdb3' not found.",
+                    "Database 'myserver01.testdb3' not found.",
                     powershell.Streams.Error.First().Exception.Message,
                     "Unexpected error message");
                 Assert.IsTrue(

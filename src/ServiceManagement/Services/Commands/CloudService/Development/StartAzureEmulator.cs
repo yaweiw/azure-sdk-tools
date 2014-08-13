@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.CloudService.Development
 {
+    using System;
     using System.IO;
     using System.Management.Automation;
     using System.Security.Principal;
@@ -53,8 +54,16 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
                     WriteWarning(warning);
                 }
                 WriteVerbose(Resources.StoppedEmulatorMessage);
-                WriteVerbose(string.Format(Resources.RemovePackage, cloudServiceProject.Paths.LocalPackage));
-                Directory.Delete(cloudServiceProject.Paths.LocalPackage, true);
+                string packagePath = cloudServiceProject.Paths.LocalPackage;
+                WriteVerbose(string.Format(Resources.RemovePackage, packagePath));
+                try
+                {
+                    Directory.Delete(packagePath, true);
+                }
+                catch (IOException)
+                {
+                    throw new InvalidOperationException(string.Format(Resources.FailedToCleanUpLocalPackage, packagePath));
+                }
             }
 
             WriteVerbose(string.Format(Resources.CreatingPackageMessage, "local"));

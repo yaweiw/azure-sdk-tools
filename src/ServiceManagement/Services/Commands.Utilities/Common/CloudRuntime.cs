@@ -15,7 +15,7 @@
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 {
     using AzureTools;
-    using Commands.Common.Properties;
+    using Commands.Utilities.Properties;
     using Common;
     using Common.XmlSchema.ServiceDefinitionSchema;
     using System;

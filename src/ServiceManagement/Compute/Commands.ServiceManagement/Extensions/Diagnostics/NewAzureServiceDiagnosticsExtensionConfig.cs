@@ -18,15 +18,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     using System.Management.Automation;
     using System.Security.Cryptography.X509Certificates;
     using System.Xml;
+    using Microsoft.WindowsAzure.Commands.Common.Storage;
 
     /// <summary>
-    /// New Windows Azure Service Diagnostics Extension.
+    /// New Microsoft Azure Service Diagnostics Extension.
     /// </summary>
-    [Cmdlet(VerbsCommon.New, "AzureServiceDiagnosticsExtensionConfig", DefaultParameterSetName = "NewExtension"), OutputType(typeof(ExtensionConfigurationInput))]
+    [Cmdlet(VerbsCommon.New, "AzureServiceDiagnosticsExtensionConfig", DefaultParameterSetName = NewExtensionParameterSetName), OutputType(typeof(ExtensionConfigurationInput))]
     public class NewAzureServiceDiagnosticsExtensionConfigCommand : BaseAzureServiceDiagnosticsExtensionCmdlet
     {
-        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, ParameterSetName = "NewExtension", HelpMessage = "Default All Roles, or specify ones for Named Roles.")]
-        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Default All Roles, or specify ones for Named Roles.")]
+        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, ParameterSetName = NewExtensionParameterSetName, HelpMessage = ExtensionParameterPropertyHelper.RoleHelpMessage)]
+        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, ParameterSetName = NewExtensionUsingThumbprintParameterSetName, HelpMessage = ExtensionParameterPropertyHelper.RoleHelpMessage)]
         [ValidateNotNullOrEmpty]
         public override string[] Role
         {
@@ -34,7 +35,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, ParameterSetName = "NewExtension", HelpMessage = "X509Certificate used to encrypt password.")]
+        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, ParameterSetName = NewExtensionParameterSetName, HelpMessage = ExtensionParameterPropertyHelper.X509CertificateHelpMessage)]
         [ValidateNotNullOrEmpty]
         public override X509Certificate2 X509Certificate
         {
@@ -42,7 +43,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, Mandatory = true, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Thumbprint of a certificate used for encryption.")]
+        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, Mandatory = true, ParameterSetName = NewExtensionUsingThumbprintParameterSetName, HelpMessage = ExtensionParameterPropertyHelper.CertificateThumbprintHelpMessage)]
         [ValidateNotNullOrEmpty]
         public override string CertificateThumbprint
         {
@@ -50,8 +51,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 2, ValueFromPipelineByPropertyName = true, ParameterSetName = "NewExtension", HelpMessage = "Algorithm associated with the Thumbprint.")]
-        [Parameter(Position = 2, ValueFromPipelineByPropertyName = true, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Algorithm associated with the Thumbprint.")]
+        [Parameter(Position = 2, ValueFromPipelineByPropertyName = true, ParameterSetName = NewExtensionParameterSetName, HelpMessage = ExtensionParameterPropertyHelper.ThumbprintAlgorithmHelpMessage)]
+        [Parameter(Position = 2, ValueFromPipelineByPropertyName = true, ParameterSetName = NewExtensionUsingThumbprintParameterSetName, HelpMessage = ExtensionParameterPropertyHelper.ThumbprintAlgorithmHelpMessage)]
         [ValidateNotNullOrEmpty]
         public override string ThumbprintAlgorithm
         {
@@ -59,19 +60,19 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 3, ValueFromPipelineByPropertyName = true, Mandatory = true, ParameterSetName = "NewExtension", HelpMessage = "Diagnostics Storage Name")]
-        [Parameter(Position = 3, ValueFromPipelineByPropertyName = true, Mandatory = true, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Diagnostics Storage Name")]
+        [Parameter(Position = 3, ValueFromPipelineByPropertyName = true, Mandatory = true, ParameterSetName = NewExtensionParameterSetName, HelpMessage = "Diagnostics Storage Name")]
+        [Parameter(Position = 3, ValueFromPipelineByPropertyName = true, Mandatory = true, ParameterSetName = NewExtensionUsingThumbprintParameterSetName, HelpMessage = "Diagnostics Storage Name")]
         [ValidateNotNullOrEmpty]
-        public override string StorageAccountName
+        public override AzureStorageContext StorageContext
         {
             get;
             set;
         }
 
-        [Parameter(Position = 4, ValueFromPipelineByPropertyName = true, ParameterSetName = "NewExtension", HelpMessage = "Diagnostics Configuration")]
-        [Parameter(Position = 4, ValueFromPipelineByPropertyName = true, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Diagnostics Configuration")]
+        [Parameter(Position = 4, ValueFromPipelineByPropertyName = true, ParameterSetName = NewExtensionParameterSetName, HelpMessage = "Diagnostics Configuration")]
+        [Parameter(Position = 4, ValueFromPipelineByPropertyName = true, ParameterSetName = NewExtensionUsingThumbprintParameterSetName, HelpMessage = "Diagnostics Configuration")]
         [ValidateNotNullOrEmpty]
-        public override XmlDocument DiagnosticsConfiguration
+        public override string DiagnosticsConfigurationPath
         {
             get;
             set;

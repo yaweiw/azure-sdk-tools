@@ -24,7 +24,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System.Collections.Generic;
     using System.Linq;
     using System.Net;
-    using System.Net.Http;
     using System.Security.Cryptography.X509Certificates;
     using WindowsAzure.Common;
 
@@ -88,6 +87,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// Event that's trigged when a new client has been created.
         /// </summary>
         public static event EventHandler<ClientCreatedArgs> OnClientCreated;
+
+        public IReadOnlyCollection<string> RegisteredResourceProvidersList
+        {
+            get { return RegisteredResourceProviders.AsReadOnly(); }
+        }
 
         public string CurrentStorageAccountName
         {
@@ -209,7 +213,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         public TClient CreateClientFromResourceManagerEndpoint<TClient>() where TClient : ServiceClient<TClient>
         {
-            if (ResourceManagerEndpoint == null)
+            if (ResourceManagerEndpoint == null || string.IsNullOrEmpty(ActiveDirectoryUserId))
             {
                 throw new ArgumentException(Resources.InvalidSubscriptionState);
             }
@@ -238,42 +242,33 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         public TClient CreateClient<TClient>(bool registerProviders, params object[] parameters) where TClient : ServiceClient<TClient>
         {
-            List<Type> types = new List<Type>();
-            foreach (object obj in parameters)
-            {
-                types.Add(obj.GetType());
-            }
+            return AzureSession.Current.ManagementClientHelper.CreateClient<TClient>(addRestLogHandlerToAllClients, OnClientCreated, parameters);
+        }
 
-            var constructor = typeof(TClient).GetConstructor(types.ToArray()); 
+        public void RegisterCustomProviders(IEnumerable<Provider> providers)
+        {
+            var requiredProviders = providers.Select(p => p.Namespace.ToLower())
+                                              .Where(p => !RegisteredResourceProviders.Contains(p))
+                                             .ToList();
 
-            if (constructor == null)
+            if (requiredProviders.Count > 0)
             {
-                throw new InvalidOperationException(string.Format(Resources.InvalidManagementClientType, typeof(TClient).Name));
-            }
-
-            TClient client = (TClient)constructor.Invoke(parameters);
-            client.UserAgent.Add(ApiConstants.UserAgentValue);
-            EventHandler<ClientCreatedArgs> clientCreatedHandler = OnClientCreated;
-            if (clientCreatedHandler != null)
-            {
-                ClientCreatedArgs args = new ClientCreatedArgs { CreatedClient = client, ClientType = typeof(TClient) };
-                clientCreatedHandler(this, args);
-                client = (TClient)args.CreatedClient;
-            }
-
-            if (addRestLogHandlerToAllClients)
-            {
-                // Add the logging handler
-                var withHandlerMethod = typeof(TClient).GetMethod("WithHandler", new[] { typeof(DelegatingHandler) });
-                TClient finalClient =
-                    (TClient)withHandlerMethod.Invoke(client, new object[] { new HttpRestCallLogger() });
-                client.Dispose();
-
-                return finalClient;
-            }
-            else
-            {
-                return client;
+                var credentials = CreateCredentials();
+                using (IResourceManagementClient client = new ResourceManagementClient(credentials, ResourceManagerEndpoint))
+                {
+                    foreach (var provider in requiredProviders)
+                    {
+                        try
+                        {
+                            client.Providers.Register(provider);
+                            RegisteredResourceProviders.Add(provider);
+                        }
+                        catch
+                        {
+                            // Ignore this as the user may not have access to Sparta endpoint or the provider is already registered
+                        }
+                    }
+                }
             }
         }
 

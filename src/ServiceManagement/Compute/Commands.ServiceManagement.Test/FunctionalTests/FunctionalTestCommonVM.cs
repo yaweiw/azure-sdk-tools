@@ -12,19 +12,18 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
-    using Model.PersistentVMModel;
     using System;
     using System.IO;
     using System.Management.Automation;
     using System.Reflection;
     using System.Security.Cryptography.X509Certificates;
     using System.Threading;
+    using System.Linq;
 
     [TestClass]
     public class FunctionalTestCommonVM : ServiceManagementTest
@@ -35,19 +34,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         [ClassInitialize]
         public static void ClassInit(TestContext context)
         {
-            //SetTestSettings();
-
             if (defaultAzureSubscription.Equals(null))
             {
                 Assert.Inconclusive("No Subscription is selected!");
             }
 
             defaultService = Utilities.GetUniqueShortName(serviceNamePrefix);
-            //do
-            //{
-            //    defaultService = Utilities.GetUniqueShortName(serviceNamePrefix);
-            //}
-            //while (vmPowershellCmdlets.TestAzureServiceName(defaultService));
 
             defaultVm = Utilities.GetUniqueShortName(vmNamePrefix);
             Assert.IsNull(vmPowershellCmdlets.GetAzureVM(defaultVm, defaultService));
@@ -66,7 +58,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <summary>
         ///
         /// </summary>
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Add,Get,Remove)-AzureCertificate)")]
+        [TestMethod(), TestCategory(Category.Functional), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Add,Get,Remove)-AzureCertificate)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\certificateData.csv", "certificateData#csv", DataAccessMethod.Sequential)]
         public void AzureCertificateTest()
         {
@@ -108,12 +100,29 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             try
             {
                 RemoveAllExistingCerts(defaultService);
+                Assert.Fail("Cert issue is fixed!");
+            }
+            catch (Exception e)
+            {
+                if (e.ToString().Contains("InternalError"))
+                {
+                    Console.WriteLine("This exception is expected: {0}", e);
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
+            try
+            {
                 // Add a cert item
                 vmPowershellCmdlets.AddAzureCertificate(defaultService, cert1);
-                CertificateContext getCert1 = vmPowershellCmdlets.GetAzureCertificate(defaultService)[0];
+                CertificateContext getCert1 = vmPowershellCmdlets.GetAzureCertificate(defaultService).FirstOrDefault(a => a.Thumbprint.Equals(installedCert.Thumbprint));
                 Console.WriteLine("Cert is added: {0}", getCert1.Thumbprint);
                 Assert.AreEqual(getCert1.Data, cert1data, "Cert is different!!");
+
+                Thread.Sleep(TimeSpan.FromMinutes(2));
                 vmPowershellCmdlets.RemoveAzureCertificate(defaultService, getCert1.Thumbprint, thumbprintAlgorithm);
                 pass = Utilities.CheckRemove(vmPowershellCmdlets.GetAzureCertificate, defaultService, getCert1.Thumbprint, thumbprintAlgorithm);
 
@@ -122,6 +131,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 CertificateContext getCert2 = vmPowershellCmdlets.GetAzureCertificate(defaultService, cert2[0].Thumbprint, thumbprintAlgorithm)[0];
                 Console.WriteLine("Cert is added: {0}", cert2[0].Thumbprint);
                 Assert.AreEqual(getCert2.Data, cert2data, "Cert is different!!");
+                Thread.Sleep(TimeSpan.FromMinutes(2));
                 vmPowershellCmdlets.RemoveAzureCertificate(defaultService, cert2[0].Thumbprint, thumbprintAlgorithm);
                 pass &= Utilities.CheckRemove(vmPowershellCmdlets.GetAzureCertificate, defaultService, cert2[0].Thumbprint, thumbprintAlgorithm);
 
@@ -131,18 +141,18 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 CertificateContext getCert3 = vmPowershellCmdlets.GetAzureCertificate(defaultService, cert3[0].Thumbprint, thumbprintAlgorithm)[0];
                 Console.WriteLine("Cert is added: {0}", cert3[0].Thumbprint);
                 Assert.AreEqual(getCert3.Data, cert3data, "Cert is different!!");
+                Thread.Sleep(TimeSpan.FromMinutes(2));
                 vmPowershellCmdlets.RemoveAzureCertificate(defaultService, cert3[0].Thumbprint, thumbprintAlgorithm);
                 pass &= Utilities.CheckRemove(vmPowershellCmdlets.GetAzureCertificate, defaultService, cert3[0].Thumbprint, thumbprintAlgorithm);
+
+                var certs = vmPowershellCmdlets.GetAzureCertificate(defaultService);
+                Console.WriteLine("number of certs: {0}", certs.Count);
+                Utilities.PrintContext(certs);
             }
             catch (Exception e)
             {
                 pass = false;
                 Assert.Fail(e.ToString());
-            }
-            finally
-            {
-                Utilities.UninstallCert(installedCert, certStoreLocation, certStoreName);
-                RemoveAllExistingCerts(defaultService);
             }
         }
 
@@ -154,7 +164,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <summary>
         ///
         /// </summary>
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Add,Get,Set,Remove)-AzureDataDisk)")]
+        [TestMethod(), TestCategory(Category.Functional), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Add,Get,Set,Remove)-AzureDataDisk)")]
         public void AzureDataDiskTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -250,7 +260,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <summary>
         ///
         /// </summary>
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet Set-AzureAvailabilitySet)")]
+        [TestMethod(), TestCategory(Category.Functional), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet Set-AzureAvailabilitySet)")]
         public void AzureAvailabilitySetTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -262,6 +272,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 var vm = vmPowershellCmdlets.SetAzureAvailabilitySet(defaultVm, defaultService, testAVSetName);
                 vmPowershellCmdlets.UpdateAzureVM(defaultVm, defaultService, vm);
                 Assert.IsTrue(Verify.AzureAvailabilitySet(vmPowershellCmdlets.GetAzureVM(defaultVm, defaultService).VM, testAVSetName));
+
+                vm = vmPowershellCmdlets.SetAzureAvailabilitySet(defaultVm, defaultService, string.Empty);
+                vmPowershellCmdlets.UpdateAzureVM(defaultVm, defaultService, vm);
+                Assert.IsTrue(Verify.AzureAvailabilitySet(vmPowershellCmdlets.GetAzureVM(defaultVm, defaultService).VM, string.Empty));
+
                 pass = true;
             }
             catch (Exception e)
@@ -274,7 +289,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <summary>
         ///
         /// </summary>
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set)-AzureOSDisk)")]
+        [TestMethod(), TestCategory(Category.Functional), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set)-AzureOSDisk)")]
         public void AzureOSDiskTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);

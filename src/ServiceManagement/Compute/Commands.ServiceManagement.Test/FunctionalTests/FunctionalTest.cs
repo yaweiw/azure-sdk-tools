@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using ConfigDataInfo;
     using Extensions;
     using Model;
-    using Model.PersistentVMModel;
+    using Properties;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -28,6 +28,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using System.Reflection;
     using System.Security.Cryptography.X509Certificates;
     using System.Text;
+    using System.Threading;
     using System.Xml;
     using VisualStudio.TestTools.UnitTesting;
 
@@ -54,20 +55,20 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
             vmName = Utilities.GetUniqueShortName(vmNamePrefix);
             pass = false;
-            testStartTime = DateTime.Now;         
+            testStartTime = DateTime.Now;
         }
-              
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Get-AzureStorageAccount)")]
+
+        [TestMethod(), TestCategory(Category.Functional), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Get-AzureStorageAccount)")]
         [Ignore]
         public void ScriptTestSample()
         {
             vmPowershellCmdlets.RunPSScript("Get-Help Save-AzureVhd -full");
-        }  
+        }
 
         /// <summary>
         ///
         /// </summary>
-        [TestMethod(), TestCategory("Functional"), TestCategory("BVT"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New,Get,Set,Remove)-AzureAffinityGroup)")]
+        [TestMethod(), TestCategory(Category.Functional), TestCategory(Category.BVT), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New,Get,Set,Remove)-AzureAffinityGroup)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\affinityGroupData.csv", "affinityGroupData#csv", DataAccessMethod.Sequential)]
         public void AzureAffinityGroupTest()
         {
@@ -82,7 +83,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             string affinityLabel2 = Convert.ToString(TestContext.DataRow["affinityLabel2"]);
             string location2 = CheckLocation(Convert.ToString(TestContext.DataRow["location2"]));
             string description2 = Convert.ToString(TestContext.DataRow["description2"]);
-           
+
             try
             {
                 ServiceManagementCmdletTestHelper vmPowershellCmdlets = new ServiceManagementCmdletTestHelper();
@@ -95,7 +96,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                         vmPowershellCmdlets.RemoveAzureAffinityGroup(aff.Name);
                     }
                 }
-               
+
                 // New-AzureAffinityGroup
                 vmPowershellCmdlets.NewAzureAffinityGroup(affinityName1, location1, affinityLabel1, description1);
                 vmPowershellCmdlets.NewAzureAffinityGroup(affinityName2, location2, affinityLabel2, description2);
@@ -105,21 +106,21 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
                 pass = AffinityGroupVerify(vmPowershellCmdlets.GetAzureAffinityGroup(affinityName1)[0], affinityName1, affinityLabel1, location1, description1);
                 pass &= AffinityGroupVerify(vmPowershellCmdlets.GetAzureAffinityGroup(affinityName2)[0], affinityName2, affinityLabel2, location2, description2);
-                
+
 
                 // Set-AzureAffinityGroup
                 vmPowershellCmdlets.SetAzureAffinityGroup(affinityName2, affinityLabel1, description1);
                 Console.WriteLine("update affinity group: {0}", affinityName2);
 
                 pass &= AffinityGroupVerify(vmPowershellCmdlets.GetAzureAffinityGroup(affinityName2)[0], affinityName2, affinityLabel1, location2, description1);
-               
+
 
                 // Remove-AzureAffinityGroup
                 vmPowershellCmdlets.RemoveAzureAffinityGroup(affinityName2);
                 pass &= Utilities.CheckRemove(vmPowershellCmdlets.GetAzureAffinityGroup, affinityName2);
                 vmPowershellCmdlets.RemoveAzureAffinityGroup(affinityName1);
                 pass &= Utilities.CheckRemove(vmPowershellCmdlets.GetAzureAffinityGroup, affinityName1);
-                
+
             }
             catch (Exception e)
             {
@@ -171,7 +172,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <summary>
         ///
         /// </summary>
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (New-AzureCertificateSetting)")]
+        [TestMethod(), TestCategory(Category.Functional), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (New-AzureCertificateSetting)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\certificateData.csv", "certificateData#csv", DataAccessMethod.Sequential)]
         public void AzureCertificateSettingTest()
         {
@@ -244,18 +245,18 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <summary>
         ///
         /// </summary>
-        [TestMethod(), TestCategory("Functional"), TestCategory("BVT"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New,Get,Set,Remove,Move)-AzureDeployment)")]
+        [TestMethod(), TestCategory(Category.Functional), TestCategory(Category.BVT), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New,Get,Set,Remove,Move)-AzureDeployment)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\package.csv", "package#csv", DataAccessMethod.Sequential)]
         public void AzureDeploymentTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
-            
+
             // Choose the package and config files from local machine
             string packageName = Convert.ToString(TestContext.DataRow["packageName"]);
             string configName = Convert.ToString(TestContext.DataRow["configName"]);
             string upgradePackageName = Convert.ToString(TestContext.DataRow["upgradePackage"]);
             string upgradeConfigName = Convert.ToString(TestContext.DataRow["upgradeConfig"]);
-            string upgradeConfigName2 = Convert.ToString(TestContext.DataRow["upgradeConfig2"]);            
+            string upgradeConfigName2 = Convert.ToString(TestContext.DataRow["upgradeConfig2"]);
 
             var packagePath1 = new FileInfo(Directory.GetCurrentDirectory() + "\\" + packageName);
             var configPath1 = new FileInfo(Directory.GetCurrentDirectory() + "\\" + configName);
@@ -268,7 +269,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             Assert.IsTrue(File.Exists(configPath1.FullName), "file not exist={0}", configPath1);
             Assert.IsTrue(File.Exists(configPath2.FullName), "file not exist={0}", configPath2);
             Assert.IsTrue(File.Exists(configPath3.FullName), "file not exist={0}", configPath3);
-            
+
             string deploymentName = "deployment1";
             string deploymentLabel = "label1";
             DeploymentInfoContext result;
@@ -287,7 +288,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 // Move the deployment from 'Staging' to 'Production'
                 vmPowershellCmdlets.MoveAzureDeployment(serviceName);
                 result = vmPowershellCmdlets.GetAzureDeployment(serviceName, DeploymentSlotType.Production);
-                pass &= Utilities.PrintAndCompareDeployment(result, serviceName, deploymentName, deploymentLabel, DeploymentSlotType.Production, null, 1);                
+                pass &= Utilities.PrintAndCompareDeployment(result, serviceName, deploymentName, deploymentLabel, DeploymentSlotType.Production, null, 1);
                 Console.WriteLine("successfully moved");
 
                 // Set the deployment status to 'Suspended'
@@ -311,10 +312,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 result = vmPowershellCmdlets.GetAzureDeployment(serviceName, DeploymentSlotType.Production);
                 pass &= Utilities.PrintAndCompareDeployment(result, serviceName, deploymentName, serviceName, DeploymentSlotType.Production, null, 4);
                 Console.WriteLine("successfully updated the deployment");
-                               
+
                 vmPowershellCmdlets.RemoveAzureDeployment(serviceName, DeploymentSlotType.Production, true);
 
-                pass &= Utilities.CheckRemove(vmPowershellCmdlets.GetAzureDeployment, serviceName, DeploymentSlotType.Production);                
+                pass &= Utilities.CheckRemove(vmPowershellCmdlets.GetAzureDeployment, serviceName, DeploymentSlotType.Production);
             }
             catch (Exception e)
             {
@@ -327,7 +328,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <summary>
         /// 
         /// </summary>
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New,Get)-AzureDns)")]
+        [TestMethod(), TestCategory(Category.Functional), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New,Get)-AzureDns)")]
         public void AzureDnsTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -345,8 +346,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 var azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, username, password);
                 var persistentVMConfigInfo = new PersistentVMConfigInfo(azureVMConfigInfo, azureProvisioningConfig, null, null);
                 PersistentVM vm = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo);
-           
-                vmPowershellCmdlets.NewAzureVM(serviceName, new []{vm}, null, new[]{dns}, null, null, null, null);
+
+                vmPowershellCmdlets.NewAzureVM(serviceName, new[] { vm }, null, new[] { dns }, null, null, null, null);
 
                 Assert.IsTrue(Verify.AzureDns(vmPowershellCmdlets.GetAzureDeployment(serviceName).DnsSettings, dns));
                 pass = true;
@@ -363,7 +364,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <summary>
         /// 
         /// </summary>
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("derajen"), Description("Test the cmdlet ((Add,Set,Remove)-AzureDns)")]
+        [TestMethod(), TestCategory(Category.Functional), TestProperty("Feature", "IAAS"), Priority(1), Owner("derajen"), Description("Test the cmdlet ((Add,Set,Remove)-AzureDns)")]
         public void AzureDnsTest2()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -416,7 +417,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <summary>
         ///
         /// </summary>
-        [TestMethod(), TestCategory("Functional"), TestCategory("BVT"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Get-AzureLocation)")]
+        [TestMethod(), TestCategory(Category.Functional), TestCategory(Category.BVT), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Get-AzureLocation)")]
         public void AzureLocationTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -435,16 +436,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             {
                 pass = false;
                 Assert.Fail("Exception occurred: {0}", e.ToString());
-            }            
+            }
         }
 
         /// <summary>
         ///
         /// </summary>
-        [TestMethod(), TestCategory("Functional"), TestCategory("BVT"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Get-AzureOSVersion)")]
+        [TestMethod(), TestCategory(Category.Functional), TestCategory(Category.BVT), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Get-AzureOSVersion)")]
         public void AzureOSVersionTest()
         {
-            StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);       
+            StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
 
             try
             {
@@ -467,7 +468,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <summary>
         ///
         /// </summary>
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set)-AzureRole)")]
+        [TestMethod(), TestCategory(Category.Functional), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set)-AzureRole)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\package.csv", "package#csv", DataAccessMethod.Sequential)]
         public void AzureRoleTest()
         {
@@ -498,24 +499,24 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
                 vmPowershellCmdlets.NewAzureDeployment(serviceName, packagePath1.FullName, configPath1.FullName, slot, deploymentLabel, deploymentName, false, false);
 
-            
+
                 foreach (RoleContext role in vmPowershellCmdlets.GetAzureRole(serviceName, slot, null, false))
                 {
                     Console.WriteLine("Role: Name - {0}, ServiceName - {1}, DeploymenntID - {2}, InstanceCount - {3}", role.RoleName, role.ServiceName, role.DeploymentID, role.InstanceCount);
                     Assert.AreEqual(serviceName, role.ServiceName);
                     roleName = role.RoleName;
                 }
-                
+
                 vmPowershellCmdlets.SetAzureRole(serviceName, slot, roleName, 2);
 
                 foreach (RoleContext role in vmPowershellCmdlets.GetAzureRole(serviceName, slot, null, false))
                 {
                     Console.WriteLine("Role: Name - {0}, ServiceName - {1}, DeploymenntID - {2}, InstanceCount - {3}", role.RoleName, role.ServiceName, role.DeploymentID, role.InstanceCount);
                     Assert.AreEqual(serviceName, role.ServiceName);
-                    Assert.AreEqual(2, role.InstanceCount);                   
+                    Assert.AreEqual(2, role.InstanceCount);
                 }
 
-                pass = true;                
+                pass = true;
 
             }
             catch (Exception e)
@@ -529,7 +530,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <summary>
         ///
         /// </summary>
-        [TestMethod(), TestCategory("Functional"), TestCategory("BVT"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (New-AzureServiceRemoteDesktopConfig)")]
+        [TestMethod(), TestCategory(Category.Functional), TestCategory(Category.BVT), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (New-AzureServiceRemoteDesktopConfig)")]
         public void AzureServiceDiagnosticsExtensionConfigTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -668,7 +669,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <summary>
         ///
         /// </summary>
-        [TestMethod(), TestCategory("Functional"), TestCategory("BVT"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (New-AzureServiceRemoteDesktopConfig)")]
+        [TestMethod(), TestCategory(Category.Functional), TestCategory(Category.BVT), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (New-AzureServiceRemoteDesktopConfig)")]
         public void AzureServiceRemoteDesktopExtensionConfigTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -677,7 +678,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             DateTime exp = DateTime.Now.AddMonths(18);
             DateTime defaultExp = DateTime.Now.AddMonths(12);
             List<string> defaultRoles = new List<string>(new string[] { "AllRoles" });
-            string[] roles = new string[]{"WebRole1", "WorkerRole2"};
+            string[] roles = new string[] { "WebRole1", "WorkerRole2" };
             string thumb = "abc";
             string alg = "sha1";
 
@@ -707,7 +708,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 Assert.IsTrue(VerifyExtensionConfigRDP(resultConfig, username, password, defaultRoles, exp, thumb));
 
                 resultConfig = vmPowershellCmdlets.NewAzureServiceRemoteDesktopExtensionConfig(cred, thumb, null, null, roles);
-                Assert.IsTrue(VerifyExtensionConfigRDP(resultConfig, username, password, new List<string>(roles), defaultExp, thumb));                
+                Assert.IsTrue(VerifyExtensionConfigRDP(resultConfig, username, password, new List<string>(roles), defaultExp, thumb));
 
                 resultConfig = vmPowershellCmdlets.NewAzureServiceRemoteDesktopExtensionConfig(cred, thumb, null, exp, roles);
                 Assert.IsTrue(VerifyExtensionConfigRDP(resultConfig, username, password, new List<string>(roles), exp, thumb));
@@ -832,7 +833,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <summary>
         ///
         /// </summary>
-        [TestMethod(), TestCategory("Functional"), TestCategory("BVT"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set)-AzureSubnet)")]
+        [TestMethod(), TestCategory(Category.Functional), TestCategory(Category.BVT), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set)-AzureSubnet)")]
         public void AzureSubnetTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -846,16 +847,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 var persistentVMConfigInfo = new PersistentVMConfigInfo(azureVMConfigInfo, azureProvisioningConfig, null, null);
                 vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo);
 
-                string [] subs = {"subnet1", "subnet2", "subnet3"};
+                string[] subs = { "subnet1", "subnet2", "subnet3" };
                 PersistentVM vm = vmPowershellCmdlets.SetAzureSubnet(vmPowershellCmdlets.AddAzureProvisioningConfig(azureProvisioningConfig), subs);
-                
+
                 SubnetNamesCollection subnets = vmPowershellCmdlets.GetAzureSubnet(vm);
                 foreach (string subnet in subnets)
                 {
                     Console.WriteLine("Subnet: {0}", subnet);
-                }                
+                }
                 CollectionAssert.AreEqual(subnets, subs);
-                
+
                 pass = true;
             }
             catch (Exception e)
@@ -868,11 +869,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <summary>
         ///
         /// </summary>
-        [TestMethod(), TestCategory("Functional"), TestCategory("BVT"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New,Get)-AzureStorageKey)")]
+        [TestMethod(), TestCategory(Category.Functional), TestCategory(Category.BVT), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New,Get)-AzureStorageKey)")]
         public void AzureStorageKeyTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
-            
+
             try
             {
                 StorageServiceKeyOperationContext key1 = vmPowershellCmdlets.GetAzureStorageAccountKey(defaultAzureSubscription.CurrentStorageAccountName); // Get-AzureStorageAccountKey
@@ -892,13 +893,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             {
                 pass = false;
                 Assert.Fail("Exception occurred: {0}", e.ToString());
-            }            
+            }
         }
 
         /// <summary>
         ///
         /// </summary>
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New,Get,Set,Remove)-AzureStorageAccount)")]
+        [TestMethod(), TestCategory(Category.Functional), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New,Get,Set,Remove)-AzureStorageAccount)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\storageAccountTestData.csv", "storageAccountTestData#csv", DataAccessMethod.Sequential)]
         public void AzureStorageAccountTest()
         {
@@ -920,12 +921,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             bool?[] geoReplicationSettings = new bool?[3] { true, false, null };
 
             bool geoReplicationEnabled = true;
-           
+
             string[] storageName = new string[2] {
                 Utilities.GetUniqueShortName(storageAccountPrefix),
                 Utilities.GetUniqueShortName(storageAccountPrefix)};
 
-            string[][] storageStaticProperties =  new string[2][] {
+            string[][] storageStaticProperties = new string[2][] {
                 new string[3] {storageName[0], locationName1, null},
                 new string [3] {storageName[1], null, affinityGroupName}};
 
@@ -1031,7 +1032,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         }
 
         private bool StorageAccountVerify(StorageServicePropertiesOperationContext storageContext,
-            string [] staticParameters, string label, string description, bool geo)
+            string[] staticParameters, string label, string description, bool geo)
         {
             string name = staticParameters[0];
             string location = staticParameters[1];
@@ -1066,11 +1067,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <summary>
         ///
         /// </summary>
-        [TestMethod(), TestCategory("Functional"), TestCategory("BVT"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove)-AzureVNetConfig)")]
+        [TestMethod(), TestCategory(Category.Functional), TestCategory(Category.BVT), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove)-AzureVNetConfig)")]
         public void AzureVNetConfigTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
-            
+
             string affinityGroup = "WestUsAffinityGroup";
 
             try
@@ -1165,14 +1166,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                     pass = false;
                     Assert.Fail("Exception occurred: {0}", e.ToString());
                 }
-            }           
+            }
         }
 
         [TestCleanup]
         public virtual void CleanUp()
         {
             Console.WriteLine("Test {0}", pass ? "passed" : "failed");
-            
+
             // Cleanup            
             if ((cleanupIfPassed && pass) || (cleanupIfFailed && !pass))
             {

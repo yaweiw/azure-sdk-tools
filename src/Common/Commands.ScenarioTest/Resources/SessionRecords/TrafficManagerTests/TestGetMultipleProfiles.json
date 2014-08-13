@@ -13,7 +13,7 @@
           "WindowsAzurePowershell/v0.8.5"
         ]
       },
-      "ResponseBody": "<Profiles xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Profile>\r\n    <DomainName>1a58bf3c-94b9-4c43-8231-ab6ed22a7842profile.trafficmanager.net</DomainName>\r\n    <Name>1a58bf3c-94b9-4c43-8231-ab6ed22a7842profile</Name>\r\n    <Status>Enabled</Status>\r\n    <StatusDetails>\r\n      <EnabledVersion>1</EnabledVersion>\r\n    </StatusDetails>\r\n    <Definitions>\r\n      <Definition>\r\n        <Status>Enabled</Status>\r\n        <Version>1</Version>\r\n      </Definition>\r\n    </Definitions>\r\n  </Profile>\r\n  <Profile>\r\n    <DomainName>jnowaktest2.trafficmanager.net</DomainName>\r\n    <Name>jnowaktest2</Name>\r\n    <Status>Enabled</Status>\r\n    <StatusDetails>\r\n      <EnabledVersion>1</EnabledVersion>\r\n    </StatusDetails>\r\n    <Definitions>\r\n      <Definition>\r\n        <Status>Enabled</Status>\r\n        <Version>1</Version>\r\n      </Definition>\r\n    </Definitions>\r\n  </Profile>\r\n  <Profile>\r\n    <DomainName>scenarioTestProfile.trafficmanager.net</DomainName>\r\n    <Name>scenarioTestProfile</Name>\r\n    <Status>Enabled</Status>\r\n    <StatusDetails>\r\n      <EnabledVersion>1</EnabledVersion>\r\n    </StatusDetails>\r\n    <Definitions>\r\n      <Definition>\r\n        <Status>Enabled</Status>\r\n        <Version>1</Version>\r\n      </Definition>\r\n    </Definitions>\r\n  </Profile>\r\n</Profiles>",
+      "ResponseBody": "<Profiles xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Profile>\r\n    <DomainName>cool-profile.trafficmanager.net</DomainName>\r\n    <Name>cool-profile</Name>\r\n    <Status>Enabled</Status>\r\n    <StatusDetails>\r\n      <EnabledVersion>1</EnabledVersion>\r\n    </StatusDetails>\r\n    <Definitions>\r\n      <Definition>\r\n        <Status>Enabled</Status>\r\n        <Version>1</Version>\r\n      </Definition>\r\n    </Definitions>\r\n  </Profile>\r\n  <Profile>\r\n    <DomainName>onesdk8117.trafficmanager.net</DomainName>\r\n    <Name>onesdk8117</Name>\r\n    <Status>Enabled</Status>\r\n    <StatusDetails>\r\n      <EnabledVersion>1</EnabledVersion>\r\n    </StatusDetails>\r\n    <Definitions>\r\n      <Definition>\r\n        <Status>Enabled</Status>\r\n        <Version>1</Version>\r\n      </Definition>\r\n    </Definitions>\r\n  </Profile>\r\n</Profiles>",
       "ResponseHeaders": {
         "x-ms-servedbyregion": [
           "ussouth2"
@@ -22,17 +22,17 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "eaa6ff72cfedade2934d3cb1ed64d6a6"
+          "4ee4ac2f1771cb19834027c75c8583b5"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Fri, 23 May 2014 10:16:52 GMT"
+          "Thu, 24 Jul 2014 00:11:29 GMT"
         ],
         "Server": [
-          "1.0.6198.76",
-          "(rd_rdfe_stable.140522-0024)",
+          "1.0.6198.108",
+          "(rd_rdfe_stable.140717-0053)",
           "Microsoft-HTTPAPI/2.0"
         ],
         "X-AspNet-Version": [
@@ -57,7 +57,7 @@
           "WindowsAzurePowershell/v0.8.5"
         ]
       },
-      "ResponseBody": "<Profiles xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Profile>\r\n    <DomainName>1a58bf3c-94b9-4c43-8231-ab6ed22a7842profile.trafficmanager.net</DomainName>\r\n    <Name>1a58bf3c-94b9-4c43-8231-ab6ed22a7842profile</Name>\r\n    <Status>Enabled</Status>\r\n    <StatusDetails>\r\n      <EnabledVersion>1</EnabledVersion>\r\n    </StatusDetails>\r\n    <Definitions>\r\n      <Definition>\r\n        <Status>Enabled</Status>\r\n        <Version>1</Version>\r\n      </Definition>\r\n    </Definitions>\r\n  </Profile>\r\n  <Profile>\r\n    <DomainName>jnowaktest2.trafficmanager.net</DomainName>\r\n    <Name>jnowaktest2</Name>\r\n    <Status>Enabled</Status>\r\n    <StatusDetails>\r\n      <EnabledVersion>1</EnabledVersion>\r\n    </StatusDetails>\r\n    <Definitions>\r\n      <Definition>\r\n        <Status>Enabled</Status>\r\n        <Version>1</Version>\r\n      </Definition>\r\n    </Definitions>\r\n  </Profile>\r\n  <Profile>\r\n    <DomainName>scenarioTestProfile1.trafficmanager.net</DomainName>\r\n    <Name>scenarioTestProfile1</Name>\r\n    <Status>Enabled</Status>\r\n    <StatusDetails>\r\n      <EnabledVersion>1</EnabledVersion>\r\n    </StatusDetails>\r\n    <Definitions>\r\n      <Definition>\r\n        <Status>Enabled</Status>\r\n        <Version>1</Version>\r\n      </Definition>\r\n    </Definitions>\r\n  </Profile>\r\n  <Profile>\r\n    <DomainName>scenarioTestProfile2.trafficmanager.net</DomainName>\r\n    <Name>scenarioTestProfile2</Name>\r\n    <Status>Enabled</Status>\r\n    <StatusDetails>\r\n      <EnabledVersion>1</EnabledVersion>\r\n    </StatusDetails>\r\n    <Definitions>\r\n      <Definition>\r\n        <Status>Enabled</Status>\r\n        <Version>1</Version>\r\n      </Definition>\r\n    </Definitions>\r\n  </Profile>\r\n</Profiles>",
+      "ResponseBody": "<Profiles xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Profile>\r\n    <DomainName>cool-profile.trafficmanager.net</DomainName>\r\n    <Name>cool-profile</Name>\r\n    <Status>Enabled</Status>\r\n    <StatusDetails>\r\n      <EnabledVersion>1</EnabledVersion>\r\n    </StatusDetails>\r\n    <Definitions>\r\n      <Definition>\r\n        <Status>Enabled</Status>\r\n        <Version>1</Version>\r\n      </Definition>\r\n    </Definitions>\r\n  </Profile>\r\n  <Profile>\r\n    <DomainName>onesdk1111.trafficmanager.net</DomainName>\r\n    <Name>onesdk1111</Name>\r\n    <Status>Enabled</Status>\r\n    <StatusDetails>\r\n      <EnabledVersion>1</EnabledVersion>\r\n    </StatusDetails>\r\n    <Definitions>\r\n      <Definition>\r\n        <Status>Enabled</Status>\r\n        <Version>1</Version>\r\n      </Definition>\r\n    </Definitions>\r\n  </Profile>\r\n  <Profile>\r\n    <DomainName>onesdk3238.trafficmanager.net</DomainName>\r\n    <Name>onesdk3238</Name>\r\n    <Status>Enabled</Status>\r\n    <StatusDetails>\r\n      <EnabledVersion>1</EnabledVersion>\r\n    </StatusDetails>\r\n    <Definitions>\r\n      <Definition>\r\n        <Status>Enabled</Status>\r\n        <Version>1</Version>\r\n      </Definition>\r\n    </Definitions>\r\n  </Profile>\r\n</Profiles>",
       "ResponseHeaders": {
         "x-ms-servedbyregion": [
           "ussouth2"
@@ -66,17 +66,17 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "26453325794aa4aba768e54e16cf2f6e"
+          "94b6bdfa00e5ca70b8b72c0d75f110a0"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Fri, 23 May 2014 10:17:12 GMT"
+          "Thu, 24 Jul 2014 00:11:39 GMT"
         ],
         "Server": [
-          "1.0.6198.76",
-          "(rd_rdfe_stable.140522-0024)",
+          "1.0.6198.108",
+          "(rd_rdfe_stable.140717-0053)",
           "Microsoft-HTTPAPI/2.0"
         ],
         "X-AspNet-Version": [
@@ -89,7 +89,7 @@
       "StatusCode": 200
     },
     {
-      "RequestUri": "/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/WATM/profiles/scenarioTestProfile",
+      "RequestUri": "/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/WATM/profiles/onesdk8117",
       "RequestMethod": "DELETE",
       "RequestBody": "",
       "RequestHeaders": {
@@ -113,17 +113,17 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "f51972c4b0dca16cbb714e96cb69c5d8"
+          "eaf5922ce472cf6f85eecb5d14802401"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Fri, 23 May 2014 10:16:54 GMT"
+          "Thu, 24 Jul 2014 00:11:31 GMT"
         ],
         "Server": [
-          "1.0.6198.76",
-          "(rd_rdfe_stable.140522-0024)",
+          "1.0.6198.108",
+          "(rd_rdfe_stable.140717-0053)",
           "Microsoft-HTTPAPI/2.0"
         ],
         "X-AspNet-Version": [
@@ -138,7 +138,7 @@
     {
       "RequestUri": "/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/WATM/profiles",
       "RequestMethod": "POST",
-      "RequestBody": "<Profile xmlns=\"http://schemas.microsoft.com/windowsazure\">\r\n  <DomainName>scenarioTestProfile1.trafficmanager.net</DomainName>\r\n  <Name>scenarioTestProfile1</Name>\r\n</Profile>",
+      "RequestBody": "<Profile xmlns=\"http://schemas.microsoft.com/windowsazure\">\r\n  <DomainName>onesdk3238.trafficmanager.net</DomainName>\r\n  <Name>onesdk3238</Name>\r\n</Profile>",
       "RequestHeaders": {
         "x-ms-version": [
           "2011-10-01"
@@ -160,17 +160,17 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "508b0fd45febae62a91f46915f77e6c9"
+          "1ae3ea03bb22c0e0af5dcacae05ec712"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Fri, 23 May 2014 10:17:01 GMT"
+          "Thu, 24 Jul 2014 00:11:32 GMT"
         ],
         "Server": [
-          "1.0.6198.76",
-          "(rd_rdfe_stable.140522-0024)",
+          "1.0.6198.108",
+          "(rd_rdfe_stable.140717-0053)",
           "Microsoft-HTTPAPI/2.0"
         ],
         "X-AspNet-Version": [
@@ -185,7 +185,7 @@
     {
       "RequestUri": "/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/WATM/profiles",
       "RequestMethod": "POST",
-      "RequestBody": "<Profile xmlns=\"http://schemas.microsoft.com/windowsazure\">\r\n  <DomainName>scenarioTestProfile2.trafficmanager.net</DomainName>\r\n  <Name>scenarioTestProfile2</Name>\r\n</Profile>",
+      "RequestBody": "<Profile xmlns=\"http://schemas.microsoft.com/windowsazure\">\r\n  <DomainName>onesdk1111.trafficmanager.net</DomainName>\r\n  <Name>onesdk1111</Name>\r\n</Profile>",
       "RequestHeaders": {
         "x-ms-version": [
           "2011-10-01"
@@ -207,17 +207,17 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "c0dfabd2ea27a7e691bae5db3f8e9665"
+          "5142e1c5b258c21f87d61192083bbd17"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Fri, 23 May 2014 10:17:09 GMT"
+          "Thu, 24 Jul 2014 00:11:35 GMT"
         ],
         "Server": [
-          "1.0.6198.76",
-          "(rd_rdfe_stable.140522-0024)",
+          "1.0.6198.108",
+          "(rd_rdfe_stable.140717-0053)",
           "Microsoft-HTTPAPI/2.0"
         ],
         "X-AspNet-Version": [
@@ -230,7 +230,7 @@
       "StatusCode": 200
     },
     {
-      "RequestUri": "/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/WATM/profiles/scenarioTestProfile1/definitions",
+      "RequestUri": "/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/WATM/profiles/onesdk3238/definitions",
       "RequestMethod": "POST",
       "RequestBody": "<Definition xmlns=\"http://schemas.microsoft.com/windowsazure\">\r\n  <DnsOptions>\r\n    <TimeToLiveInSeconds>300</TimeToLiveInSeconds>\r\n  </DnsOptions>\r\n  <Monitors>\r\n    <Monitor>\r\n      <IntervalInSeconds>30</IntervalInSeconds>\r\n      <TimeoutInSeconds>10</TimeoutInSeconds>\r\n      <ToleratedNumberOfFailures>3</ToleratedNumberOfFailures>\r\n      <Protocol>HTTP</Protocol>\r\n      <Port>80</Port>\r\n      <HttpOptions>\r\n        <Verb>GET</Verb>\r\n        <RelativePath>/</RelativePath>\r\n        <ExpectedStatusCode>200</ExpectedStatusCode>\r\n      </HttpOptions>\r\n    </Monitor>\r\n  </Monitors>\r\n  <Policy>\r\n    <LoadBalancingMethod>RoundRobin</LoadBalancingMethod>\r\n    <Endpoints />\r\n  </Policy>\r\n</Definition>",
       "RequestHeaders": {
@@ -251,17 +251,17 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "ccd8b2f356d7a792859502a8cc494953"
+          "537e7edb128dc224ab27a24a91e535cc"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Fri, 23 May 2014 10:17:03 GMT"
+          "Thu, 24 Jul 2014 00:11:32 GMT"
         ],
         "Server": [
-          "1.0.6198.76",
-          "(rd_rdfe_stable.140522-0024)",
+          "1.0.6198.108",
+          "(rd_rdfe_stable.140717-0053)",
           "Microsoft-HTTPAPI/2.0"
         ],
         "X-AspNet-Version": [
@@ -274,7 +274,7 @@
       "StatusCode": 200
     },
     {
-      "RequestUri": "/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/WATM/profiles/scenarioTestProfile1",
+      "RequestUri": "/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/WATM/profiles/onesdk3238",
       "RequestMethod": "GET",
       "RequestBody": "",
       "RequestHeaders": {
@@ -286,7 +286,7 @@
           "WindowsAzurePowershell/v0.8.5"
         ]
       },
-      "ResponseBody": "<Profile xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <DomainName>scenarioTestProfile1.trafficmanager.net</DomainName>\r\n  <Name>scenarioTestProfile1</Name>\r\n  <Status>Enabled</Status>\r\n  <StatusDetails>\r\n    <EnabledVersion>1</EnabledVersion>\r\n  </StatusDetails>\r\n  <Definitions>\r\n    <Definition>\r\n      <Status>Enabled</Status>\r\n      <Version>1</Version>\r\n    </Definition>\r\n  </Definitions>\r\n</Profile>",
+      "ResponseBody": "<Profile xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <DomainName>onesdk3238.trafficmanager.net</DomainName>\r\n  <Name>onesdk3238</Name>\r\n  <Status>Enabled</Status>\r\n  <StatusDetails>\r\n    <EnabledVersion>1</EnabledVersion>\r\n  </StatusDetails>\r\n  <Definitions>\r\n    <Definition>\r\n      <Status>Enabled</Status>\r\n      <Version>1</Version>\r\n    </Definition>\r\n  </Definitions>\r\n</Profile>",
       "ResponseHeaders": {
         "x-ms-servedbyregion": [
           "ussouth2"
@@ -295,17 +295,17 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "68a740ac5d34a4f29e285416aa746f41"
+          "ec2b2791b981cfd09607794bfc1de325"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Fri, 23 May 2014 10:17:06 GMT"
+          "Thu, 24 Jul 2014 00:11:33 GMT"
         ],
         "Server": [
-          "1.0.6198.76",
-          "(rd_rdfe_stable.140522-0024)",
+          "1.0.6198.108",
+          "(rd_rdfe_stable.140717-0053)",
           "Microsoft-HTTPAPI/2.0"
         ],
         "X-AspNet-Version": [
@@ -318,7 +318,7 @@
       "StatusCode": 200
     },
     {
-      "RequestUri": "/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/WATM/profiles/scenarioTestProfile1/definitions/1",
+      "RequestUri": "/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/WATM/profiles/onesdk3238/definitions/1",
       "RequestMethod": "GET",
       "RequestBody": "",
       "RequestHeaders": {
@@ -339,17 +339,17 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "7dfc668fc122af9aa983889453152bf6"
+          "c56141d771d3caff98703c87857005e2"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Fri, 23 May 2014 10:17:08 GMT"
+          "Thu, 24 Jul 2014 00:11:33 GMT"
         ],
         "Server": [
-          "1.0.6198.76",
-          "(rd_rdfe_stable.140522-0024)",
+          "1.0.6198.108",
+          "(rd_rdfe_stable.140717-0053)",
           "Microsoft-HTTPAPI/2.0"
         ],
         "X-AspNet-Version": [
@@ -362,7 +362,7 @@
       "StatusCode": 200
     },
     {
-      "RequestUri": "/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/WATM/profiles/scenarioTestProfile2/definitions",
+      "RequestUri": "/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/WATM/profiles/onesdk1111/definitions",
       "RequestMethod": "POST",
       "RequestBody": "<Definition xmlns=\"http://schemas.microsoft.com/windowsazure\">\r\n  <DnsOptions>\r\n    <TimeToLiveInSeconds>300</TimeToLiveInSeconds>\r\n  </DnsOptions>\r\n  <Monitors>\r\n    <Monitor>\r\n      <IntervalInSeconds>30</IntervalInSeconds>\r\n      <TimeoutInSeconds>10</TimeoutInSeconds>\r\n      <ToleratedNumberOfFailures>3</ToleratedNumberOfFailures>\r\n      <Protocol>HTTP</Protocol>\r\n      <Port>80</Port>\r\n      <HttpOptions>\r\n        <Verb>GET</Verb>\r\n        <RelativePath>/</RelativePath>\r\n        <ExpectedStatusCode>200</ExpectedStatusCode>\r\n      </HttpOptions>\r\n    </Monitor>\r\n  </Monitors>\r\n  <Policy>\r\n    <LoadBalancingMethod>RoundRobin</LoadBalancingMethod>\r\n    <Endpoints />\r\n  </Policy>\r\n</Definition>",
       "RequestHeaders": {
@@ -383,17 +383,17 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "3d8b548712b1a29a9a9e6484ad23c3d4"
+          "a3ef20d364c7c265bf5292d03c710ef9"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Fri, 23 May 2014 10:17:10 GMT"
+          "Thu, 24 Jul 2014 00:11:37 GMT"
         ],
         "Server": [
-          "1.0.6198.76",
-          "(rd_rdfe_stable.140522-0024)",
+          "1.0.6198.108",
+          "(rd_rdfe_stable.140717-0053)",
           "Microsoft-HTTPAPI/2.0"
         ],
         "X-AspNet-Version": [
@@ -406,7 +406,7 @@
       "StatusCode": 200
     },
     {
-      "RequestUri": "/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/WATM/profiles/scenarioTestProfile2",
+      "RequestUri": "/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/WATM/profiles/onesdk1111",
       "RequestMethod": "GET",
       "RequestBody": "",
       "RequestHeaders": {
@@ -418,7 +418,7 @@
           "WindowsAzurePowershell/v0.8.5"
         ]
       },
-      "ResponseBody": "<Profile xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <DomainName>scenarioTestProfile2.trafficmanager.net</DomainName>\r\n  <Name>scenarioTestProfile2</Name>\r\n  <Status>Enabled</Status>\r\n  <StatusDetails>\r\n    <EnabledVersion>1</EnabledVersion>\r\n  </StatusDetails>\r\n  <Definitions>\r\n    <Definition>\r\n      <Status>Enabled</Status>\r\n      <Version>1</Version>\r\n    </Definition>\r\n  </Definitions>\r\n</Profile>",
+      "ResponseBody": "<Profile xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <DomainName>onesdk1111.trafficmanager.net</DomainName>\r\n  <Name>onesdk1111</Name>\r\n  <Status>Enabled</Status>\r\n  <StatusDetails>\r\n    <EnabledVersion>1</EnabledVersion>\r\n  </StatusDetails>\r\n  <Definitions>\r\n    <Definition>\r\n      <Status>Enabled</Status>\r\n      <Version>1</Version>\r\n    </Definition>\r\n  </Definitions>\r\n</Profile>",
       "ResponseHeaders": {
         "x-ms-servedbyregion": [
           "ussouth2"
@@ -427,17 +427,17 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "83d01dbf28cca201b5cef6e39a709416"
+          "bc6b13f4794fcd4d9c54cd5719f4490d"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Fri, 23 May 2014 10:17:10 GMT"
+          "Thu, 24 Jul 2014 00:11:37 GMT"
         ],
         "Server": [
-          "1.0.6198.76",
-          "(rd_rdfe_stable.140522-0024)",
+          "1.0.6198.108",
+          "(rd_rdfe_stable.140717-0053)",
           "Microsoft-HTTPAPI/2.0"
         ],
         "X-AspNet-Version": [
@@ -450,7 +450,7 @@
       "StatusCode": 200
     },
     {
-      "RequestUri": "/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/WATM/profiles/scenarioTestProfile2/definitions/1",
+      "RequestUri": "/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/WATM/profiles/onesdk1111/definitions/1",
       "RequestMethod": "GET",
       "RequestBody": "",
       "RequestHeaders": {
@@ -471,17 +471,17 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "89e66ad5002cac78bcab0efe0bee51dd"
+          "c83434763c71cf13a74352a9ff42a699"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Fri, 23 May 2014 10:17:11 GMT"
+          "Thu, 24 Jul 2014 00:11:39 GMT"
         ],
         "Server": [
-          "1.0.6198.76",
-          "(rd_rdfe_stable.140522-0024)",
+          "1.0.6198.108",
+          "(rd_rdfe_stable.140717-0053)",
           "Microsoft-HTTPAPI/2.0"
         ],
         "X-AspNet-Version": [
@@ -494,6 +494,11 @@
       "StatusCode": 200
     }
   ],
-  "Names": {},
+  "Names": {
+    "Test-GetMultipleProfiles": [
+      "onesdk3238",
+      "onesdk1111"
+    ]
+  },
   "Variables": {}
 }

@@ -16,6 +16,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Operations
 {
     using DataContract;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
+    using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Exceptions;
     using System;
     using System.Globalization;
 
@@ -40,10 +41,17 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Operations
             var errorMessage = String.Format(CultureInfo.InvariantCulture, Resources.OperationTimedOutOrError, jobId);
             var startTime = DateTime.Now;
 
-            Job job;
+            Job job = null;
             do
             {
-                job = this.Read(jobId);
+                try
+                {
+                    job = this.Read(jobId);
+                }
+                catch (WAPackOperationException)
+                {
+                    break;
+                }
 
                 if (job.IsCompleted == true)
                     break;
@@ -56,7 +64,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Operations
                 if ((String.Compare(job.Status, "Completed", StringComparison.InvariantCultureIgnoreCase) == 0) ||
                     (String.Compare(job.Status, "SucceedWithInfo", StringComparison.InvariantCultureIgnoreCase) == 0))
                 {
-                    return new JobInfo(JobStatusEnum.CompletedSuccesfully, null);
+                    return new JobInfo(JobStatusEnum.CompletedSuccessfully, null);
                 }
                 else
                     if ((String.Compare(job.Status, "Invalid", StringComparison.InvariantCultureIgnoreCase) == 0) ||

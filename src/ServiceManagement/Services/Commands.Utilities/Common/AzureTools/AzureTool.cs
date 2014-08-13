@@ -25,10 +25,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
     {
         public static void Validate()
         {
-            // This instantiation will throw if user is running with incompatible Windows Azure SDK version.
+            // This instantiation will throw if user is running with incompatible Microsoft Azure SDK version.
             GetAzureSdkBinDirectory();
             GetComputeEmulatorDirectory();
         }
+
+        public static bool IgnoreMissingSDKError { get; set; }
 
         public static string GetAzureSdkVersion()
         {
@@ -82,24 +84,39 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
         {
             string version = string.Empty; 
             string min = Resources.MinSupportAzureSdkVersion;
-            string max = Resources.MaxSupportAzureSdkVersion;           
-            using (RegistryKey key = Registry.LocalMachine.OpenSubKey(Resources.AzureSdkRegistryKeyName))
+            string max = Resources.MaxSupportAzureSdkVersion;
+            try
             {
-                if (key == null)
+                using (RegistryKey key = Registry.LocalMachine.OpenSubKey(Resources.AzureSdkRegistryKeyName))
                 {
-                    throw new Exception(Resources.AzureToolsNotInstalledMessage);
-                }
-                version = key.GetSubKeyNames()
-                    .Where(n => (n.CompareTo(min) == 1 && n.CompareTo(max) == -1) || n.CompareTo(min) == 0 || n.CompareTo(max) == 0)
-                    .Max<string>();
+                    if (key == null)
+                    {
+                        throw new InvalidOperationException(Resources.AzureToolsNotInstalledMessage);
+                    }
+                    version = key.GetSubKeyNames()
+                        .Where(n => (n.CompareTo(min) == 1 && n.CompareTo(max) == -1) || n.CompareTo(min) == 0 || n.CompareTo(max) == 0)
+                        .Max<string>();
 
-                if (string.IsNullOrEmpty(version) && key.GetSubKeyNames().Length > 0)
-                {
-                    throw new Exception(string.Format(Resources.AzureSdkVersionNotSupported, min, max));
+                    if (string.IsNullOrEmpty(version) && key.GetSubKeyNames().Length > 0)
+                    {
+                        throw new InvalidOperationException(string.Format(Resources.AzureSdkVersionNotSupported, min, max));
+                    }
+                    else if (string.IsNullOrEmpty(version) && key.GetSubKeyNames().Length == 0)
+                    {
+                        throw new InvalidOperationException(Resources.AzureToolsNotInstalledMessage);
+                    }
                 }
-                else if (string.IsNullOrEmpty(version) && key.GetSubKeyNames().Length == 0)
+            }
+            catch (InvalidOperationException)
+            {
+                //temporary workaround: catch exception and fall back to v2.4
+                if (IgnoreMissingSDKError)
                 {
-                    throw new Exception(Resources.AzureToolsNotInstalledMessage);
+                    version = "v2.4";
+                }
+                else
+                {
+                    throw;
                 }
             }
             return version;

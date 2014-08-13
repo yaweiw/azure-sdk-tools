@@ -13,6 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 using System.Collections;
+using Microsoft.Azure.Commands.Tags.Model;
 using Microsoft.Azure.Gallery;
 using Microsoft.Azure.Management.Resources.Models;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
@@ -216,7 +217,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
             return resourcesTable.ToString();
         }
 
-        public static string ConstructTagsTable(List<Hashtable> tags)
+        public static string ConstructTagsTable(Hashtable[] tags)
         {
             if (tags == null)
             {
@@ -230,7 +231,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
                 };
             StringBuilder resourcesTable = new StringBuilder();
 
-            if (tags.Count > 0)
+            if (tags.Length > 0)
             {
                 int maxNameLength = Math.Max("Name".Length, tags.Where(ht => ht.ContainsKey("Name")).DefaultIfEmpty(emptyHashtable).Max(ht => ht["Name"].ToString().Length));
                 int maxValueLength = Math.Max("Value".Length, tags.Where(ht => ht.ContainsKey("Value")).DefaultIfEmpty(emptyHashtable).Max(ht => ht["Value"].ToString().Length));
@@ -247,6 +248,11 @@ namespace Microsoft.Azure.Commands.Resources.Models
                     PSTagValuePair tagValuePair = TagsConversionHelper.Create(tag);
                     if (tagValuePair != null)
                     {
+                        if (tagValuePair.Name.StartsWith(TagsClient.ExecludedTagPrefix))
+                        {
+                            continue;
+                        }
+
                         if (tagValuePair.Value == null)
                         {
                             tagValuePair.Value = string.Empty;

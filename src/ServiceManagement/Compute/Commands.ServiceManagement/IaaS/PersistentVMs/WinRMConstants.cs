@@ -17,6 +17,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     public static class WinRMConstants
     {
         public const int HttpsListenerPort = 5986;
-        public const string EndpointName = "WinRmHTTPs";
+        public const string EndpointName = "PowerShell";
     }
 }

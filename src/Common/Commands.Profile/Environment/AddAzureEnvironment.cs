@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
     using System.Security.Permissions;
 
     /// <summary>
-    /// Adds a new Windows Azure environment.
+    /// Adds a new Microsoft Azure environment.
     /// </summary>
     [Cmdlet(VerbsCommon.Add, "AzureEnvironment"), OutputType(typeof(WindowsAzureEnvironment))]
     public class AddAzureEnvironmentCommand : CmdletBase

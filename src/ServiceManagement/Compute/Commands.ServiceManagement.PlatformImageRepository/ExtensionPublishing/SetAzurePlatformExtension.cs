@@ -109,6 +109,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
         [ValidateSet(PublicModeStr, InternalModeStr)]
         public string ExtensionMode { get; set; }
 
+        [Parameter(
+            Position = 10,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Publisher Name.")]
+        [ValidateNotNullOrEmpty]
+        public string CompanyName { get; set; }
+
         public bool? BlockRoleUponFailure { get; set; }
 
         public bool? DisallowMajorVersionUpgrade { get; set; }

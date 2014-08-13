@@ -134,7 +134,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Store
         /// <summary>
         /// Creates new instance from the store client.
         /// </summary>
-        /// <param name="subscriptionId">The Windows Azure subscription id</param>
+        /// <param name="subscriptionId">The Microsoft Azure subscription id</param>
         /// <param name="storeEndpointUri">The service management endpoint uri</param>
         /// <param name="cert">The authentication certificate</param>
         /// <param name="logger">The logger for http request/response</param>

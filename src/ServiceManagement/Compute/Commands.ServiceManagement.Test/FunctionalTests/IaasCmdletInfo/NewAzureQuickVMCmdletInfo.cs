@@ -15,7 +15,7 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
     using ConfigDataInfo;
-    using Microsoft.WindowsAzure.ServiceManagement;
+    using Model;
     using PowershellCore;
 
     public class NewAzureQuickVMCmdletInfo : CmdletsInfo
@@ -57,24 +57,32 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             string password, string locationName, string instanceSize)
             : this(os, name, serviceName, imageName, userName, password, locationName)
         {
-            if (! string.IsNullOrEmpty(instanceSize))
+            if (!string.IsNullOrEmpty(instanceSize))
             {
                 cmdletParams.Add(new CmdletParam("InstanceSize", instanceSize));
             }
         }
 
         public NewAzureQuickVMCmdletInfo(OS os, string name, string serviceName, string imageName, string userName,
-            string password, string locationName, string instanceSize, string disableWinRMHttps)
+            string password, string locationName, string instanceSize, string disableWinRMHttps, string reservedIpName, string vnetName)
             : this(os, name, serviceName, imageName, userName, password, locationName, instanceSize)
         {
             if (!string.IsNullOrEmpty(disableWinRMHttps))
             {
-                cmdletParams.Add(new CmdletParam("DisableWinRMHttps",disableWinRMHttps));
+                cmdletParams.Add(new CmdletParam("DisableWinRMHttps", disableWinRMHttps));
+            }
+            if (!string.IsNullOrEmpty(reservedIpName))
+            {
+                cmdletParams.Add(new CmdletParam("ReservedIPName", reservedIpName));
+            }
+            if (!string.IsNullOrEmpty(vnetName))
+            {
+                cmdletParams.Add(new CmdletParam("VNetName", vnetName));
             }
         }
 
         public NewAzureQuickVMCmdletInfo(OS os, string name, string serviceName, string imageName, string instanceSize,
-            string userName, string password, string vNetName, string[] subnetNames, string affinityGroup)
+            string userName, string password, string vNetName, string[] subnetNames, string affinityGroup, string reservedIP)
             : this(os, name, serviceName, imageName, userName, password)
         {
             if (!string.IsNullOrEmpty(affinityGroup))
@@ -93,50 +101,32 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             {
                 cmdletParams.Add(new CmdletParam("SubnetNames", subnetNames));
             }
+            if (!string.IsNullOrEmpty(reservedIP))
+            {
+                cmdletParams.Add(new CmdletParam("ReservedIPName", reservedIP));
+            }
         }
 
-        public NewAzureQuickVMCmdletInfo(OS os, string name, string serviceName, string imageName, InstanceSize? instanceSize, string userName, string password, string vNetName, string[] subnetNames, string affinityGroup)
-            : this(os, name, serviceName, imageName, userName, password)
-        {
-            if (!string.IsNullOrEmpty(affinityGroup))
-            {
-                cmdletParams.Add(new CmdletParam("AffinityGroup", affinityGroup));
-            }
-            if (instanceSize.HasValue)
-            {
-                cmdletParams.Add(new CmdletParam("InstanceSize", instanceSize.ToString()));
-            }
-            if (!string.IsNullOrEmpty(vNetName))
-            {
-                cmdletParams.Add(new CmdletParam("VNetName", vNetName));
-            }
-            if (subnetNames != null)
-            {
-                cmdletParams.Add(new CmdletParam("SubnetNames", subnetNames));
-            }                      
-
-        }
-
-        public NewAzureQuickVMCmdletInfo(
-
+		public NewAzureQuickVMCmdletInfo(
             OS os,
+            string name,
+            string serviceName,
+            string imageName,
             string userName,
+            string password,
+            string location,
+            string instanceSize,
+            string vnetName,
+            string[] subnetNames,
             string affinityGroup, 
             string availabilitySetName, 
             CertificateSettingList certificates, 
             DnsServer[] dnsSettings,
             string hostCaching,
-            string imageName,
-            string instanceSize,
-            string location,
             string mediaLocation,
-            string name,
-            string password,
-            string serviceName,
             LinuxProvisioningConfigurationSet.SSHKeyPairList sshKeyPairs,
             LinuxProvisioningConfigurationSet.SSHPublicKeyList sshPublicKeys,
-            string[] subnetNames,
-            string vnetName )
+            string customDataFileName)
             : this(os, name, serviceName, imageName, userName, password, location, instanceSize)
         {
             
@@ -179,7 +169,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             if (!string.IsNullOrEmpty(vnetName))
             {
                 cmdletParams.Add(new CmdletParam("VNetName", vnetName));
-            }                               
+            } 
+            if (!string.IsNullOrEmpty(customDataFileName))
+            {
+                cmdletParams.Add(new CmdletParam("CustomData", customDataFileName));
+            }
         }
     }
 }

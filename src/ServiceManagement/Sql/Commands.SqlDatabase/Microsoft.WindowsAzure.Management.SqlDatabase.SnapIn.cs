@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.PowerShell
     using System.Management.Automation;
 
     /// <summary>
-    /// Installer class for the Windows Azure Platform PowerShell Cmdlets
+    /// Installer class for the Microsoft Azure Platform PowerShell Cmdlets
     /// Windows Powershell v2.0 snap-in.
     /// </summary>
     [RunInstaller(true)]
@@ -29,7 +29,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.PowerShell
         /// </summary>
         public override string Description
         {
-            get { return "Cmdlets to create and configure Windows Azure Sql Databases"; }
+            get { return "Cmdlets to create and configure Microsoft Azure Sql Databases"; }
         }
 
         /// <summary>

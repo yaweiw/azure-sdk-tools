@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
+    using System;
     using System.Management.Automation;
     using Model;
 
@@ -29,8 +30,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
         internal void ExecuteCommand()
         {
-            RemovePredicateExtensions();
-            WriteObject(VM);
+            // We do not support this cmdlet for now...
+            throw new NotSupportedException();
+
+        //    RemovePredicateExtensions();   
+        //    WriteObject(VM);
         }
 
         protected override void ProcessRecord()

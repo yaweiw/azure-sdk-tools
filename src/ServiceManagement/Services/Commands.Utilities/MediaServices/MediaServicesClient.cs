@@ -12,13 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services;
 using Microsoft.WindowsAzure.Management.MediaServices;
 using Microsoft.WindowsAzure.Management.MediaServices.Models;
 using Microsoft.WindowsAzure.Management.Storage;
 using Microsoft.WindowsAzure.Management.Storage.Models;
-using Microsoft.WindowsAzure.ServiceManagement;
 using Newtonsoft.Json;
 using System;
 using System.IO;
@@ -59,7 +59,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.MediaServices
         /// <summary>
         ///     Creates new MediaServicesClient.
         /// </summary>
-        /// <param name="subscription">The Windows Azure subscription data object</param>
+        /// <param name="subscription">The Microsoft Azure subscription data object</param>
         /// <param name="logger">The logger action</param>
         public MediaServicesClient(WindowsAzureSubscription subscription, Action<string> logger)
             : this(logger, subscription.CreateClient<MediaServicesManagementClient>(), subscription.CreateClient<StorageManagementClient>())

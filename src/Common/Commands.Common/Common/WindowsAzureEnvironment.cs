@@ -19,12 +19,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Management.Automation;
+    using System.Net.Http;
 
     [Serializable]
     public class WindowsAzureEnvironment
     {
         /// <summary>
-        /// The Windows Azure environment name.
+        /// The Microsoft Azure environment name.
         /// </summary>
         public string Name { get; set; }
 
@@ -44,7 +46,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public string ResourceManagerEndpoint { get; set; }
 
         /// <summary>
-        /// Url to the Windows Azure management portal.
+        /// Url to the Microsoft Azure management portal.
         /// </summary>
         public string ManagementPortalUrl { get; set; }
 
@@ -92,7 +94,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// <summary>
         /// The storage service blob endpoint format.
         /// </summary>
-        public string StorageBlobEndpointFormat { 
+        public string StorageBlobEndpointFormat
+        { 
             get { return EndpointFormatFor("blob"); }
         }
 
@@ -200,17 +203,43 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             return baseUrl;
         }
 
-        public IEnumerable<WindowsAzureSubscription> AddAccount(ITokenProvider tokenProvider)
+        public SubscriptionClient AddUserAgent(SubscriptionClient client)
+        {
+            if (!client.UserAgent.Contains(ApiConstants.UserAgentValue))
+            {
+                client.UserAgent.Add(ApiConstants.UserAgentValue);
+            }
+            return client;
+        }
+
+        public SubscriptionClient AddRestLogHandler(SubscriptionClient client)
+        {
+            var withHandlerMethod = typeof(SubscriptionClient).GetMethod("WithHandler", new[] { typeof(DelegatingHandler) });
+            SubscriptionClient finalClient =
+                (SubscriptionClient)withHandlerMethod.Invoke(client, new object[] { new HttpRestCallLogger() });
+            client.Dispose();
+            return finalClient;
+        }
+
+        public IEnumerable<WindowsAzureSubscription> AddAccount(ITokenProvider tokenProvider, PSCredential credential)
         {
             if (ActiveDirectoryEndpoint == null || ActiveDirectoryServiceEndpointResourceId == null)
             {
                 throw new Exception(string.Format(Resources.EnvironmentDoesNotSupportActiveDirectory, Name));
             }
 
-            IAccessToken mainToken = tokenProvider.GetNewToken(this);
+            IAccessToken mainToken;
+            if (credential != null)
+            {
+                mainToken = tokenProvider.GetNewToken(this, credential.UserName, credential.Password);
+            }
+            else
+            {
+                mainToken = tokenProvider.GetNewToken(this);
+            }
             var credentials = new TokenCloudCredentials(mainToken.AccessToken);
 
-            using (var subscriptionClient = new SubscriptionClient(credentials, new Uri(ServiceEndpoint)))
+            using (var subscriptionClient = AddRestLogHandler(AddUserAgent(new SubscriptionClient(credentials, new Uri(ServiceEndpoint)))))
             {
                 var result = subscriptionClient.Subscriptions.List();
                 // Filter out subscriptions with no tenant, backfill's not done on them
@@ -245,7 +274,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         }
 
         /// <summary>
-        /// Predefined Windows Azure environments
+        /// Predefined Microsoft Azure environments
         /// </summary>
         public static Dictionary<string, WindowsAzureEnvironment> PublicEnvironments
         {

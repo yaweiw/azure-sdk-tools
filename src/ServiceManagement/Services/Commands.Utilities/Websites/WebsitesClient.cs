@@ -42,12 +42,17 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
     using System.Web;
     using System.Xml.Linq;
     using Utilities.Common;
+    using Utilities = Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntities;
+    using Models = Management.WebSites.Models;
+
 
     public class WebsitesClient : IWebsitesClient
     {
         private const int UploadJobWaitTime = 2000;
 
         private readonly CloudServiceClient cloudServiceClient;
+
+        private readonly WindowsAzureSubscription subscription;
 
         public static string SlotFormat = "{0}({1})";
 
@@ -65,6 +70,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             Logger = logger;
             cloudServiceClient = new CloudServiceClient(subscription, debugStream: logger);
             WebsiteManagementClient = subscription.CreateClient<WebSiteManagementClient>();
+            this.subscription = subscription;
         }
 
         /// <summary>
@@ -207,8 +213,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         {
             Site website = GetWebsite(websiteName);
             Uri endpointUrl = new Uri("https://" + website.EnabledHostNames.First(url => url.Contains(".scm.")));
-            return new WebSiteExtensionsClient(websiteName, GetWebSiteExtensionsCredentials(websiteName), endpointUrl)
-                .WithHandler(new HttpRestCallLogger());
+            return subscription.CreateClient<WebSiteExtensionsClient>(false, new object[] { websiteName,
+                GetWebSiteExtensionsCredentials(websiteName), endpointUrl });
         }
 
         private BasicAuthenticationCloudCredentials GetWebSiteExtensionsCredentials(string name)
@@ -409,7 +415,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         public WebsiteInstance[] ListWebsiteInstances(string webSpace, string fullName)
         {
             IList<string> instanceIds = WebsiteManagementClient.WebSites.GetInstanceIds(webSpace, fullName).InstanceIds;
-            return instanceIds.Select(s => new WebsiteInstance {InstanceId = s}).ToArray();
+            return instanceIds.Select(s => new WebsiteInstance { InstanceId = s }).ToArray();
         }
 
         /// <summary>
@@ -787,14 +793,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
                 {
                     ConnectionString = value,
                     Name = key,
-                    Type = connectionStringType.ToString()
+                    Type = (ConnectionStringType)Enum.Parse(typeof(ConnectionStringType), connectionStringType.ToString()),
                 };
                 update.ConnectionStrings.Add(csToUpdate);
             }
             else
             {
                 csToUpdate.ConnectionString = value;
-                csToUpdate.Type = connectionStringType.ToString();
+                csToUpdate.Type = (ConnectionStringType) Enum.Parse(typeof (ConnectionStringType), connectionStringType.ToString());
             }
 
             WebsiteManagementClient.WebSites.UpdateConfiguration(website.WebSpace, website.Name, update);
@@ -923,6 +929,46 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         {
             return WebsiteManagementClient.WebSpaces.ListPublishingUsers()
                 .Users.Select(u => u.Name).Where(n => !string.IsNullOrEmpty(n)).ToList();
+        }
+
+        
+        /// <summary>
+        /// Get a list of historic metrics for the site.
+        /// </summary>
+        /// <param name="siteName">The website name</param>
+        /// <param name="metricNames">List of metrics names to retrieve. See metric definitions for supported names</param>
+        /// <param name="slot">Slot name</param>
+        /// <param name="starTime">Start date of the requested period</param>
+        /// <param name="endTime">End date of the requested period</param>
+        /// <param name="timeGrain">Time grains for the metrics.</param>
+        /// <param name="instanceDetails">Include details for the server instances in which the site is running.</param>
+        /// <param name="slotView">Represent the metrics for the hostnames that receive the traffic at the current slot. 
+        /// If swap occured in the middle of the period mereics will be merged</param>
+        /// <returns>The list of site metrics for the specified period.</returns>
+        public IList<MetricResponse> GetHistoricalUsageMetrics(string siteName, string slot, IList<string> metricNames,
+            DateTime? starTime, DateTime? endTime, string timeGrain, bool instanceDetails, bool slotView)
+        {
+            Site website = null;
+
+            if (!string.IsNullOrEmpty(slot))
+            {
+                website = GetWebsite(siteName, slot);
+            }
+            else
+            {
+                website = GetWebsite(siteName);
+            }
+
+            return WebsiteManagementClient.WebSites.GetHistoricalUsageMetrics(website.WebSpace, website.Name,
+                new WebSiteGetHistoricalUsageMetricsParameters()
+                {
+                    StartTime = starTime,
+                    EndTime = endTime,
+                    MetricNames = metricNames,
+                    TimeGrain = timeGrain,
+                    IncludeInstanceBreakdown = instanceDetails,
+                    SlotView = slotView
+                }).ToMetricResponses();
         }
 
         /// <summary>
@@ -1281,68 +1327,74 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// </summary>
         /// <param name="options">The web job filter options</param>
         /// <returns>The filtered web jobs list</returns>
-        public List<PSWebJob> FilterWebJobs(WebJobFilterOptions options)
+        public List<IPSWebJob> FilterWebJobs(WebJobFilterOptions options)
         {
-            options.Name = SetWebsiteName(options.Name, options.Slot);
-            IWebSiteExtensionsClient client = GetWebSiteExtensionsClient(options.Name);
-            List<WebJob> jobList = new List<WebJob>();
+            //GetWebsite(options.Name, options.Slot);
 
-            if (string.IsNullOrEmpty(options.JobName) && string.IsNullOrEmpty(options.JobType))
+            options.Name = SetWebsiteName(options.Name, options.Slot);
+
+            IWebSiteExtensionsClient client = GetWebSiteExtensionsClient(options.Name);
+            List<WebJobBase> jobList = new List<WebJobBase>();
+            bool isContinuousJobs = false;
+            bool isTriggeredJobs = false;
+
+            if (string.IsNullOrEmpty(options.JobType))
             {
-                jobList = client.WebJobs.List(new WebJobListParameters()).Jobs.ToList();
-            }
-            else if (string.IsNullOrEmpty(options.JobName) && !string.IsNullOrEmpty(options.JobType))
-            {
-                if (string.Compare(options.JobType, WebJobType.Continuous.ToString(), true) == 0)
-                {
-                    jobList = client.WebJobs.ListContinuous(new WebJobListParameters()).Jobs.ToList();
-                }
-                else if (string.Compare(options.JobType, WebJobType.Triggered.ToString(), true) == 0)
-                {
-                    jobList = client.WebJobs.ListTriggered(new WebJobListParameters()).Jobs.ToList();
-                }
-                else
-                {
-                    throw new ArgumentOutOfRangeException("JobType");
-                }
-            }
-            else if (!string.IsNullOrEmpty(options.JobName) && !string.IsNullOrEmpty(options.JobType))
-            {
-                if (string.Compare(options.JobType, WebJobType.Continuous.ToString(), true) == 0)
-                {
-                    jobList = new List<WebJob>() { client.WebJobs.GetContinuous(options.JobName).WebJob };
-                }
-                else if (string.Compare(options.JobType, WebJobType.Triggered.ToString(), true) == 0)
-                {
-                    jobList = new List<WebJob>() { client.WebJobs.GetTriggered(options.JobName).WebJob };
-                }
-                else
-                {
-                    throw new ArgumentOutOfRangeException("JobType");
-                }
+                isContinuousJobs = true;
+                isTriggeredJobs = true;
             }
             else
             {
-                if (string.IsNullOrEmpty(options.JobName))
+                if (string.Compare(options.JobType, WebJobType.Continuous.ToString(), StringComparison.CurrentCultureIgnoreCase) == 0)
                 {
-                    throw new ArgumentOutOfRangeException("JobName");
+                    isContinuousJobs = true;
                 }
-                else if (string.IsNullOrEmpty(options.JobType))
+                else if (string.Compare(options.JobType, WebJobType.Triggered.ToString(), StringComparison.CurrentCultureIgnoreCase) == 0)
                 {
-                    throw new ArgumentOutOfRangeException("JobType");
+                    isTriggeredJobs = true;
                 }
                 else
                 {
-                    throw new ArgumentOutOfRangeException("options");
+                    throw new ArgumentOutOfRangeException("JobType");
                 }
             }
 
-            List<PSWebJob> result = new List<PSWebJob>();
-            foreach (WebJob job in jobList)
+            if (!string.IsNullOrEmpty(options.JobName))
             {
-                result.Add(new PSWebJob(job));
+                if (isContinuousJobs && isTriggeredJobs)
+                {
+                    throw new ArgumentOutOfRangeException("JobType");
+                }
+
+                WebJobBase webJob =
+                    isContinuousJobs
+                        ? (WebJobBase)client.ContinuousWebJobs.Get(options.JobName).ContinuousWebJob
+                        : (WebJobBase)client.TriggeredWebJobs.Get(options.JobName).TriggeredWebJob;
+
+                if (webJob == null)
+                {
+                    throw new ArgumentOutOfRangeException("JobName");
+                }
+
+                jobList.Add(webJob);
             }
-            return result;
+            else
+            {
+                if (isContinuousJobs)
+                {
+                    jobList.AddRange(client.ContinuousWebJobs.List().ContinuousWebJobs);
+                }
+
+                if (isTriggeredJobs)
+                {
+                    jobList.AddRange(client.TriggeredWebJobs.List().TriggeredWebJobs);
+                }
+            }
+
+            return jobList.Select(webJob =>
+                webJob is ContinuousWebJob ?
+                    (IPSWebJob)new PSContinuousWebJob(webJob as ContinuousWebJob) :
+                    (IPSWebJob)new PSTriggeredWebJob(webJob as TriggeredWebJob)).ToList();
         }
 
         /// <summary>
@@ -1353,37 +1405,50 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="jobName">The web job name</param>
         /// <param name="jobType">The web job type</param>
         /// <param name="jobFile">The web job file name</param>
-        public PSWebJob CreateWebJob(string name, string slot, string jobName, WebJobType jobType, string jobFile)
+        /// <returns>The created web job instance</returns>
+        public IPSWebJob CreateWebJob(string name, string slot, string jobName, WebJobType jobType, string jobFile)
         {
-            WebJobFilterOptions options = new WebJobFilterOptions() { Name = name, Slot = slot, JobName = jobName, JobType = jobType.ToString() };
             name = SetWebsiteName(name, slot);
             IWebSiteExtensionsClient client = GetWebSiteExtensionsClient(name);
 
-            if (Path.GetExtension(jobFile).ToLower() != ".zip")
-            {
-                throw new InvalidOperationException(Resources.InvalidWebJobFile);
-            }
+            string fileName = Path.GetFileName(jobFile);
+            bool isZipFile = Path.GetExtension(jobFile).ToLower() == ".zip";
 
             switch (jobType)
             {
                 case WebJobType.Continuous:
-                    client.WebJobs.UploadContinuous(jobName, File.OpenRead(jobFile));
+                    if (isZipFile)
+                    {
+                        client.ContinuousWebJobs.UploadZipAsync(jobName, fileName, File.OpenRead(jobFile));
+                    }
+                    else
+                    {
+                        client.ContinuousWebJobs.UploadFileAsync(jobName, fileName, File.OpenRead(jobFile));
+                    }
                     break;
 
                 case WebJobType.Triggered:
-                    client.WebJobs.UploadTriggered(jobName, File.OpenRead(jobFile));
+                    if (isZipFile)
+                    {
+                        client.TriggeredWebJobs.UploadZipAsync(jobName, fileName, File.OpenRead(jobFile));
+                    }
+                    else
+                    {
+                        client.TriggeredWebJobs.UploadFileAsync(jobName, fileName, File.OpenRead(jobFile));
+                    }
                     break;
 
                 default:
                     break;
             }
-            PSWebJob webjob = null;
 
-            Thread.Sleep(UploadJobWaitTime);
+            //Thread.Sleep(UploadJobWaitTime);
+
+            var options = new WebJobFilterOptions() { Name = name, Slot = slot, JobName = jobName, JobType = jobType.ToString() };
 
             try
             {
-                webjob = FilterWebJobs(options).FirstOrDefault();
+                return FilterWebJobs(options).FirstOrDefault();
             }
             catch (CloudException e)
             {
@@ -1391,9 +1456,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
                 {
                     throw new ArgumentException(Resources.InvalidJobFile);
                 }
-            }
 
-            return webjob;
+                throw;
+            }
         }
 
         /// <summary>
@@ -1410,11 +1475,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
 
             if (jobType == WebJobType.Continuous)
             {
-                client.WebJobs.DeleteContinuous(jobName, true);
+                client.ContinuousWebJobs.Delete(jobName);
             }
             else if (jobType == WebJobType.Triggered)
             {
-                client.WebJobs.DeleteTriggered(jobName, true);
+                client.TriggeredWebJobs.Delete(jobName);
             }
             else
             {
@@ -1436,11 +1501,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
 
             if (jobType == WebJobType.Continuous)
             {
-                client.WebJobs.StartContinuous(jobName);
+                client.ContinuousWebJobs.Start(jobName);
             }
             else
             {
-                client.WebJobs.RunTriggered(jobName);
+                client.TriggeredWebJobs.Run(jobName);
             }
         }
 
@@ -1458,7 +1523,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
 
             if (jobType == WebJobType.Continuous)
             {
-                client.WebJobs.StopContinuous(jobName);
+                client.ContinuousWebJobs.Stop(jobName);
             }
             else
             {
@@ -1471,23 +1536,23 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// </summary>
         /// <param name="options">The web job filter options</param>
         /// <returns>The filtered web jobs run list</returns>
-        public List<WebJobRun> FilterWebJobHistory(WebJobHistoryFilterOptions options)
+        public List<TriggeredWebJobRun> FilterWebJobHistory(WebJobHistoryFilterOptions options)
         {
             options.Name = SetWebsiteName(options.Name, options.Slot);
             IWebSiteExtensionsClient client = GetWebSiteExtensionsClient(options.Name);
-            List<WebJobRun> result = new List<WebJobRun>();
+            var result = new List<TriggeredWebJobRun>();
 
             if (options.Latest)
             {
-                result.Add(client.WebJobs.GetTriggered(options.JobName).WebJob.LatestRun);
+                result.Add(client.TriggeredWebJobs.Get(options.JobName).TriggeredWebJob.LatestRun);
             }
             else if (!string.IsNullOrEmpty(options.RunId))
             {
-                result.Add(client.WebJobs.GetRun(options.JobName, options.RunId).JobRun);
+                result.Add(client.TriggeredWebJobs.GetRun(options.JobName, options.RunId).TriggeredJobRun);
             }
             else
             {
-                result.AddRange(client.WebJobs.ListRuns(options.JobName, new WebJobRunListParameters()));
+                result.AddRange(client.TriggeredWebJobs.ListRuns(options.JobName));
             }
 
             return result;
@@ -1528,5 +1593,66 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         }
 
         #endregion WebJobs
+
+        #region WebHosting Plans
+
+        /// <summary>
+        /// Return web hosting plans in the subscription
+        /// </summary>
+        /// <returns>web hosting plans</returns>
+        public List<Utilities.WebHostingPlan> ListWebHostingPlans()
+        {
+            return ListWebSpaces().SelectMany(space => ListWebHostingPlans(space.Name)).ToList();
+        }
+
+        /// <summary>
+        /// Return web hosting plans in the subscription
+        /// </summary>
+        /// <returns>web hosting plans</returns>
+        public List<Utilities.WebHostingPlan> ListWebHostingPlans(string webSpaceName)
+        {
+            return WebsiteManagementClient.WebHostingPlans.List(webSpaceName).WebHostingPlans.Select(p => p.ToWebHostingPlan(webSpaceName)).ToList();
+        }
+
+        /// <summary>
+        /// Get web hosting plan by name
+        /// </summary>
+        /// <param name="webSpaceName">web space name where plan belongs</param>
+        /// <param name="planName">web hosting plan name</param>
+        /// <returns>web hosting plan object</returns>
+        public Utilities.WebHostingPlan GetWebHostingPlan(string webSpaceName, string planName)
+        {
+            // TODO use cache
+            var allPlans = ListWebHostingPlans(webSpaceName);
+            return allPlans.FirstOrDefault(p => p.Name.Equals(planName, StringComparison.InvariantCultureIgnoreCase));
+        }
+
+        /// <summary>
+        /// Get a list of historic metrics for the web hostin plan.
+        /// </summary>
+        /// <param name="webSpaceName">web space name where plan belongs</param>
+        /// <param name="planName">The web hosting plan name</param>
+        /// <param name="metricNames">List of metrics names to retrieve. See metric definitions for supported names</param>
+        /// <param name="starTime">Start date of the requested period</param>
+        /// <param name="endTime">End date of the requested period</param>
+        /// <param name="timeGrain">Time grains for the metrics.</param>
+        /// <param name="instanceDetails">Include details for the server instances in which the site is running.</param>
+        /// <returns>The list of site metrics for the specified period.</returns>
+        public IList<MetricResponse> GetPlanHistoricalUsageMetrics(string webSpaceName, string planName, IList<string> metricNames, 
+            DateTime? starTime, DateTime? endTime, string timeGrain, bool instanceDetails)
+        {
+            Utilities.WebHostingPlan plan = GetWebHostingPlan(webSpaceName, planName);
+
+            return WebsiteManagementClient.WebHostingPlans.GetHistoricalUsageMetrics(plan.WebSpace, planName,
+                new WebHostingPlanGetHistoricalUsageMetricsParameters
+                {
+                    StartTime = starTime,
+                    EndTime = endTime,
+                    MetricNames = metricNames,
+                    TimeGrain = timeGrain,
+                    IncludeInstanceBreakdown = instanceDetails,
+                }).ToMetricResponses();
+        }
+        #endregion
     }
 }

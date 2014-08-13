@@ -31,9 +31,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
     using System.Net;
     using System.Security.Cryptography.X509Certificates;
     using Utilities.Common;
-    using ConfigurationSet = Model.PersistentVMModel.ConfigurationSet;
-    using InputEndpoint = Model.PersistentVMModel.InputEndpoint;
-    using OSVirtualHardDisk = Model.PersistentVMModel.OSVirtualHardDisk;
+    using ConfigurationSet = Model.ConfigurationSet;
+    using InputEndpoint = Model.InputEndpoint;
+    using OSVirtualHardDisk = Model.OSVirtualHardDisk;
 
     /// <summary>
     /// Creates a VM without advanced provisioning configuration options
@@ -91,7 +91,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 
         [Parameter(Mandatory = false, ParameterSetName = WindowsParamSet, HelpMessage = "Set of certificates to install in the VM.")]
         [ValidateNotNullOrEmpty]
-        public Model.PersistentVMModel.CertificateSettingList Certificates { get; set; }
+        public Model.CertificateSettingList Certificates { get; set; }
 
         [Parameter(Mandatory = false, HelpMessage = "Waits for VM to boot")]
         [ValidateNotNullOrEmpty]
@@ -122,10 +122,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
         public SwitchParameter NoWinRMEndpoint { get; set; }
 
         [Parameter(Mandatory = false, ParameterSetName = LinuxParamSet, HelpMessage = "SSH Public Key List")]
-        public Model.PersistentVMModel.LinuxProvisioningConfigurationSet.SSHPublicKeyList SSHPublicKeys { get; set; }
+        public Model.LinuxProvisioningConfigurationSet.SSHPublicKeyList SSHPublicKeys { get; set; }
 
         [Parameter(Mandatory = false, ParameterSetName = LinuxParamSet, HelpMessage = "SSH Key Pairs")]
-        public Model.PersistentVMModel.LinuxProvisioningConfigurationSet.SSHKeyPairList SSHKeyPairs { get; set; }
+        public Model.LinuxProvisioningConfigurationSet.SSHKeyPairList SSHKeyPairs { get; set; }
 
         [Parameter(HelpMessage = "Virtual network name.")]
         public string VNetName { get; set; }
@@ -137,7 +137,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 
         [Parameter(HelpMessage = "DNS Settings for Deployment.")]
         [ValidateNotNullOrEmpty]
-        public Model.PersistentVMModel.DnsServer[] DnsSettings { get; set; }
+        public Model.DnsServer[] DnsSettings { get; set; }
 
         [Parameter(HelpMessage = "Controls the platform caching behavior of the OS disk.")]
         [ValidateSet("ReadWrite", "ReadOnly", IgnoreCase = true)]
@@ -157,6 +157,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 
         [Parameter(HelpMessage = "To disable IaaS provision guest agent.")]
         public SwitchParameter DisableGuestAgent { get; set; }
+
+        [Parameter(Mandatory = false, HelpMessage = "Path to filename that contains custom data that will execute inside the VM after boot")]
+        public string CustomDataFile { get; set; }
 
         [Parameter(ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the reserved IP.")]
         [ValidateNotNullOrEmpty]
@@ -290,7 +293,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                         VirtualNetworkName = this.VNetName,
                         Roles              = { vm },
                         ReservedIPName     = this.ReservedIPName,
-                        DnsSettings        = this.DnsSettings == null ? null : new DnsSettings
+                        DnsSettings        = this.DnsSettings == null ? null : new Microsoft.WindowsAzure.Management.Compute.Models.DnsSettings
                                              {
                                                  DnsServers = (from dns in this.DnsSettings
                                                                select new Management.Compute.Models.DnsServer
@@ -371,7 +374,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 VMImageName                 = _isVMImage ? this.ImageName : null,
                 MediaLocation               = _isVMImage && !string.IsNullOrEmpty(this.MediaLocation) ? new Uri(this.MediaLocation) : null,
                 ProvisionGuestAgent         = !this.DisableGuestAgent,
-                ResourceExtensionReferences = this.DisableGuestAgent ? null : Mapper.Map<List<ResourceExtensionReference>>(
+                ResourceExtensionReferences = this.DisableGuestAgent ? null : Mapper.Map<List<Management.Compute.Models.ResourceExtensionReference>>(
                     new VirtualMachineExtensionImageFactory(this.ComputeClient).MakeList(
                         VirtualMachineBGInfoExtensionCmdletBase.ExtensionDefaultPublisher,
                         VirtualMachineBGInfoExtensionCmdletBase.ExtensionDefaultName,
@@ -383,6 +386,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 var mediaLinkFactory = new MediaLinkFactory(currentStorage, this.ServiceName, vm.RoleName);
                 vm.OSVirtualHardDisk.MediaLink = mediaLinkFactory.Create();
             }
+            
+            string customDataBase64Str = null;
+            if (!string.IsNullOrEmpty(this.CustomDataFile))
+            {
+                string fileName = this.TryResolvePath(this.CustomDataFile);
+                customDataBase64Str = PersistentVMHelper.ConvertCustomDataFileToBase64(fileName);
+            }
 
             var configurationSets = new Collection<ConfigurationSet>();
             var netConfig = CreateNetworkConfigurationSet();
@@ -391,7 +401,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             {
                 if (this.AdminUsername != null && this.Password != null)
                 {
-                    var windowsConfig = new Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.WindowsProvisioningConfigurationSet
+                    var windowsConfig = new Microsoft.WindowsAzure.Commands.ServiceManagement.Model.WindowsProvisioningConfigurationSet
                     {
                         AdminUsername = this.AdminUsername,
                         AdminPassword = SecureStringHelper.GetSecureString(Password),
@@ -399,12 +409,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                         EnableAutomaticUpdates = true,
                         ResetPasswordOnFirstLogon = false,
                         StoredCertificateSettings = CertUtilsNewSM.GetCertificateSettings(this.Certificates, this.X509Certificates),
-                        WinRM = GetWinRmConfiguration()
+                        WinRM = GetWinRmConfiguration(),
+                        CustomData = customDataBase64Str
                     };
 
                     if (windowsConfig.StoredCertificateSettings == null)
                     {
-                        windowsConfig.StoredCertificateSettings = new Model.PersistentVMModel.CertificateSettingList();
+                        windowsConfig.StoredCertificateSettings = new Model.CertificateSettingList();
                     }
 
                     configurationSets.Add(windowsConfig);
@@ -422,18 +433,19 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             {
                 if (this.LinuxUser != null && this.Password != null)
                 {
-                    var linuxConfig = new Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.LinuxProvisioningConfigurationSet
+                    var linuxConfig = new Microsoft.WindowsAzure.Commands.ServiceManagement.Model.LinuxProvisioningConfigurationSet
                     {
                         HostName = string.IsNullOrEmpty(this.Name) ? this.ServiceName : this.Name,
                         UserName = this.LinuxUser,
                         UserPassword = SecureStringHelper.GetSecureString(this.Password),
-                        DisableSshPasswordAuthentication = false
+                        DisableSshPasswordAuthentication = false,
+                        CustomData = customDataBase64Str
                     };
 
                     if (this.SSHKeyPairs != null && this.SSHKeyPairs.Count > 0 ||
                         this.SSHPublicKeys != null && this.SSHPublicKeys.Count > 0)
                     {
-                        linuxConfig.SSH = new Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.LinuxProvisioningConfigurationSet.SSHSettings
+                        linuxConfig.SSH = new Microsoft.WindowsAzure.Commands.ServiceManagement.Model.LinuxProvisioningConfigurationSet.SSHSettings
                         {
                             PublicKeys = this.SSHPublicKeys,
                             KeyPairs = this.SSHKeyPairs
@@ -453,16 +465,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             return vm;
         }
 
-        private Model.PersistentVMModel.NetworkConfigurationSet CreateNetworkConfigurationSet()
+        private Model.NetworkConfigurationSet CreateNetworkConfigurationSet()
         {
-            var netConfig = new Model.PersistentVMModel.NetworkConfigurationSet
+            var netConfig = new Model.NetworkConfigurationSet
             {
                 InputEndpoints = new Collection<InputEndpoint>()
             };
 
             if (SubnetNames != null)
             {
-                netConfig.SubnetNames = new Model.PersistentVMModel.SubnetNamesCollection();
+                netConfig.SubnetNames = new Model.SubnetNamesCollection();
                 foreach (var subnet in SubnetNames)
                 {
                     netConfig.SubnetNames.Add(subnet);
@@ -472,7 +484,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             return netConfig;
         }
 
-        private Model.PersistentVMModel.WindowsProvisioningConfigurationSet.WinRmConfiguration GetWinRmConfiguration()
+        private Model.WindowsProvisioningConfigurationSet.WinRmConfiguration GetWinRmConfiguration()
         {
             if(this.DisableWinRMHttps.IsPresent)
             {

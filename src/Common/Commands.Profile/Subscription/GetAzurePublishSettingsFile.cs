@@ -27,7 +27,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
     public class GetAzurePublishSettingsFileCommand : CmdletBase
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The targeted Windows Azure environment.")]
+            HelpMessage = "The targeted Microsoft Azure environment.")]
         [ValidateNotNullOrEmpty]
         public string Environment { get; set; }
 

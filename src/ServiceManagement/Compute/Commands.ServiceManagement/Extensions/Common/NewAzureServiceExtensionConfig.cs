@@ -19,13 +19,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     using System.Security.Cryptography.X509Certificates;
 
     /// <summary>
-    /// New Windows Azure Service Extension.
+    /// New Microsoft Azure Service Extension.
     /// </summary>
-    [Cmdlet(VerbsCommon.New, "AzureServiceExtensionConfig", DefaultParameterSetName = "NewExtension"), OutputType(typeof(ExtensionConfigurationInput))]
+    [Cmdlet(VerbsCommon.New, "AzureServiceExtensionConfig", DefaultParameterSetName = NewExtensionParameterSetName), OutputType(typeof(ExtensionConfigurationInput))]
     public class NewAzureServiceExtensionConfigCommand : BaseAzureServiceExtensionCmdlet
     {
-        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, ParameterSetName = "NewExtension", HelpMessage = "Default All Roles, or specify ones for Named Roles.")]
-        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Default All Roles, or specify ones for Named Roles.")]
+        private const string NetExtensionParameterSetName = NewExtensionParameterSetName;
+        private const string NetExtensionUsingThumbprintParameterSetName = NewExtensionUsingThumbprintParameterSetName;
+
+        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, ParameterSetName = NetExtensionParameterSetName, HelpMessage = ExtensionParameterPropertyHelper.RoleHelpMessage)]
+        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, ParameterSetName = NetExtensionUsingThumbprintParameterSetName, HelpMessage = ExtensionParameterPropertyHelper.RoleHelpMessage)]
         [ValidateNotNullOrEmpty]
         public override string[] Role
         {
@@ -33,7 +36,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, ParameterSetName = "NewExtension", HelpMessage = "X509Certificate used to encrypt password.")]
+        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, ParameterSetName = NetExtensionParameterSetName, HelpMessage = ExtensionParameterPropertyHelper.X509CertificateHelpMessage)]
         [ValidateNotNullOrEmpty]
         public override X509Certificate2 X509Certificate
         {
@@ -41,7 +44,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, Mandatory = true, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Thumbprint of a certificate used for encryption.")]
+        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, Mandatory = true, ParameterSetName = NetExtensionUsingThumbprintParameterSetName, HelpMessage = ExtensionParameterPropertyHelper.CertificateThumbprintHelpMessage)]
         [ValidateNotNullOrEmpty]
         public override string CertificateThumbprint
         {
@@ -49,8 +52,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 2, ValueFromPipelineByPropertyName = true, ParameterSetName = "NewExtension", HelpMessage = "Algorithm associated with the Thumbprint.")]
-        [Parameter(Position = 2, ValueFromPipelineByPropertyName = true, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Algorithm associated with the Thumbprint.")]
+        [Parameter(Position = 2, ValueFromPipelineByPropertyName = true, ParameterSetName = NetExtensionParameterSetName, HelpMessage = ExtensionParameterPropertyHelper.ThumbprintAlgorithmHelpMessage)]
+        [Parameter(Position = 2, ValueFromPipelineByPropertyName = true, ParameterSetName = NetExtensionUsingThumbprintParameterSetName, HelpMessage = ExtensionParameterPropertyHelper.ThumbprintAlgorithmHelpMessage)]
         [ValidateNotNullOrEmpty]
         public override string ThumbprintAlgorithm
         {
@@ -58,8 +61,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 3, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = "NewExtension", HelpMessage = "Extension Name")]
-        [Parameter(Position = 3, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Extension Name")]
+        [Parameter(Position = 3, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = NetExtensionParameterSetName, HelpMessage = ExtensionParameterPropertyHelper.ExtensionNameHelpMessage)]
+        [Parameter(Position = 3, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = NetExtensionUsingThumbprintParameterSetName, HelpMessage = ExtensionParameterPropertyHelper.ExtensionNameHelpMessage)]
         [ValidateNotNullOrEmptyAttribute]
         public override string ExtensionName
         {
@@ -67,8 +70,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 4, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = "NewExtension", HelpMessage = "Extension Provider Namespace")]
-        [Parameter(Position = 4, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Extension Provider Namespace")]
+        [Parameter(Position = 4, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = NetExtensionParameterSetName, HelpMessage = ExtensionParameterPropertyHelper.ProviderNamespaceHelpMessage)]
+        [Parameter(Position = 4, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = NetExtensionUsingThumbprintParameterSetName, HelpMessage = ExtensionParameterPropertyHelper.ProviderNamespaceHelpMessage)]
         [ValidateNotNullOrEmptyAttribute]
         public override string ProviderNamespace
         {
@@ -76,8 +79,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 5, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = "NewExtension", HelpMessage = "Extension Public Configuration.")]
-        [Parameter(Position = 5, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Extension Public Configuration.")]
+        [Parameter(Position = 5, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = NetExtensionParameterSetName, HelpMessage = ExtensionParameterPropertyHelper.PublicConfigurationHelpMessage)]
+        [Parameter(Position = 5, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = NetExtensionUsingThumbprintParameterSetName, HelpMessage = ExtensionParameterPropertyHelper.PublicConfigurationHelpMessage)]
         [ValidateNotNullOrEmpty]
         public override string PublicConfiguration
         {
@@ -86,10 +89,19 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         }
 
 
-        [Parameter(Position = 6, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = "NewExtension", HelpMessage = "Extension Private Configuration.")]
-        [Parameter(Position = 6, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Extension Private Configuration.")]
+        [Parameter(Position = 6, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = NetExtensionParameterSetName, HelpMessage = ExtensionParameterPropertyHelper.PrivateConfigurationHelpMessage)]
+        [Parameter(Position = 6, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = NetExtensionUsingThumbprintParameterSetName, HelpMessage = ExtensionParameterPropertyHelper.PrivateConfigurationHelpMessage)]
         [ValidateNotNullOrEmpty]
         public override string PrivateConfiguration
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Position = 7, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = NetExtensionParameterSetName, HelpMessage = ExtensionParameterPropertyHelper.VersionHelpMessage)]
+        [Parameter(Position = 7, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = NetExtensionUsingThumbprintParameterSetName, HelpMessage = ExtensionParameterPropertyHelper.VersionHelpMessage)]
+        [ValidateNotNullOrEmpty]
+        public override string Version
         {
             get;
             set;
@@ -114,6 +126,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
                 PublicConfiguration = PublicConfiguration,
                 PrivateConfiguration = PrivateConfiguration,
                 X509Certificate = X509Certificate,
+                Version = Version,
                 Roles = new ExtensionRoleList(Role != null && Role.Any() ? Role.Select(r => new ExtensionRole(r)) : Enumerable.Repeat(new ExtensionRole(), 1))
             });
         }

@@ -133,6 +133,11 @@ namespace Microsoft.Azure.Commands.Resources.Models
                 });
         }
 
+        public virtual void UnregisterProvider(string RPName)
+        {
+            ResourceManagementClient.Providers.Unregister(RPName);
+        }
+        
         private Uri GetTemplateUri(string templateFile, string galleryTemplateName, string storageAccountName)
         {
             Uri templateFileUri;
@@ -185,7 +190,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
             return storageName;
         }
 
-        private ResourceGroup CreateOrUpdateResourceGroup(string name, string location, List<Hashtable> tags)
+        private ResourceGroup CreateOrUpdateResourceGroup(string name, string location, Hashtable[] tags)
         {
             Dictionary<string, string> tagDictionary = TagsConversionHelper.CreateTagDictionary(tags, validate: true);
 
@@ -346,26 +351,14 @@ namespace Microsoft.Azure.Commands.Resources.Models
             return deployment;
         }
 
-        private List<ResourceManagementError> CheckBasicDeploymentErrors(string resourceGroup, string deploymentName, BasicDeployment deployment)
+        private TemplateValidationInfo CheckBasicDeploymentErrors(string resourceGroup, string deploymentName, BasicDeployment deployment)
         {
-            List<ResourceManagementError> errors = new List<ResourceManagementError>();
             DeploymentValidateResponse validationResult = ResourceManagementClient.Deployments.Validate(
                 resourceGroup,
                 deploymentName,
                 deployment);
-            if (!validationResult.IsValid)
-            {
-                if (validationResult.Error != null)
-                {
-                    errors.Add(validationResult.Error);
-                    if (validationResult.Error.Details != null && validationResult.Error.Details.Count > 0)
-                    {
-                        errors.AddRange(validationResult.Error.Details);
-                    }
-                }
-            }
 
-            return errors;
+            return new TemplateValidationInfo(validationResult);
         }
     }
 }

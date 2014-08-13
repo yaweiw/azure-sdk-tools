@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
     using DatabaseCopyModel = Microsoft.WindowsAzure.Commands.SqlDatabase.Model.DatabaseCopy;
 
     /// <summary>
-    /// Stop an ongoing copy operation for a Windows Azure SQL Database in the given server context.
+    /// Stop an ongoing copy operation for a Microsoft Azure SQL Database in the given server context.
     /// </summary>
     [Cmdlet(VerbsLifecycle.Stop, "AzureSqlDatabaseCopy", SupportsShouldProcess = true,
         ConfirmImpact = ConfirmImpact.Medium)]

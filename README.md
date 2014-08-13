@@ -70,6 +70,7 @@ This repository contains a set of PowerShell cmdlets for developers and administ
     * Custom Script
     * Access
     * Microsoft Antimalware
+    * PowerShell DSC
   * Public IP, reserved IP and internal load balancer
 * Deployment
   * Manage deployment, such as CRUD, move, upgrade and restore.
@@ -77,6 +78,9 @@ This repository contains a set of PowerShell cmdlets for developers and administ
 * VNet
   * Manage virtual network config, connection and gateway.
   * Manage static IP
+* Azure Media Services
+  * Create, read and delete Media Services Accounts
+  * Generate new account keys for Media Services Accounts
 * HDInsight
   * Manage clusters, such as CRUD, add/set storage
   * Manage jobs, such as CRUD, start/stop/wait/invoke
@@ -93,6 +97,8 @@ This repository contains a set of PowerShell cmdlets for developers and administ
   * Web Site: CRUD web site, deployment, configure and get log, start/stop/restart/show web site
   * Service Bus: CRD namespace
   * VM: CRUD VM, get OS disk, size profile and VM template, start/stop/restart/suspend/resume VM
+  * VNET: CRUD VNET and subnet.
+  * Cloud Service: CRUD cloud service.
 * ExpressRoute
   * Manage dedicated circuit
   * Manage BGP peering
@@ -151,6 +157,7 @@ In general, following are the steps to start using Microsoft Azure PowerShell
 
 * Get yourself authenticated with Microsoft Azure. For details, please check out [this article](http://www.azure.microsoft.com/en-us/manage/install-and-configure-windows-powershell/).
   * Option 1: Login with your Microsoft account or Organizational account directly from PowerShell. Microsoft Azure Active Directory authentication is used in this case. No management certificate is needed.
+      * Starting from 0.8.6, you can use ``Add-AzureAccount -Credential`` to avoid the browser pop up for Organizational account.
   * Option 2: Download and import a publish settings file which contains a management certificate.
 * Use the cmdlets
 

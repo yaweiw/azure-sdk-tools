@@ -50,16 +50,16 @@ if (Test-Path "$env:ProgramW6432"){
     $programFiles = $env:ProgramW6432
 }
 
-if (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Microsoft SDKs\ServiceHosting\v2.3")) {
+if (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Microsoft SDKs\ServiceHosting\v2.4")) {
     Write-Host installing Azure Authoring Tools
-    Start-Process "$WebPi" "/Install /products:WindowsAzureSDK_Only_2_3 /accepteula" -Wait
+    Start-Process "$WebPi" "/Install /products:WindowsAzureSDK_Only.2.4 /accepteula" -Wait
 }
 
 $detectKey = "HKLM:\SOFTWARE\Microsoft\Windows Azure Emulator";
 $producteVersion = Get-RegistryKeyValues $detectKey "FullVersion"
-if (!($producteVersion.StartsWith("2.3."))) {
+if (!($producteVersion.StartsWith("2.4."))) {
     Write-Host installing Azure Compute Emulator
-    Start-Process "$WebPi" "/Install /products:WindowsAzureEmulator_Only_2_3 /accepteula" -Wait
+    Start-Process "$WebPi" "/Install /products:WindowsAzureEmulator_Only.2.4 /accepteula" -Wait
 }
 
 $detectKey = "HKLM:\SOFTWARE\Microsoft\Windows Azure Storage Emulator"
@@ -67,9 +67,9 @@ if (${env:ADX64Platform}){
     $detectKey = "HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows Azure Storage Emulator"
 }
 $producteVersion = Get-RegistryKeyValues $detectKey "FullVersion"
-if (!($producteVersion.StartsWith("3."))) {
+if (!($producteVersion.StartsWith("3.3"))) {
     Write-Host installing Azure Storage Emulator
-    Start-Process "$WebPi" "/Install /products:WindowsAzureStorageEmulator /accepteula" -Wait
+    Start-Process "$WebPi" "/Install /products:WindowsAzureStorageEmulator.3.3 /accepteula" -Wait
 }
 
 try {

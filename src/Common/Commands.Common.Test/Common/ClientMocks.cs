@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
     using Management;
     using Management.Compute;
     using Management.Storage;
+    using Microsoft.WindowsAzure.Subscriptions;
     using Moq;
     using System.Net;
     using System.Net.Http;
@@ -31,6 +32,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
         public Mock<ManagementClient> ManagementClientMock { get; private set; }
         public Mock<StorageManagementClient> StorageManagementClientMock { get; private set; }
         public Mock<ComputeManagementClient> ComputeManagementClientMock { get; private set; }
+        public Mock<SubscriptionClient> SubscriptionClientMock { get; private set; }
 
         public ClientMocks(string subscriptionId)
         {
@@ -40,6 +42,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
             ManagementClientMock = repository.Create<ManagementClient>(creds);
             ComputeManagementClientMock = repository.Create<ComputeManagementClient>(creds);
             StorageManagementClientMock = repository.Create<StorageManagementClient>(creds);
+            SubscriptionClientMock = repository.Create<SubscriptionClient>(creds);
         }
 
         public void Verify()

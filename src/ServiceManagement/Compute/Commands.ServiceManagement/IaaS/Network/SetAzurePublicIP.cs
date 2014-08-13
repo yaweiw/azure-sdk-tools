@@ -15,7 +15,6 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using Model;
-    using Model.PersistentVMModel;
     using Properties;
     using System;
     using System.Linq;
@@ -50,6 +49,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             if (networkConfiguration.PublicIPs.Any())
             {
                 networkConfiguration.PublicIPs.First().Name = this.PublicIPName;
+                if (this.ParameterSpecified("IdleTimeoutInMinutes"))
+                {
+                    networkConfiguration.PublicIPs.First().IdleTimeoutInMinutes = this.IdleTimeoutInMinutes;
+                }
             }
             else
             {

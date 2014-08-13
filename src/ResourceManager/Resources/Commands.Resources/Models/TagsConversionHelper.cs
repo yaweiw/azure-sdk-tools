@@ -40,13 +40,13 @@ namespace Microsoft.Azure.Commands.Resources.Models
             return tagValue;
         }
 
-        public static Dictionary<string, string> CreateTagDictionary(List<Hashtable> hashtableList, bool validate)
+        public static Dictionary<string, string> CreateTagDictionary(Hashtable[] hashtableArray, bool validate)
         {
             Dictionary<string, string> tagDictionary = null;
-            if (hashtableList != null && hashtableList.Count > 0)
+            if (hashtableArray != null && hashtableArray.Length > 0)
             {
                 tagDictionary = new Dictionary<string, string>();
-                foreach (var tag in hashtableList)
+                foreach (var tag in hashtableArray)
                 {
                     var tagValuePair = Create(tag);
                     if (tagValuePair != null)
@@ -64,17 +64,22 @@ namespace Microsoft.Azure.Commands.Resources.Models
             }
             if (validate)
             {
-                if (hashtableList != null && hashtableList.Count > 0 && hashtableList[0].Count > 0 &&
-                    (tagDictionary == null || tagDictionary.Count == 0 || hashtableList.Count != tagDictionary.Count))
+                if (hashtableArray != null && hashtableArray.Length > 0 && hashtableArray[0].Count > 0 &&
+                    (tagDictionary == null || tagDictionary.Count == 0))
                 {
                     throw new ArgumentException(ProjectResources.InvalidTagFormat);
+                }
+                if (hashtableArray != null && hashtableArray.Length > 0 && hashtableArray[0].Count > 0 &&
+                    (tagDictionary == null || hashtableArray.Length != tagDictionary.Count))
+                {
+                    throw new ArgumentException(ProjectResources.InvalidTagFormatNotUniqueName);
                 }
             }
 
             return tagDictionary;
         }
 
-        public static List<Hashtable> CreateTagHashtable(IDictionary<string, string> dictionary)
+        public static Hashtable[] CreateTagHashtable(IDictionary<string, string> dictionary)
         {
             List<Hashtable> tagHashtable = new List<Hashtable>();
             foreach (string key in dictionary.Keys)
@@ -85,7 +90,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
                     {"Value", dictionary[key]}
                 });
             }
-            return tagHashtable;
+            return tagHashtable.ToArray();
         }
     }
 }

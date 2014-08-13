@@ -65,7 +65,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <summary>
         /// This tests New-AzureReservedIP, Get-AzureReservedIP and Remove-AzureReservedIP
         /// </summary>
-        [TestMethod(), TestCategory("Preview"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (New,Get,Remove)-AzureReservedIP)")]
+        [TestMethod(), TestCategory(Category.Preview), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (New,Get,Remove)-AzureReservedIP)")]
         public void AzureReservedIPTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -148,7 +148,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <summary>
         /// This is negative tests for ReservedIP
         /// </summary>
-        [TestMethod(), TestCategory("Preview"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (New,Get,Remove)-AzureReservedIP)")]
+        [TestMethod(), TestCategory(Category.Preview), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (New,Get,Remove)-AzureReservedIP)")]
         public void AzureReservedIPNegativeTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -212,7 +212,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <summary>
         /// First reserve an IP and then create a deployment with the reserved ip.
         /// </summary>
-        [TestMethod(), TestCategory("Preview"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"),
+        [TestMethod(), TestCategory(Category.Preview), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"),
          Description("First reserve an IP and then create a deployment with the reserved ip.")]
         public void CreateDeploymentWithReservedIPTest()
         {
@@ -298,7 +298,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <summary>
         /// First create a deployment and then reserve the ip of the deployment.
         /// </summary>
-        [TestMethod(), TestCategory("Preview"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"),
+        [TestMethod(), TestCategory(Category.Preview), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"),
          Description("First create a deployment and then reserve the ip of the deployment")]
         public void CreateDeploymentAndReserveIPTest()
         {
@@ -390,7 +390,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <summary>
         /// Try to reserve an ip of a deployment when the reserved ip and deployment are in different AG/location
         /// </summary>
-        [TestMethod(), TestCategory("Preview"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"),
+        [TestMethod(), TestCategory(Category.Preview), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"),
          Description("Try to reserve an ip of a deployment when the reserved ip and deployment are in different AG/location")]
         public void CreateDeploymentWithReservedIPNegativeTest()
         {
@@ -461,7 +461,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <summary>
         /// Reserve an IP of a deployment and stop-deallocate the VMs of the deployment
         /// </summary>
-        [TestMethod(), TestCategory("Preview"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"),
+        [TestMethod(), TestCategory(Category.Preview), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"),
          Description("Reserve an IP of a deployment and stop-deallocate the VMs of the deployment")]
         public void StopDeallocationReservedIPTest()
         {
@@ -566,7 +566,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <summary>
         /// Remove a deployment that has a reserve ip, and then create another deployment using the reserved ip
         /// </summary>
-        [TestMethod(), TestCategory("Preview"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"),
+        [TestMethod(), TestCategory(Category.Preview), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"),
          Description("Remove a deployment that has a reserve ip, and then create another deployment using the reserved ip")]
         public void RemoveAndCreateDeploymentWithReservedIP()
         {
@@ -662,7 +662,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <summary>
         /// /// Try to delete reserved ip while the ip is used by a deployment 
         /// </summary>
-        [TestMethod(), TestCategory("Preview"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"),
+        [TestMethod(), TestCategory(Category.Preview), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"),
          Description("Try to delete reserved ip while the ip is used by a deployment")]
         public void RemoveAzureReservedIPWithDeploymentTest()
         {

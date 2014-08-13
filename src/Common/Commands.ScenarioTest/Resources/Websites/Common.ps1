@@ -215,7 +215,7 @@ function Wait-WebsiteFunction
 
     do
     {
-        Start-Sleep -s 5
+        Wait-Seconds 5
         $current = [DateTime]::Now
         $diff = $current - $start
 		$result = $null

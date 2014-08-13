@@ -280,7 +280,7 @@ function Wait-Function
 
     do
     {
-        Start-Sleep -s 5
+        Wait-Seconds 5
         $current = [DateTime]::Now
         $diff = $current - $start
         $result = &$scriptBlock
@@ -293,6 +293,20 @@ function Wait-Function
         # End the processing so the test does not blow up
         exit
     }
+}
+
+<#
+.SYNOPSIS
+Waits for specified duration if not-mocked, otherwise skips wait.
+
+.PARAMETER timeout
+Timeout in seconds
+#>
+function Wait-Seconds
+{
+	param([int] $timeout)
+    
+    [Microsoft.WindowsAzure.Testing.TestUtilities]::Wait($timeout * 1000)
 }
 
 <#
@@ -321,7 +335,7 @@ function Retry-Function
     $tries = 1;
     while(( $result -ne $true) -and ($tries -le $maxTries))
     {
-        Start-Sleep -s $interval
+        Wait-Seconds $interval
         $result = Invoke-Command -ScriptBlock $scriptBlock -ArgumentList $argument;
         $tries++;
     }

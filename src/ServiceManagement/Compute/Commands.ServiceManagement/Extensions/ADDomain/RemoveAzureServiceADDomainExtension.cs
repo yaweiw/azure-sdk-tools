@@ -15,11 +15,11 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 {
     using System.Management.Automation;
+    using Model;
     using Utilities.Common;
-    using WindowsAzure.ServiceManagement;
 
     /// <summary>
-    /// Remove Windows Azure Service AD Domain Extension.
+    /// Remove Microsoft Azure Service AD Domain Extension.
     /// </summary>
     [Cmdlet(VerbsCommon.Remove, ADDomainExtensionNoun, DefaultParameterSetName = RemoveByRolesParameterSet), OutputType(typeof(ManagementOperationContext))]
     public class RemoveAzureServiceADDomainExtensionCommand : BaseAzureServiceADDomainExtensionCmdlet

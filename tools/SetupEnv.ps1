@@ -36,21 +36,22 @@ function Invoke-Environment()
     }
 }
 
-if (Test-Path env:\AzurePSRoot) {
-    exit
+if (Test-Path -Path env:\AzurePSRoot) {
+    Write-Host -Object 'AzurePSRoot environment variable already exists. Exiting ...';
+    exit;
 }
 
-Write-Host 'Initializing environment...'
+Write-Host -Object 'Initializing Azure PowerShell environment...';
 
 # PowerShell commands need elevation for dependencies installation and running tests
 if (!(Test-IsAdmin)){
-    Write-Host 'Please launch command under administrator account. It is needed for environment setting up and unit test.' -ForegroundColor "Red"
+    Write-Host -Object 'Please launch command under administrator account. It is needed for environment setting up and unit test.' -ForegroundColor Red;
 }
 
-$env:AzurePSRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
-$env:AzurePSRoot = Split-Path -Parent $env:AzurePSRoot
+$env:AzurePSRoot = Split-Path -Parent -Path $MyInvocation.MyCommand.Path;
+$env:AzurePSRoot = Split-Path -Parent -Path $env:AzurePSRoot;
 
-if (Test-Path ${env:\ProgramFiles(x86)} ) {
+if (Test-Path -Path ${env:\ProgramFiles(x86)} ) {
     $env:ADXSDKProgramFiles = ${env:ProgramFiles(x86)}
     $env:ADX64Platform = $true
 } else {
@@ -59,12 +60,12 @@ if (Test-Path ${env:\ProgramFiles(x86)} ) {
 }
 
 
-if (Test-Path "$env:ADXSDKProgramFiles\Microsoft Visual Studio 12.0") {
+if (Test-Path -Path "$env:ADXSDKProgramFiles\Microsoft Visual Studio 12.0") {
     $vsVersion="12.0"
 } else {
     $vsVersion="11.0"
 }
 
-$setVSEnv = """$env:ADXSDKProgramFiles\Microsoft Visual Studio $vsVersion\VC\vcvarsall.bat"" x86"
+$setVSEnv = '"{0}\Microsoft Visual Studio {1}\VC\vcvarsall.bat" x86' -f $env:ADXSDKProgramFiles, $vsVersion;
 
-Invoke-Environment "$setVSEnv"
+Invoke-Environment -Command $setVSEnv;

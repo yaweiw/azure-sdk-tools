@@ -41,7 +41,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <summary>
         /// Test NoLB, NoProbe, DefaultProbe, CustomProbe parameter sets of Azure Endpoint cmdlets and Set-AzureLoadBalancedEndpoint cmdlet
         /// </summary>
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("priya"), Description("Test the cmdlets ((Add,Get,Set,Remove)-AzureEndpoint), & Set-AzureLoadBalancedEndpoint")]
+        [TestMethod(), TestCategory(Category.Functional), TestProperty("Feature", "IAAS"), Priority(1), Owner("priya"), Description("Test the cmdlets ((Add,Get,Set,Remove)-AzureEndpoint), & Set-AzureLoadBalancedEndpoint")]
         public void AzureEndpointTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -249,7 +249,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <summary>
         /// Add an Endpoint with ACLs during deployment
         /// </summary>
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("priya"), Description("Test ACLs cmdlets New-AzureAclConfig, Set-AzureAclConfig")]
+        [TestMethod(), TestCategory(Category.Functional), TestProperty("Feature", "IAAS"), Priority(1), Owner("priya"), Description("Test ACLs cmdlets New-AzureAclConfig, Set-AzureAclConfig")]
         public void AddEndPointACLsWithNewDeployment()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -292,7 +292,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <summary>
         /// Add an Endpoint with ACLs to an existing deployment
         /// </summary>
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("priya"), Description("Test ACLs cmdlets New-AzureAclConfig, Set-AzureAclConfig")]
+        [TestMethod(), TestCategory(Category.Functional), TestProperty("Feature", "IAAS"), Priority(1), Owner("priya"), Description("Test ACLs cmdlets New-AzureAclConfig, Set-AzureAclConfig")]
         public void AddEndPointACLsonExistingDeployment()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);

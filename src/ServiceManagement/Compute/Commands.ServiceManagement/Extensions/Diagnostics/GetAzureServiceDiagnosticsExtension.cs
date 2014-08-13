@@ -14,12 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 {
-    using Model.PersistentVMModel;
+    using Model;
     using System.Linq;
     using System.Management.Automation;
 
     /// <summary>
-    /// Get Windows Azure Service Diagnostics Extension.
+    /// Get Microsoft Azure Service Diagnostics Extension.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureServiceDiagnosticsExtension"), OutputType(typeof(DiagnosticExtensionContext))]
     public class GetAzureServiceDiagnosticsExtensionCommand : BaseAzureServiceDiagnosticsExtensionCmdlet
