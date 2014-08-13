@@ -178,6 +178,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         protected void ValidateParameters()
         {
             this.ConfigurationPath = this.GetUnresolvedProviderPathFromPSPath(this.ConfigurationPath);
+            if (!File.Exists(this.ConfigurationPath))
+            {
+                this.ThrowInvalidArgumentError(Resources.PublishVMDscExtensionUploadArchiveConfigFileNotExist, this.ConfigurationPath);
+            }
 
             var configurationFileExtension = Path.GetExtension(this.ConfigurationPath);
 

@@ -654,6 +654,10 @@
 The file needs to be a PowerShell script (.ps1 or .psm1) or a ZIP archive (.zip).</value>
     <comment>0 = path to the configuration file</comment>
   </data>
+  <data name="PublishVMDscExtensionUploadArchiveConfigFileNotExist" xml:space="preserve">
+    <value>Configuration file '{0}' not found.</value>
+    <comment>0 = path to the configuration file</comment>
+  </data>
   <data name="PublishVMDscExtensionStorageParserErrors" xml:space="preserve">
     <value>Configuration script '{0}' contained parse errors:
 {1}</value>
