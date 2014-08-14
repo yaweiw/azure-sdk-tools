@@ -238,7 +238,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         private string CreateConfigurationArchive()
         {
             WriteVerbose(String.Format(CultureInfo.CurrentUICulture, Resources.AzureVMDscParsingConfiguration, this.ConfigurationPath));
-            ConfigurationParseResult parseResult = ConfigurationParsingHelper.ParseConfiguration(this.ConfigurationPath);
+            ConfigurationParseResult parseResult = null;
+            try
+            {
+                parseResult = ConfigurationParsingHelper.ParseConfiguration(this.ConfigurationPath);
+            }
+            catch (GetDscResourceException e)
+            {
+                ThrowTerminatingError(new ErrorRecord(e, string.Empty, ErrorCategory.PermissionDenied, null));
+            }
             if (parseResult.Errors.Any())
             {
                 ThrowTerminatingError(
