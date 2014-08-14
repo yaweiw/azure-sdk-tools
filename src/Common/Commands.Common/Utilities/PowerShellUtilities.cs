@@ -100,6 +100,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// <returns>Returns AzureServiceManagement if in RDFE and AzureResourceManager if in CSM</returns>
         public static AzureModule GetCurrentMode()
         {
+            return GetCurrentModeOverride();
+        }
+
+        private static AzureModule GetCurrentModuleFromEnvironment()
+        {
             string PSModulePathEnv = Environment.GetEnvironmentVariable(PSModulePathName);
 
             if (string.IsNullOrEmpty(PSModulePathEnv) || PSModulePathEnv.Contains(FileUtilities.GetModuleFolderName(AzureModule.AzureServiceManagement)))
@@ -112,5 +117,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 return AzureModule.AzureResourceManager;
             }
         }
+
+        public static Func<AzureModule> GetCurrentModeOverride = GetCurrentModuleFromEnvironment;
     }
 }

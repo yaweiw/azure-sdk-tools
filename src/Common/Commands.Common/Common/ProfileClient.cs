@@ -14,7 +14,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Microsoft.Azure.Subscriptions;
 using Microsoft.Azure.Subscriptions.Models;
@@ -31,40 +30,43 @@ namespace Microsoft.WindowsAzure.Commands.Common
     /// </summary>
     public class ProfileClient
     {
-        public static Func<string, IDataStore> DataStore { get; set; }
+        public static IDataStore DataStore { get; set; }
 
         public AzureProfile Profile { get; private set; }
 
         private static void UpgradeProfile()
         {
-            string oldProfilePath = Path.Combine(AzurePowerShell.ProfileDirectory, AzurePowerShell.OldProfileFile);
-            AzureProfile profile = new AzureProfile(DataStore(oldProfilePath));
+            if (DataStore.FileExists(System.IO.Path.Combine(AzurePowerShell.ProfileDirectory, AzurePowerShell.OldProfileFile)))
+            {
+                string oldProfilePath = System.IO.Path.Combine(AzurePowerShell.ProfileDirectory,
+                    AzurePowerShell.OldProfileFile);
+                AzureProfile profile = new AzureProfile(DataStore, oldProfilePath);
 
-            // Save the profile to the disk
-            profile.Save();
+                // Save the profile to the disk
+                profile.Save();
 
-            // Rename WindowsAzureProfile.xml to AzureProfile.json
-            File.Move(oldProfilePath, Path.Combine(AzurePowerShell.ProfileDirectory, AzurePowerShell.ProfileFile));
+                // Rename WindowsAzureProfile.xml to AzureProfile.json
+                DataStore.RenameFile(oldProfilePath,
+                    System.IO.Path.Combine(AzurePowerShell.ProfileDirectory, AzurePowerShell.ProfileFile));
+            }
         }
 
         static ProfileClient()
         {
-            DataStore = p => new DiskDataStore(p);
-            if (File.Exists(Path.Combine(AzurePowerShell.ProfileDirectory, AzurePowerShell.OldProfileFile)))
-            {
-                UpgradeProfile();
-            }
+            DataStore = new DiskDataStore();
         }
 
         public ProfileClient()
-            : this(Path.Combine(AzurePowerShell.ProfileDirectory, AzurePowerShell.ProfileFile))
+            : this(System.IO.Path.Combine(AzurePowerShell.ProfileDirectory, AzurePowerShell.ProfileFile))
         {
 
         }
 
         public ProfileClient(string profilePath)
         {
-            Profile = new AzureProfile(DataStore(profilePath));
+            ProfileClient.UpgradeProfile();
+
+            Profile = new AzureProfile(DataStore, profilePath);
         }
 
         public AzureAccount AddAzureAccount(UserCredentials credentials, string environment)
@@ -105,7 +107,12 @@ namespace Microsoft.WindowsAzure.Commands.Common
                 AzureAccount account = new AzureAccount();
                 account.UserName = name;
                 account.Subscriptions = subscriptions
-                    .Where(s => s.GetProperty(AzureSubscription.Property.UserAccount) != name).ToList();
+                    .Where(s => s.GetProperty(AzureSubscription.Property.UserAccount) == name).ToList();
+
+                if (account.Subscriptions.Count == 0)
+                {
+                    continue;
+                }
 
                 yield return account;
             }
@@ -138,11 +145,11 @@ namespace Microsoft.WindowsAzure.Commands.Common
         {
             var currentEnvironment = AzureSession.CurrentEnvironment;
 
-            if (string.IsNullOrEmpty(filePath) || !File.Exists(filePath))
+            if (string.IsNullOrEmpty(filePath) || !DataStore.FileExists(filePath))
             {
                 throw new ArgumentException("File path is not valid.", "filePath");
             }
-            return PublishSettingsImporter.ImportAzureSubscription(File.OpenRead(filePath), currentEnvironment.Name);
+            return PublishSettingsImporter.ImportAzureSubscription(DataStore.ReadFileAsStream(filePath), currentEnvironment.Name);
         }
 
         public IEnumerable<AzureSubscription> LoadSubscriptionsFromServer()

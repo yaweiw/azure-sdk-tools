@@ -25,8 +25,9 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
     public sealed class AzureProfile
     {
         private IDataStore store;
-
+        private string profilePath;
         private AzureSubscription defaultSubscription;
+        private string tokenCacheFile = Path.Combine(AzurePowerShell.ProfileDirectory, AzurePowerShell.TokenCacheFile);
 
         public AzureProfile()
         {
@@ -34,20 +35,36 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
             Subscriptions = new Dictionary<Guid, AzureSubscription>();
         }
 
+        public AzureProfile(IDataStore store, string profilePath)
+        {
+            this.store = store;
+            this.profilePath = profilePath;
+
+            Load();
+            defaultSubscription = Subscriptions.FirstOrDefault(
+                s => s.Value.Properties.ContainsKey(AzureSubscription.Property.Default)).Value;
+        }
+
         private void Load()
         {
-            IProfileSerializer serializer;
-            string contents = store.ReadProfile();
+            Environments = new Dictionary<string, AzureEnvironment>();
+            Subscriptions = new Dictionary<Guid, AzureSubscription>();
 
-            if (ParserHelper.IsXml(contents))
+            if (store.FileExists(profilePath))
             {
-                serializer = new XmlProfileSerializer();
-                serializer.Deserialize(contents, this);
-            }
-            else if (ParserHelper.IsJson(contents))
-            {
-                serializer = new JsonProfileSerializer();
-                serializer.Deserialize(contents, this);
+                string contents = store.ReadFileAsText(profilePath);
+
+                IProfileSerializer serializer;
+                if (ParserHelper.IsXml(contents))
+                {
+                    serializer = new XmlProfileSerializer();
+                    serializer.Deserialize(contents, this);
+                }
+                else if (ParserHelper.IsJson(contents))
+                {
+                    serializer = new JsonProfileSerializer();
+                    serializer.Deserialize(contents, this);
+                }
             }
 
             // Adding predefined environments
@@ -57,13 +74,6 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
             }
         }
 
-        public AzureProfile(IDataStore store)
-        {
-            this.store = store;
-            Load();
-            defaultSubscription = Subscriptions.FirstOrDefault(
-                s => s.Value.Properties.ContainsKey(AzureSubscription.Property.Default)).Value;
-        }
         public void Save()
         {
             // Removing predefined environments
@@ -73,12 +83,17 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
             }
 
             JsonProfileSerializer jsonSerializer = new JsonProfileSerializer();
-            string diskContents = store.ReadProfile();
+
             string contents = jsonSerializer.Serialize(this);
+            string diskContents = string.Empty;
+            if (store.FileExists(profilePath))
+            {
+                diskContents = store.ReadFileAsText(profilePath);
+            }
 
             if (diskContents != contents)
             {
-                store.WriteProfile(contents);
+                store.WriteFile(profilePath, contents);
             }
         }
 
@@ -94,7 +109,10 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
 
             set
             {
-                defaultSubscription.Properties.Remove(AzureSubscription.Property.Default);
+                if (defaultSubscription != null)
+                {
+                    defaultSubscription.Properties.Remove(AzureSubscription.Property.Default);
+                }
                 defaultSubscription = value;
                 defaultSubscription.Properties.Add(AzureSubscription.Property.Default, "True");
             }
@@ -112,12 +130,12 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
 
         public void SaveTokenCache(byte[] data)
         {
-            store.WriteTokenCache(data);
+            store.WriteFile(tokenCacheFile, data);
         }
 
         public byte[] LoadTokenCache()
         {
-            return store.ReadTokenCache();
+            return store.ReadFileAsBytes(tokenCacheFile);
         }
     }
 }

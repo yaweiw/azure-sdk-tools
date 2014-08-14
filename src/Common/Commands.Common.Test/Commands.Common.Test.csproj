@@ -52,6 +52,9 @@
       <HintPath>..\..\packages\Microsoft.Azure.Management.Resources.2.4.0-preview\lib\net40\Microsoft.Azure.ResourceManager.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Azure.Utilities.HttpRecorder">
+      <HintPath>..\..\packages\Hydra.HttpRecorder.1.0.5333.20807-prerelease\lib\net45\Microsoft.Azure.Utilities.HttpRecorder.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Data.Edm.5.6.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
     </Reference>
@@ -145,6 +148,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\ProfileClientTests.cs" />
+    <Compile Include="Mocks\MockAuthenticationFactory.cs" />
     <Compile Include="Mocks\ClientMocks.cs" />
     <Compile Include="Common\GeneralUtilitiesTests.cs" />
     <Compile Include="Common\Data.cs" />
@@ -155,6 +160,8 @@
     <Compile Include="Common\JsonUtilitiesTests.cs" />
     <Compile Include="Mocks\MockCommandRuntime.cs" />
     <Compile Include="Mocks\MockDataStore.cs" />
+    <Compile Include="Mocks\MockClientFactory.cs" />
+    <Compile Include="Mocks\MockAccessToken.cs" />
     <Compile Include="Mocks\MockProfileStore.cs" />
     <Compile Include="Mocks\MockStorageService.cs" />
     <Compile Include="Common\PSObjectExtensions.cs" />

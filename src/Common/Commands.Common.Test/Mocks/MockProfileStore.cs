@@ -15,12 +15,11 @@
 using System.Collections.Generic;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 
-namespace Microsoft.WindowsAzure.Commands.ScenarioTest
+namespace Microsoft.WindowsAzure.Commands.Common.Test.Mocks
 {
     public class MockProfileStore : IProfileStore
     {
         public ProfileData ProfileData { get; set; }
-
         public byte[] TokenCache { get; set; }
 
         public MockProfileStore()

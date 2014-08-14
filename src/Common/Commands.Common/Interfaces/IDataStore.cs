@@ -12,24 +12,29 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.IO;
 using System.Security.Cryptography.X509Certificates;
 
 namespace Microsoft.WindowsAzure.Commands.Common.Interfaces
 {
     public interface IDataStore
     {
-        void WriteProfile(string contents);
+        void WriteFile(string path, string contents);
 
-        void WriteTokenCache(byte[] contents);
+        void WriteFile(string path, byte[] contents);
 
-        string ReadProfile();
+        string ReadFileAsText(string path);
 
-        byte[] ReadTokenCache();
+        Stream ReadFileAsStream(string path);
+
+        byte[] ReadFileAsBytes(string path);
+
+        void RenameFile(string oldPath, string newPath);
+
+        bool FileExists(string path);
 
         X509Certificate2 GetCertificate(string thumbprint);
 
         void AddCertificate(X509Certificate2 cert);
-
-        string ProfilePath { get; }
     }
 }

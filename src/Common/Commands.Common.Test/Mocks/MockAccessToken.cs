@@ -12,19 +12,22 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
+using Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication;
 
-namespace Microsoft.WindowsAzure.Commands.Common.Models
+namespace Microsoft.WindowsAzure.Commands.Common.Test.Mocks
 {
-    public partial class AzureEnvironment
+    public class MockAccessToken : IAccessToken
     {
-        public AzureEnvironment()
+        public void AuthorizeRequest(Action<string, string> authTokenSetter)
         {
-            Endpoints = new Dictionary<Endpoint, string>();
+            authTokenSetter("Bearer", AccessToken);
         }
 
-        public string Name { get; set; }
-
-        public Dictionary<Endpoint, string> Endpoints { get; set; }
+        public string AccessToken { get; set; }
+        public string UserId { get; set; }
+        public LoginType LoginType { get; set; }
     }
 }
