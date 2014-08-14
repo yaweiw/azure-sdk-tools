@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Commands.Common.Models;
+
 namespace Microsoft.WindowsAzure.Commands.Profile
 {
     using Microsoft.WindowsAzure.Commands.Common.Properties;
@@ -41,31 +43,8 @@ namespace Microsoft.WindowsAzure.Commands.Profile
 
         public void RemoveAccountProcess()
         {
-            var subscriptions = Profile.Subscriptions.Where(s => s.ActiveDirectoryUserId == Name).ToList();
-            foreach (var subscription in subscriptions)
-            {
-                if (subscription.Certificate != null)
-                {
-                    subscription.SetAccessToken(null);
-                    Profile.UpdateSubscription(subscription);
-                }
-                else
-                {
-                    // Warn the user if the removed subscription is the default one.
-                    if (subscription.IsDefault)
-                    {
-                        WriteWarning(Resources.RemoveDefaultSubscription);
-                    }
+            ProfileClient.RemoveAzureAccount(Name, WriteWarning);
 
-                    // Warn the user if the removed subscription is the current one.
-                    if (subscription == Profile.CurrentSubscription)
-                    {
-                        WriteWarning(Resources.RemoveCurrentSubscription);
-                    }
-
-                    Profile.RemoveSubscription(subscription);
-                }
-            }
             if (PassThru.IsPresent)
             {
                 WriteObject(true);

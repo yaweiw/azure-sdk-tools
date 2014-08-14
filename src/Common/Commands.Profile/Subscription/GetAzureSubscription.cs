@@ -12,26 +12,25 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Management.Automation;
 using Microsoft.WindowsAzure.Commands.Common;
 using Microsoft.WindowsAzure.Commands.Common.Models;
+using Microsoft.WindowsAzure.Commands.Common.Properties;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
+using Microsoft.WindowsAzure.Commands.Utilities.Profile;
+using Microsoft.WindowsAzure.Management;
 
 namespace Microsoft.WindowsAzure.Commands.Profile
 {
-    using Management;
-    using Microsoft.WindowsAzure.Commands.Common.Properties;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Management.Automation;
-    using Utilities.Common;
-    using Utilities.Profile;
-
     /// <summary>
     /// Implementation of the get-azuresubscription cmdlet that works against
     /// the WindowsAzureProfile layer.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureSubscription", DefaultParameterSetName = "ByName")]
-    [OutputType(typeof(WindowsAzureSubscription))]
+    [OutputType(typeof(AzureSubscription))]
     public class GetAzureSubscriptionCommand : SubscriptionCmdletBase
     {
         public GetAzureSubscriptionCommand() : base(false)
@@ -103,8 +102,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
             // since current is strictly in-memory and we want the real
             // current subscription.
             //
-            var currentProfile = BaseProfile;
-            if (currentProfile.CurrentSubscription == null)
+            if (AzureSession.CurrentSubscription == null)
             {
                 WriteError(new ErrorRecord(
                     new InvalidOperationException(Resources.InvalidSelectedSubscription),

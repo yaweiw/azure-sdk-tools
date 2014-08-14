@@ -13,20 +13,13 @@
 // ----------------------------------------------------------------------------------
 
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.WindowsAzure.Commands.Common;
 using Microsoft.WindowsAzure.Commands.Common.Models;
-using Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
+using System.Management.Automation;
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Profile
 {
-    using Common;
-    using Azure.Subscriptions;
-    using WindowsAzure.Commands.Common.Properties;
-    using System;
-    using System.IO;
-    using System.Management.Automation;
-
     /// <summary>
     /// Base class for cmdlets that manipulate the
     /// azure subscription, provides common support
@@ -37,14 +30,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Profile
         [Parameter(Mandatory = false, HelpMessage = "File storing subscription data, if not set uses default.")]
         public string SubscriptionDataFile { get; set; }
 
-        private WindowsAzureProfile loadedProfile;
+        private readonly bool _saveProfile;
 
-        private readonly bool createFileIfNotExists;
-
-        protected SubscriptionCmdletBase(bool createFileIfNotExists)
+        protected SubscriptionCmdletBase(bool saveProfile)
         {
-            this.createFileIfNotExists = createFileIfNotExists;
-            ProfileClient = new ProfileClient();
+            this._saveProfile = saveProfile;
         }
 
         protected override void BeginProcessing()
@@ -53,45 +43,21 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Profile
             {
                 ProfileClient = new ProfileClient(SubscriptionDataFile);
             }
-        }
-
-        public override WindowsAzureProfile Profile
-        {
-            get
+            else
             {
-                if (loadedProfile == null && !string.IsNullOrEmpty(SubscriptionDataFile))
-                {
-                    loadedProfile = LoadSubscriptionDataFile();
-                }
-                if (loadedProfile != null)
-                {
-                    return loadedProfile;
-                }
-                return base.Profile;
-
-            }
-            set
-            {
-                base.Profile = value;
+                ProfileClient = new ProfileClient();
             }
         }
 
-        public WindowsAzureProfile BaseProfile
+        protected override void EndProcessing()
         {
-            get { return base.Profile; }
+            if (_saveProfile)
+            {
+                ProfileClient.Profile.Save();
+            }
         }
 
         public ProfileClient ProfileClient { get; set; }
-
-        private WindowsAzureProfile LoadSubscriptionDataFile()
-        {
-            string path = GetUnresolvedProviderPathFromPSPath(SubscriptionDataFile);
-            if (!File.Exists(path) && !createFileIfNotExists)
-            {
-                throw new Exception(string.Format(Resources.SubscriptionDataFileNotFound, SubscriptionDataFile));
-            }
-            return new WindowsAzureProfile(new PowershellProfileStore(path));
-        }
 
         protected IEnumerable<AzureSubscription> LoadSubscriptionsFromServer()
         {

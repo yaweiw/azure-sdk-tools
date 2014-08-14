@@ -28,6 +28,12 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
 
         private AzureSubscription defaultSubscription;
 
+        public AzureProfile()
+        {
+            Environments = new Dictionary<string, AzureEnvironment>();
+            Subscriptions = new Dictionary<Guid, AzureSubscription>();
+        }
+
         private void Load()
         {
             IProfileSerializer serializer;
@@ -90,7 +96,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
             {
                 defaultSubscription.Properties.Remove(AzureSubscription.Property.Default);
                 defaultSubscription = value;
-                defaultSubscription.Properties.Add(AzureSubscription.Property.Default, null);
+                defaultSubscription.Properties.Add(AzureSubscription.Property.Default, "True");
             }
         }
 
