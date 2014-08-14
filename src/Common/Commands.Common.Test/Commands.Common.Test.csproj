@@ -145,7 +145,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\ClientMocks.cs" />
+    <Compile Include="Mocks\ClientMocks.cs" />
     <Compile Include="Common\GeneralUtilitiesTests.cs" />
     <Compile Include="Common\Data.cs" />
     <Compile Include="Common\DirStack.cs" />
@@ -153,10 +153,10 @@
     <Compile Include="Common\GeneralTests.cs" />
     <Compile Include="Common\IdnUtilitiesTests.cs" />
     <Compile Include="Common\JsonUtilitiesTests.cs" />
-    <Compile Include="Common\MockCommandRuntime.cs" />
-    <Compile Include="Common\MockDataStore.cs" />
-    <Compile Include="Common\MockProfileStore.cs" />
-    <Compile Include="Common\MockStorageService.cs" />
+    <Compile Include="Mocks\MockCommandRuntime.cs" />
+    <Compile Include="Mocks\MockDataStore.cs" />
+    <Compile Include="Mocks\MockProfileStore.cs" />
+    <Compile Include="Mocks\MockStorageService.cs" />
     <Compile Include="Common\PSObjectExtensions.cs" />
     <Compile Include="Common\RemoveAzurePublishSettings.cs" />
     <Compile Include="Common\SimpleServiceManagementAsyncResult.cs" />
@@ -216,6 +216,7 @@
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />

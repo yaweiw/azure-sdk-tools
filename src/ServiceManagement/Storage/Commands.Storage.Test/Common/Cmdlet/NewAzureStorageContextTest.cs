@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Commands.Common.Test.Mocks;
+
 namespace Microsoft.WindowsAzure.Commands.Storage.Test.Common.Cmdlet
 {
     using Commands.Test.Utilities.Common;

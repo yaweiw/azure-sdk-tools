@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Commands.Common.Test.Mocks;
+
 namespace Microsoft.Azure.Commands.Automation.Test.UnitTests
 {
     using Microsoft.Azure.Commands.Automation.Cmdlet;

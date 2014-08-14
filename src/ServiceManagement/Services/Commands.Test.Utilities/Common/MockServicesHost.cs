@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Commands.Common.Test.Mocks;
+
 namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
 {
     using Commands.Utilities.Common;
