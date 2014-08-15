@@ -520,8 +520,8 @@
                         <Component Id="cmp60E2E53B6F8278E75ED2802429D310E1" Guid="*">
                             <File Id="fil52ED89C7AE2A63FA4E00898DC11F7BE4" KeyPath="yes" Source="$(var.sourceDir)\ServiceManagement\Azure\HDInsight\Microsoft.Hadoop.Client.dll" />
                         </Component>
-                        <Component Id="cmp366F425E8F5AD8185C4D1D68ACE21FB1" Guid="*">
-                            <File Id="filE8C3571624A60C5D9424D54C77C6CFF7" KeyPath="yes" Source="$(var.sourceDir)\ServiceManagement\Azure\HDInsight\Microsoft.HDInsight.Threading.dll" />
+                        <Component Id="cmpD5B9EE259A4CDEA7EAC00BA0091C1476" Guid="*">
+                            <File Id="filE3C11653F9EACADDFDB489CAFB6F86E9" KeyPath="yes" Source="$(var.sourceDir)\ServiceManagement\Azure\HDInsight\Microsoft.HDInsight.Net.Http.Formatting.dll" />
                         </Component>
                         <Component Id="cmp92AC7835568FE24FCE3B6A164449D551" Guid="*">
                             <File Id="fil3B7145CFCDCC07826AE8D3615F40D775" KeyPath="yes" Source="$(var.sourceDir)\ServiceManagement\Azure\HDInsight\Microsoft.IdentityModel.Clients.ActiveDirectory.dll" />
@@ -1682,7 +1682,7 @@
             <ComponentRef Id="cmpFC1978EF7F3366DA07E6556C3996E222" />
             <ComponentRef Id="cmp28569D5EC54C4DFB98F0AA7AEAA80A06" />
             <ComponentRef Id="cmp60E2E53B6F8278E75ED2802429D310E1" />
-            <ComponentRef Id="cmp366F425E8F5AD8185C4D1D68ACE21FB1" />
+            <ComponentRef Id="cmpD5B9EE259A4CDEA7EAC00BA0091C1476" />
             <ComponentRef Id="cmp92AC7835568FE24FCE3B6A164449D551" />
             <ComponentRef Id="cmp782FEB356FFCB15735D07328D702229F" />
             <ComponentRef Id="cmpFF20878511DEDB222F358AC792EFFB3F" />
