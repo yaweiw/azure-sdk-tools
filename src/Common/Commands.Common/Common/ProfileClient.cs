@@ -71,6 +71,16 @@ namespace Microsoft.WindowsAzure.Commands.Common
 
         public AzureAccount AddAzureAccount(UserCredentials credentials, string environment)
         {
+            if (string.IsNullOrEmpty(environment))
+            {
+                environment = AzureSession.CurrentEnvironment.Name;
+            }
+
+            if (!Profile.Environments.ContainsKey(environment))
+            {
+                throw new Exception(string.Format(Resources.EnvironmentNotFound, environment));
+            }
+
             var subscriptions = LoadSubscriptionsFromServer(ref credentials).ToList();
             subscriptions.ForEach(s => s.Environment = environment);
             if (Profile.DefaultSubscription == null)
@@ -118,27 +128,48 @@ namespace Microsoft.WindowsAzure.Commands.Common
             }
         }
 
-        public void RemoveAzureAccount(string userName, Action<string> warningLog)
+        public AzureAccount RemoveAzureAccount(string userName, Action<string> warningLog)
         {
-            var subscriptions = Profile.Subscriptions.Values
-                .Where(s => s.GetProperty(AzureSubscription.Property.UserAccount) == userName).ToList();
+            var userAccounts = GetAzureAccount(userName, null);
 
-            foreach (var subscription in subscriptions)
+            if (string.IsNullOrEmpty(userName))
             {
+                throw new ArgumentException("User name needs to be specified.", "userName");
+            }
+
+            if (!userAccounts.Any())
+            {
+                throw new ArgumentException("User name is not valid.", "userName");
+            }
+
+            var userAccount = userAccounts.First();
+
+            foreach (var subscriptionFromAccount in userAccount.Subscriptions)
+            {
+                var subscription = Profile.Subscriptions[subscriptionFromAccount.Id];
+
                 // Warn the user if the removed subscription is the default one.
                 if (subscription.GetProperty(AzureSubscription.Property.Default) != null)
                 {
-                    warningLog(Resources.RemoveDefaultSubscription);
+                    if (warningLog != null)
+                    {
+                        warningLog(Resources.RemoveDefaultSubscription);
+                    }
                 }
 
                 // Warn the user if the removed subscription is the current one.
-                if (subscription == AzureSession.CurrentSubscription)
+                if (subscription.Equals(AzureSession.CurrentSubscription))
                 {
-                    warningLog(Resources.RemoveCurrentSubscription);
+                    if (warningLog != null)
+                    {
+                        warningLog(Resources.RemoveCurrentSubscription);
+                    }
                 }
 
                 Profile.Subscriptions.Remove(subscription.Id);
             }
+
+            return userAccount;
         }
 
         public IEnumerable<AzureSubscription> LoadSubscriptionsFromPublishSettingsFile(string filePath)

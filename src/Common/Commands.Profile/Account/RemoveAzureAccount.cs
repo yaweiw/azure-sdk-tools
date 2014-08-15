@@ -13,18 +13,16 @@
 // ----------------------------------------------------------------------------------
 
 using Microsoft.WindowsAzure.Commands.Common.Models;
+using Microsoft.WindowsAzure.Commands.Common.Properties;
+using System.Management.Automation;
+using Microsoft.WindowsAzure.Commands.Utilities.Profile;
 
 namespace Microsoft.WindowsAzure.Commands.Profile
 {
-    using Microsoft.WindowsAzure.Commands.Common.Properties;
-    using System.Linq;
-    using System.Management.Automation;
-    using Utilities.Profile;
-
     /// <summary>
     /// Removes subscriptions associated with an account
     /// </summary>
-    [Cmdlet(VerbsCommon.Remove, "AzureAccount", SupportsShouldProcess = true), OutputType(typeof(bool))]
+    [Cmdlet(VerbsCommon.Remove, "AzureAccount", SupportsShouldProcess = true), OutputType(typeof(AzureAccount))]
     public class RemoveAzureAccountCommand : SubscriptionCmdletBase
     {
         public RemoveAzureAccountCommand() : base(false)
@@ -43,11 +41,11 @@ namespace Microsoft.WindowsAzure.Commands.Profile
 
         public void RemoveAccountProcess()
         {
-            ProfileClient.RemoveAzureAccount(Name, WriteWarning);
+            var removedAccount = ProfileClient.RemoveAzureAccount(Name, WriteWarning);
 
             if (PassThru.IsPresent)
             {
-                WriteObject(true);
+                WriteObject(removedAccount);
             }
         }
 

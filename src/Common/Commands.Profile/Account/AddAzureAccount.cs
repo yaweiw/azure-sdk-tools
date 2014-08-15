@@ -42,7 +42,6 @@ namespace Microsoft.WindowsAzure.Commands.Profile
 
         public override void ExecuteCmdlet()
         {
-            string environment = ChosenEnvironment();
             UserCredentials userCredentials = new UserCredentials();
             if (Credential != null)
             {
@@ -51,7 +50,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
                 userCredentials.NoPrompt = false;
             }
 
-            var account = ProfileClient.AddAzureAccount(userCredentials, environment);
+            var account = ProfileClient.AddAzureAccount(userCredentials, Environment);
 
             WriteVerbose(string.Format(Resources.AddAccountAdded, userCredentials.UserName));
             WriteVerbose(string.Format(Resources.AddAccountShowDefaultSubscription, Profile.DefaultSubscription.SubscriptionName));
@@ -59,20 +58,5 @@ namespace Microsoft.WindowsAzure.Commands.Profile
             WriteVerbose(Resources.AddAccountChangeSubscription);
             WriteObject(account);
         }
-
-        private string ChosenEnvironment()
-        {
-            if (string.IsNullOrEmpty(Environment))
-            {
-                return AzureSession.CurrentEnvironment.Name;
-            }
-
-            if (!ProfileClient.Profile.Environments.ContainsKey(Environment))
-            {
-                throw new Exception(string.Format(Resources.EnvironmentNotFound, Environment));
-            }
-            return Environment;
-        }
-
     }
 }

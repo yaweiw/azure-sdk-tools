@@ -38,7 +38,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Test.Common
         private AzureSubscription azureSubscription2;
         private AzureSubscription azureSubscription3withoutUser;
         private AzureEnvironment azureEnvironment;
-        
+
         [Fact]
         public void ProfileGetsCreatedWithNonExistingFile()
         {
@@ -242,7 +242,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Test.Common
         [Fact]
         public void RemoveAzureAccountRemovesDefaultSubscriptionAndWritesWarning()
         {
-           SetMockData();
+            SetMockData();
             MockDataStore dataStore = new MockDataStore();
             ProfileClient.DataStore = dataStore;
             ProfileClient client = new ProfileClient();
@@ -257,16 +257,18 @@ namespace Microsoft.WindowsAzure.Commands.Common.Test.Common
 
             Assert.Equal(3, client.Profile.Subscriptions.Count);
 
-            client.RemoveAzureAccount("test", logger);
+            var account = client.RemoveAzureAccount("test", logger);
 
             Assert.Equal(1, client.Profile.Subscriptions.Count);
+            Assert.Equal("test", account.UserName);
+            Assert.Equal(2, account.Subscriptions.Count);
             Assert.Equal(1, log.Count);
             Assert.Equal(
                 "The default subscription is being removed. Use Select-AzureSubscription -Default <subscriptionName> to select a new default subscription.",
                 log[0]);
         }
 
-        private void SetMocks(List<WindowsAzure.Subscriptions.Models.SubscriptionListOperationResponse.Subscription> rdfeSubscriptions, 
+        private void SetMocks(List<WindowsAzure.Subscriptions.Models.SubscriptionListOperationResponse.Subscription> rdfeSubscriptions,
             List<Azure.Subscriptions.Models.Subscription> csmSubscriptions)
         {
             ClientMocks clientMocks = new ClientMocks(defaultSubscription);
@@ -315,7 +317,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Test.Common
                 Id = new Guid("56E3F6FD-A3AA-439A-8FC4-1F5C41D2AD1E"),
                 Name = "LocalSub1",
                 Environment = "Test",
-                Properties = new Dictionary<AzureSubscription.Property,string> { {AzureSubscription.Property.UserAccount, "test"}, {AzureSubscription.Property.Default, "True"}}
+                Properties = new Dictionary<AzureSubscription.Property, string> { { AzureSubscription.Property.UserAccount, "test" }, { AzureSubscription.Property.Default, "True" } }
             };
             azureSubscription2 = new AzureSubscription
             {
