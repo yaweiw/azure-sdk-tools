@@ -79,7 +79,6 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
         public override void TestSetup()
         {
             base.TestSetup();
-            AzureSession.ClientFactory.OnClientCreated += OnClientCreated;
             if (this.runningMocked)
             {
                 TestCredentialHelper.ImportCredentails(powershell, this.credentialFile);
@@ -98,7 +97,6 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
         public override void TestCleanup()
         {
             base.TestCleanup();
-            AzureSession.ClientFactory.OnClientCreated -= OnClientCreated;
             if (!this.runningMocked && HttpMockServer.CallerIdentity != null)
             {
                 HttpMockServer.Flush();

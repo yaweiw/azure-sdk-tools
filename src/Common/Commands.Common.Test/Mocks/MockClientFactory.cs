@@ -18,21 +18,19 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using Microsoft.Azure.Utilities.HttpRecorder;
-using Microsoft.WindowsAzure.Commands.Common;
 using Microsoft.WindowsAzure.Commands.Common.Factories;
 using Microsoft.WindowsAzure.Commands.Common.Models;
-using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Microsoft.WindowsAzure.Common;
 
-namespace Microsoft.WindowsAzure.Commands.ScenarioTest
+namespace Microsoft.WindowsAzure.Commands.Common.Test.Mocks
 {
-    public class DummyManagementClientHelper : IClientFactory
+    public class MockClientFactory : IClientFactory
     {
         private IAuthenticationFactory authenticationFactory;
 
         private AzureProfile profile;
 
-        public DummyManagementClientHelper(AzureProfile profile, IAuthenticationFactory authenticationFactory)
+        public MockClientFactory(AzureProfile profile, IAuthenticationFactory authenticationFactory)
         {
             this.authenticationFactory = authenticationFactory;
             this.profile = profile;
@@ -40,11 +38,9 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest
 
         private readonly bool throwWhenNotAvailable;
 
-        public event EventHandler<ClientCreatedArgs> OnClientCreated;
-
         public List<object> ManagementClients { get; private set; }
 
-        public DummyManagementClientHelper(IEnumerable<object> clients, bool throwIfClientNotSpecified = true)
+        public MockClientFactory(IEnumerable<object> clients, bool throwIfClientNotSpecified = true)
         {
             ManagementClients = clients.ToList();
             throwWhenNotAvailable = throwIfClientNotSpecified;

@@ -12,12 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
-{
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Management.Automation;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Management.Automation;
 
+namespace Microsoft.WindowsAzure.Commands.Common.Test.Mocks
+{
     public class MockCommandRuntime : ICommandRuntime
     {
         public List<ErrorRecord> ErrorStream = new List<ErrorRecord>();

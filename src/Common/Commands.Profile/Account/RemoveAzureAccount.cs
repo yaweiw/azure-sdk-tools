@@ -12,17 +12,17 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Commands.Common.Models;
+using Microsoft.WindowsAzure.Commands.Common.Properties;
+using System.Management.Automation;
+using Microsoft.WindowsAzure.Commands.Utilities.Profile;
+
 namespace Microsoft.WindowsAzure.Commands.Profile
 {
-    using Microsoft.WindowsAzure.Commands.Common.Properties;
-    using System.Linq;
-    using System.Management.Automation;
-    using Utilities.Profile;
-
     /// <summary>
     /// Removes subscriptions associated with an account
     /// </summary>
-    [Cmdlet(VerbsCommon.Remove, "AzureAccount", SupportsShouldProcess = true), OutputType(typeof(bool))]
+    [Cmdlet(VerbsCommon.Remove, "AzureAccount", SupportsShouldProcess = true), OutputType(typeof(AzureAccount))]
     public class RemoveAzureAccountCommand : SubscriptionCmdletBase
     {
         public RemoveAzureAccountCommand() : base(false)
@@ -41,34 +41,11 @@ namespace Microsoft.WindowsAzure.Commands.Profile
 
         public void RemoveAccountProcess()
         {
-            var subscriptions = Profile.Subscriptions.Where(s => s.ActiveDirectoryUserId == Name).ToList();
-            foreach (var subscription in subscriptions)
-            {
-                if (subscription.Certificate != null)
-                {
-                    subscription.SetAccessToken(null);
-                    Profile.UpdateSubscription(subscription);
-                }
-                else
-                {
-                    // Warn the user if the removed subscription is the default one.
-                    if (subscription.IsDefault)
-                    {
-                        WriteWarning(Resources.RemoveDefaultSubscription);
-                    }
+            var removedAccount = ProfileClient.RemoveAzureAccount(Name, WriteWarning);
 
-                    // Warn the user if the removed subscription is the current one.
-                    if (subscription == Profile.CurrentSubscription)
-                    {
-                        WriteWarning(Resources.RemoveCurrentSubscription);
-                    }
-
-                    Profile.RemoveSubscription(subscription);
-                }
-            }
             if (PassThru.IsPresent)
             {
-                WriteObject(true);
+                WriteObject(removedAccount);
             }
         }
 

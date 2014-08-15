@@ -12,9 +12,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System;
 using Microsoft.WindowsAzure.Commands.Common.Interfaces;
 using Newtonsoft.Json;
 using System.Linq;
+using Newtonsoft.Json.Linq;
 
 namespace Microsoft.WindowsAzure.Commands.Common.Models
 {
@@ -31,16 +33,16 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
 
         public void Deserialize(string contents, AzureProfile profile)
         {
-            dynamic obj = JsonConvert.DeserializeObject(contents);
+            var jsonProfile = JObject.Parse(contents);
 
-            foreach (AzureEnvironment env in obj.Environments)
+            foreach (var env in jsonProfile["Environments"])
             {
-                profile.Environments[env.Name] = env;
+                profile.Environments[(string)env["Name"]] = JsonConvert.DeserializeObject<AzureEnvironment>(env.ToString());
             }
 
-            foreach (AzureSubscription subscription in obj.Subscriptions)
+            foreach (var subscription in jsonProfile["Subscriptions"])
             {
-                profile.Subscriptions[subscription.Id] = subscription;
+                profile.Subscriptions[new Guid((string)subscription["Id"])] = JsonConvert.DeserializeObject<AzureSubscription>(subscription.ToString());
             }
         }
     }

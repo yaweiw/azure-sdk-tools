@@ -18,6 +18,7 @@ using System.Collections.ObjectModel;
 using System.Management.Automation;
 using Microsoft.Azure.Utilities.HttpRecorder;
 using Microsoft.WindowsAzure.Commands.Common;
+using Microsoft.WindowsAzure.Commands.Common.Test.Mocks;
 using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Microsoft.WindowsAzure.Testing;
@@ -38,7 +39,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest
         /// <param name="initializedManagementClients"></param>
         public void SetupManagementClients(params object[] initializedManagementClients)
         {
-            AzureSession.ClientFactory = new DummyManagementClientHelper(initializedManagementClients);
+            AzureSession.ClientFactory = new MockClientFactory(initializedManagementClients);
         }
 
         /// <summary>
@@ -47,7 +48,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest
         /// <param name="initializedManagementClients"></param>
         public void SetupSomeOfManagementClients(params object[] initializedManagementClients)
         {
-            AzureSession.ClientFactory = new DummyManagementClientHelper(initializedManagementClients, false);
+            AzureSession.ClientFactory = new MockClientFactory(initializedManagementClients, false);
         }
 
         public void SetupEnvironment(AzureModule mode)
@@ -135,7 +136,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest
             testEnvironment = currentEnvironment;
             if (HttpMockServer.GetCurrentMode() == HttpRecorderMode.Playback)
             {
-                testSubscription.SetAccessToken(new FakeAccessToken
+                testSubscription.SetAccessToken(new MockAccessToken
                 {
                     AccessToken = "123",
                     UserId = testEnvironment.UserName

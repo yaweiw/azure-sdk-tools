@@ -126,7 +126,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                 {
                     try
                     {
-                        File.Delete(file);
+                        DeleteFile(file);
                         WriteVerbose(string.Format(CultureInfo.CurrentUICulture, Resources.PublishVMDscExtensionDeletedFileMessage, file)); 
                     }
                     catch (Exception e)
@@ -138,7 +138,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                 {
                     try
                     {
-                        Directory.Delete(directory, true);
+                        DeleteDirectory(directory);
                         WriteVerbose(string.Format(CultureInfo.CurrentUICulture, Resources.PublishVMDscExtensionDeletedFileMessage, directory));
                     }
                     catch (Exception e)
@@ -344,13 +344,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                 {
                     this.ThrowTerminatingError(
                         new ErrorRecord(
-                            new UnauthorizedAccessException(string.Format(CultureInfo.CurrentUICulture, Resources.AzureVMDscStorageBlobAlreadyExists, modulesBlob)),
+                            new UnauthorizedAccessException(string.Format(CultureInfo.CurrentUICulture, Resources.AzureVMDscStorageBlobAlreadyExists, modulesBlob.Uri.AbsoluteUri)),
                             string.Empty,
                             ErrorCategory.PermissionDenied,
                             null));
                 }
 
                 modulesBlob.UploadFromFile(archivePath, FileMode.Open);
+            
+                WriteVerbose(string.Format(CultureInfo.CurrentUICulture, Resources.PublishVMDscExtensionArchiveUploadedMessage, modulesBlob.Uri.AbsoluteUri));
             });
         }
 
@@ -361,6 +363,72 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             CloudBlobContainer containerReference = blobClient.GetContainerReference(this.ContainerName);
             containerReference.CreateIfNotExists();
             return containerReference;
+        }
+
+        private static void DeleteFile(string path)
+        {
+            try
+            {
+                File.Delete(path);
+            }
+            catch (System.UnauthorizedAccessException)
+            {
+                // the exception may have occurred due to a read-only file
+                DeleteReadOnlyFile(path);
+            }
+        }
+
+        /// <summary>
+        /// Turns off the ReadOnly attribute from the given file and then attemps to delete it
+        /// </summary>
+        private static void DeleteReadOnlyFile(string path)
+        {
+            var attributes = System.IO.File.GetAttributes(path);
+
+            if ((attributes & FileAttributes.ReadOnly) != 0)
+            {
+                File.SetAttributes(path, attributes & ~FileAttributes.ReadOnly);
+            }
+
+            File.Delete(path);
+        }
+
+        private static void DeleteDirectory(string path)
+        {
+            try
+            {
+                Directory.Delete(path, true);
+            }
+            catch (System.UnauthorizedAccessException)
+            {
+                // the exception may have occurred due to a read-only file or directory
+                DeleteReadOnlyDirectory(path);
+            }
+        }
+
+        /// <summary>
+        /// Recusively turns off the ReadOnly attribute from the given directory and then attemps to delete it
+        /// </summary>
+        private static void DeleteReadOnlyDirectory(string path)
+        {
+            var directory = new DirectoryInfo(path);
+
+            foreach (var child in directory.GetDirectories())
+            {
+                DeleteReadOnlyDirectory(child.FullName);
+            }
+
+            foreach (var child in directory.GetFiles())
+            {
+                DeleteReadOnlyFile(child.FullName);
+            }
+
+            if ((directory.Attributes & FileAttributes.ReadOnly) != 0)
+            {
+                directory.Attributes &= ~FileAttributes.ReadOnly;
+            }
+
+            directory.Delete();
         }
     }
 }

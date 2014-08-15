@@ -151,7 +151,7 @@
     </Members>
   </Type>
   <Type>
-    <Name>Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server.RecoverableDatabase</Name>
+    <Name>Microsoft.WindowsAzure.Management.Sql.Models.RecoverableDatabase</Name>
     <Members>
       <MemberSet>
         <Name>PSStandardMembers</Name>

@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     public class SetAzureServiceDiagnosticsExtensionCmdletInfo : CmdletsInfo
     {
 
-        public SetAzureServiceDiagnosticsExtensionCmdletInfo(string service, string storage, XmlDocument config, string[] roles, string slot)
+        public SetAzureServiceDiagnosticsExtensionCmdletInfo(string service, string storage, string config, string[] roles, string slot)
         {
             this.cmdletName = Utilities.SetAzureServiceDiagnosticsExtensionCmdletName;
             this.cmdletParams.Add(new CmdletParam("ServiceName", service));
@@ -32,17 +32,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }            
             if (config != null)
             {
-                this.cmdletParams.Add(new CmdletParam("DiagnosticsConfiguration", config));
+                this.cmdletParams.Add(new CmdletParam("DiagnosticsConfigurationPath", config));
             }
         }
 
-        public SetAzureServiceDiagnosticsExtensionCmdletInfo(string service, string storage, X509Certificate2 cert, XmlDocument config, string[] roles, string slot)
+        public SetAzureServiceDiagnosticsExtensionCmdletInfo(string service, string storage, X509Certificate2 cert, string config, string[] roles, string slot)
             : this(service, storage, config, roles, slot)
         {
             this.cmdletParams.Add(new CmdletParam("X509Certificate", cert));
         }
 
-        public SetAzureServiceDiagnosticsExtensionCmdletInfo(string service, string storage, string thumbprint, string algorithm, XmlDocument config, string[] roles, string slot)
+        public SetAzureServiceDiagnosticsExtensionCmdletInfo(string service, string storage, string thumbprint, string algorithm, string config, string[] roles, string slot)
             : this(service, storage, config, roles, slot)
         {
             this.cmdletParams.Add(new CmdletParam("CertificateThumbprint", thumbprint));

@@ -23,7 +23,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.AvailabilitySet
     public class SetAzureAvailabilitySet : VirtualMachineConfigurationCmdletBase
     {
         [Parameter(Position = 0, Mandatory = true, HelpMessage = "Availability set name.")]
-        [ValidateNotNullOrEmpty]
+        [AllowNull]
+        [AllowEmptyString]
         public string AvailabilitySetName { get; set; }
 
         internal void ExecuteCommand()

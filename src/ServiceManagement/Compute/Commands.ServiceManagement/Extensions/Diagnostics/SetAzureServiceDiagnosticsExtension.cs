@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     using System.Security.Cryptography.X509Certificates;
     using System.Xml;
     using Utilities.Common;
+    using Microsoft.WindowsAzure.Commands.Common.Storage;
 
     /// <summary>
     /// Set Microsoft Azure Service Diagnostics Extension.
@@ -61,7 +62,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 3, ValueFromPipelineByPropertyName = true, Mandatory = true, ParameterSetName = SetExtensionUsingThumbprintParameterSetName, HelpMessage = ExtensionParameterPropertyHelper.CertificateThumbprintHelpMessage)]
+        [Parameter(Position = 3, ValueFromPipelineByPropertyName = true, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Thumbprint of a certificate used for encryption.")]
         [ValidateNotNullOrEmpty]
         public override string CertificateThumbprint
         {
@@ -78,10 +79,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 5, ValueFromPipelineByPropertyName = true, Mandatory = true, ParameterSetName = SetExtensionParameterSetName, HelpMessage = "Diagnostics Storage Account Name")]
-        [Parameter(Position = 5, ValueFromPipelineByPropertyName = true, Mandatory = true, ParameterSetName = SetExtensionUsingThumbprintParameterSetName, HelpMessage = "Diagnostics Storage Account Name")]
+        [Parameter(Position = 5, ValueFromPipelineByPropertyName = true, Mandatory = true, ParameterSetName = "SetExtension", HelpMessage = "Diagnostics Storage Account Context")]
+        [Parameter(Position = 5, ValueFromPipelineByPropertyName = true, Mandatory = true, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Diagnostics Storage Account Context")]
         [ValidateNotNullOrEmpty]
-        public override string StorageAccountName
+        public override AzureStorageContext StorageContext
         {
             get;
             set;
@@ -90,7 +91,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         [Parameter(Position = 6, ValueFromPipelineByPropertyName = true, ParameterSetName = SetExtensionParameterSetName, HelpMessage = "Diagnostics Configuration")]
         [Parameter(Position = 6, ValueFromPipelineByPropertyName = true, ParameterSetName = SetExtensionUsingThumbprintParameterSetName, HelpMessage = "Diagnostics Configuration")]
         [ValidateNotNullOrEmpty]
-        public override XmlDocument DiagnosticsConfiguration
+        public override string DiagnosticsConfigurationPath
         {
             get;
             set;

@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System;
     using System.Collections.Generic;
     using System.Management.Automation;
+    using System.Net.Http;
 
     [Serializable]
     public class WindowsAzureEnvironment
@@ -200,6 +201,24 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 baseUrl += string.Format(Resources.PublishSettingsFileRealmFormat, realm);
             }
             return baseUrl;
+        }
+
+        public SubscriptionClient AddUserAgent(SubscriptionClient client)
+        {
+            if (!client.UserAgent.Contains(ApiConstants.UserAgentValue))
+            {
+                client.UserAgent.Add(ApiConstants.UserAgentValue);
+            }
+            return client;
+        }
+
+        public SubscriptionClient AddRestLogHandler(SubscriptionClient client)
+        {
+            var withHandlerMethod = typeof(SubscriptionClient).GetMethod("WithHandler", new[] { typeof(DelegatingHandler) });
+            SubscriptionClient finalClient =
+                (SubscriptionClient)withHandlerMethod.Invoke(client, new object[] { new HttpRestCallLogger() });
+            client.Dispose();
+            return finalClient;
         }
 
         public IEnumerable<WindowsAzureSubscription> AddAccount(ITokenProvider tokenProvider, PSCredential credential)

@@ -21,44 +21,39 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
 {
     public class DiskDataStore : IDataStore
     {
-        private string profilePath;
-
-        private string tokenCachePath;
-
-        public DiskDataStore(string profilePath)
+        public void WriteFile(string path, string contents)
         {
-            this.profilePath = profilePath;
-            this.tokenCachePath = Path.Combine(AzurePowerShell.ProfileDirectory, AzurePowerShell.TokenCacheFile);
+            File.WriteAllText(path, contents);
         }
 
-        public void WriteProfile(string contents)
+        public void WriteFile(string path, byte[] contents)
         {
-            File.WriteAllText(profilePath, contents);
+            File.WriteAllBytes(path, contents);
         }
 
-        public void WriteTokenCache(byte[] contents)
+        public string ReadFileAsText(string path)
         {
-            File.WriteAllBytes(tokenCachePath, contents);
+            return File.ReadAllText(path);
         }
 
-        public string ReadProfile()
+        public byte[] ReadFileAsBytes(string path)
         {
-            if (File.Exists(profilePath))
-            {
-                return File.ReadAllText(profilePath);
-            }
-
-            return null;
+            return File.ReadAllBytes(path);
         }
 
-        public byte[] ReadTokenCache()
+        public Stream ReadFileAsStream(string path)
         {
-            if (File.Exists(tokenCachePath))
-            {
-                return File.ReadAllBytes(tokenCachePath);                
-            }
+            return File.Open(path, FileMode.Open, FileAccess.Read);
+        }
 
-            return null;
+        public void RenameFile(string oldPath, string newPath)
+        {
+            File.Move(oldPath, newPath);
+        }
+
+        public bool FileExists(string path)
+        {
+            return File.Exists(path);
         }
 
         public X509Certificate2 GetCertificate(string thumbprint)
@@ -70,7 +65,5 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
         {
             GeneralUtilities.AddCertificateToStore(cert);
         }
-
-        public string ProfilePath { get { return profilePath; } }
     }
 }

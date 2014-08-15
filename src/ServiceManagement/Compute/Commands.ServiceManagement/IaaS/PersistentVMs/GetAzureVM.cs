@@ -157,6 +157,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                                             : PersistentVMHelper.GetPublicIPName(vmRole),
                 InstanceStateDetails        = roleInstance == null ? string.Empty : roleInstance.InstanceStateDetails,
                 PowerState                  = roleInstance == null ? string.Empty : roleInstance.PowerState.ToString(),
+                HostName                    = roleInstance == null ? string.Empty : roleInstance.HostName,
                 InstanceErrorCode           = roleInstance == null ? string.Empty : roleInstance.InstanceErrorCode,
                 InstanceName                = roleInstance == null ? string.Empty : roleInstance.InstanceName,
                 InstanceFaultDomain         = roleInstance == null ? string.Empty : roleInstance.InstanceFaultDomain.HasValue

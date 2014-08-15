@@ -14,11 +14,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Microsoft.Azure.Subscriptions;
 using Microsoft.Azure.Subscriptions.Models;
 using Microsoft.WindowsAzure.Commands.Common.Models;
+using Microsoft.WindowsAzure.Commands.Common.Properties;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication;
 using Microsoft.WindowsAzure.Commands.Common.Interfaces;
@@ -30,61 +30,172 @@ namespace Microsoft.WindowsAzure.Commands.Common
     /// </summary>
     public class ProfileClient
     {
-        public static Func<string, IDataStore> DataStore { get; set; }
+        public static IDataStore DataStore { get; set; }
 
         public AzureProfile Profile { get; private set; }
 
         private static void UpgradeProfile()
         {
-            string oldProfilePath = Path.Combine(AzurePowerShell.ProfileDirectory, AzurePowerShell.OldProfileFile);
-            AzureProfile profile = new AzureProfile(DataStore(oldProfilePath));
+            if (DataStore.FileExists(System.IO.Path.Combine(AzurePowerShell.ProfileDirectory, AzurePowerShell.OldProfileFile)))
+            {
+                string oldProfilePath = System.IO.Path.Combine(AzurePowerShell.ProfileDirectory,
+                    AzurePowerShell.OldProfileFile);
+                AzureProfile profile = new AzureProfile(DataStore, oldProfilePath);
 
-            // Save the profile to the disk
-            profile.Save();
+                // Save the profile to the disk
+                profile.Save();
 
-            // Rename WindowsAzureProfile.xml to AzureProfile.json
-            File.Move(oldProfilePath, Path.Combine(AzurePowerShell.ProfileDirectory, AzurePowerShell.ProfileFile));
+                // Rename WindowsAzureProfile.xml to AzureProfile.json
+                DataStore.RenameFile(oldProfilePath,
+                    System.IO.Path.Combine(AzurePowerShell.ProfileDirectory, AzurePowerShell.ProfileFile));
+            }
         }
 
         static ProfileClient()
         {
-            DataStore = p => new DiskDataStore(p);
-            if (File.Exists(Path.Combine(AzurePowerShell.ProfileDirectory, AzurePowerShell.OldProfileFile)))
-            {
-                UpgradeProfile();
-            }
+            DataStore = new DiskDataStore();
         }
 
         public ProfileClient()
-            : this(Path.Combine(AzurePowerShell.ProfileDirectory, AzurePowerShell.ProfileFile))
+            : this(System.IO.Path.Combine(AzurePowerShell.ProfileDirectory, AzurePowerShell.ProfileFile))
         {
 
         }
 
         public ProfileClient(string profilePath)
         {
-            Profile = new AzureProfile(DataStore(profilePath));
+            ProfileClient.UpgradeProfile();
+
+            Profile = new AzureProfile(DataStore, profilePath);
+        }
+
+        public AzureAccount AddAzureAccount(UserCredentials credentials, string environment)
+        {
+            if (string.IsNullOrEmpty(environment))
+            {
+                environment = AzureSession.CurrentEnvironment.Name;
+            }
+
+            if (!Profile.Environments.ContainsKey(environment))
+            {
+                throw new Exception(string.Format(Resources.EnvironmentNotFound, environment));
+            }
+
+            var subscriptions = LoadSubscriptionsFromServer(ref credentials).ToList();
+            subscriptions.ForEach(s => s.Environment = environment);
+            if (Profile.DefaultSubscription == null)
+            {
+                Profile.DefaultSubscription = subscriptions[0];
+            }
+            AddSubscriptions(subscriptions);
+            return new AzureAccount {UserName = credentials.UserName, Subscriptions = subscriptions };
+        }
+
+        public IEnumerable<AzureAccount> GetAzureAccount(string userName, string environment)
+        {
+            List<AzureSubscription> subscriptions = Profile.Subscriptions.Values.ToList();
+            if (environment != null)
+            {
+                subscriptions = subscriptions.Where(s => s.Environment == environment).ToList();
+            }
+
+            List<string> names = new List<string>();
+            if (!string.IsNullOrEmpty(userName))
+            {
+                names.Add(userName);
+            }
+            else
+            {
+                names = subscriptions
+                    .Where(s => s.GetProperty(AzureSubscription.Property.UserAccount) != null)
+                    .Select(s => s.GetProperty(AzureSubscription.Property.UserAccount))
+                    .Distinct().ToList();
+            }
+
+            foreach (var name in names)
+            {
+                AzureAccount account = new AzureAccount();
+                account.UserName = name;
+                account.Subscriptions = subscriptions
+                    .Where(s => s.GetProperty(AzureSubscription.Property.UserAccount) == name).ToList();
+
+                if (account.Subscriptions.Count == 0)
+                {
+                    continue;
+                }
+
+                yield return account;
+            }
+        }
+
+        public AzureAccount RemoveAzureAccount(string userName, Action<string> warningLog)
+        {
+            var userAccounts = GetAzureAccount(userName, null);
+
+            if (string.IsNullOrEmpty(userName))
+            {
+                throw new ArgumentException("User name needs to be specified.", "userName");
+            }
+
+            if (!userAccounts.Any())
+            {
+                throw new ArgumentException("User name is not valid.", "userName");
+            }
+
+            var userAccount = userAccounts.First();
+
+            foreach (var subscriptionFromAccount in userAccount.Subscriptions)
+            {
+                var subscription = Profile.Subscriptions[subscriptionFromAccount.Id];
+
+                // Warn the user if the removed subscription is the default one.
+                if (subscription.GetProperty(AzureSubscription.Property.Default) != null)
+                {
+                    if (warningLog != null)
+                    {
+                        warningLog(Resources.RemoveDefaultSubscription);
+                    }
+                }
+
+                // Warn the user if the removed subscription is the current one.
+                if (subscription.Equals(AzureSession.CurrentSubscription))
+                {
+                    if (warningLog != null)
+                    {
+                        warningLog(Resources.RemoveCurrentSubscription);
+                    }
+                }
+
+                Profile.Subscriptions.Remove(subscription.Id);
+            }
+
+            return userAccount;
         }
 
         public IEnumerable<AzureSubscription> LoadSubscriptionsFromPublishSettingsFile(string filePath)
         {
             var currentEnvironment = AzureSession.CurrentEnvironment;
 
-            if (string.IsNullOrEmpty(filePath) || !File.Exists(filePath))
+            if (string.IsNullOrEmpty(filePath) || !DataStore.FileExists(filePath))
             {
                 throw new ArgumentException("File path is not valid.", "filePath");
             }
-            return PublishSettingsImporter.ImportAzureSubscription(File.OpenRead(filePath), currentEnvironment.Name);
+            return PublishSettingsImporter.ImportAzureSubscription(DataStore.ReadFileAsStream(filePath), currentEnvironment.Name);
         }
 
         public IEnumerable<AzureSubscription> LoadSubscriptionsFromServer()
+        {
+            UserCredentials credentials = new UserCredentials { NoPrompt = true };
+            return LoadSubscriptionsFromServer(ref credentials);
+        }
+
+        public IEnumerable<AzureSubscription> LoadSubscriptionsFromServer(ref UserCredentials credentials)
         {
             var currentMode = PowerShellUtilities.GetCurrentMode();
             var currentSubscription = AzureSession.CurrentSubscription;
             var currentEnvironment = AzureSession.CurrentEnvironment;
             if (currentSubscription == null)
             {
-                UserCredentials credentials = new UserCredentials {NoPrompt = true};
                 return LoadSubscriptionsFromServer(currentEnvironment, currentMode, ref credentials);
             }
             else
@@ -96,7 +207,7 @@ namespace Microsoft.WindowsAzure.Commands.Common
                 List<AzureSubscription> subscriptions = new List<AzureSubscription>();
                 foreach (var userId in userIds)
                 {
-                    UserCredentials credentials = new UserCredentials { NoPrompt = true, UserName = userId };
+                    credentials.UserName = userId;
                     subscriptions = subscriptions
                         .Union(LoadSubscriptionsFromServer(currentEnvironment, currentMode, ref credentials)).ToList();
                 }
@@ -115,17 +226,16 @@ namespace Microsoft.WindowsAzure.Commands.Common
         private IList<AzureSubscription> LoadSubscriptionsFromServer(AzureEnvironment environment, AzureModule currentMode,
             ref UserCredentials credentials)
         {
-            List<AzureSubscription> result;
+            IList<AzureSubscription> result;
             if (currentMode == AzureModule.AzureResourceManager)
             {
-                result = GetResourceManagerSubscriptions(environment, ref credentials)
-                    .Union(GetServiceManagementSubscriptions(environment, ref credentials))
-                    .ToList();
+                result = MergeSubscriptionsFromServer(GetServiceManagementSubscriptions(environment, ref credentials).ToList(),
+                    GetResourceManagerSubscriptions(environment, ref credentials).ToList());
             }
             else
             {
-                result = GetServiceManagementSubscriptions(environment, ref credentials)
-                    .ToList();
+                result = MergeSubscriptionsFromServer(GetServiceManagementSubscriptions(environment, ref credentials).ToList(),
+                    null);
             }
 
             // Set user ID
@@ -135,6 +245,37 @@ namespace Microsoft.WindowsAzure.Commands.Common
             }
 
             return result;
+        }
+
+        private IList<AzureSubscription> MergeSubscriptionsFromServer(IList<AzureSubscription> serviceManagementSubscriptions,
+            IList<AzureSubscription> resourceManagementSubscriptions)
+        {
+            if (serviceManagementSubscriptions == null)
+            {
+                serviceManagementSubscriptions = new List<AzureSubscription>();
+            }
+            if (resourceManagementSubscriptions == null)
+            {
+                resourceManagementSubscriptions = new List<AzureSubscription>();
+            }
+            serviceManagementSubscriptions.ForEach(s => s.Properties[AzureSubscription.Property.AzureMode] = AzureModule.AzureServiceManagement.ToString());
+            resourceManagementSubscriptions.ForEach(s => s.Properties[AzureSubscription.Property.AzureMode] = AzureModule.AzureResourceManager.ToString());
+
+            IList<AzureSubscription> mergedSubscriptions = new List<AzureSubscription>(serviceManagementSubscriptions);
+            foreach (var csmSubscription in resourceManagementSubscriptions)
+            {
+                var rdfeSubscription = mergedSubscriptions.FirstOrDefault(s => s.Id == csmSubscription.Id);
+                if (rdfeSubscription != null)
+                {
+                    rdfeSubscription.Properties[AzureSubscription.Property.AzureMode] =
+                        AzureModule.AzureServiceManagement + "," + AzureModule.AzureResourceManager;
+                }
+                else
+                {
+                    mergedSubscriptions.Add(csmSubscription);
+                }
+            }
+            return mergedSubscriptions;
         }
 
         private IEnumerable<AzureSubscription> GetResourceManagerSubscriptions(AzureEnvironment environment, ref UserCredentials credentials)
@@ -222,14 +363,12 @@ namespace Microsoft.WindowsAzure.Commands.Common
             return result;
         }
 
-        public void SaveSubscriptions(IEnumerable<AzureSubscription> subscriptions)
+        public void AddSubscriptions(IEnumerable<AzureSubscription> subscriptions)
         {
             foreach (var subscription in subscriptions)
             {
                 Profile.Subscriptions[subscription.Id] = subscription;
             }
-
-            Profile.Save();
         }
     }
 }

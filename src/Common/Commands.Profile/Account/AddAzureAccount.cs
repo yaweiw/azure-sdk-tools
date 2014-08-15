@@ -12,18 +12,22 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Commands.Common;
+using Microsoft.WindowsAzure.Commands.Common.Models;
+using Microsoft.WindowsAzure.Commands.Common.Properties;
+using System;
+using System.Management.Automation;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
+using Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication;
+using Microsoft.WindowsAzure.Commands.Utilities.Profile;
+
 namespace Microsoft.WindowsAzure.Commands.Profile
 {
-    using Microsoft.WindowsAzure.Commands.Common.Properties;
-    using System;
-    using System.Management.Automation;
-    using Utilities.Common;
-    using Utilities.Profile;
-
     /// <summary>
     /// Cmdlet to log into an environment and download the subscriptions
     /// </summary>
     [Cmdlet(VerbsCommon.Add, "AzureAccount")]
+    [OutputType(typeof(AzureAccount))]
     public class AddAzureAccount : SubscriptionCmdletBase
     {
         [Parameter(Mandatory = false, HelpMessage = "Environment containing the account to log into")]
@@ -38,29 +42,21 @@ namespace Microsoft.WindowsAzure.Commands.Profile
 
         public override void ExecuteCmdlet()
         {
-            WindowsAzureEnvironment env = ChosenEnvironment() ?? Profile.CurrentEnvironment;
-            string accountName = Profile.AddAccounts(env, Credential);
-            WriteVerbose(string.Format(Resources.AddAccountAdded, accountName));
+            UserCredentials userCredentials = new UserCredentials();
+            if (Credential != null)
+            {
+                userCredentials.UserName = Credential.UserName;
+                userCredentials.Password = Credential.Password;
+                userCredentials.NoPrompt = false;
+            }
+
+            var account = ProfileClient.AddAzureAccount(userCredentials, Environment);
+
+            WriteVerbose(string.Format(Resources.AddAccountAdded, userCredentials.UserName));
             WriteVerbose(string.Format(Resources.AddAccountShowDefaultSubscription, Profile.DefaultSubscription.SubscriptionName));
             WriteVerbose(Resources.AddAccountViewSubscriptions);
             WriteVerbose(Resources.AddAccountChangeSubscription);
+            WriteObject(account);
         }
-
-        private WindowsAzureEnvironment ChosenEnvironment()
-        {
-            if (string.IsNullOrEmpty(Environment))
-            {
-                return null;
-            }
-
-            WindowsAzureEnvironment result;
-
-            if (!Profile.Environments.TryGetValue(Environment, out result))
-            {
-                throw new Exception(string.Format(Resources.EnvironmentNotFound, Environment));
-            }
-            return result;
-        }
-
     }
 }

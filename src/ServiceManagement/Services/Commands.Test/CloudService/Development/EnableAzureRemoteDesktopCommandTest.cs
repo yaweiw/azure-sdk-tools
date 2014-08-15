@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Commands.Common.Test.Mocks;
+
 namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development
 {
     using Commands.CloudService.Development;
@@ -26,7 +28,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development
     using System.Security;
     using Test.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
-    using MockCommandRuntime = Test.Utilities.Common.MockCommandRuntime;
+    using MockCommandRuntime = MockCommandRuntime;
     using TestBase = Test.Utilities.Common.TestBase;
     using Testing = Test.Utilities.Common.Testing;
 

@@ -13,6 +13,8 @@
 // ----------------------------------------------------------------------------------
 
 
+using Microsoft.WindowsAzure.Commands.Common.Test.Mocks;
+
 namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Profiles
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;

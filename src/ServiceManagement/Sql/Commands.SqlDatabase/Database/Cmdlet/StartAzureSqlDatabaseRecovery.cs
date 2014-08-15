@@ -14,9 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
 {
-    using Microsoft.WindowsAzure.Commands.Utilities.Common;
-    using Services.Common;
-    using Services.Server;
+    using Microsoft.WindowsAzure.Management.Sql;
+    using Microsoft.WindowsAzure.Management.Sql.Models;
     using System;
     using System.Management.Automation;
 
@@ -24,7 +23,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
     /// Issues a new recover request for the specified live or dropped Microsoft Azure SQL Database.
     /// </summary>
     [Cmdlet(VerbsLifecycle.Start, "AzureSqlDatabaseRecovery", ConfirmImpact = ConfirmImpact.Low)]
-    public class StartAzureSqlDatabaseRecovery : CmdletBase
+    public class StartAzureSqlDatabaseRecovery : SqlDatabaseCmdletBase
     {
         #region Parameter Sets
 
@@ -45,28 +44,9 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         #region Parameters
 
         /// <summary>
-        /// Gets or sets the name of the server that will host the recovered database.
-        /// </summary>
-        [Parameter(Mandatory = true,
-            ParameterSetName = BySourceDatabaseName,
-            HelpMessage = "The name of the server that will host the recovered database.")]
-        [ValidateNotNullOrEmpty]
-        public string TargetServerName { get; set; }
-
-        /// <summary>
-        /// Gets or sets the database object representing the database to recover.
-        /// </summary>
-        [Parameter(Mandatory = true,
-            ValueFromPipeline = true,
-            ParameterSetName = BySourceDatabaseObject,
-            HelpMessage = "The database object representing the database to recover.")]
-        [ValidateNotNull]
-        public RecoverableDatabase SourceDatabase { get; set; }
-
-        /// <summary>
         /// Gets or sets the name of the server that had the database to recover.
         /// </summary>
-        [Parameter(Mandatory = false,
+        [Parameter(Mandatory = true,
             ParameterSetName = BySourceDatabaseName,
             HelpMessage = "The name of the server that had the database to recover.")]
         [ValidateNotNullOrEmpty]
@@ -80,6 +60,24 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
             HelpMessage = "The name of the database to recover.")]
         [ValidateNotNullOrEmpty]
         public string SourceDatabaseName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the database object representing the database to recover.
+        /// </summary>
+        [Parameter(Mandatory = true,
+            ValueFromPipeline = true,
+            ParameterSetName = BySourceDatabaseObject,
+            HelpMessage = "The database object representing the database to recover.")]
+        [ValidateNotNull]
+        public RecoverableDatabase SourceDatabase { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the server that will host the recovered database.
+        /// </summary>
+        [Parameter(Mandatory = false,
+            HelpMessage = "The name of the server that will host the recovered database.")]
+        [ValidateNotNullOrEmpty]
+        public string TargetServerName { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the target database.
@@ -96,49 +94,36 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         /// </summary>
         public override void ExecuteCmdlet()
         {
-            this.SourceDatabaseName =
-                this.SourceDatabase != null ? this.SourceDatabase.Name :
-                this.SourceDatabaseName;
-
             this.SourceServerName =
                 this.SourceDatabase != null ? this.SourceDatabase.ServerName :
                 this.SourceServerName;
 
+            this.SourceDatabaseName =
+                this.SourceDatabase != null ? this.SourceDatabase.Name :
+                this.SourceDatabaseName;
+
             this.TargetDatabaseName = this.TargetDatabaseName ?? this.SourceDatabaseName;
 
-            // Get the current subscription data
-            var subscription = WindowsAzureProfile.Instance.CurrentSubscription;
-
-            IServerDataServiceContext connectionContext = null;
-
-            // If a database object was piped in, use its connection context...
-            if (this.SourceDatabase != null)
-            {
-                connectionContext = this.SourceDatabase.Context;
-            }
-            else
-            {
-                // ... else create a temporary context
-                connectionContext = ServerDataServiceCertAuth.Create(this.TargetServerName, subscription);
-            }
-
-            string clientRequestId = connectionContext.ClientRequestId;
+            // Get the SQL management client for the current subscription
+            SqlManagementClient sqlManagementClient = GetCurrentSqlClient();
 
             try
             {
-                RecoverDatabaseOperation operation = connectionContext.RecoverDatabase(
+                RecoverDatabaseOperationCreateResponse response =
+                    sqlManagementClient.RecoverDatabaseOperations.Create(
                     this.SourceServerName,
-                    this.SourceDatabaseName,
-                    this.TargetDatabaseName);
+                    new RecoverDatabaseOperationCreateParameters()
+                    {
+                        SourceDatabaseName = this.SourceDatabaseName,
+                        TargetServerName = this.TargetServerName,
+                        TargetDatabaseName = this.TargetDatabaseName
+                    });
 
-                this.WriteObject(operation);
+                this.WriteObject(response.Operation);
             }
             catch (Exception ex)
             {
-                SqlDatabaseExceptionHandler.WriteErrorDetails(
-                    this,
-                    clientRequestId,
-                    ex);
+                this.WriteErrorDetails(ex);
             }
         }
     }

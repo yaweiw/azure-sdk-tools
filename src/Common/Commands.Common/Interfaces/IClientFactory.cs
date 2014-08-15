@@ -22,8 +22,6 @@ namespace Microsoft.WindowsAzure.Commands.Common
 {
     public interface IClientFactory
     {
-        event EventHandler<ClientCreatedArgs> OnClientCreated;
-
         TClient CreateClient<TClient>(AzureSubscription subscription, AzureEnvironment.Endpoint endpoint) where TClient : ServiceClient<TClient>;
 
         TClient CreateClient<TClient>(params object[] parameters) where TClient : ServiceClient<TClient>;

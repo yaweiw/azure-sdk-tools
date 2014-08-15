@@ -13,6 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 using System.Security;
+using Microsoft.WindowsAzure.Commands.Common.Test.Mocks;
 
 namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
 {
@@ -29,7 +30,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
 
         public FakeAccessTokenProvider(string token, string userId)
         {
-            this.accessToken = new FakeAccessToken()
+            this.accessToken = new MockAccessToken()
             {
                 AccessToken = token,
                 UserId = userId

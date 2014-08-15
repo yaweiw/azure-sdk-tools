@@ -19,6 +19,11 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
 {
     public class AzureSubscription
     {
+        public AzureSubscription()
+        {
+            Properties = new Dictionary<Property,string>();
+        }
+
         public Guid Id { get; set; }
 
         public string Name { get; set; }

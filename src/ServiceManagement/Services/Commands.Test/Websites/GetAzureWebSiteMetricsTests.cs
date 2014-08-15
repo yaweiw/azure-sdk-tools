@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Commands.Common.Test.Mocks;
+
 namespace Microsoft.WindowsAzure.Commands.Test.Websites
 {
     using Commands.Common.Properties;
@@ -41,7 +43,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             clientMock.Setup(c => c.ListSitesInWebSpace("webspace1"))
                 .Returns(new[] {new Site {Name = "website1", WebSpace = "webspace1"}});
 
-            clientMock.Setup(c => c.GetHistoricalUsageMetrics("website1", null, null, null, null, null))
+            clientMock.Setup(c => c.GetHistoricalUsageMetrics("website1", null, null, null, null, null, false, false))
                 .Returns(new[] {new MetricResponse() {Code = "Success", 
                     Data = new MetricSet()
                     {
