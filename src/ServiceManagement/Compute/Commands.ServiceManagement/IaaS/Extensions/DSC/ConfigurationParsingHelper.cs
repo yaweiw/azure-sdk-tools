@@ -78,6 +78,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions.DSC
         {
             IEnumerable<CommandAst> importAsts = ast.FindAll(IsCommandImportDscResource, true).OfType<CommandAst>();
             List<string> modules = new List<string>();
+            List<string> resources = new List<string>();
             foreach (CommandAst importAst in importAsts)
             {
                 // TODO: refactor code to avoid calling a script, just use StaticBindingResult directly,
@@ -86,7 +87,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions.DSC
                 using (PowerShell powerShell = PowerShell.Create()) 
                 {
                     powerShell.AddScript(
-                     @"function BindArguments($ast, $out) 
+                     @"function BindArguments($ast, $outModules, $outResources) 
                         {
                             function GetListFromBinding($binding) 
                             {
@@ -102,29 +103,38 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions.DSC
                             }
 
                             $dic = ([System.Management.Automation.Language.StaticParameterBinder]::BindCommand($ast)).BoundParameters 
+                            $modulePresent = $false
                             foreach ($binding in $dic.GetEnumerator()) 
                             {
-                                # Name case
-                                if ($binding.Key -like ""[N]*"") 
+                                if ($binding.Key -like ""[M]*"") { $modulePresent = $true; break; } 
+                            }
+                            foreach ($binding in $dic.GetEnumerator()) 
+                            {
+                                # ModuleName case
+                                if ($binding.Key -like ""[M]*"") 
                                 { 
-                                    GetListFromBinding($binding) | %{$out.Add( (Get-DscResource $_).Module.Name )}
+                                    GetListFromBinding($binding) | %{$outModules.Add( $_ )}
                                 }
                                 else 
                                 { 
-                                    # ModuleName case
-                                    if ($binding.Key -like ""[M]*"") 
+                                    # Name case, ignore if module specified
+                                    if ( (-not $modulePresent) -and ($binding.Key -like ""[N]*"") ) 
                                     { 
-                                        GetListFromBinding($binding) | %{$out.Add( $_ )}
+                                        GetListFromBinding($binding) | %{$outResources.Add( $_ )}
                                     } 
                                 }
                             }
                         }");
                     powerShell.Invoke();
                     powerShell.Commands.Clear();
-                    powerShell.AddCommand("BindArguments").AddParameter("ast", importAst).AddParameter("out", modules);
+                    powerShell.AddCommand("BindArguments")
+                        .AddParameter("ast", importAst)
+                        .AddParameter("outModules", modules)
+                        .AddParameter("outResources", resources);
                     powerShell.Invoke();
                 }
             }
+            modules.AddRange(resources.Select(GetModuleNameForDscResource));
             return modules;
         }
 
@@ -133,12 +143,19 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions.DSC
             string moduleName;
             if (!_resourceName2ModuleNameCache.TryGetValue(resourceName, out moduleName))
             {
-                using (PowerShell powershell = PowerShell.Create())
+                try
                 {
-                    powershell.AddCommand("Get-DscResource").AddParameter("Name", resourceName).
-                        AddCommand("Foreach-Object").AddParameter("MemberName", "Module").
-                        AddCommand("Foreach-Object").AddParameter("MemberName", "Name");
-                    moduleName = powershell.Invoke<string>().First();
+                    using (PowerShell powershell = PowerShell.Create())
+                    {
+                        powershell.AddCommand("Get-DscResource").AddParameter("Name", resourceName).
+                            AddCommand("Foreach-Object").AddParameter("MemberName", "Module").
+                            AddCommand("Foreach-Object").AddParameter("MemberName", "Name");
+                        moduleName = powershell.Invoke<string>().First();
+                    }
+                } 
+                catch (InvalidOperationException e) 
+                {
+                    throw new GetDscResourceException(resourceName, e);
                 }
                 _resourceName2ModuleNameCache.TryAdd(resourceName, moduleName);
             }
@@ -175,6 +192,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions.DSC
             IEnumerable<CommandAst> legacyConfigurationAsts = ast.FindAll(IsLegacyAstConfiguration, true).Select(x => (CommandAst)x);
             foreach (var legacyConfigurationAst in legacyConfigurationAsts)
             {
+                // Note: these two sequences are translated to same AST:
+                //
+                // Import-DscResource -Module xComputerManagement; Import-DscResource -Name xComputer
+                // Import-DscResource -Module xComputerManagement -Name xComputer
+                //
+                // We cannot distinguish different imports => cannot ignore resource names for imports with specified modules.
+                // So we process everything: ModuleDefinition and ResourceDefinition.
+
                 // Example: Import-DscResource -Module xPSDesiredStateConfiguration
                 modules.AddRange(GetLegacyTopLevelParametersFromAst(legacyConfigurationAst, "ModuleDefinition"));
                 // Example: Import-DscResource -Name MSFT_xComputer
@@ -185,55 +210,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions.DSC
             modules.AddRange(GetNodeLevelRequiredModules(ast));
 
             return modules.Distinct().ToList();
-        }
-
-        private static List<string> Visit(Ast ast)
-        {
-            RequiredModulesAstVisitor visitor = new RequiredModulesAstVisitor();
-            ast.Visit(visitor);
-            return visitor.Modules.Distinct().ToList();
-        }
-
-        private class RequiredModulesAstVisitor : AstVisitor
-        {
-            public List<string> Modules { get; private set; }
-
-            public RequiredModulesAstVisitor()
-            {
-                Modules = new List<string>();
-            }
-
-            public override AstVisitAction VisitCommandParameter(CommandParameterAst commandParameterAst)
-            {
-                CommandAst commandParentAst = commandParameterAst.Parent as CommandAst;
-                if (commandParentAst != null && 
-                    String.Equals(commandParentAst.GetCommandName(), "Import-DscResource", StringComparison.OrdinalIgnoreCase))
-                {
-                    // Resource can be specified by name, without a module.
-                    if (String.Equals(commandParameterAst.ParameterName, "Name", StringComparison.OrdinalIgnoreCase))
-                    {
-                        ArrayLiteralAst arrayLiteralAst = commandParameterAst.Argument as ArrayLiteralAst;
-                        if (arrayLiteralAst != null)
-                        {
-                            IEnumerable<string> resourceNames = arrayLiteralAst.Elements.OfType<StringConstantExpressionAst>().Select(x => x.Value);
-                            foreach (string resourceName in resourceNames)
-                            {
-                                
-                            }
-                        }
-                    }
-                    // Or with ModuleDefinition parameter
-                    else if (String.Equals(commandParameterAst.ParameterName, "ModuleDefinition", StringComparison.OrdinalIgnoreCase))
-                    {
-                        ArrayLiteralAst arrayLiteralAst = commandParameterAst.Argument as ArrayLiteralAst;
-                        if (arrayLiteralAst != null)
-                        {
-                            Modules.AddRange(arrayLiteralAst.Elements.OfType<StringConstantExpressionAst>().Select(x => x.Value));
-                        }
-                    }
-                }
-                return base.VisitCommandParameter(commandParameterAst);
-            }
         }
 
         private static bool IsLegacyAstConfiguration(Ast node)
