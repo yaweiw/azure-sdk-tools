@@ -1166,6 +1166,13 @@
           </maml:description>
           <command:parameterValue required="true" variableLength="false">int</command:parameterValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>IdleTimeoutInMinutes</maml:name>
+          <maml:description>
+            <maml:para>TCP Idle timeout in minutes</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">int</command:parameterValue>
+        </command:parameter>
       </command:syntaxItem>
       <command:syntaxItem>
         <maml:name>Add-AzureEndpoint</maml:name>
@@ -1207,6 +1214,13 @@
             <maml:para>The Internal LoadBalancer Name.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>IdleTimeoutInMinutes</maml:name>
+          <maml:description>
+            <maml:para>TCP Idle timeout in minutes</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">int</command:parameterValue>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
@@ -1262,6 +1276,19 @@
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
           <maml:name>string</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>IdleTimeoutInMinutes</maml:name>
+        <maml:description>
+          <maml:para>TCP Idle timeout in minutes</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">int</command:parameterValue>
+        <dev:type>
+          <maml:name>int</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>
@@ -14311,6 +14338,13 @@ Get-AzureVMImage `
           </maml:description>
           <command:parameterValue required="true" variableLength="false">bool</command:parameterValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>IdleTimeoutInMinutes</maml:name>
+          <maml:description>
+            <maml:para>TCP Idle timeout in minutes</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">int</command:parameterValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <!-- Cmdlet parameter section  -->
@@ -14384,6 +14418,19 @@ Get-AzureVMImage `
         <maml:name>PublicPort</maml:name>
         <maml:description>
           <maml:para>Specifies the public port that the endpoint will use. If not specified, Microsoft Azure will assign an available free port.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">int</command:parameterValue>
+        <dev:type>
+          <maml:name>int</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>IdleTimeoutInMinutes</maml:name>
+        <maml:description>
+          <maml:para>TCP Idle timeout in minutes</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">int</command:parameterValue>
         <dev:type>
@@ -24498,6 +24545,13 @@ C:\PS&gt; Get-AzureVM -ServiceName "MyService" -Name "MyVM" | Set-AzureEndpoint 
           <command:parameterValue required="true" variableLength="false">NetworkAclObject</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>IdleTimeoutInMinutes</maml:name>
+          <maml:description>
+            <maml:para>TCP Idle timeout in minutes</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">int</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>InternalLoadBalancerName</maml:name>
           <maml:description>
             <maml:para>The Internal Load Balancer Name.</maml:para>
@@ -24557,6 +24611,13 @@ C:\PS&gt; Get-AzureVM -ServiceName "MyService" -Name "MyVM" | Set-AzureEndpoint 
             <maml:para>An ACL to apply to the endpoint on update.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">NetworkAclObject</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>IdleTimeoutInMinutes</maml:name>
+          <maml:description>
+            <maml:para>TCP Idle timeout in minutes</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">int</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>ProbeProtocolTCP</maml:name>
@@ -24646,6 +24707,13 @@ C:\PS&gt; Get-AzureVM -ServiceName "MyService" -Name "MyVM" | Set-AzureEndpoint 
             <maml:para>An ACL to apply to the endpoint on update.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">NetworkAclObject</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>IdleTimeoutInMinutes</maml:name>
+          <maml:description>
+            <maml:para>TCP Idle timeout in minutes</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">int</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>ProbeProtocolHTTP</maml:name>
@@ -24749,6 +24817,13 @@ C:\PS&gt; Get-AzureVM -ServiceName "MyService" -Name "MyVM" | Set-AzureEndpoint 
           <maml:para>An ACL to apply to the endpoint on update.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">NetworkAclObject</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>IdleTimeoutInMinutes</maml:name>
+        <maml:description>
+          <maml:para>TCP Idle timeout in minutes</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">int</command:parameterValue>
       </command:parameter>
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
         <maml:name>ProbeProtocolTCP</maml:name>
@@ -36438,7 +36513,7 @@ PS C:\&gt; Set-AzureServiceAntimalwareExtension -ServiceName "ContosoService03" 
       </command:name>
       <maml:description>
         <maml:para>
-          Set-AzurePublicIP [-PublicIPName] &lt;string&gt; -VM &lt;IPersistentVM&gt; [&lt;CommonParameters&gt;]
+          Adds a new Public IP to the virtual machine.
         </maml:para>
       </maml:description>
       <maml:copyright>
@@ -36465,6 +36540,13 @@ PS C:\&gt; Set-AzureServiceAntimalwareExtension -ServiceName "ContosoService03" 
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3">
+          <maml:name>IdleTimeoutInMinutes</maml:name>
+          <maml:description>
+            <maml:para>TCP Idle timeout in minutes</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">int</command:parameterValue>
+        </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue, ByPropertyName)" position="named">
           <maml:name>VM</maml:name>
           <maml:description>
@@ -36486,6 +36568,19 @@ PS C:\&gt; Set-AzureServiceAntimalwareExtension -ServiceName "ContosoService03" 
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
           <maml:name>string</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3">
+        <maml:name>IdleTimeoutInMinutes</maml:name>
+        <maml:description>
+          <maml:para>TCP Idle timeout in minutes</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">int</command:parameterValue>
+        <dev:type>
+          <maml:name>int</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>
