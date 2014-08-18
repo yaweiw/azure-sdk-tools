@@ -45,7 +45,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
 
         public void RemoveSubscriptionProcess()
         {
-            ProfileClient.RemoveAzureSubscription(SubscriptionName, WriteWarning);
+            ProfileClient.RemoveAzureSubscription(SubscriptionName);
         }
 
         public override void ExecuteCmdlet()

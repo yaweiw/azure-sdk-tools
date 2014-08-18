@@ -62,7 +62,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
             switch (ParameterSetName)
             {
                 case "ByName":
-                    WriteSubscriptions(ProfileClient.ListAzureSubscriptions(SubscriptionName, false));
+                    WriteSubscriptions(ProfileClient.ListAzureSubscriptionsFromServer(SubscriptionName));
                     break;
                 case "ById":
                     WriteSubscriptions(ProfileClient.GetAzureSubscriptionById(new Guid(SubscriptionId)));

@@ -67,7 +67,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
                     break;
 
                 case "NoCurrent":
-                    AzureSession.CurrentSubscription = null;
+                    AzureSession.SetCurrentSubscription(null, null);
                     break;
 
                 case "NoDefault":

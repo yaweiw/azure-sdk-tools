@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.Azure.Subscriptions;
@@ -34,6 +35,8 @@ namespace Microsoft.WindowsAzure.Commands.Common
         public static IDataStore DataStore { get; set; }
 
         public AzureProfile Profile { get; private set; }
+
+        public Action<string> WarningLog;
 
         private static void UpgradeProfile()
         {
@@ -68,6 +71,8 @@ namespace Microsoft.WindowsAzure.Commands.Common
             ProfileClient.UpgradeProfile();
 
             Profile = new AzureProfile(DataStore, profilePath);
+
+            WarningLog = (s) => Debug.WriteLine(s);
         }
 
         #region Account management
@@ -131,7 +136,7 @@ namespace Microsoft.WindowsAzure.Commands.Common
             }
         }
 
-        public AzureAccount RemoveAzureAccount(string userName, Action<string> warningLog)
+        public AzureAccount RemoveAzureAccount(string userName)
         {
             var userAccounts = ListAzureAccounts(userName, null);
 
@@ -154,18 +159,18 @@ namespace Microsoft.WindowsAzure.Commands.Common
                 // Warn the user if the removed subscription is the default one.
                 if (subscription.GetProperty(AzureSubscription.Property.Default) != null)
                 {
-                    if (warningLog != null)
+                    if (WarningLog != null)
                     {
-                        warningLog(Resources.RemoveDefaultSubscription);
+                        WarningLog(Resources.RemoveDefaultSubscription);
                     }
                 }
 
                 // Warn the user if the removed subscription is the current one.
                 if (subscription.Equals(AzureSession.CurrentSubscription))
                 {
-                    if (warningLog != null)
+                    if (WarningLog != null)
                     {
-                        warningLog(Resources.RemoveCurrentSubscription);
+                        WarningLog(Resources.RemoveCurrentSubscription);
                     }
                 }
 
@@ -223,7 +228,7 @@ namespace Microsoft.WindowsAzure.Commands.Common
             }
         }
 
-        public AzureSubscription RemoveAzureSubscription(string name, Action<string> warningLog)
+        public AzureSubscription RemoveAzureSubscription(string name)
         {
             if (string.IsNullOrEmpty(name))
             {
@@ -238,11 +243,11 @@ namespace Microsoft.WindowsAzure.Commands.Common
             }
             else
             {
-                return RemoveAzureSubscription(subscription.Id, warningLog);
+                return RemoveAzureSubscription(subscription.Id);
             }
         }
 
-        public AzureSubscription RemoveAzureSubscription(Guid id, Action<string> warningLog)
+        public AzureSubscription RemoveAzureSubscription(Guid id)
         {
             if (!Profile.Subscriptions.ContainsKey(id))
             {
@@ -252,13 +257,13 @@ namespace Microsoft.WindowsAzure.Commands.Common
             var subscription = Profile.Subscriptions[id];
             if (subscription.Properties.ContainsKey(AzureSubscription.Property.Default))
             {
-                warningLog(Resources.RemoveDefaultSubscription);
+                WarningLog(Resources.RemoveDefaultSubscription);
             }
 
             // Warn the user if the removed subscription is the current one.
             if (AzureSession.CurrentSubscription != null && subscription.Id == AzureSession.CurrentSubscription.Id)
             {
-                warningLog(Resources.RemoveCurrentSubscription);
+                WarningLog(Resources.RemoveCurrentSubscription);
             }
 
             Profile.Subscriptions.Remove(id);
@@ -266,13 +271,10 @@ namespace Microsoft.WindowsAzure.Commands.Common
             return subscription;
         }
 
-        public List<AzureSubscription> ListAzureSubscriptions(string name, bool localOnly)
+        public List<AzureSubscription> ListAzureSubscriptionsFromServer(string name)
         {
-            IEnumerable<AzureSubscription> subscriptions = Profile.Subscriptions.Values;
-            if (!localOnly)
-            {
-                subscriptions = subscriptions.Union(LoadSubscriptionsFromServer());
-            }
+            UserCredentials credentials = new UserCredentials { NoPrompt = true };
+            IEnumerable<AzureSubscription> subscriptions = Profile.Subscriptions.Values.Union(LoadSubscriptionsFromServer(ref credentials));
             if (!string.IsNullOrEmpty(name))
             {
                 subscriptions = subscriptions.Where(s => s.Name == name);
@@ -307,7 +309,8 @@ namespace Microsoft.WindowsAzure.Commands.Common
             }
             else
             {
-                AzureSession.CurrentSubscription = subscription;
+                var environment = GetAzureEnvironmentOrDefault(subscription.Environment);
+                AzureSession.SetCurrentSubscription(subscription, environment);
             }
 
             return subscription;
@@ -360,12 +363,6 @@ namespace Microsoft.WindowsAzure.Commands.Common
                 throw new ArgumentException("File path is not valid.", "filePath");
             }
             return PublishSettingsImporter.ImportAzureSubscription(DataStore.ReadFileAsStream(filePath), currentEnvironment.Name).ToList();
-        }
-
-        private IEnumerable<AzureSubscription> LoadSubscriptionsFromServer()
-        {
-            UserCredentials credentials = new UserCredentials { NoPrompt = true };
-            return LoadSubscriptionsFromServer(ref credentials);
         }
 
         private IEnumerable<AzureSubscription> LoadSubscriptionsFromServer(ref UserCredentials credentials)
@@ -566,6 +563,10 @@ namespace Microsoft.WindowsAzure.Commands.Common
         public AzureEnvironment GetAzureEnvironmentOrDefault(string name)
         {
             if (string.IsNullOrEmpty(name))
+            {
+                return AzureSession.CurrentEnvironment;
+            }
+            else if (AzureSession.CurrentEnvironment != null && AzureSession.CurrentEnvironment.Name == name)
             {
                 return AzureSession.CurrentEnvironment;
             }

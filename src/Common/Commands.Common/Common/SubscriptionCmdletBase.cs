@@ -47,6 +47,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Profile
             {
                 ProfileClient = new ProfileClient();
             }
+            ProfileClient.WarningLog = WriteWarning;
         }
 
         protected override void EndProcessing()
