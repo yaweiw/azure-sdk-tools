@@ -47,31 +47,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.Profile
         }
 
         [TestMethod]
-        public void GetsAllSubscriptionsByNameWhenNameIsBlank()
-        {
-            cmdlet.SubscriptionName = null;
-        
-            cmdlet.GetByName();
-
-            Assert.AreEqual(6, mockCommandRuntime.OutputPipeline.Count);
-        }
-
-        [TestMethod]
-        public void CanGetSubscriptionByName()
-        {
-            var expected = profile.CurrentSubscription;
-            cmdlet.SubscriptionName = expected.SubscriptionName;
-
-            cmdlet.GetByName();
-
-            Assert.AreEqual(1, mockCommandRuntime.OutputPipeline.Count);
-            Assert.IsInstanceOfType(mockCommandRuntime.OutputPipeline[0], typeof(AzureSubscription));
-            Assert.AreEqual(expected.SubscriptionName, ((AzureSubscription)mockCommandRuntime.OutputPipeline[0]).Name);
-            Assert.AreEqual(expected.SubscriptionId,
-                ((AzureSubscription)(mockCommandRuntime.OutputPipeline[0])).Id);
-        }
-
-        [TestMethod]
         public void CanGetCurrentSubscription()
         {
             // Select a subscription that is not the default

@@ -14,7 +14,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using Microsoft.Azure.Subscriptions;
 using Microsoft.Azure.Subscriptions.Models;
 using Microsoft.WindowsAzure.Commands.Common.Models;
@@ -33,6 +35,8 @@ namespace Microsoft.WindowsAzure.Commands.Common
         public static IDataStore DataStore { get; set; }
 
         public AzureProfile Profile { get; private set; }
+
+        public Action<string> WarningLog;
 
         private static void UpgradeProfile()
         {
@@ -67,7 +71,11 @@ namespace Microsoft.WindowsAzure.Commands.Common
             ProfileClient.UpgradeProfile();
 
             Profile = new AzureProfile(DataStore, profilePath);
+
+            WarningLog = (s) => Debug.WriteLine(s);
         }
+
+        #region Account management
 
         public AzureAccount AddAzureAccount(UserCredentials credentials, string environment)
         {
@@ -87,11 +95,11 @@ namespace Microsoft.WindowsAzure.Commands.Common
             {
                 Profile.DefaultSubscription = subscriptions[0];
             }
-            AddSubscriptions(subscriptions);
+            AddAzureSubscriptions(subscriptions);
             return new AzureAccount {UserName = credentials.UserName, Subscriptions = subscriptions };
         }
 
-        public IEnumerable<AzureAccount> GetAzureAccount(string userName, string environment)
+        public IEnumerable<AzureAccount> ListAzureAccounts(string userName, string environment)
         {
             List<AzureSubscription> subscriptions = Profile.Subscriptions.Values.ToList();
             if (environment != null)
@@ -128,13 +136,13 @@ namespace Microsoft.WindowsAzure.Commands.Common
             }
         }
 
-        public AzureAccount RemoveAzureAccount(string userName, Action<string> warningLog)
+        public AzureAccount RemoveAzureAccount(string userName)
         {
-            var userAccounts = GetAzureAccount(userName, null);
+            var userAccounts = ListAzureAccounts(userName, null);
 
             if (string.IsNullOrEmpty(userName))
             {
-                throw new ArgumentException("User name needs to be specified.", "userName");
+                throw new ArgumentNullException("User name needs to be specified.", "userName");
             }
 
             if (!userAccounts.Any())
@@ -151,18 +159,18 @@ namespace Microsoft.WindowsAzure.Commands.Common
                 // Warn the user if the removed subscription is the default one.
                 if (subscription.GetProperty(AzureSubscription.Property.Default) != null)
                 {
-                    if (warningLog != null)
+                    if (WarningLog != null)
                     {
-                        warningLog(Resources.RemoveDefaultSubscription);
+                        WarningLog(Resources.RemoveDefaultSubscription);
                     }
                 }
 
                 // Warn the user if the removed subscription is the current one.
                 if (subscription.Equals(AzureSession.CurrentSubscription))
                 {
-                    if (warningLog != null)
+                    if (WarningLog != null)
                     {
-                        warningLog(Resources.RemoveCurrentSubscription);
+                        WarningLog(Resources.RemoveCurrentSubscription);
                     }
                 }
 
@@ -172,7 +180,181 @@ namespace Microsoft.WindowsAzure.Commands.Common
             return userAccount;
         }
 
-        public IEnumerable<AzureSubscription> LoadSubscriptionsFromPublishSettingsFile(string filePath)
+        #endregion
+
+        #region Subscripton management
+
+        public void AddAzureSubscriptions(IEnumerable<AzureSubscription> subscriptions)
+        {
+            foreach (var subscription in subscriptions)
+            {
+                AddAzureSubscription(subscription);
+            }
+        }
+
+        public AzureSubscription AddAzureSubscription(AzureSubscription subscription)
+        {
+            if (subscription == null)
+            {
+                throw new ArgumentNullException("Subscription needs to be specified.", "subscription");
+            }
+
+            if (!Profile.Subscriptions.ContainsKey(subscription.Id))
+            {
+                Profile.Subscriptions[subscription.Id] = subscription;
+                return subscription;
+            }
+            else
+            {
+                throw new ArgumentException(string.Format(Resources.SubscriptionAlreadyExists, subscription.Name), "subscription");
+            }
+        }
+
+        public AzureSubscription SetAzureSubscription(AzureSubscription subscription)
+        {
+            if (subscription == null)
+            {
+                throw new ArgumentNullException("Subscription needs to be specified.", "subscription");
+            }
+
+            if (Profile.Subscriptions.ContainsKey(subscription.Id))
+            {
+                Profile.Subscriptions[subscription.Id] = subscription;
+                return subscription;
+            }
+            else
+            {
+                throw new ArgumentException(string.Format(Resources.SubscriptionNameNotFoundMessage, subscription.Name), "subscription");
+            }
+        }
+
+        public AzureSubscription RemoveAzureSubscription(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentNullException("Subscription name needs to be specified.", "name");
+            }
+
+            var subscription = Profile.Subscriptions.Values.FirstOrDefault(s => s.Name == name);
+
+            if (subscription == null)
+            {
+                throw new ArgumentException(string.Format(Resources.SubscriptionNameNotFoundMessage, name), "name");
+            }
+            else
+            {
+                return RemoveAzureSubscription(subscription.Id);
+            }
+        }
+
+        public AzureSubscription RemoveAzureSubscription(Guid id)
+        {
+            if (!Profile.Subscriptions.ContainsKey(id))
+            {
+                throw new ArgumentException(Resources.SubscriptionIdNotFoundMessage, "name");
+            }
+
+            var subscription = Profile.Subscriptions[id];
+            if (subscription.Properties.ContainsKey(AzureSubscription.Property.Default))
+            {
+                WarningLog(Resources.RemoveDefaultSubscription);
+            }
+
+            // Warn the user if the removed subscription is the current one.
+            if (AzureSession.CurrentSubscription != null && subscription.Id == AzureSession.CurrentSubscription.Id)
+            {
+                WarningLog(Resources.RemoveCurrentSubscription);
+            }
+
+            Profile.Subscriptions.Remove(id);
+
+            return subscription;
+        }
+
+        public List<AzureSubscription> ListAzureSubscriptionsFromServer(string name)
+        {
+            UserCredentials credentials = new UserCredentials { NoPrompt = true };
+            IEnumerable<AzureSubscription> subscriptions = Profile.Subscriptions.Values.Union(LoadSubscriptionsFromServer(ref credentials));
+            if (!string.IsNullOrEmpty(name))
+            {
+                subscriptions = subscriptions.Where(s => s.Name == name);
+            }
+            return subscriptions.ToList();
+        }
+
+        public AzureSubscription GetAzureSubscriptionById(Guid id)
+        {
+            if (Profile.Subscriptions.ContainsKey(id))
+            {
+                return Profile.Subscriptions[id];
+            }
+            else
+            {
+                throw new ArgumentException(Resources.SubscriptionIdNotFoundMessage, "id");
+            }
+        }
+
+        public AzureSubscription SetAzureSubscriptionAsCurrent(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentNullException("name", string.Format(Resources.InvalidSubscription, name));
+            }
+
+            var subscription = Profile.Subscriptions.Values.FirstOrDefault(s => s.Name == name);
+
+            if (subscription == null)
+            {
+                throw new ArgumentException(string.Format(Resources.InvalidSubscription, name), "name");
+            }
+            else
+            {
+                var environment = GetAzureEnvironmentOrDefault(subscription.Environment);
+                AzureSession.SetCurrentSubscription(subscription, environment);
+            }
+
+            return subscription;
+        }
+
+        public AzureSubscription SetAzureSubscriptionAsDefault(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentNullException("name", string.Format(Resources.InvalidSubscription, name));
+            }
+
+            var subscription = Profile.Subscriptions.Values.FirstOrDefault(s => s.Name == name);
+
+            if (subscription == null)
+            {
+                throw new ArgumentException(string.Format(Resources.InvalidSubscription, name), "name");
+            }
+            else
+            {
+                Profile.DefaultSubscription = subscription;
+            }
+
+            return subscription;
+        }
+
+        public void ClearDefaultAzureSubscription()
+        {
+            Profile.DefaultSubscription = null;
+        }
+
+        public void ImportCertificate(X509Certificate2 certificate)
+        {
+            DataStore.AddCertificate(certificate);
+        }
+
+        public List<AzureSubscription> ImportPublishSettings(string filePath)
+        {
+            var subscriptions = LoadSubscriptionsFromPublishSettingsFile(filePath);
+            AddAzureSubscriptions(subscriptions);
+            return subscriptions;
+        }
+
+        private List<AzureSubscription> LoadSubscriptionsFromPublishSettingsFile(string filePath)
         {
             var currentEnvironment = AzureSession.CurrentEnvironment;
 
@@ -180,16 +362,10 @@ namespace Microsoft.WindowsAzure.Commands.Common
             {
                 throw new ArgumentException("File path is not valid.", "filePath");
             }
-            return PublishSettingsImporter.ImportAzureSubscription(DataStore.ReadFileAsStream(filePath), currentEnvironment.Name);
+            return PublishSettingsImporter.ImportAzureSubscription(DataStore.ReadFileAsStream(filePath), currentEnvironment.Name).ToList();
         }
 
-        public IEnumerable<AzureSubscription> LoadSubscriptionsFromServer()
-        {
-            UserCredentials credentials = new UserCredentials { NoPrompt = true };
-            return LoadSubscriptionsFromServer(ref credentials);
-        }
-
-        public IEnumerable<AzureSubscription> LoadSubscriptionsFromServer(ref UserCredentials credentials)
+        private IEnumerable<AzureSubscription> LoadSubscriptionsFromServer(ref UserCredentials credentials)
         {
             var currentMode = PowerShellUtilities.GetCurrentMode();
             var currentSubscription = AzureSession.CurrentSubscription;
@@ -223,10 +399,10 @@ namespace Microsoft.WindowsAzure.Commands.Common
             }
         }
 
-        private IList<AzureSubscription> LoadSubscriptionsFromServer(AzureEnvironment environment, AzureModule currentMode,
+        private List<AzureSubscription> LoadSubscriptionsFromServer(AzureEnvironment environment, AzureModule currentMode,
             ref UserCredentials credentials)
         {
-            IList<AzureSubscription> result;
+            List<AzureSubscription> result;
             if (currentMode == AzureModule.AzureResourceManager)
             {
                 result = MergeSubscriptionsFromServer(GetServiceManagementSubscriptions(environment, ref credentials).ToList(),
@@ -247,8 +423,8 @@ namespace Microsoft.WindowsAzure.Commands.Common
             return result;
         }
 
-        private IList<AzureSubscription> MergeSubscriptionsFromServer(IList<AzureSubscription> serviceManagementSubscriptions,
-            IList<AzureSubscription> resourceManagementSubscriptions)
+        private List<AzureSubscription> MergeSubscriptionsFromServer(IList<AzureSubscription> serviceManagementSubscriptions,
+            List<AzureSubscription> resourceManagementSubscriptions)
         {
             if (serviceManagementSubscriptions == null)
             {
@@ -261,7 +437,7 @@ namespace Microsoft.WindowsAzure.Commands.Common
             serviceManagementSubscriptions.ForEach(s => s.Properties[AzureSubscription.Property.AzureMode] = AzureModule.AzureServiceManagement.ToString());
             resourceManagementSubscriptions.ForEach(s => s.Properties[AzureSubscription.Property.AzureMode] = AzureModule.AzureResourceManager.ToString());
 
-            IList<AzureSubscription> mergedSubscriptions = new List<AzureSubscription>(serviceManagementSubscriptions);
+            List<AzureSubscription> mergedSubscriptions = new List<AzureSubscription>(serviceManagementSubscriptions);
             foreach (var csmSubscription in resourceManagementSubscriptions)
             {
                 var rdfeSubscription = mergedSubscriptions.FirstOrDefault(s => s.Id == csmSubscription.Id);
@@ -362,13 +538,100 @@ namespace Microsoft.WindowsAzure.Commands.Common
 
             return result;
         }
+        #endregion
 
-        public void AddSubscriptions(IEnumerable<AzureSubscription> subscriptions)
+        #region Environment management
+
+        public AzureEnvironment AddAzureEnvironment(AzureEnvironment environment)
         {
-            foreach (var subscription in subscriptions)
+            if (environment == null)
             {
-                Profile.Subscriptions[subscription.Id] = subscription;
+                throw new ArgumentNullException("Environment needs to be specified.", "environment");
+            }
+
+            if (!Profile.Environments.ContainsKey(environment.Name))
+            {
+                Profile.Environments[environment.Name] = environment;
+                return environment;
+            }
+            else
+            {
+                throw new ArgumentException(string.Format(Resources.EnvironmentExists, environment.Name), "environment");
             }
         }
+
+        public AzureEnvironment GetAzureEnvironmentOrDefault(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return AzureSession.CurrentEnvironment;
+            }
+            else if (AzureSession.CurrentEnvironment != null && AzureSession.CurrentEnvironment.Name == name)
+            {
+                return AzureSession.CurrentEnvironment;
+            }
+            else if (Profile.Environments.ContainsKey(name))
+            {
+                return Profile.Environments[name];
+            }
+            else
+            {
+                throw new ArgumentException(string.Format(Resources.EnvironmentNotFound, name));
+            }
+        }
+
+        public List<AzureEnvironment> ListAzureEnvironments(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return Profile.Environments.Values.ToList();
+            }
+            else if (Profile.Environments.ContainsKey(name))
+            {
+                return new[] { Profile.Environments[name] }.ToList();
+            }
+            else
+            {
+                return new AzureEnvironment[0].ToList();
+            }
+        }
+
+        public AzureEnvironment RemoveAzureEnvironment(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentNullException("Environment name needs to be specified.", "name");
+            }
+            
+            if (Profile.Environments.ContainsKey(name))
+            {
+                var environment = Profile.Environments[name];
+                Profile.Environments.Remove(name);
+                return environment;
+            }
+            else
+            {
+                throw new ArgumentException(string.Format(Resources.EnvironmentNotFound, name), "name");
+            }
+        }
+
+        public AzureEnvironment SetAzureEnvironment(AzureEnvironment environment)
+        {
+            if (environment == null)
+            {
+                throw new ArgumentNullException("Environment needs to be specified.", "environment");
+            }
+
+            if (Profile.Environments.ContainsKey(environment.Name))
+            {
+                Profile.Environments[environment.Name] = environment;
+                return environment;
+            }
+            else
+            {
+                throw new ArgumentException(string.Format(Resources.EnvironmentNotFound, environment.Name), "environment");
+            }
+        }
+        #endregion
     }
 }

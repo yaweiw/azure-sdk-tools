@@ -32,6 +32,7 @@ namespace Microsoft.WindowsAzure.Commands.Common
             Environments = new Dictionary<string, AzureEnvironment>();
             ClientFactory = new ClientFactory();
             AuthenticationFactory = new AuthenticationFactory();
+            CurrentEnvironment = AzureEnvironment.PublicEnvironments[EnvironmentName.AzureCloud];
         }
 
         public static void Load(Dictionary<string, AzureEnvironment> envs, AzureSubscription defaultSubscription)
@@ -48,18 +49,31 @@ namespace Microsoft.WindowsAzure.Commands.Common
 
         public static IDictionary<Guid, IAccessToken> SubscriptionTokenCache { get; set; }
 
-        public static AzureSubscription CurrentSubscription { get; set; }
+        public static AzureSubscription CurrentSubscription { get; private set; }
 
-        public static AzureEnvironment CurrentEnvironment
+        public static AzureEnvironment CurrentEnvironment {get; private set; }
+        
+        public static void SetCurrentSubscription(AzureSubscription subscription, AzureEnvironment environment)
         {
-            get
+            if (subscription == null)
             {
-                if (CurrentSubscription == null)
+                CurrentSubscription = null;
+            }
+
+            if (environment == null)
+            {
+                CurrentEnvironment = AzureEnvironment.PublicEnvironments[EnvironmentName.AzureCloud];
+            }
+
+            if (subscription != null && environment != null)
+            {
+                if (subscription.Environment != environment.Name)
                 {
-                    return AzureEnvironment.PublicEnvironments[EnvironmentName.AzureCloud];
+                    throw new ArgumentException("Environment name doesn't match one in subscription.", "environment");
                 }
 
-                return Environments[CurrentSubscription.Environment];
+                CurrentSubscription = subscription;
+                CurrentEnvironment = environment;
             }
         }
 

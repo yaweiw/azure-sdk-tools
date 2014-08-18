@@ -12,18 +12,22 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Commands.Common.Models;
+using Microsoft.WindowsAzure.Commands.Common.Properties;
+using System.Collections.Generic;
+using System.Management.Automation;
+using System.Security.Permissions;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
+using Microsoft.WindowsAzure.Commands.Utilities.Profile;
+
 namespace Microsoft.WindowsAzure.Commands.Profile
 {
-    using Microsoft.WindowsAzure.Commands.Common.Properties;
-    using System.Collections.Generic;
-    using System.Management.Automation;
-    using System.Security.Permissions;
-    using Utilities.Common;
+    
     /// <summary>
     /// Sets a Microsoft Azure environment.
     /// </summary>
-    [Cmdlet(VerbsCommon.Set, "AzureEnvironment"), OutputType(typeof(WindowsAzureEnvironment))]
-    public class SetAzureEnvironmentCommand : CmdletBase
+    [Cmdlet(VerbsCommon.Set, "AzureEnvironment"), OutputType(typeof(AzureEnvironment))]
+    public class SetAzureEnvironmentCommand : SubscriptionCmdletBase
     {
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true)]
         public string Name { get; set; }
@@ -54,29 +58,24 @@ namespace Microsoft.WindowsAzure.Commands.Profile
             HelpMessage = "Identifier of the target resource that is the recipient of the requested token.")]
         public string ActiveDirectoryServiceEndpointResourceId { get; set; }
 
+        public SetAzureEnvironmentCommand() : base(true) { }
+
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
-            try
-            {
-                var env = WindowsAzureProfile.Instance.Environments[Name];
-                env.PublishSettingsFileUrl = Value(PublishSettingsFileUrl, env.PublishSettingsFileUrl);
-                env.ServiceEndpoint = Value(ServiceEndpoint, env.ServiceEndpoint);
-                env.ResourceManagerEndpoint = Value(ResourceManagerEndpoint, env.ResourceManagerEndpoint);
-                env.ManagementPortalUrl = Value(ManagementPortalUrl, env.ManagementPortalUrl);
-                env.StorageEndpointSuffix = Value(StorageEndpoint, env.StorageEndpointSuffix);
-                env.ActiveDirectoryEndpoint = Value(ActiveDirectoryEndpoint, env.ActiveDirectoryEndpoint);
-                env.ActiveDirectoryServiceEndpointResourceId = Value(ActiveDirectoryServiceEndpointResourceId, env.ActiveDirectoryServiceEndpointResourceId);
-                env.GalleryEndpoint = Value(GalleryEndpoint, env.GalleryEndpoint);
+            var newEnvironment = new AzureEnvironment { Name = Name };
+            newEnvironment.Endpoints[AzureEnvironment.Endpoint.PublishSettingsFileUrl] = PublishSettingsFileUrl;
+            newEnvironment.Endpoints[AzureEnvironment.Endpoint.ServiceEndpoint] = ServiceEndpoint;
+            newEnvironment.Endpoints[AzureEnvironment.Endpoint.ResourceManagerEndpoint] = ResourceManagerEndpoint;
+            newEnvironment.Endpoints[AzureEnvironment.Endpoint.ManagementPortalUrl] = ManagementPortalUrl;
+            newEnvironment.Endpoints[AzureEnvironment.Endpoint.StorageEndpointSuffix] = StorageEndpoint;
+            newEnvironment.Endpoints[AzureEnvironment.Endpoint.ActiveDirectoryEndpoint] = ActiveDirectoryEndpoint;
+            newEnvironment.Endpoints[AzureEnvironment.Endpoint.ActiveDirectoryServiceEndpointResourceId] = ActiveDirectoryServiceEndpointResourceId;
+            newEnvironment.Endpoints[AzureEnvironment.Endpoint.GalleryEndpoint] = GalleryEndpoint;
 
-                WindowsAzureProfile.Instance.UpdateEnvironment(env);
+            ProfileClient.SetAzureEnvironment(newEnvironment);
 
-                WriteObject(env);
-            }
-            catch (KeyNotFoundException ex)
-            {
-                throw new KeyNotFoundException(string.Format(Resources.EnvironmentNotFound, Name), ex);
-            }
+            WriteObject(newEnvironment);
         }
 
         private static string Value(string newValue, string existingValue)

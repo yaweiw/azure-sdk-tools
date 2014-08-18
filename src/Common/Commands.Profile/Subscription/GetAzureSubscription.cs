@@ -40,7 +40,13 @@ namespace Microsoft.WindowsAzure.Commands.Profile
 
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the subscription", ParameterSetName = "ByName")]
         [ValidateNotNullOrEmpty]
+        [Alias("Name")]
         public string SubscriptionName { get; set; }
+
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "ID of the subscription", ParameterSetName = "ById")]
+        [ValidateNotNullOrEmpty]
+        [Alias("Id")]
+        public string SubscriptionId { get; set; }
 
         [Parameter(Mandatory = false, HelpMessage = "Retrieves the default subscription", ParameterSetName = "Default")]
         public SwitchParameter Default { get; set; }
@@ -56,7 +62,10 @@ namespace Microsoft.WindowsAzure.Commands.Profile
             switch (ParameterSetName)
             {
                 case "ByName":
-                    GetByName();
+                    WriteSubscriptions(ProfileClient.ListAzureSubscriptionsFromServer(SubscriptionName));
+                    break;
+                case "ById":
+                    WriteSubscriptions(ProfileClient.GetAzureSubscriptionById(new Guid(SubscriptionId)));
                     break;
                 case "Default":
                     GetDefault();
@@ -65,17 +74,6 @@ namespace Microsoft.WindowsAzure.Commands.Profile
                     GetCurrent();
                     break;
             }
-        }
-
-        public void GetByName()
-        {
-            IEnumerable<AzureSubscription> subscriptions = ProfileClient.Profile
-                .Subscriptions.Values.Union(LoadSubscriptionsFromServer());
-            if (!string.IsNullOrEmpty(SubscriptionName))
-            {
-                subscriptions = subscriptions.Where(s => s.Name == SubscriptionName);
-            }
-            WriteSubscriptions(subscriptions);
         }
 
         public void GetDefault()

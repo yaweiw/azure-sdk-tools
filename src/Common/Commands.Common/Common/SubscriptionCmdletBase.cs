@@ -47,6 +47,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Profile
             {
                 ProfileClient = new ProfileClient();
             }
+            ProfileClient.WarningLog = WriteWarning;
         }
 
         protected override void EndProcessing()
@@ -58,10 +59,5 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Profile
         }
 
         public ProfileClient ProfileClient { get; set; }
-
-        protected IEnumerable<AzureSubscription> LoadSubscriptionsFromServer()
-        {
-            return ProfileClient.LoadSubscriptionsFromServer();
-        }
     }
 }

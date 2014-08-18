@@ -1,4 +1,4 @@
-﻿// ----------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -178,6 +178,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         protected void ValidateParameters()
         {
             this.ConfigurationPath = this.GetUnresolvedProviderPathFromPSPath(this.ConfigurationPath);
+            if (!File.Exists(this.ConfigurationPath))
+            {
+                this.ThrowInvalidArgumentError(Resources.PublishVMDscExtensionUploadArchiveConfigFileNotExist, this.ConfigurationPath);
+            }
 
             var configurationFileExtension = Path.GetExtension(this.ConfigurationPath);
 
@@ -234,7 +238,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         private string CreateConfigurationArchive()
         {
             WriteVerbose(String.Format(CultureInfo.CurrentUICulture, Resources.AzureVMDscParsingConfiguration, this.ConfigurationPath));
-            ConfigurationParseResult parseResult = ConfigurationParsingHelper.ParseConfiguration(this.ConfigurationPath);
+            ConfigurationParseResult parseResult = null;
+            try
+            {
+                parseResult = ConfigurationParsingHelper.ParseConfiguration(this.ConfigurationPath);
+            }
+            catch (GetDscResourceException e)
+            {
+                ThrowTerminatingError(new ErrorRecord(e, string.Empty, ErrorCategory.PermissionDenied, null));
+            }
             if (parseResult.Errors.Any())
             {
                 ThrowTerminatingError(
@@ -332,7 +344,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
         private void UploadConfigurationArchive(string archivePath)
         {
-            CloudBlobContainer cloudBlobContainer = GetStorageContainier();
+            CloudBlobContainer cloudBlobContainer = GetStorageContainer();
 
             var blobName = Path.GetFileName(archivePath);
 
@@ -356,7 +368,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             });
         }
 
-        private CloudBlobContainer GetStorageContainier()
+        private CloudBlobContainer GetStorageContainer()
         {
             var storageAccount = new CloudStorageAccount(this._storageCredentials, true);
             var blobClient = storageAccount.CreateCloudBlobClient();
@@ -432,4 +444,3 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         }
     }
 }
-

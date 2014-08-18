@@ -41,7 +41,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
 
         public void RemoveAccountProcess()
         {
-            var removedAccount = ProfileClient.RemoveAzureAccount(Name, WriteWarning);
+            var removedAccount = ProfileClient.RemoveAzureAccount(Name);
 
             if (PassThru.IsPresent)
             {

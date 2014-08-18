@@ -183,6 +183,7 @@
     <Compile Include="IaaS\Extensions\Diagnostics\VirtualMachineDiagnosticsExtensionCmdletBase.cs" />
     <Compile Include="IaaS\Extensions\DSC\DscPrivateSettings.cs" />
     <Compile Include="IaaS\Extensions\DSC\DscPublicSettings.cs" />
+    <Compile Include="IaaS\Extensions\DSC\GetDscResourceException.cs" />
     <Compile Include="IaaS\Extensions\DSC\RemoveAzureVMDscExtension.cs" />
     <Compile Include="IaaS\Extensions\DSC\GetAzureVMDscExtension.cs" />
     <Compile Include="IaaS\Extensions\DSC\SetAzureVMDscExtension.cs" />
