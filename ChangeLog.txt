@@ -1,4 +1,5 @@
 2014.08.18 Version 0.8.7
+* Update Newtonsoft.Json dependency to 6.0.4
 * Compute 
     * Windows Azure Diagnostics (WAD) Version 1.2: extension cmdlets for Iaas And PaaS
         * Set-AzureVMDiagnosticsExtension
