@@ -36513,7 +36513,7 @@ PS C:\&gt; Set-AzureServiceAntimalwareExtension -ServiceName "ContosoService03" 
       </command:name>
       <maml:description>
         <maml:para>
-          Adds a new Public IP to the virtual machine.
+          Set-AzurePublicIP [-PublicIPName] &lt;string&gt; [[-IdleTimeoutInMinutes] &lt;int&gt;] -VM &lt;IPersistentVM&gt; [&lt;CommonParameters&gt;]
         </maml:para>
       </maml:description>
       <maml:copyright>
