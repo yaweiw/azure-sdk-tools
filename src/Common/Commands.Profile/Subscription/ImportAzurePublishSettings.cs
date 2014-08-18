@@ -12,18 +12,20 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Commands.Common.Models;
+using Microsoft.WindowsAzure.Commands.Common.Properties;
+using System;
+using System.IO;
+using System.Linq;
+using System.Management.Automation;
+using System.Security.Permissions;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
+using Microsoft.WindowsAzure.Commands.Utilities.Profile;
+
 namespace Microsoft.WindowsAzure.Commands.Profile
 {
-    using Microsoft.WindowsAzure.Commands.Common.Properties;
-    using System;
-    using System.IO;
-    using System.Linq;
-    using System.Management.Automation;
-    using System.Security.Permissions;
-    using Utilities.Common;
-    using Utilities.Profile;
-
     [Cmdlet(VerbsData.Import, "AzurePublishSettingsFile")]
+    [OutputType(typeof(AzureSubscription))]
     public class ImportAzurePublishSettingsCommand : SubscriptionCmdletBase
     {
         public ImportAzurePublishSettingsCommand() : base(true)
@@ -78,8 +80,6 @@ namespace Microsoft.WindowsAzure.Commands.Profile
             {
                 WriteWarning(string.Format(Resources.MultiplePublishSettingsFilesFoundMessage, fileToImport));
             }
-
-            WriteObject(fileToImport);
         }
 
         private void ImportFile()
@@ -91,13 +91,14 @@ namespace Microsoft.WindowsAzure.Commands.Profile
 
         private void ImportFile(string fileName)
         {
-            Profile.ImportPublishSettings(fileName);
-            if (Profile.DefaultSubscription != null)
+            var subscriptions = ProfileClient.ImportPublishSettings(fileName);
+            if (ProfileClient.Profile.DefaultSubscription != null)
             {
                 WriteVerbose(string.Format(
                     Resources.DefaultAndCurrentSubscription,
-                    Profile.DefaultSubscription.SubscriptionName));
+                    ProfileClient.Profile.DefaultSubscription));
             }
+            WriteObject(subscriptions);
         }
 
         private void GuardFileExists(string fileName)

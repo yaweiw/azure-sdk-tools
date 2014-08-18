@@ -1394,8 +1394,8 @@ use and privacy statement at &lt;url&gt; and (c) agree to sharing my contact inf
   <data name="SubscriptionIdNotFoundMessage" xml:space="preserve">
     <value>The provided subscription name doesn't exist in the imported publish profile. If subscriptions have changed for the hosted service, retrieve an updated profile by using Get-AzurePublishSettingsFile then import the profile using Import-AzurePublishSettingsFile</value>
   </data>
-  <data name="SubscriptionIdNotFoundMessage1" xml:space="preserve">
-    <value>The provided subscription name doesn't exist in the imported publish profile. If subscriptions have changed for the hosted service, retrieve an updated profile by using Get-AzurePublishSettingsFile then import the profile using Import-AzurePublishSettingsFile</value>
+  <data name="SubscriptionNameNotFoundMessage" xml:space="preserve">
+    <value>The subscription name {0} doesn't exist.</value>
   </data>
   <data name="SubscriptionMustNotBeNull" xml:space="preserve">
     <value>Subscription must not be null</value>

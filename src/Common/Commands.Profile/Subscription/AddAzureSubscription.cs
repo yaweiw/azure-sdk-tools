@@ -12,12 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Commands.Common;
 using Microsoft.WindowsAzure.Commands.Common.Models;
 using System;
 using System.Linq;
 using System.Management.Automation;
 using System.Security.Cryptography.X509Certificates;
-using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Microsoft.WindowsAzure.Commands.Utilities.Profile;
 
 namespace Microsoft.WindowsAzure.Commands.Profile
@@ -27,10 +27,11 @@ namespace Microsoft.WindowsAzure.Commands.Profile
     /// <summary>
     /// Sets an azure subscription.
     /// </summary>
-    [Cmdlet(VerbsCommon.Set, "AzureSubscription", DefaultParameterSetName = "CommonSettings"), OutputType(typeof(AzureSubscription))]
-    public class SetAzureSubscriptionCommand : SubscriptionCmdletBase
+    [Cmdlet(VerbsCommon.Add, "AzureSubscription", DefaultParameterSetName = "CommonSettings"), OutputType(typeof(AzureSubscription))]
+    public class AddAzureSubscriptionCommand : SubscriptionCmdletBase
     {
-        public SetAzureSubscriptionCommand() : base(true)
+        public AddAzureSubscriptionCommand()
+            : base(true)
         {
         }
 
@@ -58,9 +59,6 @@ namespace Microsoft.WindowsAzure.Commands.Profile
         [Parameter(Mandatory = false)]
         public SwitchParameter PassThru { get; set; }
 
-        /// <summary>
-        /// Executes the set subscription cmdlet operation.
-        /// </summary>
         public override void ExecuteCmdlet()
         {
             var subscription = new AzureSubscription
@@ -79,7 +77,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
                 subscription.Properties[AzureSubscription.Property.Thumbprint] = Certificate.Thumbprint;
             }
 
-            WriteObject(ProfileClient.SetAzureSubscription(subscription));
+            WriteObject(ProfileClient.AddAzureSubscription(subscription));
         }
     }
 }

@@ -118,6 +118,7 @@
     <Compile Include="Environment\RemoveAzureEnvironment.cs" />
     <Compile Include="Environment\SetAzureEnvironment.cs" />
     <Compile Include="Environment\GetAzureEnvironment.cs" />
+    <Compile Include="Subscription\AddAzureSubscription.cs" />
     <Compile Include="SwitchAzureMode.cs" />
     <Compile Include="Account\AddAzureAccount.cs" />
     <Compile Include="Subscription\RemoveAzureSubscription.cs" />

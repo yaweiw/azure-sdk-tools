@@ -58,10 +58,5 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Profile
         }
 
         public ProfileClient ProfileClient { get; set; }
-
-        protected IEnumerable<AzureSubscription> LoadSubscriptionsFromServer()
-        {
-            return ProfileClient.LoadSubscriptionsFromServer();
-        }
     }
 }

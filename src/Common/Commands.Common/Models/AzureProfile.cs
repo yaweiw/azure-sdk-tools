@@ -114,7 +114,10 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
                     defaultSubscription.Properties.Remove(AzureSubscription.Property.Default);
                 }
                 defaultSubscription = value;
-                defaultSubscription.Properties.Add(AzureSubscription.Property.Default, "True");
+                if (defaultSubscription != null)
+                {
+                    defaultSubscription.Properties.Add(AzureSubscription.Property.Default, "True");
+                }
             }
         }
 

@@ -14,6 +14,7 @@
 
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
+using Microsoft.WindowsAzure.Commands.Common.Properties;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using System;
 using System.Collections.Generic;
@@ -181,6 +182,42 @@ namespace Microsoft.WindowsAzure.Commands.Common.Models
         public Uri GetStorageFileEndpoint(string accountName, bool useHttps = true)
         {
             return new Uri(string.Format(StorageFileEndpointFormat(), useHttps ? "https" : "http", accountName));
+        }
+
+        /// <summary>
+        /// Gets the management portal URI with a particular realm suffix if supplied
+        /// </summary>
+        /// <param name="realm">Realm for user's account</param>
+        /// <returns>Url to management portal.</returns>
+        public string GetManagementPortalUrlWithRealm(string realm = null)
+        {
+            if (realm != null)
+            {
+                realm = string.Format(Resources.PublishSettingsFileRealmFormat, realm);
+            }
+            else
+            {
+                realm = string.Empty;
+            }
+            return GetEndpoint(Endpoint.ManagementPortalUrl) + realm;
+        }
+
+        /// <summary>
+        /// Get the publish settings file download url with a realm suffix if needed.
+        /// </summary>
+        /// <param name="realm">Realm for user's account</param>
+        /// <returns>Url to publish settings file</returns>
+        public string GetPublishSettingsFileUrlWithRealm(string realm = null)
+        {
+            if (realm != null)
+            {
+                realm = string.Format(Resources.PublishSettingsFileRealmFormat, realm);
+            }
+            else
+            {
+                realm = string.Empty;
+            }
+            return GetEndpoint(Endpoint.PublishSettingsFileUrl) + realm;
         }
 
         public enum Endpoint

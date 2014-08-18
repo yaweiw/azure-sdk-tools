@@ -12,43 +12,30 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Commands.Common.Models;
+using Microsoft.WindowsAzure.Commands.Utilities.Profile;
+using System.Collections.Generic;
+using System.Management.Automation;
+using System.Security.Permissions;
+
 namespace Microsoft.WindowsAzure.Commands.Profile
 {
-    using System.Collections.Generic;
-    using System.Management.Automation;
-    using System.Security.Permissions;
-    using Utilities.CloudService;
-    using Utilities.Common;
-
     /// <summary>
     /// Gets the available Microsoft Azure environments.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureEnvironment"), OutputType(typeof(List<WindowsAzureEnvironment>), typeof(WindowsAzureEnvironment))]
-    public class GetAzureEnvironmentCommand : CmdletBase
+    [Cmdlet(VerbsCommon.Get, "AzureEnvironment"), OutputType(typeof(List<AzureEnvironment>))]
+    public class GetAzureEnvironmentCommand : SubscriptionCmdletBase
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, 
             HelpMessage = "The environment name")]
         public string Name { get; set; }
 
+        public GetAzureEnvironmentCommand() : base(false) { }
+
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
-            if (string.IsNullOrEmpty(Name))
-            {
-                List<PSObject> output = new List<PSObject>();
-                WindowsAzureProfile.Instance.Environments.Values.ForEach(e => output.Add(base.ConstructPSObject(
-                    null,
-                    Parameters.EnvironmentName, e.Name,
-                    Parameters.ServiceEndpoint, e.ServiceEndpoint,
-                    Parameters.ResourceManagerEndpoint, e.ResourceManagerEndpoint,
-                    Parameters.PublishSettingsFileUrl, e.PublishSettingsFileUrl)));
-
-                WriteObject(output, true);
-            }
-            else
-            {
-                WriteObject(WindowsAzureProfile.Instance.Environments[Name]);
-            }
+            WriteObject(ProfileClient.ListAzureEnvironments(Name));
         }
     }
 }
