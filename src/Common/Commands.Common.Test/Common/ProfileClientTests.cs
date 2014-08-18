@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,6 +34,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Test.Common
         private WindowsAzure.Subscriptions.Models.SubscriptionListOperationResponse.Subscription rdfeSubscription1;
         private WindowsAzure.Subscriptions.Models.SubscriptionListOperationResponse.Subscription rdfeSubscription2;
         private Azure.Subscriptions.Models.Subscription csmSubscription1;
+        private Azure.Subscriptions.Models.Subscription csmSubscription1withDuplicateId;
         private Azure.Subscriptions.Models.Subscription csmSubscription2;
         private AzureSubscription azureSubscription1;
         private AzureSubscription azureSubscription2;
@@ -296,15 +298,15 @@ namespace Microsoft.WindowsAzure.Commands.Common.Test.Common
 
             var env1 = client.ListAzureEnvironments(null);
 
-            Assert.Equal(2, env1.Count());
+            Assert.Equal(2, env1.Count);
 
             var env2 = client.ListAzureEnvironments("bad");
 
-            Assert.Equal(0, env2.Count());
+            Assert.Equal(0, env2.Count);
 
             var env3 = client.ListAzureEnvironments(EnvironmentName.AzureCloud);
 
-            Assert.Equal(1, env3.Count());
+            Assert.Equal(1, env3.Count);
         }
 
         [Fact]
@@ -371,64 +373,220 @@ namespace Microsoft.WindowsAzure.Commands.Common.Test.Common
         [Fact]
         public void AddAzureSubscriptionChecksAndAdds()
         {
-            // TODO: Implement
-            Assert.False(true);
+            SetMockData();
+            MockDataStore dataStore = new MockDataStore();
+            ProfileClient.DataStore = dataStore;
+            ProfileClient client = new ProfileClient();
+
+            Assert.Equal(0, client.Profile.Subscriptions.Count);
+
+            var subscription = client.AddAzureSubscription(azureSubscription1);
+
+            Assert.Equal(1, client.Profile.Subscriptions.Count);
+            Assert.Equal(subscription, azureSubscription1);
+            Assert.Throws<ArgumentException>(() => client.AddAzureSubscription(azureSubscription1));
+            Assert.Throws<ArgumentNullException>(() => client.AddAzureSubscription(null));
         }
 
         [Fact]
         public void SetAzureSubscriptionChecksAndUpdates()
         {
-            // TODO: Implement
-            Assert.False(true);
+            SetMockData();
+            MockDataStore dataStore = new MockDataStore();
+            ProfileClient.DataStore = dataStore;
+            ProfileClient client = new ProfileClient();
+
+            client.AddAzureSubscription(azureSubscription1);
+
+            Assert.Equal(1, client.Profile.Subscriptions.Count);
+
+            var subscription = client.SetAzureSubscription(azureSubscription1);
+
+            Assert.Equal(1, client.Profile.Subscriptions.Count);
+            Assert.Equal(subscription, azureSubscription1);
+            Assert.Throws<ArgumentException>(() => client.SetAzureSubscription(azureSubscription2));
+            Assert.Throws<ArgumentNullException>(() => client.SetAzureSubscription(null));
         }
 
         [Fact]
         public void RemoveAzureSubscriptionChecksAndRemoves()
         {
-            // TODO: Implement
-            Assert.False(true);
+            SetMockData();
+            MockDataStore dataStore = new MockDataStore();
+            ProfileClient.DataStore = dataStore;
+            ProfileClient client = new ProfileClient();
+
+            client.AddAzureSubscription(azureSubscription1);
+            client.SetAzureSubscriptionAsCurrent(azureSubscription1.Name);
+            client.SetAzureSubscriptionAsDefault(azureSubscription1.Name);
+
+            Assert.Equal(1, client.Profile.Subscriptions.Count);
+
+            List<string> log = new List<string>();
+            Action<string> logger = log.Add;
+
+            var subscription = client.RemoveAzureSubscription(azureSubscription1.Name, logger);
+
+            Assert.Equal(0, client.Profile.Subscriptions.Count);
+            Assert.Equal(azureSubscription1.Name, subscription.Name);
+            Assert.Equal(2, log.Count);
+            Assert.Equal(
+                "The default subscription is being removed. Use Select-AzureSubscription -Default <subscriptionName> to select a new default subscription.",
+                log[0]);
+            Assert.Equal(
+                "The current subscription is being removed. Use Select-AzureSubscription <subscriptionName> to select a new current subscription.",
+                log[1]);
+            Assert.Throws<ArgumentException>(() => client.RemoveAzureSubscription("bad", logger));
+            Assert.Throws<ArgumentNullException>(() => client.RemoveAzureSubscription(null, logger));
         }
 
         [Fact]
         public void ListAzureSubscriptionsMergesFromServer()
         {
-            // TODO: Implement
-            Assert.False(true);
+            SetMockData();
+            SetMocks(new[] { rdfeSubscription1, rdfeSubscription2 }.ToList(), new[] { csmSubscription1, csmSubscription1withDuplicateId }.ToList());
+            MockDataStore dataStore = new MockDataStore();
+            ProfileClient.DataStore = dataStore;
+            ProfileClient client = new ProfileClient();
+            PowerShellUtilities.GetCurrentModeOverride = () => AzureModule.AzureResourceManager;
+            client.AddAzureSubscription(azureSubscription1);
+
+            var subscriptions = client.ListAzureSubscriptions(null, false);
+
+            Assert.Equal(4, subscriptions.Count);
+            Assert.Equal(4, subscriptions.Count(s => s.Properties[AzureSubscription.Property.UserAccount] == "test"));
+            Assert.Equal(1, subscriptions.Count(s => s.Id == azureSubscription1.Id));
+            Assert.Equal(1, subscriptions.Count(s => s.Id == new Guid(rdfeSubscription1.SubscriptionId)));
+            Assert.Equal(1, subscriptions.Count(s => s.Id == new Guid(rdfeSubscription2.SubscriptionId)));
+            Assert.Equal(1, subscriptions.Count(s => s.Id == new Guid(csmSubscription1.SubscriptionId)));
+        }
+
+        [Fact]
+        public void ListAzureSubscriptionsListsOnlyRdfeSubscriptions()
+        {
+            SetMockData();
+            SetMocks(new[] { rdfeSubscription1, rdfeSubscription2 }.ToList(), new[] { csmSubscription1, csmSubscription1withDuplicateId }.ToList());
+            MockDataStore dataStore = new MockDataStore();
+            ProfileClient.DataStore = dataStore;
+            ProfileClient client = new ProfileClient();
+            PowerShellUtilities.GetCurrentModeOverride = () => AzureModule.AzureServiceManagement;
+
+            var subscriptions = client.ListAzureSubscriptions(null, false);
+
+            Assert.Equal(2, subscriptions.Count);
+            Assert.Equal(2, subscriptions.Count(s => s.Properties[AzureSubscription.Property.UserAccount] == "test"));
+            Assert.Equal(1, subscriptions.Count(s => s.Id == new Guid(rdfeSubscription1.SubscriptionId)));
+            Assert.Equal(1, subscriptions.Count(s => s.Id == new Guid(rdfeSubscription2.SubscriptionId)));
         }
 
         [Fact]
         public void ListAzureSubscriptionsLoadsOnlyLocal()
         {
-            // TODO: Implement
-            Assert.False(true);
+            SetMockData();
+            SetMocks(new[] { rdfeSubscription1, rdfeSubscription2 }.ToList(), new[] { csmSubscription1, csmSubscription1withDuplicateId }.ToList());
+            MockDataStore dataStore = new MockDataStore();
+            ProfileClient.DataStore = dataStore;
+            ProfileClient client = new ProfileClient();
+            PowerShellUtilities.GetCurrentModeOverride = () => AzureModule.AzureResourceManager;
+            client.AddAzureSubscription(azureSubscription1);
+
+            var subscriptions = client.ListAzureSubscriptions(null, true);
+
+            Assert.Equal(1, subscriptions.Count);
+            Assert.Equal(1, subscriptions.Count(s => s.Properties[AzureSubscription.Property.UserAccount] == "test"));
+            Assert.Equal(1, subscriptions.Count(s => s.Id == azureSubscription1.Id));
         }
 
         [Fact]
-        public void GetAzureSubscriptionByIdChecksAndReturns()
+        public void GetAzureSubscriptionByIdChecksAndReturnsOnlyLocal()
         {
-            // TODO: Implement
-            Assert.False(true);
+            SetMockData();
+            SetMocks(new[] { rdfeSubscription1, rdfeSubscription2 }.ToList(), new[] { csmSubscription1, csmSubscription1withDuplicateId }.ToList());
+            MockDataStore dataStore = new MockDataStore();
+            ProfileClient.DataStore = dataStore;
+            ProfileClient client = new ProfileClient();
+            PowerShellUtilities.GetCurrentModeOverride = () => AzureModule.AzureResourceManager;
+            client.AddAzureSubscription(azureSubscription1);
+            client.AddAzureSubscription(azureSubscription2);
+
+            var subscriptions = client.GetAzureSubscriptionById(azureSubscription1.Id);
+
+            Assert.Equal(azureSubscription1.Id, subscriptions.Id);
+            Assert.Throws<ArgumentException>(() => client.GetAzureSubscriptionById(new Guid()));
         }
 
         [Fact]
         public void SetAzureSubscriptionAsDefaultSetsDefault()
         {
-            // TODO: Implement
-            Assert.False(true);
+            SetMockData();
+            MockDataStore dataStore = new MockDataStore();
+            ProfileClient.DataStore = dataStore;
+            ProfileClient client = new ProfileClient();
+            client.AddAzureSubscription(azureSubscription1);
+            client.AddAzureSubscription(azureSubscription2);
+
+            Assert.Null(client.Profile.DefaultSubscription);
+
+            client.SetAzureSubscriptionAsDefault(azureSubscription2.Name);
+
+            Assert.Equal(azureSubscription2.Id, client.Profile.DefaultSubscription.Id);
+            Assert.Throws<ArgumentException>(() => client.SetAzureSubscriptionAsDefault("bad"));
+            Assert.Throws<ArgumentNullException>(() => client.SetAzureSubscriptionAsDefault(null));
         }
 
         [Fact]
         public void ClearDefaultAzureSubscriptionClearsDefault()
         {
-            // TODO: Implement
-            Assert.False(true);
+            SetMockData();
+            MockDataStore dataStore = new MockDataStore();
+            ProfileClient.DataStore = dataStore;
+            ProfileClient client = new ProfileClient();
+            client.AddAzureSubscription(azureSubscription1);
+            client.AddAzureSubscription(azureSubscription2);
+
+            Assert.Null(client.Profile.DefaultSubscription);
+            client.SetAzureSubscriptionAsDefault(azureSubscription2.Name);
+            Assert.Equal(azureSubscription2.Id, client.Profile.DefaultSubscription.Id);
+
+            client.ClearDefaultAzureSubscription();
+
+            Assert.Null(client.Profile.DefaultSubscription);
+        }
+
+        [Fact]
+        public void SetAzureSubscriptionAsCurrentSetsCurrent()
+        {
+            SetMockData();
+            MockDataStore dataStore = new MockDataStore();
+            ProfileClient.DataStore = dataStore;
+            ProfileClient client = new ProfileClient();
+            client.AddAzureSubscription(azureSubscription1);
+            client.AddAzureSubscription(azureSubscription2);
+
+            Assert.Null(AzureSession.CurrentSubscription);
+
+            client.SetAzureSubscriptionAsCurrent(azureSubscription2.Name);
+
+            Assert.Equal(azureSubscription2.Id, AzureSession.CurrentSubscription.Id);
+            Assert.Throws<ArgumentException>(() => client.SetAzureSubscriptionAsCurrent("bad"));
+            Assert.Throws<ArgumentNullException>(() => client.SetAzureSubscriptionAsCurrent(null));
         }
 
         [Fact]
         public void ImportPublishSettingsLoadsAndReturnsSubscriptions()
         {
-            // TODO: Implement
-            Assert.False(true);
+            SetMockData();
+            MockDataStore dataStore = new MockDataStore();
+            ProfileClient.DataStore = dataStore;
+            ProfileClient client = new ProfileClient();
+
+            dataStore.WriteFile("ImportPublishSettingsLoadsAndReturnsSubscriptions.publishsettings",
+                Properties.Resources.ValidProfile);
+
+            var subscriptions = client.ImportPublishSettings("ImportPublishSettingsLoadsAndReturnsSubscriptions.publishsettings");
+                
+            Assert.Equal(6, subscriptions.Count);
+            Assert.Equal(6, client.Profile.Subscriptions.Count);
         }
 
         private void SetMocks(List<WindowsAzure.Subscriptions.Models.SubscriptionListOperationResponse.Subscription> rdfeSubscriptions,
@@ -467,6 +625,13 @@ namespace Microsoft.WindowsAzure.Commands.Common.Test.Common
                 DisplayName = "CsmSub1",
                 State = "Active",
                 SubscriptionId = "36E3F6FD-A3AA-439A-8FC4-1F5C41D2AD1E"
+            };
+            csmSubscription1withDuplicateId = new Azure.Subscriptions.Models.Subscription
+            {
+                Id = "Subscriptions/16E3F6FD-A3AA-439A-8FC4-1F5C41D2AD1E",
+                DisplayName = "RdfeSub1",
+                State = "Active",
+                SubscriptionId = "16E3F6FD-A3AA-439A-8FC4-1F5C41D2AD1E"
             };
             csmSubscription2 = new Azure.Subscriptions.Models.Subscription
             {

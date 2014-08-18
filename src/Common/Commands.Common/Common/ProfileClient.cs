@@ -266,7 +266,7 @@ namespace Microsoft.WindowsAzure.Commands.Common
             return subscription;
         }
 
-        public IEnumerable<AzureSubscription> ListAzureSubscriptions(string name, bool localOnly)
+        public List<AzureSubscription> ListAzureSubscriptions(string name, bool localOnly)
         {
             IEnumerable<AzureSubscription> subscriptions = Profile.Subscriptions.Values;
             if (!localOnly)
@@ -277,7 +277,7 @@ namespace Microsoft.WindowsAzure.Commands.Common
             {
                 subscriptions = subscriptions.Where(s => s.Name == name);
             }
-            return subscriptions;
+            return subscriptions.ToList();
         }
 
         public AzureSubscription GetAzureSubscriptionById(Guid id)
@@ -294,11 +294,16 @@ namespace Microsoft.WindowsAzure.Commands.Common
 
         public AzureSubscription SetAzureSubscriptionAsCurrent(string name)
         {
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentNullException("name", string.Format(Resources.InvalidSubscription, name));
+            }
+
             var subscription = Profile.Subscriptions.Values.FirstOrDefault(s => s.Name == name);
 
             if (subscription == null)
             {
-                throw new Exception(string.Format(Resources.InvalidSubscription, name));
+                throw new ArgumentException(string.Format(Resources.InvalidSubscription, name), "name");
             }
             else
             {
@@ -310,11 +315,16 @@ namespace Microsoft.WindowsAzure.Commands.Common
 
         public AzureSubscription SetAzureSubscriptionAsDefault(string name)
         {
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentNullException("name", string.Format(Resources.InvalidSubscription, name));
+            }
+
             var subscription = Profile.Subscriptions.Values.FirstOrDefault(s => s.Name == name);
 
             if (subscription == null)
             {
-                throw new Exception(string.Format(Resources.InvalidSubscription, name));
+                throw new ArgumentException(string.Format(Resources.InvalidSubscription, name), "name");
             }
             else
             {
@@ -329,6 +339,11 @@ namespace Microsoft.WindowsAzure.Commands.Common
             Profile.DefaultSubscription = null;
         }
 
+        public void ImportCertificate(X509Certificate2 certificate)
+        {
+            DataStore.AddCertificate(certificate);
+        }
+
         public List<AzureSubscription> ImportPublishSettings(string filePath)
         {
             var subscriptions = LoadSubscriptionsFromPublishSettingsFile(filePath);
@@ -336,12 +351,7 @@ namespace Microsoft.WindowsAzure.Commands.Common
             return subscriptions;
         }
 
-        public void ImportCertificate(X509Certificate2 certificate)
-        {
-            DataStore.AddCertificate(certificate);
-        }
-
-        public List<AzureSubscription> LoadSubscriptionsFromPublishSettingsFile(string filePath)
+        private List<AzureSubscription> LoadSubscriptionsFromPublishSettingsFile(string filePath)
         {
             var currentEnvironment = AzureSession.CurrentEnvironment;
 
@@ -569,19 +579,19 @@ namespace Microsoft.WindowsAzure.Commands.Common
             }
         }
 
-        public IEnumerable<AzureEnvironment> ListAzureEnvironments(string name)
+        public List<AzureEnvironment> ListAzureEnvironments(string name)
         {
             if (string.IsNullOrEmpty(name))
             {
-                return Profile.Environments.Values;
+                return Profile.Environments.Values.ToList();
             }
             else if (Profile.Environments.ContainsKey(name))
             {
-                return new[] {Profile.Environments[name]};
+                return new[] { Profile.Environments[name] }.ToList();
             }
             else
             {
-                return new AzureEnvironment[0];
+                return new AzureEnvironment[0].ToList();
             }
         }
 

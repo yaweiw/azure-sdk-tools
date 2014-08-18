@@ -43,12 +43,18 @@ namespace Microsoft.WindowsAzure.Commands.Common.Test.Mocks
 
         public IAccessToken Authenticate(AzureEnvironment environment, string tenant, ref UserCredentials credentials)
         {
+            if (credentials.UserName == null)
+            {
+                credentials.UserName = "test";
+            }
+
             Token = new MockAccessToken
             {
                 UserId = credentials.UserName,
                 LoginType = LoginType.OrgId,
                 AccessToken = "abc"
             };
+            
             return Token;
         }
 
