@@ -1,4 +1,4 @@
-﻿// ----------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -344,7 +344,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
         private void UploadConfigurationArchive(string archivePath)
         {
-            CloudBlobContainer cloudBlobContainer = GetStorageContainier();
+            CloudBlobContainer cloudBlobContainer = GetStorageContainer();
 
             var blobName = Path.GetFileName(archivePath);
 
@@ -368,7 +368,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             });
         }
 
-        private CloudBlobContainer GetStorageContainier()
+        private CloudBlobContainer GetStorageContainer()
         {
             var storageAccount = new CloudStorageAccount(this._storageCredentials, true);
             var blobClient = storageAccount.CreateCloudBlobClient();
@@ -444,4 +444,3 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         }
     }
 }
-
