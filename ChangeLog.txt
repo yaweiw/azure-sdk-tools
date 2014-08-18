@@ -4,7 +4,8 @@
         * Set-AzureVMDiagnosticsExtension
         * Get-AzureVMDiagnosticsExtension
         * Set-AzureServiceDiagnosticsExtension
-        * Get-AzureServiceDiagnosticsExtension* Websites
+        * Get-AzureServiceDiagnosticsExtension
+* Websites
     * Added RoutingRules parameter to Set-AzureWebsite to expose Testing in Production (TiP) and returned from Get-AzureWebsite
     * Get-AzureWebsiteMetric to return web site metrics
     * Get-AzureWebHostingPlan
