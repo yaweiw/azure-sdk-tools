@@ -6,6 +6,9 @@
         * Get-AzureVMDiagnosticsExtension
         * Set-AzureServiceDiagnosticsExtension
         * Get-AzureServiceDiagnosticsExtension
+    * Get-AzureDeployment: added CreatedTime and LastModifiedTime to output
+    * Get-AzureVM: added Hostname property
+    * Implemented CustomData support for Azure VMs
 * Websites
     * Added RoutingRules parameter to Set-AzureWebsite to expose Testing in Production (TiP) and returned from Get-AzureWebsite
     * Get-AzureWebsiteMetric to return web site metrics
