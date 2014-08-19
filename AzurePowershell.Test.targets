@@ -14,7 +14,7 @@
     <SqlDatabaseTestDebug>.\src\ServiceManagement\Sql\Commands.SqlDatabase.Test\bin\Debug\Microsoft.WindowsAzure.Commands.SqlDatabase.Test.dll</SqlDatabaseTestDebug>
     <HDInsightTestDebug>.\src\ServiceManagement\HDInsight\Commands.HDInsight.Test\bin\Debug\Microsoft.WindowsAzure.Commands.HDInsight.Test.dll</HDInsightTestDebug>
     <StorageTestDebug>.\src\ServiceManagement\Storage\Commands.Storage.Test\bin\Debug\Microsoft.WindowsAzure.Commands.Storage.Test.dll</StorageTestDebug>
-    <TestFilter>"!Functional&#x26;!Scenario&#x26;!Sequential&#x26;!PIRTest&#x26;!Preview&#x26;!ADDomain"</TestFilter>
+    <TestFilter>"!Functional&#x26;!Scenario&#x26;!AzureRTScenario&#x26;!Sequential&#x26;!PIRTest&#x26;!Preview&#x26;!ADDomain"</TestFilter>
     <ScenarioTestFilter>All</ScenarioTestFilter>
     <MockTestFilter>CheckIn</MockTestFilter>
     <OneSDKCITFilter>"OneSDK&#x26;CIT"</OneSDKCITFilter>
@@ -25,9 +25,9 @@
     <ManagementBVTFilter>"Management&#x26;BVT"</ManagementBVTFilter>
     <ManagedCacheBVTFilter>"ManagedCache&#x26;BVT"</ManagedCacheBVTFilter>
     <ServiceBusBVTFilter>"ServiceBus&#x26;BVT"</ServiceBusBVTFilter>
-    <AzureRTAllTestFilter>"Functional|Scenario"</AzureRTAllTestFilter>
-    <AzureRTAllTestFilter2>"Functional|Scenario|Preview"</AzureRTAllTestFilter2>
-    <AzureRTAllTestFilter3>"Functional|Scenario|Sequential"</AzureRTAllTestFilter3>
+    <AzureRTAllTestFilter>"Functional|AzureRTScenario"</AzureRTAllTestFilter>
+    <AzureRTAllTestFilter2>"Functional|AzureRTScenario|Preview"</AzureRTAllTestFilter2>
+    <AzureRTAllTestFilter3>"Functional|AzureRTScenario|Sequential"</AzureRTAllTestFilter3>
   </PropertyGroup>
   
   <Target Name="InvokeMSTest">

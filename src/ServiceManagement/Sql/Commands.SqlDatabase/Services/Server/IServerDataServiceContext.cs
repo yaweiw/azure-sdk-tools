@@ -260,42 +260,5 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             DateTime? pointInTime);
 
         #endregion
-
-        #region Recoverable Database Operations
-
-        /// <summary>
-        /// Retrieves the list of all recoverable databases on the given server.
-        /// </summary>
-        /// <param name="sourceServerName">The name of the server that contained the databases.</param>
-        /// <returns>An array of all recoverable databases on the server.</returns>
-        RecoverableDatabase[] GetRecoverableDatabases(string sourceServerName);
-
-        /// <summary>
-        /// Retrieve information on the recoverable database with the name
-        /// <paramref name="sourceDatabaseName"/> on the server <paramref name="sourceServerName"/>.
-        /// </summary>
-        /// <param name="sourceServerName">The name of the server that contained the database.</param>
-        /// <param name="sourceDatabaseName">The name of the database to recover.</param>
-        /// <returns>An object containing the information about the specific recoverable database.</returns>
-        RecoverableDatabase GetRecoverableDatabase(
-            string sourceServerName, string sourceDatabaseName);
-
-        #endregion
-
-        #region Recover Database Operations
-
-        /// <summary>
-        /// Issues a recovery request for the given source database to the given target database.
-        /// </summary>
-        /// <param name="sourceServerName">The name of the server that contained the source database.</param>
-        /// <param name="sourceDatabaseName">The name of the source database.</param>
-        /// <param name="targetDatabaseName">The name of the database to be created with the restored contents.</param>
-        /// <returns>An object containing the information about the recovery request.</returns>
-        RecoverDatabaseOperation RecoverDatabase(
-            string sourceServerName,
-            string sourceDatabaseName,
-            string targetDatabaseName);
-
-        #endregion
     }
 }

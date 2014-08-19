@@ -48,9 +48,8 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Azure.ResourceManager, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Microsoft.Azure.Management.Resources.2.4.0-preview\lib\net40\Microsoft.Azure.ResourceManager.dll</HintPath>
+    <Reference Include="Microsoft.Azure.ResourceManager">
+      <HintPath>..\..\packages\Microsoft.Azure.Management.Resources.2.6.0-preview\lib\net40\Microsoft.Azure.ResourceManager.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Data.Edm.5.6.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
@@ -80,23 +79,21 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Microsoft.WindowsAzure.Common.1.1.1\lib\net45\Microsoft.WindowsAzure.Common.dll</HintPath>
+    <Reference Include="Microsoft.WindowsAzure.Common">
+      <HintPath>..\..\packages\Microsoft.WindowsAzure.Common.1.3.0\lib\net45\Microsoft.WindowsAzure.Common.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Common.NetFramework, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Microsoft.WindowsAzure.Common.1.1.1\lib\net45\Microsoft.WindowsAzure.Common.NetFramework.dll</HintPath>
+    <Reference Include="Microsoft.WindowsAzure.Common.NetFramework">
+      <HintPath>..\..\packages\Microsoft.WindowsAzure.Common.1.3.0\lib\net45\Microsoft.WindowsAzure.Common.NetFramework.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Management, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Microsoft.WindowsAzure.Management.1.2.0\lib\net40\Microsoft.WindowsAzure.Management.dll</HintPath>
+    <Reference Include="Microsoft.WindowsAzure.Management">
+      <HintPath>..\..\packages\Microsoft.WindowsAzure.Management.1.3.0\lib\net40\Microsoft.WindowsAzure.Management.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.ServiceManagement.Client">
-      <HintPath>..\..\lib\Microsoft.WindowsAzure.ServiceManagement.Client.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -142,6 +139,8 @@
     <Compile Include="Authentication\ITokenProvider.cs" />
     <Compile Include="Authentication\LoginType.cs" />
     <Compile Include="Authentication\RegistryBackedDictionary.cs" />
+    <Compile Include="Factories\AuthenticationFactory.cs" />
+    <Compile Include="Factories\ClientFactory.cs" />
     <Compile Include="Common\AzureException.cs" />
     <Compile Include="Common\AzureModule.cs" />
     <Compile Include="Common\AzureSession.cs" />
@@ -158,14 +157,11 @@
     <Compile Include="Common\IdnHelper.cs" />
     <Compile Include="Common\ManagementOperationContext.cs" />
     <Compile Include="Common\Parameters.cs" />
+    <Compile Include="Common\ServiceManagementTypes.cs" />
     <Compile Include="Common\ServiceManagementClientExtensions.cs" />
     <Compile Include="Common\SubscriptionCmdletBase.cs" />
     <Compile Include="Common\SubscriptionDataExtended.cs" />
     <Compile Include="Common\TestMockSupport.cs" />
-    <Compile Include="Model\AzureEnvironment.cs" />
-    <Compile Include="Model\AzureSubscription.cs" />
-    <Compile Include="Utilities\ConversionUtilities.cs" />
-    <Compile Include="Utilities\GeneralUtilities.cs" />
     <Compile Include="Common\GlobalPathInfo.cs" />
     <Compile Include="Common\HttpClientExtensions.cs" />
     <Compile Include="Common\HttpClientHelper.cs" />
@@ -177,29 +173,44 @@
     <Compile Include="Common\PowershellDefaultProfileStore.cs" />
     <Compile Include="Common\PowershellOldSettingsProfileStore.cs" />
     <Compile Include="Common\PowershellProfileStore.cs" />
+    <Compile Include="Common\ProcessHelper.cs" />
+    <Compile Include="Common\ProfileData.cs" />
+    <Compile Include="Common\PublishSettingsImporter.cs" />
+    <Compile Include="Common\RequiredResourceLookup.cs" />
+    <Compile Include="Common\Tasks.cs" />
+    <Compile Include="Common\Validate.cs" />
+    <Compile Include="Common\WindowsAzureCertificate.cs" />
+    <Compile Include="Common\WindowsAzureEnvironment.cs" />
+    <Compile Include="Common\WindowsAzureProfile.cs" />
+    <Compile Include="Common\WindowsAzureSubscription.cs" />
+    <Compile Include="Interfaces\IProfileSerializer.cs" />
+    <Compile Include="Interfaces\IClientFactory.cs" />
+    <Compile Include="Interfaces\IAuthenticationFactory.cs" />
+    <Compile Include="Interfaces\IDataStore.cs" />
+    <Compile Include="Models\AzureEnvironment.cs" />
+    <Compile Include="Models\AzureProfile.cs" />
+    <Compile Include="Models\VirtualDiskDataStore.cs" />
+    <Compile Include="Models\JsonProfileSerializer.cs" />
+    <Compile Include="Models\XmlProfileSerializer.cs" />
+    <Compile Include="Models\AzureSubscription.cs" />
+    <Compile Include="Models\DiskDataStore.cs" />
+    <Compile Include="Models\AzureEnvironment.Methods.cs" />
+    <Compile Include="Utilities\ConversionUtilities.cs" />
+    <Compile Include="Utilities\GeneralUtilities.cs" />
+    <Compile Include="Utilities\XmlUtilities.cs" />
     <Compile Include="Utilities\FileUtilities.cs" />
     <Compile Include="Utilities\JsonUtilities.cs" />
     <Compile Include="Utilities\PowerShellUtilities.cs" />
-    <Compile Include="Common\ProcessHelper.cs" />
-    <Compile Include="Common\ProfileData.cs" />
+    <Compile Include="AzurePowerShell.cs" />
+    <Compile Include="XmlSchema\PublishProfile.cs" />
+    <Compile Include="XmlSchema\ServiceConfigurationSchema.cs" />
+    <Compile Include="XmlSchema\ServiceDefinitionSchema.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Common\PublishSettingsImporter.cs" />
-    <Compile Include="Common\RequiredResourceLookup.cs" />
-    <Compile Include="Common\Tasks.cs" />
-    <Compile Include="Utilities\XmlUtilities.cs" />
-    <Compile Include="Common\Validate.cs" />
-    <Compile Include="Common\WindowsAzureCertificate.cs" />
-    <Compile Include="Common\WindowsAzureEnvironment.cs" />
-    <Compile Include="Common\WindowsAzureProfile.cs" />
-    <Compile Include="Common\WindowsAzureSubscription.cs" />
-    <Compile Include="XmlSchema\PublishProfile.cs" />
-    <Compile Include="XmlSchema\ServiceConfigurationSchema.cs" />
-    <Compile Include="XmlSchema\ServiceDefinitionSchema.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

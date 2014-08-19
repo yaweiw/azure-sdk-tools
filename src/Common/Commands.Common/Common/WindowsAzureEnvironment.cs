@@ -14,12 +14,13 @@
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using Authentication;
-    using System.Management.Automation;
     using Commands.Common.Properties;
     using Subscriptions;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Management.Automation;
+    using System.Net.Http;
 
     [Serializable]
     public class WindowsAzureEnvironment
@@ -93,7 +94,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// <summary>
         /// The storage service blob endpoint format.
         /// </summary>
-        public string StorageBlobEndpointFormat { 
+        public string StorageBlobEndpointFormat
+        { 
             get { return EndpointFormatFor("blob"); }
         }
 
@@ -201,6 +203,24 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             return baseUrl;
         }
 
+        public SubscriptionClient AddUserAgent(SubscriptionClient client)
+        {
+            if (!client.UserAgent.Contains(ApiConstants.UserAgentValue))
+            {
+                client.UserAgent.Add(ApiConstants.UserAgentValue);
+            }
+            return client;
+        }
+
+        public SubscriptionClient AddRestLogHandler(SubscriptionClient client)
+        {
+            var withHandlerMethod = typeof(SubscriptionClient).GetMethod("WithHandler", new[] { typeof(DelegatingHandler) });
+            SubscriptionClient finalClient =
+                (SubscriptionClient)withHandlerMethod.Invoke(client, new object[] { new HttpRestCallLogger() });
+            client.Dispose();
+            return finalClient;
+        }
+
         public IEnumerable<WindowsAzureSubscription> AddAccount(ITokenProvider tokenProvider, PSCredential credential)
         {
             if (ActiveDirectoryEndpoint == null || ActiveDirectoryServiceEndpointResourceId == null)
@@ -219,7 +239,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             }
             var credentials = new TokenCloudCredentials(mainToken.AccessToken);
 
-            using (var subscriptionClient = new SubscriptionClient(credentials, new Uri(ServiceEndpoint)))
+            using (var subscriptionClient = AddRestLogHandler(AddUserAgent(new SubscriptionClient(credentials, new Uri(ServiceEndpoint)))))
             {
                 var result = subscriptionClient.Subscriptions.List();
                 // Filter out subscriptions with no tenant, backfill's not done on them

@@ -146,13 +146,6 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                     this.LoadExtraProperties(restorableDroppedDatabase);
                     return;
                 }
-
-                RecoverableDatabase recoverableDatabase = obj as RecoverableDatabase;
-                if (recoverableDatabase != null)
-                {
-                    this.LoadExtraProperties(recoverableDatabase);
-                    return;
-                }
             }
             catch
             {
@@ -765,92 +758,6 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
 
         #endregion
 
-        #region Recoverable Database Operations
-
-        /// <summary>
-        /// Retrieves the list of all recoverable databases on the given server.
-        /// </summary>
-        /// <param name="sourceServerName">The name of the server that contained the databases.</param>
-        /// <returns>An array of all recoverable databases on the server.</returns>
-        public RecoverableDatabase[] GetRecoverableDatabases(string sourceServerName)
-        {
-            this.clientRequestId = SqlDatabaseCmdletBase.GenerateClientTracingId();
-
-            // Get the SQL management client
-            SqlManagementClient sqlManagementClient = this.subscription.CreateClient<SqlManagementClient>();
-            this.AddTracingHeaders(sqlManagementClient);
-
-            // Retrieve the list of databases
-            RecoverableDatabaseListResponse response = sqlManagementClient.RecoverableDatabases.List(this.serverName, sourceServerName);
-
-            // Construct the resulting RecoverableDatabase objects
-            RecoverableDatabase[] recoverableDatabases = CreateRecoverableDatabaseFromResponse(response);
-            return recoverableDatabases;
-        }
-
-        /// <summary>
-        /// Retrieve information on the recoverable database with the name
-        /// <paramref name="sourceDatabaseName"/> on the server <paramref name="sourceServerName"/>.
-        /// </summary>
-        /// <param name="sourceServerName">The name of the server that contained the database.</param>
-        /// <param name="sourceDatabaseName">The name of the database to recover.</param>
-        /// <returns>An object containing the information about the specific recoverable database.</returns>
-        public RecoverableDatabase GetRecoverableDatabase(
-            string sourceServerName, string sourceDatabaseName)
-        {
-            this.clientRequestId = SqlDatabaseCmdletBase.GenerateClientTracingId();
-
-            // Get the SQL management client
-            SqlManagementClient sqlManagementClient = this.subscription.CreateClient<SqlManagementClient>();
-            this.AddTracingHeaders(sqlManagementClient);
-
-            // Retrieve the specified database
-            RecoverableDatabaseGetResponse response = sqlManagementClient.RecoverableDatabases.Get(this.serverName, sourceServerName, sourceDatabaseName);
-
-            // Construct the resulting RestorableDroppedDatabase object
-            RecoverableDatabase database = CreateRecoverableDatabaseFromResponse(response);
-            return database;
-        }
-
-        #endregion
-
-        #region Recover Database Operations
-
-        /// <summary>
-        /// Issues a recovery request for the given source database to the given target database.
-        /// </summary>
-        /// <param name="sourceServerName">The name of the server that contained the source database.</param>
-        /// <param name="sourceDatabaseName">The name of the source database.</param>
-        /// <param name="targetDatabaseName">The name of the database to be created with the restored contents.</param>
-        /// <returns>An object containing the information about the recovery request.</returns>
-        public RecoverDatabaseOperation RecoverDatabase(
-            string sourceServerName,
-            string sourceDatabaseName,
-            string targetDatabaseName)
-        {
-            // Create a new request Id for this operation
-            this.clientRequestId = SqlDatabaseCmdletBase.GenerateClientTracingId();
-
-            // Get the SQL management client
-            SqlManagementClient sqlManagementClient = this.subscription.CreateClient<SqlManagementClient>();
-            this.AddTracingHeaders(sqlManagementClient);
-
-            // Create the recover operation
-            RecoverDatabaseOperationCreateResponse response = sqlManagementClient.RecoverDatabaseOperations.Create(
-                this.serverName,
-                new RecoverDatabaseOperationCreateParameters()
-                {
-                    SourceServerName = sourceServerName,
-                    SourceDatabaseName = sourceDatabaseName,
-                    TargetDatabaseName = targetDatabaseName
-                });
-
-            RecoverDatabaseOperation recoverDatabaseOperation = CreateRecoverDatabaseOperationFromResponse(response);
-            return recoverDatabaseOperation;
-        }
-
-        #endregion
-
         #region Helper functions
 
         private DimensionSetting CreateDimensionSettings(string name, string id, string description, byte ordinal, bool isDefault)
@@ -1329,86 +1236,6 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         }
 
         /// <summary>
-        /// Given a <see cref="RecoverableDatabaseGetResponse"/> this will create and return a <see cref="RecoverableDatabase"/>
-        /// object with the fields filled in.
-        /// </summary>
-        /// <param name="response">The response to turn into a <see cref="RecoverableDatabase"/></param>
-        /// <returns>A <see cref="RecoverableDatabase"/> object.</returns>
-        private RecoverableDatabase CreateRecoverableDatabaseFromResponse(RecoverableDatabaseGetResponse response)
-        {
-            return this.CreateRecoverableDatabaseFromResponse(
-                response.Database.EntityId,
-                response.Database.Name,
-                response.Database.ServerName,
-                response.Database.Edition,
-                response.Database.LastAvailableBackupDate);
-        }
-
-        /// <summary>
-        /// Given a <see cref="RecoverableDatabaseListResponse"/> this will create and return an array of <see cref="RecoverableDatabase"/>
-        /// object with the fields filled in.
-        /// </summary>
-        /// <param name="response">The response to turn into an array of <see cref="RecoverableDatabase"/> objects</param>
-        /// <returns>An array of <see cref="RecoverableDatabase"/> objects.</returns>
-        private RecoverableDatabase[] CreateRecoverableDatabaseFromResponse(RecoverableDatabaseListResponse response)
-        {
-            return response.Databases.Select(db => this.CreateRecoverableDatabaseFromResponse(
-                db.EntityId,
-                db.Name,
-                db.ServerName,
-                db.Edition,
-                db.LastAvailableBackupDate)).ToArray();
-        }
-
-        /// <summary>
-        /// Given a set of restorable dropped database properties this will create and return a <see cref="RecoverableDatabase"/>
-        /// object with the fields filled in.
-        /// </summary>
-        /// <param name="entityId">The entity ID of the database.</param>
-        /// <param name="name">The name of the database.</param>
-        /// <param name="serverName">The name of the server that contained the database.</param>
-        /// <param name="edition">The edition of the database.</param>
-        /// <param name="lastAvailableBackupDate">The date of the last available backup of this database.</param>
-        /// <returns>A <see cref="RecoverableDatabase"/> object.</returns>
-        private RecoverableDatabase CreateRecoverableDatabaseFromResponse(
-            string entityId,
-            string name,
-            string serverName,
-            string edition,
-            DateTime lastAvailableBackupDate)
-        {
-            var result = new RecoverableDatabase()
-            {
-                EntityId = entityId,
-                Name = name,
-                ServerName = serverName,
-                Edition = edition,
-                LastAvailableBackupDate = lastAvailableBackupDate,
-            };
-
-            this.LoadExtraProperties(result);
-
-            return result;
-        }
-
-        /// <summary>
-        /// Given a <see cref="RecoverDatabaseOperationCreateResponse"/> this will create and return a <see cref="RecoverDatabaseOperation"/>
-        /// object with the fields filled in.
-        /// </summary>
-        /// <param name="response">The response to turn into a <see cref="RecoverDatabaseOperation"/></param>
-        /// <returns>A <see cref="RecoverDatabaseOperation"/> object.</returns>
-        private RecoverDatabaseOperation CreateRecoverDatabaseOperationFromResponse(RecoverDatabaseOperationCreateResponse response)
-        {
-            return new RecoverDatabaseOperation()
-            {
-                RequestID = Guid.Parse(response.Operation.Id),
-                SourceServerName = response.Operation.SourceServerName,
-                SourceDatabaseName = response.Operation.SourceDatabaseName,
-                TargetDatabaseName = response.Operation.TargetDatabaseName,
-            };
-        }
-
-        /// <summary>
         /// Add the tracing session and request headers to the client.
         /// </summary>
         /// <param name="sqlManagementClient">The client to add the headers on.</param>
@@ -1437,16 +1264,6 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         /// </summary>
         /// <param name="database">The database that needs the extra properties.</param>
         private void LoadExtraProperties(RestorableDroppedDatabase database)
-        {
-            // Fill in the context property
-            database.Context = this;
-        }
-
-        /// <summary>
-        /// Ensures any extra property on the given <paramref name="database"/> is loaded.
-        /// </summary>
-        /// <param name="database">The database that needs the extra properties.</param>
-        private void LoadExtraProperties(RecoverableDatabase database)
         {
             // Fill in the context property
             database.Context = this;

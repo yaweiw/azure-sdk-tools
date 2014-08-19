@@ -14,7 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
 {
-    using Commands.Common.Properties;
+    using Commands.Utilities.Properties;
     using Common;
     using System;
     using System.IO;
@@ -104,9 +104,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
 
         private void StartCsRunProcess(ComputeEmulatorMode mode, string arguments)
         {
-            if (mode == ComputeEmulatorMode.Express)
+            if (mode == ComputeEmulatorMode.Full)
             {
-                arguments += " " + Resources.CsRunEmulatorExpressArg;
+                arguments += " " + Resources.CsRunFullEmulatorArg;
             }
             StartCsRunProcess(arguments);
         }

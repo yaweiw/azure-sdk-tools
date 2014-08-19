@@ -19,10 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
     using Commands.Common.Properties;
     using IdentityModel.Clients.ActiveDirectory;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Runtime.InteropServices;
-    using System.Text;
     using System.Threading;
     using System.Windows.Forms;
 
@@ -132,6 +129,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
                         {
                             ex = threadEx;
                         }
+                    }
+                    else if (adalEx.ErrorCode == AdalError.MissingFederationMetadataUrl)
+                    {
+                        ex = new Exception(Resources.CredentialOrganizationIdMessage, adalEx);
                     }
                     else
                     {

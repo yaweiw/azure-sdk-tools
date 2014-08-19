@@ -16,7 +16,7 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
 {
     using IaaS;
-    using Model.PersistentVMModel;
+    using Model;
     using System;
     using System.Collections.ObjectModel;
     using System.Linq;
@@ -96,7 +96,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
         private const int WinRMPortNumber = 5986;
         private const int SSHPortNumber = 22;
         private const string TcpProtocol = "tcp";
-        private const string RdpEndpointName = "RDP";
+        private const string RdpEndpointName = "RemoteDeskotp";
         private const string SSHEndpointName = "SSH";
 
         protected Collection<ConfigurationSet> ConfigurationSets { get; set; }

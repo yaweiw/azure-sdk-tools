@@ -66,5 +66,12 @@ namespace Microsoft.Azure.Commands.Resources.Test.ScenarioTests
         {
             RunPowerShellTest("Test-AzureTagsEndToEnd");
         }
+
+        [Fact(Skip = "Depends on Bug 2040630")]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void TestNewDeploymentAndProviderRegistration()
+        {
+            RunPowerShellTest("Test-NewDeploymentAndProviderRegistration");
+        }
     }
 }

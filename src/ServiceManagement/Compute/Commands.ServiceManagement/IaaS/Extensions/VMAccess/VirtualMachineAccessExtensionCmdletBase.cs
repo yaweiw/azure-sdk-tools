@@ -14,7 +14,7 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
     using Helpers;
-    using Model.PersistentVMModel;
+    using Model;
     using System.Linq;
     using System.Xml.Linq;
 

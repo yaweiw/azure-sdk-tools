@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using System.IO;
     using System.Reflection;
     using VisualStudio.TestTools.UnitTesting;
-    using WindowsAzure.ServiceManagement;
+    using WindowsAzure.Commands.ServiceManagement;
 
     [TestClass]
     public class AzureServiceExtensionTests : ServiceManagementTest
@@ -60,7 +60,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             testStartTime = DateTime.Now;
         }
 
-        [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Get-AzureServiceAvailableExtension)")]
+        [TestMethod(), TestCategory(Category.Scenario), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Get-AzureServiceAvailableExtension)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\package.csv", "package#csv", DataAccessMethod.Sequential)]
         public void GetAzureServiceAvailableExtensionTest()
         {
@@ -107,7 +107,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-        [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (New-AzureServiceExtensionConfig)")]
+        [TestMethod(), TestCategory(Category.Scenario), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (New-AzureServiceExtensionConfig)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\package.csv", "package#csv", DataAccessMethod.Sequential)]
         public void AzureServiceExtensionConfigScenarioTest()
         {
@@ -192,7 +192,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-        [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove)-AzureServiceExtension)")]
+        [TestMethod(), TestCategory(Category.Scenario), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove)-AzureServiceExtension)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\package.csv", "package#csv", DataAccessMethod.Sequential)]
         public void AzureServiceExtensionTest()
         {

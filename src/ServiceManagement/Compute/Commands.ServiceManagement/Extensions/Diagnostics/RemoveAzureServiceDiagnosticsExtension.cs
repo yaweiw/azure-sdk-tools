@@ -14,7 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 {
-    using Model.PersistentVMModel;
+    using Model;
     using System.Management.Automation;
     using Utilities.Common;
 

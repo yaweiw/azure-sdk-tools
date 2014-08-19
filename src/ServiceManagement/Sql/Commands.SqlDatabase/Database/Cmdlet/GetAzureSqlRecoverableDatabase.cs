@@ -13,34 +13,23 @@
 
 namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
 {
-    using Commands.Utilities.Common;
-    using Services.Common;
-    using Services.Server;
+    using Microsoft.WindowsAzure.Management.Sql;
+    using Microsoft.WindowsAzure.Management.Sql.Models;
     using System;
     using System.Management.Automation;
 
     /// <summary>
     /// Retrieves a list of restorable dropped Microsoft Azure SQL Databases in the given server context.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureSqlRecoverableDatabase", ConfirmImpact = ConfirmImpact.None, DefaultParameterSetName = AllDatabasesOnCurrentServer)]
-    public class GetAzureSqlRecoverableDatabase : CmdletBase
+    [Cmdlet(VerbsCommon.Get, "AzureSqlRecoverableDatabase", ConfirmImpact = ConfirmImpact.None, DefaultParameterSetName = AllDatabasesOnGivenServer)]
+    public class GetAzureSqlRecoverableDatabase : SqlDatabaseCmdletBase
     {
         #region Parameter sets
-
-        /// <summary>
-        /// The parameter set for getting all databases on the current server.
-        /// </summary>
-        internal const string AllDatabasesOnCurrentServer = "AllDatabasesOnCurrentServer";
 
         /// <summary>
         /// The parameter set for getting all databases on the given source server.
         /// </summary>
         internal const string AllDatabasesOnGivenServer = "AllDatabasesOnGivenServer";
-
-        /// <summary>
-        /// The parameter set for getting the given database on the current server.
-        /// </summary>
-        internal const string GivenDatabaseOnCurrentServer = "GivenDatabaseOnCurrentServer";
 
         /// <summary>
         /// The parameter set for getting the given database on the given source server.
@@ -57,49 +46,25 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         #region Parameters
 
         /// <summary>
-        /// Gets or sets the name of the server that will host the recovered database.
-        /// </summary>
-        [Parameter(Mandatory = true,
-            ParameterSetName = AllDatabasesOnCurrentServer,
-            HelpMessage = "The name of the server that will host the recovered database.")]
-        [Parameter(Mandatory = true,
-            ParameterSetName = AllDatabasesOnGivenServer,
-            HelpMessage = "The name of the server that will host the recovered database.")]
-        [Parameter(Mandatory = true,
-            ParameterSetName = GivenDatabaseOnCurrentServer,
-            HelpMessage = "The name of the server that will host the recovered database.")]
-        [Parameter(Mandatory = true,
-            ParameterSetName = GivenDatabaseOnGivenServer,
-            HelpMessage = "The name of the server that will host the recovered database.")]
-        [Parameter(Mandatory = false,
-            ParameterSetName = GivenDatabaseObject,
-            HelpMessage = "The name of the server that will host the recovered database.")]
-        [ValidateNotNullOrEmpty]
-        public string TargetServerName { get; set; }
-
-        /// <summary>
         /// Gets or sets the name of the server that contained the database to retrieve. If not specified, defaults to TargetServerName.
         /// </summary>
         [Parameter(Mandatory = true,
             ParameterSetName = AllDatabasesOnGivenServer,
-            HelpMessage = "The name of the server that contained the database to retrieve. If not specified, defaults to TargetServerName.")]
+            HelpMessage = "The name of the server on which the database was hosted.")]
         [Parameter(Mandatory = true,
             ParameterSetName = GivenDatabaseOnGivenServer,
-            HelpMessage = "The name of the server that contained the database to retrieve. If not specified, defaults to TargetServerName.")]
+            HelpMessage = "The name of the server on which the database was hosted.")]
         [ValidateNotNullOrEmpty]
-        public string SourceServerName { get; set; }
+        public string ServerName { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the database to retrieve.
         /// </summary>
         [Parameter(Mandatory = true,
-            ParameterSetName = GivenDatabaseOnCurrentServer,
-            HelpMessage = "The name of the database to retrieve.")]
-        [Parameter(Mandatory = true,
             ParameterSetName = GivenDatabaseOnGivenServer,
-            HelpMessage = "The name of the database to retrieve.")]
+            HelpMessage = "The name of the database.")]
         [ValidateNotNullOrEmpty]
-        public string SourceDatabaseName { get; set; }
+        public string DatabaseName { get; set; }
 
         /// <summary>
         /// Gets or sets the RecoverableDatabase object to refresh.
@@ -109,7 +74,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
             ParameterSetName = GivenDatabaseObject,
             HelpMessage = "The RecoverableDatabase object to refresh.")]
         [ValidateNotNull]
-        public RecoverableDatabase SourceDatabase { get; set; }
+        public RecoverableDatabase Database { get; set; }
 
         #endregion
 
@@ -119,49 +84,35 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         public override void ExecuteCmdlet()
         {
             // Obtain the source server and database name from the given parameters.
-            var sourceServerName =
-                this.SourceDatabase != null ? this.SourceDatabase.ServerName :
-                this.SourceServerName ??
-                this.TargetServerName;
+            var serverName =
+                this.Database != null ? this.Database.ServerName :
+                this.ServerName;
 
-            var sourceDatabaseName =
-                this.SourceDatabase != null ? this.SourceDatabase.Name :
-                this.SourceDatabaseName;
+            var databaseName =
+                this.Database != null ? this.Database.Name :
+                this.DatabaseName;
 
-            IServerDataServiceContext connectionContext = null;
-
-            // If a database object was piped in, use its connection context...
-            if (this.SourceDatabase != null)
-            {
-                connectionContext = this.SourceDatabase.Context;
-            }
-            else
-            {
-                // ... else create a temporary context
-                connectionContext = ServerDataServiceCertAuth.Create(this.TargetServerName, WindowsAzureProfile.Instance.CurrentSubscription);
-            }
-
-            string clientRequestId = connectionContext.ClientRequestId;
+            // Get the SQL management client for the current subscription
+            SqlManagementClient sqlManagementClient = GetCurrentSqlClient();
 
             try
             {
-                if (sourceDatabaseName != null)
+                if (databaseName != null)
                 {
-                    // Retrieve the database with the specified name and deletion date
-                    this.WriteObject(connectionContext.GetRecoverableDatabase(sourceServerName, sourceDatabaseName));
+                    // Retrieve the database with the specified name
+                    RecoverableDatabaseGetResponse response = sqlManagementClient.RecoverableDatabases.Get(serverName, databaseName);
+                    this.WriteObject(response.Database);
                 }
                 else
                 {
-                    // No name specified, retrieve all restorable dropped databases in the server
-                    this.WriteObject(connectionContext.GetRecoverableDatabases(sourceServerName), true);
+                    // No name specified, retrieve all databases in the server
+                    RecoverableDatabaseListResponse response = sqlManagementClient.RecoverableDatabases.List(serverName);
+                    this.WriteObject(response.Databases, true);
                 }
             }
             catch (Exception ex)
             {
-                SqlDatabaseExceptionHandler.WriteErrorDetails(
-                    this,
-                    clientRequestId,
-                    ex);
+                this.WriteErrorDetails(ex);
             }
         }
     }

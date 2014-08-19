@@ -14,8 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
-    using PersistentVMModel;
-
     public class RoleInstanceContext : ServiceOperationContext
     {
         public InstanceEndpointList InstanceEndpoints { get; set; } 

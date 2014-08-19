@@ -22,6 +22,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using ProjectResources = Microsoft.Azure.Commands.Resources.Properties.Resources;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
 
 namespace Microsoft.Azure.Commands.Resources.Models
 {
@@ -212,7 +213,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
 
         /// <summary>
         /// Creates a new resource group and deployment using the passed template file option which
-        /// can be user customized or from gallery tenplates.
+        /// can be user customized or from gallery templates.
         /// </summary>
         /// <param name="parameters">The create parameters</param>
         /// <returns>The created resource group</returns>
@@ -309,14 +310,14 @@ namespace Microsoft.Azure.Commands.Resources.Models
         {
             parameters.DeploymentName = GenerateDeploymentName(parameters);
             BasicDeployment deployment = CreateBasicDeployment(parameters);
-            List<ResourceManagementError> errors = CheckBasicDeploymentErrors(parameters.ResourceGroupName, parameters.DeploymentName, deployment);
+            TemplateValidationInfo validationInfo = CheckBasicDeploymentErrors(parameters.ResourceGroupName, parameters.DeploymentName, deployment);
 
-            if (errors.Count != 0)
+            if (validationInfo.Errors.Count != 0)
             {
                 int counter = 1;
                 string errorFormat = "Error {0}: Code={1}; Message={2}\r\n";
                 StringBuilder errorsString = new StringBuilder();
-                errors.ForEach(e => errorsString.AppendFormat(errorFormat, counter++, e.Code, e.Message));
+                validationInfo.Errors.ForEach(e => errorsString.AppendFormat(errorFormat, counter++, e.Code, e.Message));
                 throw new ArgumentException(errorsString.ToString());
             }
             else
@@ -324,6 +325,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
                 WriteVerbose(ProjectResources.TemplateValid);
             }
 
+            WindowsAzureProfile.Instance.CurrentSubscription.RegisterCustomProviders(validationInfo.RequiredProviders);
             ResourceManagementClient.Deployments.CreateOrUpdate(parameters.ResourceGroupName, parameters.DeploymentName, deployment);
             WriteVerbose(string.Format("Create template deployment '{0}' using template {1}.", parameters.DeploymentName, deployment.TemplateLink.Uri));
             Deployment result = ProvisionDeploymentStatus(parameters.ResourceGroupName, parameters.DeploymentName, deployment);
@@ -521,7 +523,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
                 }
                 else
                 {
-                    throw new ArgumentException(string.Format("There are no running deployemnts under resource group '{0}'", resourceGroup));
+                    throw new ArgumentException(string.Format("There are no running deployments under resource group '{0}'", resourceGroup));
                 }
             }
             else if (deployments.Count == 1)
@@ -542,13 +544,13 @@ namespace Microsoft.Azure.Commands.Resources.Models
         public virtual List<PSResourceManagerError> ValidatePSResourceGroupDeployment(ValidatePSResourceGroupDeploymentParameters parameters)
         {
             BasicDeployment deployment = CreateBasicDeployment(parameters);
-            List<ResourceManagementError> errors = CheckBasicDeploymentErrors(parameters.ResourceGroupName, Guid.NewGuid().ToString(), deployment);
+            TemplateValidationInfo validationInfo = CheckBasicDeploymentErrors(parameters.ResourceGroupName, Guid.NewGuid().ToString(), deployment);
 
-            if (errors.Count == 0)
+            if (validationInfo.Errors.Count == 0)
             {
                 WriteVerbose(ProjectResources.TemplateValid);
             }
-            return errors.Select(e => e.ToPSResourceManagerError()).ToList();
+            return validationInfo.Errors.Select(e => e.ToPSResourceManagerError()).ToList();
         }
 
         /// <summary>

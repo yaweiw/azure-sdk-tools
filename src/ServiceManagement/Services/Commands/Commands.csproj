@@ -93,71 +93,68 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\lib\Microsoft.Web.Deployment.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Common.1.1.1\lib\net45\Microsoft.WindowsAzure.Common.dll</HintPath>
+    <Reference Include="Microsoft.WindowsAzure.Common">
+      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Common.1.3.0\lib\net45\Microsoft.WindowsAzure.Common.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Common.NetFramework, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Common.1.1.1\lib\net45\Microsoft.WindowsAzure.Common.NetFramework.dll</HintPath>
+    <Reference Include="Microsoft.WindowsAzure.Common.NetFramework">
+      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Common.1.3.0\lib\net45\Microsoft.WindowsAzure.Common.NetFramework.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Configuration, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Microsoft.WindowsAzure.ConfigurationManager.2.0.3\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.1.2.0\lib\net40\Microsoft.WindowsAzure.Management.dll</HintPath>
+      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.1.3.0\lib\net40\Microsoft.WindowsAzure.Management.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.Compute, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.Compute.4.0.0\lib\net40\Microsoft.WindowsAzure.Management.Compute.dll</HintPath>
+      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.Compute.4.1.1\lib\net40\Microsoft.WindowsAzure.Management.Compute.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Management.MediaServices, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.WindowsAzure.Management.MediaServices, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.MediaServices.1.0.0\lib\net40\Microsoft.WindowsAzure.Management.MediaServices.dll</HintPath>
+      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.MediaServices.1.2.0\lib\net40\Microsoft.WindowsAzure.Management.MediaServices.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.Network, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.Network.2.1.1\lib\net40\Microsoft.WindowsAzure.Management.Network.dll</HintPath>
+      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.Network.2.3.1\lib\net40\Microsoft.WindowsAzure.Management.Network.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.Scheduler, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.Scheduler.2.0.2\lib\net40\Microsoft.WindowsAzure.Management.Scheduler.dll</HintPath>
+      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.Scheduler.2.2.0\lib\net40\Microsoft.WindowsAzure.Management.Scheduler.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.ServiceBus, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.ServiceBus.0.9.8-preview\lib\net40\Microsoft.WindowsAzure.Management.ServiceBus.dll</HintPath>
+      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.ServiceBus.0.11.0-preview\lib\net40\Microsoft.WindowsAzure.Management.ServiceBus.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.Storage, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.Storage.1.1.1\lib\net40\Microsoft.WindowsAzure.Management.Storage.dll</HintPath>
+      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.Storage.1.2.0\lib\net40\Microsoft.WindowsAzure.Management.Storage.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.Store, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.Store.0.9.5-preview\lib\net40\Microsoft.WindowsAzure.Management.Store.dll</HintPath>
+      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.Store.0.11.0-preview\lib\net40\Microsoft.WindowsAzure.Management.Store.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.TrafficManager, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.TrafficManager.0.9.1-preview\lib\net40\Microsoft.WindowsAzure.Management.TrafficManager.dll</HintPath>
+      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.TrafficManager.0.11.0-preview\lib\net40\Microsoft.WindowsAzure.Management.TrafficManager.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.VirtualNetworks, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.VirtualNetworks.0.9.9-preview\lib\net40\Microsoft.WindowsAzure.Management.VirtualNetworks.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Management.WebSites, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.WindowsAzure.Management.WebSites, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c66ce9294aae1300, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.WebSites.3.0.2-prerelease\lib\net40\Microsoft.WindowsAzure.Management.WebSites.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.WindowsAzure.ServiceManagement.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\lib\Microsoft.WindowsAzure.ServiceManagement.Client.dll</HintPath>
+      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.WebSites.3.1.1-prerelease\lib\net40\Microsoft.WindowsAzure.Management.WebSites.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Storage, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\WindowsAzure.Storage.4.0.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -281,6 +278,7 @@
     <Compile Include="WAPackIaaS\VirtualMachine\VMOperationsCmdlet.cs" />
     <Compile Include="WAPackIaaS\VMOperationsEnum.cs" />
     <Compile Include="WAPackIaaS\WAPackCmdletParameterSets.cs" />
+    <Compile Include="Websites\GetAzureWebsiteMetric.cs" />
     <Compile Include="Websites\PublishAzureWebsiteProject.cs" />
     <Compile Include="Websites\UpdateAzureWebsiteRepository.cs" />
     <Compile Include="Websites\SwitchAzureWebSiteSlot.cs" />
@@ -302,6 +300,8 @@
     <Compile Include="Websites\ShowAzureWebsite.cs" />
     <Compile Include="Websites\StartAzureWebSite.cs" />
     <Compile Include="Websites\StopAzureWebSite.cs" />
+    <Compile Include="Websites\WebHostingPlan\GetAzureWebHostingPlanMetric.cs" />
+    <Compile Include="Websites\WebHostingPlan\GetAzureWebHostingPlan.cs" />
     <Compile Include="Websites\WebJobs\SaveAzureWebsiteJobLog.cs" />
     <Compile Include="Websites\WebJobs\GetAzureWebsiteJobHistory.cs" />
     <Compile Include="Websites\WebJobs\StopAzureWebsiteJob.cs" />

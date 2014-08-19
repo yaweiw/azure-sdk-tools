@@ -17,7 +17,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
-    using Model.PersistentVMModel;
     using System;
     using System.IO;
     using System.Management.Automation;
@@ -59,7 +58,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <summary>
         ///
         /// </summary>
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Add,Get,Remove)-AzureCertificate)")]
+        [TestMethod(), TestCategory(Category.Functional), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Add,Get,Remove)-AzureCertificate)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\certificateData.csv", "certificateData#csv", DataAccessMethod.Sequential)]
         public void AzureCertificateTest()
         {
@@ -165,7 +164,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <summary>
         ///
         /// </summary>
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Add,Get,Set,Remove)-AzureDataDisk)")]
+        [TestMethod(), TestCategory(Category.Functional), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Add,Get,Set,Remove)-AzureDataDisk)")]
         public void AzureDataDiskTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -261,7 +260,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <summary>
         ///
         /// </summary>
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet Set-AzureAvailabilitySet)")]
+        [TestMethod(), TestCategory(Category.Functional), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet Set-AzureAvailabilitySet)")]
         public void AzureAvailabilitySetTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -273,6 +272,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 var vm = vmPowershellCmdlets.SetAzureAvailabilitySet(defaultVm, defaultService, testAVSetName);
                 vmPowershellCmdlets.UpdateAzureVM(defaultVm, defaultService, vm);
                 Assert.IsTrue(Verify.AzureAvailabilitySet(vmPowershellCmdlets.GetAzureVM(defaultVm, defaultService).VM, testAVSetName));
+
+                vm = vmPowershellCmdlets.SetAzureAvailabilitySet(defaultVm, defaultService, string.Empty);
+                vmPowershellCmdlets.UpdateAzureVM(defaultVm, defaultService, vm);
+                Assert.IsTrue(Verify.AzureAvailabilitySet(vmPowershellCmdlets.GetAzureVM(defaultVm, defaultService).VM, string.Empty));
+
                 pass = true;
             }
             catch (Exception e)
@@ -285,7 +289,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <summary>
         ///
         /// </summary>
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set)-AzureOSDisk)")]
+        [TestMethod(), TestCategory(Category.Functional), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set)-AzureOSDisk)")]
         public void AzureOSDiskTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);

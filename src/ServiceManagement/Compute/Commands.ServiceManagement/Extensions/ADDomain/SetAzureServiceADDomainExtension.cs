@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     using System.Management.Automation;
     using System.Security.Cryptography.X509Certificates;
     using Utilities.Common;
-    using WindowsAzure.ServiceManagement;
+    using Model;
 
     /// <summary>
     /// Set Microsoft Azure Service AD Domain Extension.

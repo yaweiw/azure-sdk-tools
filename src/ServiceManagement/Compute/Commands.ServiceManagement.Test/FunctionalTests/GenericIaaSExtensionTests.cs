@@ -76,7 +76,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             
         }
 
-        [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "IAAS"), Priority(0), Owner("hylee"), Description("Test the cmdlet ((Get,Set)-AzureVMExtension)")]
+        [TestMethod(), TestCategory(Category.Scenario), TestProperty("Feature", "IAAS"), Priority(0), Owner("hylee"), Description("Test the cmdlet ((Get,Set)-AzureVMExtension)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\package.csv", "package#csv", DataAccessMethod.Sequential)]
         public void AzureVMExtensionTest()
         {
@@ -122,8 +122,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 throw;
             }
         }
-        
-        [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "IAAS"), Priority(0), Owner("hylee"), Description("Test the cmdlet ((Get,Set)-AzureVMExtension)")]
+
+        [TestMethod(), TestCategory(Category.Scenario), TestProperty("Feature", "IAAS"), Priority(0), Owner("hylee"), Description("Test the cmdlet ((Get,Set)-AzureVMExtension)")]
         public void UpdateVMWithExtensionTest()
         {
             try
@@ -169,7 +169,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         }
 
 
-        [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "IAAS"), Priority(0), Owner("hylee"), Description("Test the cmdlet ((Get,Set)-AzureVMExtension)")]
+        [TestMethod(), TestCategory(Category.Scenario), TestProperty("Feature", "IAAS"), Priority(0), Owner("hylee"), Description("Test the cmdlet ((Get,Set)-AzureVMExtension)")]
         public void AddRoleWithExtensionTest()
         {
             try
@@ -200,7 +200,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
         }
 
-        [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "IAAS"), Priority(0), Owner("hylee"), Description("Test the cmdlet ((Get,Set)-AzureVMExtension)")]
+        [TestMethod(), TestCategory(Category.Scenario), TestProperty("Feature", "IAAS"), Priority(0), Owner("hylee"), Description("Test the cmdlet ((Get,Set)-AzureVMExtension)")]
         public void UpdateRoleWithExtensionTest()
         {
             try
@@ -229,7 +229,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             
         }
 
-        [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "IAAS"), Priority(0), Owner("hylee"), Description("Test the cmdlet (Get-AzureVMAvailableExtension)")]
+        [TestMethod(), TestCategory(Category.Scenario), TestProperty("Feature", "IAAS"), Priority(0), Owner("hylee"), Description("Test the cmdlet (Get-AzureVMAvailableExtension)")]
         public void GetAzureVMAvailableExtensionTest()
         {
             try
