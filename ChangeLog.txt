@@ -1,3 +1,22 @@
+2014.08.18 Version 0.8.7
+* Update Newtonsoft.Json dependency to 6.0.4
+* Compute 
+    * Windows Azure Diagnostics (WAD) Version 1.2: extension cmdlets for Iaas And PaaS
+        * Set-AzureVMDiagnosticsExtension
+        * Get-AzureVMDiagnosticsExtension
+        * Set-AzureServiceDiagnosticsExtension
+        * Get-AzureServiceDiagnosticsExtension
+* Websites
+    * Added RoutingRules parameter to Set-AzureWebsite to expose Testing in Production (TiP) and returned from Get-AzureWebsite
+    * Get-AzureWebsiteMetric to return web site metrics
+    * Get-AzureWebHostingPlan
+    * Get-AzureWebHostingPlanMetric to return metrics for the servers in the web hosting plan
+* SQL Database
+    * Get-AzureSqlRecoverableDatabase parameter simplification and return type changes
+    * Set-AzureSqlDatabaseRecovery parameter and return type changes
+* HDInsight
+    * Added support for provisioning of HBase clusters into Virtual Networks.
+
 2014.08.04 Version 0.8.6
 * Non-interactive login support for Microsoft Organizational account with ``Add-AzureAccount -Credential``
 * Upgrade cloud service cmdlets dependencies to Azure SDK 2.4
