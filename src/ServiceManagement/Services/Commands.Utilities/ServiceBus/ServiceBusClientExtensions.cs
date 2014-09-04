@@ -58,6 +58,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
             }
         }
 
+        public IList<QueueDescription> GetQueues(string namespaceName, string filter)
+        {
+            NamespaceManager namespaceManager = CreateNamespaceManager(namespaceName);
+            IList<QueueDescription> descriptions = namespaceManager.GetQueues(filter).ToList<QueueDescription>();
+            return descriptions;
+        }
         private ExtendedServiceBusNamespace GetExtendedServiceBusNamespace(string name)
         {
             ServiceBusNamespace sbNamespace = TryGetNamespace(name);
